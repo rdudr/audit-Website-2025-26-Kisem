@@ -693,14 +693,26 @@
 
 /* Override hardcoded inline light text colors in light theme */
 .light-theme [style*="color:#f0f4ff"],
-.light-theme [style*="color: #f0f4ff"] {
+.light-theme [style*="color: #f0f4ff"],
+.light-theme [style*="color: rgb(240, 244, 255)"],
+.light-theme [style*="color:rgb(240, 244, 255)"],
+.light-theme [style*="color: rgb(240, 244, 255);"],
+.light-theme [style*="color:rgb(240, 244, 255);"] {
   color: #0f172a !important;
 }
 
 .light-theme [style*="color:rgba(240, 244, 255"],
 .light-theme [style*="color:rgba(240,244,255"],
 .light-theme [style*="color: rgba(240,244,255"],
-.light-theme [style*="color: rgba(240, 244, 255"] {
+.light-theme [style*="color: rgba(240, 244, 255"],
+.light-theme [style*="color: rgba(240, 244, 255, 0.4)"],
+.light-theme [style*="color: rgba(240, 244, 255, 0.45)"],
+.light-theme [style*="color: rgba(240, 244, 255, 0.5)"],
+.light-theme [style*="color: rgba(240, 244, 255, 0.55)"],
+.light-theme [style*="color: rgba(240, 244, 255, 0.6)"],
+.light-theme [style*="color: rgba(240, 244, 255, 0.7)"],
+.light-theme [style*="color: rgba(240, 244, 255, 0.8)"],
+.light-theme [style*="color: rgba(240, 244, 255, 0.9)"] {
   color: #475569 !important;
 }
 

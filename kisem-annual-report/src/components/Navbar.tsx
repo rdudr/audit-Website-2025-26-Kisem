@@ -36,13 +36,13 @@ export default function Navbar() {
         style={{
           position: 'fixed',
           top: 16,
-          left: '50%',
-          transform: 'translateX(-50%)',
+          left: scrolled ? '1.5rem' : '50%',
+          transform: scrolled ? 'none' : 'translateX(-50%)',
           zIndex: 400,
-          width: 'calc(100% - 2rem)',
-          maxWidth: 1200,
+          width: scrolled ? 'auto' : 'calc(100% - 2rem)',
+          maxWidth: scrolled ? '95%' : 1200,
           borderRadius: 100,
-          padding: '0.75rem 1.5rem',
+          padding: scrolled ? '0.5rem 1.25rem' : '0.75rem 1.5rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -55,24 +55,34 @@ export default function Navbar() {
           borderColor: scrolled
             ? 'rgba(255, 255, 255, 0.12)'
             : 'rgba(255, 255, 255, 0.1)',
-          transition: 'all 0.4s ease',
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
           boxShadow: scrolled ? '0 8px 40px rgba(0,0,0,0.4)' : 'none',
         }}
       >
         {/* Logo */}
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', background: 'none', border: 'none', cursor: 'pointer' }}
+          style={{ display: 'flex', alignItems: 'center', gap: scrolled ? '0.5rem' : '0.75rem', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
         >
-          <img src="/kotak_iit_madras_save_energy_mission_logo.jpg" alt="KISEM" style={{ height: 32, width: 32, objectFit: 'contain', borderRadius: 6 }} />
-          <div style={{ textAlign: 'left' }}>
-            <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#f0f4ff', letterSpacing: '-0.01em' }}>KISEM IITGN</div>
-            <div style={{ fontSize: '0.625rem', color: 'rgba(240,244,255,0.5)', fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Annual Report 2025-26</div>
+          <img 
+            src="/kotak_iit_madras_save_energy_mission_logo.jpg" 
+            alt="KISEM" 
+            style={{ 
+              height: scrolled ? 26 : 32, 
+              width: scrolled ? 26 : 32, 
+              objectFit: 'contain', 
+              borderRadius: 6,
+              transition: 'all 0.4s ease'
+            }} 
+          />
+          <div style={{ textAlign: 'left', transition: 'all 0.4s ease' }}>
+            <div style={{ fontSize: scrolled ? '0.75rem' : '0.8125rem', fontWeight: 700, color: '#f0f4ff', letterSpacing: '-0.01em', transition: 'all 0.4s ease' }}>KISEM IITGN</div>
+            <div style={{ fontSize: scrolled ? '0.5625rem' : '0.625rem', color: 'rgba(240,244,255,0.5)', fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase', transition: 'all 0.4s ease' }}>Annual Report 2025-26</div>
           </div>
         </button>
 
         {/* Desktop Nav */}
-        <nav style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }} className="hidden-mobile">
+        <nav style={{ display: 'flex', alignItems: 'center', gap: scrolled ? '0.125rem' : '0.25rem', transition: 'all 0.4s ease', marginLeft: scrolled ? '1rem' : 0 }} className="hidden-mobile">
           {NAV_LINKS.map(link => (
             <button
               key={link.href}
@@ -81,9 +91,9 @@ export default function Navbar() {
                 background: 'none',
                 border: 'none',
                 color: 'rgba(240,244,255,0.7)',
-                fontSize: '0.8125rem',
+                fontSize: scrolled ? '0.75rem' : '0.8125rem',
                 fontWeight: 500,
-                padding: '0.5rem 0.875rem',
+                padding: scrolled ? '0.4rem 0.625rem' : '0.5rem 0.875rem',
                 borderRadius: 100,
                 cursor: 'pointer',
                 transition: 'all 0.2s',
