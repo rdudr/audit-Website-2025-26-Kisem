@@ -62,7 +62,7 @@ const AUDIT_TEAM = [
     title: 'BEE CEM, M.Tech, EE',
     email: 'abhay.maurya@iitgn.ac.in',
     id: 'KISEM-ENG-02',
-    photo: '/team/Mr. Abhay Singh Maurya.png',
+    photo: '/team/Mr. Abhay Singh Maurya.jpg',
     badgeText: 'Energy Manager',
     badgeIcon: <Gauge size={12} className="security-icon" />
   },
