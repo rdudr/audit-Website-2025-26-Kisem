@@ -17,6 +17,7 @@ import Instruments from './components/Instruments';
 import Partnerships from './components/Partnerships';
 import Team from './components/Team';
 import Contact from './components/Contact';
+import LaalMinarBanner from './components/LaalMinarBanner';
 import Footer from './components/Footer';
 
 export default function App() {
@@ -62,6 +63,7 @@ export default function App() {
           <Partnerships />
           <Contact />
         </div>
+        <LaalMinarBanner />
       </main>
       <Footer />
     </div>

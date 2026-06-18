@@ -241,9 +241,25 @@ export default function Contact() {
             </div>
 
             {[
-              { icon: <MapPin size={18} />, label: 'Address', value: 'IIT Gandhinagar, Palaj, Gandhinagar, Gujarat 382055' },
-              { icon: <Mail size={18} />, label: 'Email', value: 'kisem@iitgn.ac.in' },
-              { icon: <Phone size={18} />, label: 'Phone', value: '+91 79 2395 2001' },
+              { 
+                icon: <MapPin size={18} />, 
+                label: 'Address', 
+                value: 'IIT Gandhinagar, Palaj, Gandhinagar, Gujarat 382055',
+                href: 'https://maps.google.com/?q=IIT+Gandhinagar+Palaj+Gandhinagar+Gujarat+382055',
+                target: '_blank'
+              },
+              { 
+                icon: <Mail size={18} />, 
+                label: 'Email', 
+                value: 'kisem@iitgn.ac.in',
+                href: 'mailto:kisem@iitgn.ac.in'
+              },
+              { 
+                icon: <Phone size={18} />, 
+                label: 'Phone', 
+                value: '+91 79 2395 2001',
+                href: 'tel:+917923952001'
+              },
             ].map(info => (
               <div key={info.label} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
                 <div style={{
@@ -264,7 +280,26 @@ export default function Contact() {
                   <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-text-3)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '0.2rem' }}>
                     {info.label}
                   </div>
-                  <div style={{ fontSize: '0.9375rem', color: 'var(--color-text)' }}>{info.value}</div>
+                  {info.href ? (
+                    <a 
+                      href={info.href} 
+                      target={info.target} 
+                      rel={info.target === '_blank' ? 'noopener noreferrer' : undefined}
+                      style={{ 
+                        fontSize: '0.9375rem', 
+                        color: 'var(--color-text)', 
+                        textDecoration: 'none',
+                        transition: 'color 0.2s',
+                        display: 'inline-block',
+                      }}
+                      onMouseEnter={e => (e.target as HTMLElement).style.color = '#00e5a0'}
+                      onMouseLeave={e => (e.target as HTMLElement).style.color = 'var(--color-text)'}
+                    >
+                      {info.value}
+                    </a>
+                  ) : (
+                    <div style={{ fontSize: '0.9375rem', color: 'var(--color-text)' }}>{info.value}</div>
+                  )}
                 </div>
               </div>
             ))}
