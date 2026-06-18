@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import ReactMapGL, { Marker, NavigationControl, ScaleControl } from 'react-map-gl/maplibre';
+import ReactMapGL, { Marker, NavigationControl, ScaleControl, Source, Layer } from 'react-map-gl/maplibre';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronRight, TrendingUp, Zap, Leaf, DollarSign } from 'lucide-react';
 import { data, formatCrore, formatNumber, formatTonne, formatRoi, getSectorColor, ALL_SECTORS } from '../data';
@@ -263,42 +263,68 @@ export default function AuditMap() {
         </div>
 
         {/* Filters */}
-        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1.25rem', alignItems: 'center' }}>
-          <span style={{ fontSize: '0.75rem', color: 'rgba(240,244,255,0.4)', fontWeight: 600, letterSpacing: '0.04em' }}>
-            FILTER:
-          </span>
-          {fyOptions.map(fy => (
-            <button
-              key={fy}
-              onClick={() => setSelectedFy(fy)}
-              className={`filter-chip ${selectedFy === fy ? 'active' : ''}`}
-            >
-              {fy}
-            </button>
-          ))}
-        </div>
+        <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', marginBottom: '1.5rem', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span style={{ fontSize: '0.75rem', color: 'rgba(240,244,255,0.4)', fontWeight: 600, letterSpacing: '0.04em' }}>
+              FY:
+            </span>
+            <div style={{ display: 'flex', gap: '0.375rem' }}>
+              {fyOptions.map(fy => (
+                <button
+                  key={fy}
+                  onClick={() => setSelectedFy(fy)}
+                  className={`filter-chip ${selectedFy === fy ? 'active' : ''}`}
+                >
+                  {fy}
+                </button>
+              ))}
+            </div>
+          </div>
 
-        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
-          {uniqueSectors.map(sector => (
-            <button
-              key={sector}
-              onClick={() => setSelectedSector(sector)}
-              className={`filter-chip ${selectedSector === sector ? 'active' : ''}`}
-              style={{
-                borderColor: selectedSector === sector && sector !== 'All'
-                  ? getSectorColor(sector) + '80'
-                  : undefined,
-                color: selectedSector === sector && sector !== 'All'
-                  ? getSectorColor(sector)
-                  : undefined,
-                background: selectedSector === sector && sector !== 'All'
-                  ? getSectorColor(sector) + '15'
-                  : undefined,
-              }}
-            >
-              {sector !== 'All' && SECTOR_ICON[sector]} {sector}
-            </button>
-          ))}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <span style={{ fontSize: '0.75rem', color: 'rgba(240,244,255,0.4)', fontWeight: 600, letterSpacing: '0.04em' }}>
+              SECTOR:
+            </span>
+            <div style={{ position: 'relative', display: 'inline-block' }}>
+              <select
+                value={selectedSector}
+                onChange={(e) => setSelectedSector(e.target.value)}
+                className="sector-select"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: 100,
+                  color: 'rgba(240, 244, 255, 0.8)',
+                  fontSize: '0.8125rem',
+                  fontWeight: 500,
+                  padding: '0.4rem 2.2rem 0.4rem 1rem',
+                  outline: 'none',
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  appearance: 'none',
+                  WebkitAppearance: 'none',
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='rgba%28240%2C244%2C255%2C0.6%29' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right 0.75rem center',
+                  backgroundSize: '0.85rem',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                {uniqueSectors.map(sector => (
+                  <option
+                    key={sector}
+                    value={sector}
+                    style={{
+                      background: '#020818',
+                      color: 'rgba(240, 244, 255, 0.8)',
+                    }}
+                  >
+                    {sector === 'All' ? 'All Sectors' : `${SECTOR_ICON[sector] || '🏭'} ${sector}`}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
 
         {/* Map stats bar */}
@@ -339,6 +365,30 @@ export default function AuditMap() {
           >
             <NavigationControl position="top-right" />
             <ScaleControl position="bottom-right" />
+            
+            {/* Gujarat Boundaries Layer */}
+            <Source id="india-states-source" type="geojson" data="/india_states.geojson">
+              <Layer
+                id="gujarat-fill-layer"
+                type="fill"
+                filter={['==', ['get', 'ST_NM'], 'Gujarat']}
+                paint={{
+                  'fill-color': '#00e5a0',
+                  'fill-opacity': 0.08,
+                }}
+              />
+              <Layer
+                id="gujarat-line-layer"
+                type="line"
+                filter={['==', ['get', 'ST_NM'], 'Gujarat']}
+                paint={{
+                  'line-color': '#00e5a0',
+                  'line-width': 2.5,
+                  'line-opacity': 0.8,
+                }}
+              />
+            </Source>
+
             {filteredAudits.map(project => (
               <MarkerPin
                 key={project.id}

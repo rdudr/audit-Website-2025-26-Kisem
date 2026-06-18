@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { label: 'Journey', href: '#journey' },
   { label: 'Analysis', href: '#analysis' },
   { label: 'Projects', href: '#projects' },
+  { label: 'Team', href: '#team' },
   { label: 'Partners', href: '#partners' },
 ];
 
@@ -116,6 +117,29 @@ export default function Navbar() {
 
         {/* CTA + Hamburger */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfeadTKCwRTvHE4xfaucn2SZ8SN00jFp-2lOI_qiD4C9Jfziw/viewform"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              padding: scrolled ? '0.4rem 1rem' : '0.5rem 1.25rem',
+              fontSize: scrolled ? '0.75rem' : '0.8125rem',
+              borderRadius: 100,
+              textDecoration: 'none',
+              fontWeight: 600,
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: scrolled ? '#0f172a' : '#00e5a0',
+              color: scrolled ? '#ffffff' : '#0f172a',
+              transition: 'all 0.3s ease',
+              border: 'none',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Apply Audit
+          </a>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="show-mobile"

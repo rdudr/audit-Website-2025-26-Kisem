@@ -183,7 +183,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2, duration: 0.6 }}
-          style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '4rem' }}
+          style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '4rem', alignItems: 'center' }}
         >
           <button id="cta-explore" onClick={handleScrollToKpi} className="btn-primary">
             <Play size={16} fill="currentColor" />
@@ -193,6 +193,34 @@ export default function Hero() {
             <Map size={16} />
             View Audit Map
           </button>
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfeadTKCwRTvHE4xfaucn2SZ8SN00jFp-2lOI_qiD4C9Jfziw/viewform"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              textDecoration: 'none',
+              backgroundColor: '#00e5a0',
+              color: '#0f172a',
+              fontWeight: 600,
+              padding: '0.75rem 1.5rem',
+              borderRadius: 100,
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+              (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 12px rgba(0, 229, 160, 0.3)';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.transform = 'none';
+              (e.currentTarget as HTMLElement).style.boxShadow = 'none';
+            }}
+          >
+            Apply Audit
+          </a>
         </motion.div>
 
         {/* Floating glass card */}

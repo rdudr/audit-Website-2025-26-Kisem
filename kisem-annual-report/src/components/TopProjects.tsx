@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
 import { data, formatCrore, formatTonne, formatRoi, getSectorColor } from '../data';
 import type { AuditProject } from '../types';
 
@@ -166,14 +167,27 @@ export default function TopProjects() {
           ))}
         </div>
 
-        {/* Show more */}
-        {!showAll && sorted.length > 10 && (
+        {/* Show more / Toggle button */}
+        {sorted.length > 10 && (
           <div style={{ textAlign: 'center', marginTop: '2rem' }}>
             <button
-              onClick={() => setShowAll(true)}
+              onClick={() => setShowAll(!showAll)}
               className="btn-glass"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                cursor: 'pointer',
+              }}
             >
-              Show All {sorted.length} Projects
+              <span>Implementation Plan</span>
+              <ChevronDown
+                size={16}
+                style={{
+                  transition: 'transform 0.3s ease',
+                  transform: showAll ? 'rotate(180deg)' : 'rotate(0deg)',
+                }}
+              />
             </button>
           </div>
         )}

@@ -15,6 +15,7 @@ import BaselineEnergy from './components/BaselineEnergy';
 import PaidAudits from './components/PaidAudits';
 import Instruments from './components/Instruments';
 import Partnerships from './components/Partnerships';
+import Team from './components/Team';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
@@ -57,6 +58,7 @@ export default function App() {
           <BaselineEnergy />
           <PaidAudits />
           <Instruments />
+          <Team />
           <Partnerships />
           <Contact />
         </div>

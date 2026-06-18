@@ -224,14 +224,14 @@ export const PARTNERS = [
   {
     name: 'GEDA',
     role: 'Gujarat State Partner',
-    logo: null,
+    logo: '/geda logo.jpg',
     desc: 'Gujarat Energy Development Agency providing state-level support and MSME ecosystem access',
     color: '#E87722',
   },
   {
     name: 'WRI India',
     role: 'Research Partner',
-    logo: null,
+    logo: '/WRI-India-Logo.png',
     desc: 'World Resources Institute supporting textile benchmarking and sustainability research',
     color: '#00B49A',
   },

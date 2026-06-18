@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 import { data, formatCrore, formatNumber, formatTonne } from '../data';
+import Beams from './Beams';
 
 interface KpiItem {
   label: string;
@@ -205,7 +206,22 @@ export default function YearInNumbers() {
   const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
 
   return (
-    <section id="kpi" className="section-padding" style={{ position: 'relative' }}>
+    <section id="kpi" className="section-padding" style={{ position: 'relative', overflow: 'hidden' }}>
+      {/* Beams Background */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0, opacity: 0.25, pointerEvents: 'none' }}>
+        <Beams
+          beamWidth={2}
+          beamHeight={16}
+          beamNumber={10}
+          lightColor="#00e5a0"
+          speed={1.5}
+          noiseIntensity={1.2}
+          scale={0.15}
+          rotation={-20}
+          backgroundColor="#ffffff"
+        />
+      </div>
+
       {/* Background glow */}
       <div className="glow-orb" style={{
         width: 600,
@@ -214,9 +230,10 @@ export default function YearInNumbers() {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
+        zIndex: 1,
       }} />
 
-      <div className="section-container" ref={ref}>
+      <div className="section-container" ref={ref} style={{ position: 'relative', zIndex: 2 }}>
         {/* Section header */}
         <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
           <div className="section-label" style={{ justifyContent: 'center' }}>
