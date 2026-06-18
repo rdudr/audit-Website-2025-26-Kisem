@@ -36,8 +36,9 @@ export default function Navbar() {
         style={{
           position: 'fixed',
           top: 16,
-          left: '50%',
-          transform: 'translateX(-50%)',
+          left: scrolled ? 'auto' : '50%',
+          right: scrolled ? '1.5rem' : 'auto',
+          transform: scrolled ? 'none' : 'translateX(-50%)',
           zIndex: 400,
           width: scrolled ? 'auto' : 'calc(100% - 2rem)',
           maxWidth: scrolled ? '95%' : 1200,
@@ -47,16 +48,16 @@ export default function Navbar() {
           alignItems: 'center',
           justifyContent: 'space-between',
           background: scrolled
-            ? 'rgba(3, 10, 25, 0.85)'
+            ? 'rgba(255, 255, 255, 0.72)'
             : 'rgba(255, 255, 255, 0.05)',
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
           border: '1px solid',
           borderColor: scrolled
-            ? 'rgba(255, 255, 255, 0.12)'
+            ? 'rgba(15, 23, 42, 0.08)'
             : 'rgba(255, 255, 255, 0.1)',
           transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-          boxShadow: scrolled ? '0 8px 40px rgba(0,0,0,0.4)' : 'none',
+          boxShadow: scrolled ? '0 8px 32px rgba(15, 23, 42, 0.08)' : 'none',
         }}
       >
         {/* Logo */}
@@ -76,8 +77,8 @@ export default function Navbar() {
             }} 
           />
           <div style={{ textAlign: 'left', transition: 'all 0.4s ease' }}>
-            <div style={{ fontSize: scrolled ? '0.75rem' : '0.8125rem', fontWeight: 700, color: '#f0f4ff', letterSpacing: '-0.01em', transition: 'all 0.4s ease' }}>KISEM IITGN</div>
-            <div style={{ fontSize: scrolled ? '0.5625rem' : '0.625rem', color: 'rgba(240,244,255,0.5)', fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase', transition: 'all 0.4s ease' }}>Annual Report 2025-26</div>
+            <div style={{ fontSize: scrolled ? '0.75rem' : '0.8125rem', fontWeight: 700, color: scrolled ? '#0f172a' : '#f0f4ff', letterSpacing: '-0.01em', transition: 'all 0.4s ease' }}>KISEM IITGN</div>
+            <div style={{ fontSize: scrolled ? '0.5625rem' : '0.625rem', color: scrolled ? 'rgba(15,23,42,0.6)' : 'rgba(240,244,255,0.5)', fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase', transition: 'all 0.4s ease' }}>Annual Report 2025-26</div>
           </div>
         </button>
 
@@ -90,7 +91,7 @@ export default function Navbar() {
               style={{
                 background: 'none',
                 border: 'none',
-                color: 'rgba(240,244,255,0.7)',
+                color: scrolled ? 'rgba(15, 23, 42, 0.7)' : 'rgba(240,244,255,0.7)',
                 fontSize: scrolled ? '0.75rem' : '0.8125rem',
                 fontWeight: 500,
                 padding: scrolled ? '0.4rem 0.625rem' : '0.5rem 0.875rem',
@@ -100,11 +101,11 @@ export default function Navbar() {
                 fontFamily: 'inherit',
               }}
               onMouseEnter={e => {
-                (e.target as HTMLElement).style.color = '#f0f4ff';
-                (e.target as HTMLElement).style.background = 'rgba(255,255,255,0.08)';
+                (e.target as HTMLElement).style.color = scrolled ? '#0f172a' : '#f0f4ff';
+                (e.target as HTMLElement).style.background = scrolled ? 'rgba(15, 23, 42, 0.06)' : 'rgba(255,255,255,0.08)';
               }}
               onMouseLeave={e => {
-                (e.target as HTMLElement).style.color = 'rgba(240,244,255,0.7)';
+                (e.target as HTMLElement).style.color = scrolled ? 'rgba(15, 23, 42, 0.7)' : 'rgba(240,244,255,0.7)';
                 (e.target as HTMLElement).style.background = 'none';
               }}
             >
@@ -119,12 +120,12 @@ export default function Navbar() {
             onClick={() => setMenuOpen(!menuOpen)}
             className="show-mobile"
             style={{
-              background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(255,255,255,0.12)',
+              background: scrolled ? 'rgba(15, 23, 42, 0.06)' : 'rgba(255,255,255,0.08)',
+              border: scrolled ? '1px solid rgba(15, 23, 42, 0.08)' : '1px solid rgba(255,255,255,0.12)',
               borderRadius: 10,
               padding: '0.5rem',
               cursor: 'pointer',
-              color: '#f0f4ff',
+              color: scrolled ? '#0f172a' : '#f0f4ff',
               display: 'flex',
               alignItems: 'center',
             }}
