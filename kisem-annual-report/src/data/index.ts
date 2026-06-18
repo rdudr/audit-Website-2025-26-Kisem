@@ -120,14 +120,14 @@ export const INSTRUMENTS = [
     brand: 'Hioki PQ3198, Krykard ALM-45/36/31/20',
     img: '/instruments/Power Quality Study.png',
     desc: [
-      'Class A, IEC 61000-4-30 standard compliance',
-      'Inter-harmonics measurement from 0.5th to 49.5 order',
-      'Super-harmonics detection from 2 kHz to 80 kHz',
-      'Captures transient voltage, current waveform peaks, and 1/2 RMS values',
-      'Swell, dip, interruption, and instantaneous flicker value monitoring',
-      'Inrush current, current RMS, and multi-interval frequency logging',
-      'Two-circuit measurement capability for inverter efficiency',
-      'High accuracy (DC: ±0.5% rdg. ±0.5% f.s. + sensor accuracy)'
+      'Class A: IEC 61000-4-30 standard compliance',
+      'Inter-harmonics: Measurement from 0.5th to 49.5 order',
+      'Super-harmonics: Detection from 2 kHz to 80 kHz',
+      'Transient Capture: Captures transient voltage, current waveform peaks, and 1/2 RMS values',
+      'Disturbances: Swell, dip, interruption, and instantaneous flicker value monitoring',
+      'Inrush & Frequency: Logging of inrush current, current RMS, and multi-interval frequency',
+      'Two-Circuit Inverters: Efficiency measurements for dual-circuit inverter setups',
+      'High Accuracy: DC: ±0.5% rdg. ±0.5% f.s. + sensor accuracy'
     ]
   },
   {
@@ -135,14 +135,14 @@ export const INSTRUMENTS = [
     brand: 'Testo T-883/T-872, Raytek RAYR3IPLUS, Fluke TC01A, HTC MTX2, IRX68',
     img: '/instruments/Thermal Imager.png',
     desc: [
-      'High-resolution infrared camera (320 × 240 pixels)',
-      'Non-contact measurement range from -30 °C to 650 °C',
-      'Professional reporting using Testo IR Soft analysis software',
-      'Laser marker and manual focus for pinpoint hot-spot targeting',
-      'Ideal for electrical panels, insulation checks, and mechanical systems',
-      'Perfect for quick diagnostics in MSME industries',
-      'Rugged, industrial-grade design & mobile phone compatible',
-      'Molten metal pyrometer up to 2000 °C with recording capabilities'
+      'High Resolution: Infrared camera with 320 × 240 pixels',
+      'Wide Range: Non-contact temperature measurement from -30 °C to 650 °C',
+      'Testo IR Soft: Professional analysis software for detailed thermographic reports',
+      'Precision: Laser marker and manual focus for pinpoint accuracy',
+      'Applications: Ideal for electrical panels, insulation checks, and mechanical systems',
+      'MSME Diagnostics: Tailored for rapid troubleshooting in small scale industries',
+      'Rugged & Portable: Industrial-grade design and mobile phone compatible',
+      'Pyrometer: Molten metal temperature measurement up to 2000 °C with recording'
     ]
   },
   {
@@ -151,10 +151,10 @@ export const INSTRUMENTS = [
     img: '/instruments/Flue Gas Analysis.png',
     desc: [
       'Multi-Gas: Simultaneous detection of O₂, CO, CO₂, NO, NO₂, SO₂, H₂S, and HC gases',
-      'High-temperature stack measurement up to 1250 °C',
-      'Measures flue gas temperature, draft, and differential pressure',
-      'Computes combustion efficiency, excess air, and CO₂ percentage instantly',
-      'Data logging and real-time reporting for industrial boilers'
+      'High Temperature: Measurement up to 1250 °C with specialized probe',
+      'Sensors: Integrated temperature and pressure sensors for stack and draft checks',
+      'Calculations: Instant computation of combustion efficiency, excess air, and CO₂ %',
+      'Reporting: Data logging and real-time reporting for industrial boilers'
     ]
   },
   {
@@ -162,13 +162,13 @@ export const INSTRUMENTS = [
     brand: 'Testo LD Pro, VP Flow PN16, Lutron GS-5800, Wise 4, Extech RD300',
     img: '/instruments/Acoustic Leakage Detection.png',
     desc: [
-      'In-line demand & supply side compressed air and technical gas flow measurement',
-      'Shared air compressor flow measurements and diagnosis',
-      'Sensors for flow, pressure, and temperature (0 to 60 °C) with logging',
-      'Acoustic Imaging services for real-time compressed air leak rate detection',
-      'Complete system diagnosis of compressed air networks',
-      'Refrigerant Leakage: R-22, R-134a, R-404a, R-410a, and all CFCs, HCFCs, HFCs',
-      'LED selector display with high sensitivity of 0.25/0.50/0.99 oz per year'
+      'Flow Metering: In-line demand/supply flow measurement for air and technical gases',
+      'Compressor Diagnostics: Shared air compressor flow measurement and troubleshooting',
+      'Data Logging: Sensors for flow, pressure, and temperature (0 to 60 °C)',
+      'Acoustic Imaging: Real-time ultrasonic camera for leak rate and location visualization',
+      'Complete Audit: Detailed system-wide diagnosis of compressed air networks',
+      'Refrigerants: Leakage detection for R-22, R-134a, R-404a, R-410a, and all CFCs/HCFCs/HFCs',
+      'LED Display: User-selectable High/Med/Low levels (sensitivity of 0.25/0.50/0.99 oz/yr)'
     ]
   },
   {
@@ -176,13 +176,14 @@ export const INSTRUMENTS = [
     brand: 'Solar DC Power Analyzer, Ambient Temp/Humidity Logger, Irradiance Meter',
     img: '/instruments/Detailed Solar PV Analysis.png',
     desc: [
-      'Module efficiency, Inverter efficiency, and Performance Ratio (PR)',
-      'Assessment of temperature losses, shading losses, and soiling losses (dust/dirt)',
-      'Mismatch, cable, and inverter efficiency loss evaluation',
-      'Tilt and orientation optimization for maximum solar utilization',
-      'Irradiance utilization efficiency and distribution/metering losses',
-      'Thermographic hot-spot assessment of solar modules',
-      'Inverter overloading performance and complete PV system troubleshooting'
+      'Efficiency Metrics: Module efficiency, inverter efficiency, and performance ratio (PR)',
+      'Loss Assessment: Calculation of temperature, shading, and dust/dirt soiling losses',
+      'Electrical Losses: Mismatch, cable, and inverter conversion losses evaluation',
+      'Optimization: Tilt and orientation optimization for maximum yield',
+      'Distribution & Metering: Assessment of transmission and metering losses',
+      'Solar Thermography: Infrared hotspot analysis on PV modules',
+      'Overloading Check: Inverter losses and overloading performance profiles',
+      'PV Troubleshooting: Complete troubleshooting and system-level performance checks'
     ]
   },
   {
@@ -190,22 +191,10 @@ export const INSTRUMENTS = [
     brand: 'Endress+Hauser',
     img: '/instruments/Fluid Flow Measurment.png',
     desc: [
-      'Non-intrusive clamp-on flow measurement for liquids',
-      'Supports wide range of pipe sizes and materials without system shutdown',
-      'High-accuracy transit-time ultrasonic sensors with data logging'
+      'Non-Intrusive: Clamp-on flow measurement for liquids without process interruption',
+      'Wide Compatibility: Supports diverse pipe sizes and materials',
+      'High Accuracy: Transit-time ultrasonic sensors with integrated data logging'
     ]
-  },
-  {
-    name: 'GHG Dashboard',
-    brand: 'KISEM Proprietary',
-    img: '🌍',
-    desc: 'Real-time Scope 1-3 emissions tracking and verification tool'
-  },
-  {
-    name: 'Lux Meter',
-    brand: 'Extech/Sekonic',
-    img: '💡',
-    desc: 'Illuminance measurement for lighting retrofit analysis'
   }
 ];
 

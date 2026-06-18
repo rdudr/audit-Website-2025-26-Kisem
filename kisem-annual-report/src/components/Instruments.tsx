@@ -49,7 +49,7 @@ export default function Instruments() {
               <div style={{
                 width: 64,
                 height: 64,
-                borderRadius: 18,
+                borderRadius: 4,
                 background: inst.img.startsWith('/') ? 'none' : 'linear-gradient(135deg, rgba(0,229,160,0.15), rgba(0,102,255,0.1))',
                 border: inst.img.startsWith('/') ? 'none' : '1px solid rgba(0,229,160,0.2)',
                 display: 'flex',
@@ -60,7 +60,7 @@ export default function Instruments() {
                 overflow: 'hidden',
               }}>
                 {inst.img.startsWith('/') ? (
-                  <img src={inst.img} alt={inst.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img src={inst.img} alt={inst.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 4 }} />
                 ) : (
                   inst.img
                 )}
@@ -74,13 +74,24 @@ export default function Instruments() {
                 {inst.brand}
               </p>
               {Array.isArray(inst.desc) ? (
-                <ul style={{ paddingLeft: '1.1rem', listStyleType: 'disc', fontSize: '0.8125rem', color: 'rgba(240, 244, 255, 0.65)', lineHeight: 1.5 }}>
-                  {inst.desc.map((bullet, idx) => (
-                    <li key={idx} style={{ marginBottom: '0.35rem' }}>{bullet}</li>
-                  ))}
+                <ul style={{ paddingLeft: '1.1rem', listStyleType: 'disc', fontSize: '0.76rem', color: 'rgba(240, 244, 255, 0.65)', lineHeight: 1.5, textAlign: 'justify' }}>
+                  {inst.desc.map((bullet, idx) => {
+                    const parts = bullet.split(': ');
+                    if (parts.length > 1) {
+                      const [label, ...rest] = parts;
+                      return (
+                        <li key={idx} style={{ marginBottom: '0.35rem' }}>
+                          <strong style={{ color: '#f0f4ff', fontWeight: 700 }}>{label}:</strong> {rest.join(': ')}
+                        </li>
+                      );
+                    }
+                    return (
+                      <li key={idx} style={{ marginBottom: '0.35rem' }}>{bullet}</li>
+                    );
+                  })}
                 </ul>
               ) : (
-                <p style={{ fontSize: '0.8125rem', color: 'rgba(240,244,255,0.55)', lineHeight: 1.6 }}>
+                <p style={{ fontSize: '0.76rem', color: 'rgba(240,244,255,0.55)', lineHeight: 1.6, textAlign: 'justify' }}>
                   {inst.desc}
                 </p>
               )}
