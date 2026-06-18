@@ -22,31 +22,31 @@ export default function FourYearJourney() {
   const getChartOption = () => {
     const baseOption = {
       backgroundColor: 'transparent',
-      textStyle: { fontFamily: 'Inter', color: '#f0f4ff' },
+      textStyle: { fontFamily: 'Inter', color: '#0f172a' },
       tooltip: {
         trigger: 'axis',
-        backgroundColor: 'rgba(3,14,30,0.95)',
-        borderColor: 'rgba(255,255,255,0.12)',
+        backgroundColor: 'rgba(255,255,255,0.95)',
+        borderColor: 'rgba(15,23,42,0.12)',
         borderWidth: 1,
-        textStyle: { color: '#f0f4ff', fontSize: 13 },
-        axisPointer: { type: 'cross', crossStyle: { color: 'rgba(255,255,255,0.1)' } },
+        textStyle: { color: '#0f172a', fontSize: 13 },
+        axisPointer: { type: 'cross', crossStyle: { color: 'rgba(15,23,42,0.1)' } },
       },
       legend: {
-        textStyle: { color: 'rgba(240,244,255,0.6)', fontSize: 12 },
+        textStyle: { color: 'rgba(15,23,42,0.7)', fontSize: 12 },
         top: 0,
       },
       grid: { left: '8%', right: '4%', bottom: '8%', top: '12%', containLabel: true },
       xAxis: {
         type: 'category',
         data: labels,
-        axisLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } },
+        axisLine: { lineStyle: { color: 'rgba(15,23,42,0.1)' } },
         axisTick: { show: false },
-        axisLabel: { color: 'rgba(240,244,255,0.6)', fontSize: 12 },
+        axisLabel: { color: 'rgba(15,23,42,0.7)', fontSize: 12 },
       },
       yAxis: {
         type: 'value',
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)', type: 'dashed' } },
-        axisLabel: { color: 'rgba(240,244,255,0.5)', fontSize: 11 },
+        splitLine: { lineStyle: { color: 'rgba(15,23,42,0.05)', type: 'dashed' } },
+        axisLabel: { color: 'rgba(15,23,42,0.6)', fontSize: 11 },
       },
     };
 
@@ -71,7 +71,7 @@ export default function FourYearJourney() {
               },
             },
             emphasis: { focus: 'series' },
-            label: { show: true, position: 'top', color: '#f0f4ff', fontSize: 12, fontWeight: 700 },
+            label: { show: true, position: 'top', color: '#0f172a', fontSize: 12, fontWeight: 700 },
           },
           {
             name: 'ECMs Recommended',
@@ -147,7 +147,7 @@ export default function FourYearJourney() {
               borderRadius: [8, 8, 0, 0],
               color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: '#86efac' }, { offset: 1, color: '#86efac40' }] },
             },
-            label: { show: true, position: 'top', color: '#f0f4ff', fontSize: 11, formatter: (p: { value: number }) => `${(p.value / 1000).toFixed(1)}K` },
+            label: { show: true, position: 'top', color: '#0f172a', fontSize: 11, formatter: (p: { value: number }) => `${(p.value / 1000).toFixed(1)}K` },
           },
           {
             name: 'Actual Achieved (T)',
@@ -168,8 +168,8 @@ export default function FourYearJourney() {
       ...baseOption,
       legend: { ...baseOption.legend, data: ['ECMs Recommended', 'ECMs Implemented', 'Implementation %'] },
       yAxis: [
-        { type: 'value', splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)', type: 'dashed' } }, axisLabel: { color: 'rgba(240,244,255,0.5)', fontSize: 11 } },
-        { type: 'value', max: 100, axisLabel: { color: 'rgba(240,244,255,0.5)', fontSize: 11, formatter: '{value}%' }, splitLine: { show: false } },
+        { type: 'value', splitLine: { lineStyle: { color: 'rgba(15,23,42,0.05)', type: 'dashed' } }, axisLabel: { color: 'rgba(15,23,42,0.6)', fontSize: 11 } },
+        { type: 'value', max: 100, axisLabel: { color: 'rgba(15,23,42,0.6)', fontSize: 11, formatter: '{value}%' }, splitLine: { show: false } },
       ],
       series: [
         {
@@ -289,7 +289,6 @@ export default function FourYearJourney() {
           <ReactECharts
             option={getChartOption()}
             style={{ height: 380 }}
-            theme="dark"
             opts={{ renderer: 'canvas' }}
           />
         </div>

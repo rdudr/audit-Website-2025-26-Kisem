@@ -672,3 +672,132 @@
   border-radius: 12px !important;
   backdrop-filter: blur(20px) !important;
 }
+
+/* Light Theme Variables and Overrides */
+.light-theme {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  
+  --color-bg: #ffffff;
+  --color-bg-2: #f8fafc;
+  --color-bg-3: #f1f5f9;
+  --color-text: #0f172a;
+  --color-text-2: #475569;
+  --color-text-3: #64748b;
+  --color-border: rgba(15, 23, 42, 0.08);
+  --color-border-2: rgba(15, 23, 42, 0.05);
+  
+  --glass-bg: rgba(15, 23, 42, 0.02);
+  --glass-border: rgba(15, 23, 42, 0.08);
+}
+
+/* Override hardcoded inline light text colors in light theme */
+.light-theme [style*="color:#f0f4ff"],
+.light-theme [style*="color: #f0f4ff"] {
+  color: #0f172a !important;
+}
+
+.light-theme [style*="color:rgba(240, 244, 255"],
+.light-theme [style*="color:rgba(240,244,255"],
+.light-theme [style*="color: rgba(240,244,255"],
+.light-theme [style*="color: rgba(240, 244, 255"] {
+  color: #475569 !important;
+}
+
+/* Redefine card, container, and button backgrounds inside light theme */
+.light-theme .kpi-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02) !important;
+}
+
+.light-theme .kpi-card:hover {
+  background: #f8fafc !important;
+  border-color: rgba(0, 229, 160, 0.3) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06) !important;
+}
+
+.light-theme .chart-container {
+  background: #ffffff !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02) !important;
+}
+
+.light-theme .filter-chip {
+  border-color: rgba(15, 23, 42, 0.12) !important;
+  color: #475569 !important;
+  background: transparent !important;
+}
+
+.light-theme .filter-chip:hover {
+  border-color: rgba(0, 229, 160, 0.4) !important;
+  color: #00e5a0 !important;
+}
+
+.light-theme .filter-chip.active {
+  background: rgba(0, 229, 160, 0.1) !important;
+  border-color: rgba(0, 229, 160, 0.5) !important;
+  color: #00e5a0 !important;
+}
+
+.light-theme .progress-bar {
+  background: rgba(15, 23, 42, 0.06) !important;
+}
+
+.light-theme .divider {
+  background: linear-gradient(90deg, transparent, rgba(15, 23, 42, 0.08), transparent) !important;
+}
+
+.light-theme .stat-row {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06) !important;
+}
+
+.light-theme .stat-row .label {
+  color: #64748b !important;
+}
+
+.light-theme .stat-row .value {
+  color: #0f172a !important;
+}
+
+.light-theme .show-mobile {
+  background: rgba(15, 23, 42, 0.05) !important;
+  border: 1px solid rgba(15, 23, 42, 0.1) !important;
+  color: #0f172a !important;
+}
+
+.light-theme .tag {
+  background: rgba(0, 229, 160, 0.08) !important;
+  border: 1px solid rgba(0, 229, 160, 0.25) !important;
+  color: #00c887 !important;
+}
+
+.light-theme .timeline-line {
+  background: linear-gradient(to bottom, transparent, rgba(0, 229, 160, 0.3), transparent) !important;
+}
+
+.light-theme .drawer {
+  background: #ffffff !important;
+  border-left: 1px solid rgba(15, 23, 42, 0.08) !important;
+}
+
+.light-theme .mapboxgl-popup-content {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(15, 23, 42, 0.12) !important;
+  color: #0f172a !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+.light-theme .mapboxgl-popup-tip {
+  border-top-color: rgba(255, 255, 255, 0.95) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.light-theme .mapboxgl-popup-close-button {
+  color: rgba(15, 23, 42, 0.5) !important;
+}
+
+.light-theme .mapboxgl-popup-close-button:hover {
+  color: #0f172a !important;
+}
+

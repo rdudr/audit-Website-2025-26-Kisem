@@ -24,30 +24,30 @@ export default function EnergySavings() {
 
   const lineChartOption = {
     backgroundColor: 'transparent',
-    textStyle: { fontFamily: 'Inter', color: '#f0f4ff' },
+    textStyle: { fontFamily: 'Inter', color: '#0f172a' },
     tooltip: {
       trigger: 'axis',
-      backgroundColor: 'rgba(3,14,30,0.95)',
-      borderColor: 'rgba(255,255,255,0.12)',
+      backgroundColor: 'rgba(255,255,255,0.95)',
+      borderColor: 'rgba(15,23,42,0.12)',
       borderWidth: 1,
-      textStyle: { color: '#f0f4ff', fontSize: 13 },
+      textStyle: { color: '#0f172a', fontSize: 13 },
     },
     legend: {
-      textStyle: { color: 'rgba(240,244,255,0.6)', fontSize: 12 },
+      textStyle: { color: 'rgba(15,23,42,0.7)', fontSize: 12 },
       top: 0,
     },
     grid: { left: '8%', right: '4%', bottom: '8%', top: '15%', containLabel: true },
     xAxis: {
       type: 'category',
       data: labels,
-      axisLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } },
+      axisLine: { lineStyle: { color: 'rgba(15,23,42,0.1)' } },
       axisTick: { show: false },
-      axisLabel: { color: 'rgba(240,244,255,0.6)', fontSize: 12 },
+      axisLabel: { color: 'rgba(15,23,42,0.7)', fontSize: 12 },
     },
     yAxis: {
       type: 'value',
-      splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)', type: 'dashed' } },
-      axisLabel: { color: 'rgba(240,244,255,0.5)', fontSize: 11 },
+      splitLine: { lineStyle: { color: 'rgba(15,23,42,0.05)', type: 'dashed' } },
+      axisLabel: { color: 'rgba(15,23,42,0.5)', fontSize: 11 },
     },
     series: [
       {
@@ -56,7 +56,7 @@ export default function EnergySavings() {
         data: totalSavingsInrRec.map(v => Number((v / 1e7).toFixed(2))),
         smooth: true,
         lineStyle: { color: '#00e5a0', width: 3 },
-        itemStyle: { color: '#00e5a0', borderWidth: 2, borderColor: '#020818' },
+        itemStyle: { color: '#00e5a0', borderWidth: 2, borderColor: '#ffffff' },
         areaStyle: {
           color: {
             type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
@@ -72,7 +72,7 @@ export default function EnergySavings() {
         data: totalSavingsInrAct.map(v => Number((v / 1e7).toFixed(2))),
         smooth: true,
         lineStyle: { color: '#60a5fa', width: 2.5, type: 'dashed' },
-        itemStyle: { color: '#60a5fa', borderWidth: 2, borderColor: '#020818' },
+        itemStyle: { color: '#60a5fa', borderWidth: 2, borderColor: '#ffffff' },
         areaStyle: {
           color: {
             type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
@@ -87,30 +87,30 @@ export default function EnergySavings() {
 
   const electricalChartOption = {
     backgroundColor: 'transparent',
-    textStyle: { fontFamily: 'Inter', color: '#f0f4ff' },
+    textStyle: { fontFamily: 'Inter', color: '#0f172a' },
     tooltip: {
       trigger: 'axis',
-      backgroundColor: 'rgba(3,14,30,0.95)',
-      borderColor: 'rgba(255,255,255,0.12)',
+      backgroundColor: 'rgba(255,255,255,0.95)',
+      borderColor: 'rgba(15,23,42,0.12)',
       borderWidth: 1,
-      textStyle: { color: '#f0f4ff', fontSize: 13 },
+      textStyle: { color: '#0f172a', fontSize: 13 },
     },
     legend: {
-      textStyle: { color: 'rgba(240,244,255,0.6)', fontSize: 12 },
+      textStyle: { color: 'rgba(15,23,42,0.7)', fontSize: 12 },
       top: 0,
     },
     grid: { left: '8%', right: '4%', bottom: '8%', top: '15%', containLabel: true },
     xAxis: {
       type: 'category',
       data: labels,
-      axisLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } },
+      axisLine: { lineStyle: { color: 'rgba(15,23,42,0.1)' } },
       axisTick: { show: false },
-      axisLabel: { color: 'rgba(240,244,255,0.6)', fontSize: 12 },
+      axisLabel: { color: 'rgba(15,23,42,0.7)', fontSize: 12 },
     },
     yAxis: {
       type: 'value',
-      splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)', type: 'dashed' } },
-      axisLabel: { color: 'rgba(240,244,255,0.5)', fontSize: 11 },
+      splitLine: { lineStyle: { color: 'rgba(15,23,42,0.05)', type: 'dashed' } },
+      axisLabel: { color: 'rgba(15,23,42,0.5)', fontSize: 11 },
     },
     series: [
       {
@@ -127,7 +127,7 @@ export default function EnergySavings() {
             },
           },
         })),
-        label: { show: true, position: 'top', color: '#f0f4ff', fontSize: 10, formatter: (p: { value: number }) => `${(p.value / 1e6).toFixed(1)}M` },
+        label: { show: true, position: 'top', color: '#0f172a', fontSize: 10, formatter: (p: { value: number }) => `${(p.value / 1e6).toFixed(1)}M` },
       },
       {
         name: 'Total Energy Savings (ToE)',

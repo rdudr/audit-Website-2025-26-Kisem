@@ -40,13 +40,13 @@ export default function IndustryVerticals() {
 
     return {
       backgroundColor: 'transparent',
-      textStyle: { fontFamily: 'Inter', color: '#f0f4ff' },
+      textStyle: { fontFamily: 'Inter', color: '#0f172a' },
       tooltip: {
         trigger: 'axis',
-        backgroundColor: 'rgba(3,14,30,0.95)',
-        borderColor: 'rgba(255,255,255,0.12)',
+        backgroundColor: 'rgba(255,255,255,0.95)',
+        borderColor: 'rgba(15,23,42,0.12)',
         borderWidth: 1,
-        textStyle: { color: '#f0f4ff', fontSize: 13 },
+        textStyle: { color: '#0f172a', fontSize: 13 },
         formatter: (params: Array<{ name: string; value: number }>) => {
           const p = params[0];
           return `<div style="padding:4px 0"><b>${p.name}</b><br/>${valueMap.formatter(p.value)}</div>`;
@@ -56,10 +56,10 @@ export default function IndustryVerticals() {
       xAxis: {
         type: 'category',
         data: labels,
-        axisLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } },
+        axisLine: { lineStyle: { color: 'rgba(15,23,42,0.1)' } },
         axisTick: { show: false },
         axisLabel: {
-          color: 'rgba(240,244,255,0.6)',
+          color: 'rgba(15,23,42,0.7)',
           fontSize: 11,
           rotate: 30,
           interval: 0,
@@ -67,8 +67,8 @@ export default function IndustryVerticals() {
       },
       yAxis: {
         type: 'value',
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)', type: 'dashed' } },
-        axisLabel: { color: 'rgba(240,244,255,0.5)', fontSize: 11 },
+        splitLine: { lineStyle: { color: 'rgba(15,23,42,0.05)', type: 'dashed' } },
+        axisLabel: { color: 'rgba(15,23,42,0.6)', fontSize: 11 },
       },
       series: [{
         type: 'bar',
@@ -95,12 +95,12 @@ export default function IndustryVerticals() {
 
   const getPieOption = () => ({
     backgroundColor: 'transparent',
-    textStyle: { fontFamily: 'Inter', color: '#f0f4ff' },
+    textStyle: { fontFamily: 'Inter', color: '#0f172a' },
     tooltip: {
-      backgroundColor: 'rgba(3,14,30,0.95)',
-      borderColor: 'rgba(255,255,255,0.12)',
+      backgroundColor: 'rgba(255,255,255,0.95)',
+      borderColor: 'rgba(15,23,42,0.12)',
       borderWidth: 1,
-      textStyle: { color: '#f0f4ff', fontSize: 12 },
+      textStyle: { color: '#0f172a', fontSize: 12 },
       formatter: (p: { name: string; value: number; percent: number }) =>
         `<b>${p.name}</b><br/>${p.value} audits (${p.percent.toFixed(1)}%)`,
     },
@@ -108,7 +108,7 @@ export default function IndustryVerticals() {
       orient: 'vertical',
       right: '5%',
       top: 'middle',
-      textStyle: { color: 'rgba(240,244,255,0.7)', fontSize: 11 },
+      textStyle: { color: 'rgba(15, 23, 42, 0.7)', fontSize: 11 },
       itemWidth: 10,
       itemHeight: 10,
     },
@@ -119,12 +119,12 @@ export default function IndustryVerticals() {
       data: sectorData.map((s, i) => ({
         name: s.sector,
         value: s.count,
-        itemStyle: { color: colors[i], borderColor: '#020818', borderWidth: 2 },
+        itemStyle: { color: colors[i], borderColor: '#ffffff', borderWidth: 2 },
       })),
       label: { show: false },
       emphasis: {
-        label: { show: true, fontSize: 14, fontWeight: 700, color: '#f0f4ff' },
-        itemStyle: { shadowBlur: 20, shadowColor: 'rgba(0,0,0,0.4)' },
+        label: { show: true, fontSize: 14, fontWeight: 700, color: '#0f172a' },
+        itemStyle: { shadowBlur: 20, shadowColor: 'rgba(0,0,0,0.15)' },
       },
     }],
   });

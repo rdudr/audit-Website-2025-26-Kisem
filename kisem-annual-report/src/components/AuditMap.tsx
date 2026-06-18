@@ -46,21 +46,22 @@ function ProjectDrawer({ project, onClose }: { project: AuditProject; onClose: (
           right: 0,
           height: '100%',
           width: 'min(480px, 100vw)',
-          background: '#030e1e',
-          borderLeft: '1px solid rgba(255,255,255,0.1)',
+          background: '#ffffff',
+          borderLeft: '1px solid rgba(15, 23, 42, 0.08)',
           zIndex: 500,
           overflowY: 'auto',
           display: 'flex',
           flexDirection: 'column',
+          boxShadow: '-10px 0 30px rgba(0,0,0,0.05)',
         }}
       >
         {/* Header */}
         <div style={{
           padding: '1.5rem',
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          borderBottom: '1px solid rgba(15, 23, 42, 0.06)',
           position: 'sticky',
           top: 0,
-          background: '#030e1e',
+          background: '#ffffff',
           zIndex: 1,
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
@@ -81,46 +82,46 @@ function ProjectDrawer({ project, onClose }: { project: AuditProject; onClose: (
             <button
               onClick={onClose}
               style={{
-                background: 'rgba(255,255,255,0.08)',
+                background: 'rgba(15, 23, 42, 0.05)',
                 border: 'none',
                 borderRadius: 8,
                 padding: '0.4rem',
                 cursor: 'pointer',
-                color: '#f0f4ff',
+                color: '#0f172a',
                 display: 'flex',
               }}
             >
               <X size={18} />
             </button>
           </div>
-          <h3 style={{ fontSize: '1.1875rem', fontWeight: 700, color: '#f0f4ff', marginBottom: '0.25rem', lineHeight: 1.3 }}>
+          <h3 style={{ fontSize: '1.1875rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.25rem', lineHeight: 1.3 }}>
             {project.companyName}
           </h3>
-          <p style={{ fontSize: '0.8125rem', color: 'rgba(240,244,255,0.5)' }}>
+          <p style={{ fontSize: '0.8125rem', color: '#475569' }}>
             📍 {project.district} · {project.fy} · Audit #{project.auditNumber}
           </p>
         </div>
 
         {/* Impact Stats */}
-        <div style={{ padding: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ padding: '1.5rem', borderBottom: '1px solid rgba(15, 23, 42, 0.05)' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginBottom: '1rem' }}>
             {[
-              { icon: <DollarSign size={14} />, label: 'Annual Savings', value: formatCrore(project.annualSavingsInr), color: '#00e5a0' },
-              { icon: <Leaf size={14} />, label: 'CO₂ Reduction', value: formatTonne(project.annualCo2ReductionTonnes), color: '#86efac' },
-              { icon: <TrendingUp size={14} />, label: 'ROI', value: formatRoi(project.roiMonths), color: '#60a5fa' },
-              { icon: <Zap size={14} />, label: 'Investment', value: formatCrore(project.investmentInr), color: '#fbbf24' },
+              { icon: <DollarSign size={14} />, label: 'Annual Savings', value: formatCrore(project.annualSavingsInr), color: '#00c887' },
+              { icon: <Leaf size={14} />, label: 'CO₂ Reduction', value: formatTonne(project.annualCo2ReductionTonnes), color: '#16a34a' },
+              { icon: <TrendingUp size={14} />, label: 'ROI', value: formatRoi(project.roiMonths), color: '#2563eb' },
+              { icon: <Zap size={14} />, label: 'Investment', value: formatCrore(project.investmentInr), color: '#d97706' },
             ].map(stat => (
               <div key={stat.label} style={{
-                background: 'rgba(255,255,255,0.04)',
+                background: 'rgba(15, 23, 42, 0.02)',
                 borderRadius: 12,
                 padding: '1rem',
-                border: '1px solid rgba(255,255,255,0.07)',
+                border: '1px solid rgba(15, 23, 42, 0.06)',
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: stat.color, marginBottom: '0.4rem' }}>
                   {stat.icon}
                   <span style={{ fontSize: '0.6875rem', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase' }}>{stat.label}</span>
                 </div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#f0f4ff', letterSpacing: '-0.03em' }}>{stat.value}</div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#0f172a', letterSpacing: '-0.03em' }}>{stat.value}</div>
               </div>
             ))}
           </div>
@@ -128,8 +129,8 @@ function ProjectDrawer({ project, onClose }: { project: AuditProject; onClose: (
           {/* Implementation progress */}
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.8125rem' }}>
-              <span style={{ color: 'rgba(240,244,255,0.6)' }}>ECM Implementation</span>
-              <span style={{ fontWeight: 600, color: '#f0f4ff' }}>{project.ecmImplemented}/{project.ecmRecommended} ({implPct}%)</span>
+              <span style={{ color: '#475569' }}>ECM Implementation</span>
+              <span style={{ fontWeight: 600, color: '#0f172a' }}>{project.ecmImplemented}/{project.ecmRecommended} ({implPct}%)</span>
             </div>
             <div className="progress-bar">
               <div
@@ -142,7 +143,7 @@ function ProjectDrawer({ project, onClose }: { project: AuditProject; onClose: (
 
         {/* Details */}
         <div style={{ padding: '1.5rem', flexGrow: 1 }}>
-          <h4 style={{ fontSize: '0.8125rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(240,244,255,0.4)', marginBottom: '1rem' }}>
+          <h4 style={{ fontSize: '0.8125rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#64748b', marginBottom: '1rem' }}>
             Company Overview
           </h4>
           {[
@@ -159,17 +160,17 @@ function ProjectDrawer({ project, onClose }: { project: AuditProject; onClose: (
             { label: 'Actual CO₂ Reduced', value: formatTonne(project.actualCo2ReductionTonnes ?? 0) },
           ].map(row => (
             <div key={row.label} className="stat-row">
-              <span className="label">{row.label}</span>
-              <span className="value" style={{ textAlign: 'right', maxWidth: 200 }}>{row.value}</span>
+              <span className="label" style={{ color: '#64748b' }}>{row.label}</span>
+              <span className="value" style={{ textAlign: 'right', maxWidth: 200, color: '#0f172a' }}>{row.value}</span>
             </div>
           ))}
 
           {project.utilities && (
             <div style={{ marginTop: '1.25rem' }}>
-              <p style={{ fontSize: '0.75rem', fontWeight: 600, color: 'rgba(240,244,255,0.4)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+              <p style={{ fontSize: '0.75rem', fontWeight: 600, color: '#64748b', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
                 Utilities Assessed
               </p>
-              <p style={{ fontSize: '0.8125rem', color: 'rgba(240,244,255,0.7)', lineHeight: 1.6 }}>
+              <p style={{ fontSize: '0.8125rem', color: '#475569', lineHeight: 1.6 }}>
                 {project.utilities}
               </p>
             </div>
@@ -333,7 +334,7 @@ export default function AuditMap() {
               zoom: 6.2,
             }}
             style={{ width: '100%', height: '100%' }}
-            mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
+            mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
             reuseMaps
           >
             <NavigationControl position="top-right" />

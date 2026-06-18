@@ -7,23 +7,23 @@ export default function RoiScatter() {
 
   const scatterOption = {
     backgroundColor: 'transparent',
-    textStyle: { fontFamily: 'Inter', color: '#f0f4ff' },
+    textStyle: { fontFamily: 'Inter', color: '#0f172a' },
     tooltip: {
       trigger: 'item',
-      backgroundColor: 'rgba(3,14,30,0.95)',
-      borderColor: 'rgba(255,255,255,0.12)',
+      backgroundColor: 'rgba(255,255,255,0.95)',
+      borderColor: 'rgba(15,23,42,0.12)',
       borderWidth: 1,
-      textStyle: { color: '#f0f4ff', fontSize: 12 },
+      textStyle: { color: '#0f172a', fontSize: 12 },
       formatter: (p: { data: [number, number, number, string, string, string] }) => {
         const [inv, sav, roi, company, sector, fy] = p.data;
         return `
           <div style="padding:4px 0">
-            <div style="font-weight:700;margin-bottom:6px;max-width:220px">${company}</div>
-            <div style="color:rgba(240,244,255,0.6);font-size:11px;margin-bottom:8px">${sector} · ${fy}</div>
+            <div style="font-weight:700;margin-bottom:6px;max-width:220px;color:#0f172a">${company}</div>
+            <div style="color:rgba(15,23,42,0.7);font-size:11px;margin-bottom:8px">${sector} · ${fy}</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
-              <div><span style="color:rgba(240,244,255,0.5)">Investment:</span><br/><b>₹${(inv/100000).toFixed(1)}L</b></div>
-              <div><span style="color:rgba(240,244,255,0.5)">Annual Savings:</span><br/><b style="color:#00e5a0">₹${(sav/100000).toFixed(1)}L</b></div>
-              <div><span style="color:rgba(240,244,255,0.5)">ROI:</span><br/><b style="color:#f59e0b">${(roi/12).toFixed(1)} yr</b></div>
+              <div><span style="color:rgba(15,23,42,0.6)">Investment:</span><br/><b style="color:#0f172a">₹${(inv/100000).toFixed(1)}L</b></div>
+              <div><span style="color:rgba(15,23,42,0.6)">Annual Savings:</span><br/><b style="color:#00e5a0">₹${(sav/100000).toFixed(1)}L</b></div>
+              <div><span style="color:rgba(15,23,42,0.6)">ROI:</span><br/><b style="color:#f59e0b">${(roi/12).toFixed(1)} yr</b></div>
             </div>
           </div>
         `;
@@ -35,20 +35,20 @@ export default function RoiScatter() {
       name: 'Investment (₹ Lakh)',
       nameLocation: 'middle',
       nameGap: 35,
-      nameTextStyle: { color: 'rgba(240,244,255,0.5)', fontSize: 12 },
-      axisLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } },
-      splitLine: { lineStyle: { color: 'rgba(255,255,255,0.04)', type: 'dashed' } },
-      axisLabel: { color: 'rgba(240,244,255,0.5)', fontSize: 11, formatter: (v: number) => `${(v/100000).toFixed(0)}L` },
+      nameTextStyle: { color: 'rgba(15,23,42,0.6)', fontSize: 12 },
+      axisLine: { lineStyle: { color: 'rgba(15,23,42,0.1)' } },
+      splitLine: { lineStyle: { color: 'rgba(15,23,42,0.05)', type: 'dashed' } },
+      axisLabel: { color: 'rgba(15,23,42,0.6)', fontSize: 11, formatter: (v: number) => `${(v/100000).toFixed(0)}L` },
     },
     yAxis: {
       type: 'value',
       name: 'Annual Savings (₹ Lakh)',
       nameLocation: 'middle',
       nameGap: 55,
-      nameTextStyle: { color: 'rgba(240,244,255,0.5)', fontSize: 12 },
-      axisLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } },
-      splitLine: { lineStyle: { color: 'rgba(255,255,255,0.04)', type: 'dashed' } },
-      axisLabel: { color: 'rgba(240,244,255,0.5)', fontSize: 11, formatter: (v: number) => `${(v/100000).toFixed(0)}L` },
+      nameTextStyle: { color: 'rgba(15,23,42,0.6)', fontSize: 12 },
+      axisLine: { lineStyle: { color: 'rgba(15,23,42,0.1)' } },
+      splitLine: { lineStyle: { color: 'rgba(15,23,42,0.05)', type: 'dashed' } },
+      axisLabel: { color: 'rgba(15,23,42,0.6)', fontSize: 11, formatter: (v: number) => `${(v/100000).toFixed(0)}L` },
     },
     series: [{
       type: 'scatter',
@@ -70,12 +70,12 @@ export default function RoiScatter() {
           const sector = p.data[4];
           return getSectorColor(sector) + 'cc';
         },
-        borderColor: 'rgba(255,255,255,0.15)',
+        borderColor: 'rgba(15,23,42,0.15)',
         borderWidth: 1,
       },
       emphasis: {
         itemStyle: {
-          borderColor: '#fff',
+          borderColor: '#0f172a',
           borderWidth: 2,
           shadowBlur: 20,
           shadowColor: 'rgba(0,229,160,0.4)',

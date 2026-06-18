@@ -11,26 +11,26 @@ export default function PaidAudits() {
 
   const comparisonOption = {
     backgroundColor: 'transparent',
-    textStyle: { fontFamily: 'Inter', color: '#f0f4ff' },
+    textStyle: { fontFamily: 'Inter', color: '#0f172a' },
     tooltip: {
       trigger: 'axis',
-      backgroundColor: 'rgba(3,14,30,0.95)',
-      borderColor: 'rgba(255,255,255,0.12)',
+      backgroundColor: 'rgba(255,255,255,0.95)',
+      borderColor: 'rgba(15,23,42,0.12)',
       borderWidth: 1,
-      textStyle: { color: '#f0f4ff', fontSize: 12 },
+      textStyle: { color: '#0f172a', fontSize: 12 },
     },
     grid: { left: '5%', right: '4%', bottom: '10%', top: '8%', containLabel: true },
     xAxis: {
       type: 'category',
       data: paidAudits.map(a => a.companyName.slice(0, 20) + '...'),
-      axisLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } },
+      axisLine: { lineStyle: { color: 'rgba(15,23,42,0.1)' } },
       axisTick: { show: false },
-      axisLabel: { color: 'rgba(240,244,255,0.5)', fontSize: 10, rotate: 20, interval: 0 },
+      axisLabel: { color: 'rgba(15,23,42,0.6)', fontSize: 10, rotate: 20, interval: 0 },
     },
     yAxis: {
       type: 'value',
-      splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)', type: 'dashed' } },
-      axisLabel: { color: 'rgba(240,244,255,0.5)', fontSize: 11, formatter: (v: number) => `₹${(v / 100000).toFixed(0)}L` },
+      splitLine: { lineStyle: { color: 'rgba(15,23,42,0.05)', type: 'dashed' } },
+      axisLabel: { color: 'rgba(15,23,42,0.6)', fontSize: 11, formatter: (v: number) => `₹${(v / 100000).toFixed(0)}L` },
     },
     series: [
       {
@@ -44,7 +44,7 @@ export default function PaidAudits() {
             color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: '#f59e0b' }, { offset: 1, color: '#f59e0b40' }] },
           },
         })),
-        label: { show: true, position: 'top', color: '#f0f4ff', fontSize: 10, formatter: (p: { value: number }) => formatCrore(p.value, 1) },
+        label: { show: true, position: 'top', color: '#0f172a', fontSize: 10, formatter: (p: { value: number }) => formatCrore(p.value, 1) },
       },
     ],
   };

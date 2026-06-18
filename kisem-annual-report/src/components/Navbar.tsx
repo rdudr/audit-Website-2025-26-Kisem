@@ -106,6 +106,15 @@ export default function Navbar() {
         {/* CTA + Hamburger */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <a
+            href="/KISEM-Annual-Report-2025-26.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-glass hidden-mobile"
+            style={{ padding: '0.5rem 1.25rem', fontSize: '0.8125rem' }}
+          >
+            Report
+          </a>
+          <a
             href="#contact"
             onClick={e => { e.preventDefault(); handleNav('#contact'); }}
             className="btn-primary hidden-mobile"
@@ -186,6 +195,16 @@ export default function Navbar() {
               </button>
             ))}
             <div style={{ height: 1, background: 'rgba(255,255,255,0.07)', margin: '0.5rem 0' }} />
+            <a
+              href="/KISEM-Annual-Report-2025-26.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-glass"
+              style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}
+              onClick={() => setMenuOpen(false)}
+            >
+              Download Report
+            </a>
             <button
               onClick={() => handleNav('#contact')}
               className="btn-primary"
@@ -198,11 +217,11 @@ export default function Navbar() {
       </AnimatePresence>
 
       <style>{`
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
           .hidden-mobile { display: none !important; }
           .show-mobile { display: flex !important; }
         }
-        @media (min-width: 769px) {
+        @media (min-width: 1025px) {
           .show-mobile { display: none !important; }
           .hidden-mobile { display: flex !important; }
         }

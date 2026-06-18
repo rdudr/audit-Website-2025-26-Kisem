@@ -44,20 +44,22 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <YearInNumbers />
-        <AuditMap />
-        <FourYearJourney />
-        <EnergySavings />
-        <IndustryVerticals />
-        <AssessmentFunnel />
-        <ScopeOfAssessment />
-        <RoiScatter />
-        <TopProjects />
-        <BaselineEnergy />
-        <PaidAudits />
-        <Instruments />
-        <Partnerships />
-        <Contact />
+        <div className="light-theme">
+          <YearInNumbers />
+          <AuditMap />
+          <FourYearJourney />
+          <EnergySavings />
+          <IndustryVerticals />
+          <AssessmentFunnel />
+          <ScopeOfAssessment />
+          <RoiScatter />
+          <TopProjects />
+          <BaselineEnergy />
+          <PaidAudits />
+          <Instruments />
+          <Partnerships />
+          <Contact />
+        </div>
       </main>
       <Footer />
     </div>
