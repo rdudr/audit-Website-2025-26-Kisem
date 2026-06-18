@@ -1,6 +1,6 @@
 import React from 'react';
 import './ReflectiveCard.css';
-import { Fingerprint, Activity, Lock } from 'lucide-react';
+import { Activity, Lock } from 'lucide-react';
 
 interface ReflectiveCardProps {
   blurStrength?: number;
@@ -20,6 +20,8 @@ interface ReflectiveCardProps {
   email?: string;
   idNumber?: string;
   photo?: string;
+  badgeText?: string;
+  badgeIcon?: React.ReactNode;
 }
 
 const ReflectiveCard = ({
@@ -39,7 +41,9 @@ const ReflectiveCard = ({
   role,
   email,
   idNumber,
-  photo
+  photo,
+  badgeText,
+  badgeIcon
 }: ReflectiveCardProps) => {
   const baseFrequency = 0.03 / Math.max(0.1, noiseScale);
   const saturation = 1 - Math.max(0, Math.min(1, grayscale));
@@ -121,8 +125,8 @@ const ReflectiveCard = ({
       <div className="reflective-content">
         <div className="card-header">
           <div className="security-badge">
-            <Lock size={12} className="security-icon" />
-            <span>SECURE ACCESS</span>
+            {badgeIcon || <Lock size={12} className="security-icon" />}
+            <span>{badgeText || 'SECURE ACCESS'}</span>
           </div>
           <Activity className="status-icon" size={18} />
         </div>
@@ -151,8 +155,19 @@ const ReflectiveCard = ({
             <span className="label">MEMBER ID</span>
             <span className="value">{idNumber || 'IITGN-KISEM'}</span>
           </div>
-          <div className="fingerprint-section">
-            <Fingerprint size={28} className="fingerprint-icon" />
+          <div className="fingerprint-section" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <img 
+              src="/kotak_iit_madras_save_energy_mission_logo.jpg" 
+              alt="KISEM" 
+              style={{ 
+                width: 28, 
+                height: 28, 
+                objectFit: 'contain', 
+                borderRadius: 6,
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                opacity: 0.85
+              }} 
+            />
           </div>
         </div>
       </div>

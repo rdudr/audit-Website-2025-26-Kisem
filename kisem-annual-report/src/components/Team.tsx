@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import ReflectiveCard from './ReflectiveCard';
+import { GraduationCap, ClipboardCheck, Gauge, Zap, Thermometer, Sun, Cpu } from 'lucide-react';
 
 const FACULTY_TEAM = [
   {
@@ -8,7 +9,9 @@ const FACULTY_TEAM = [
     title: 'Professor & Head, Electrical Engineering',
     email: 'naran@iitgn.ac.in',
     id: 'KISEM-FAC-01',
-    photo: '/team/Dr. Naran Pindoriya.png'
+    photo: '/team/Dr. Naran Pindoriya.png',
+    badgeText: 'Faculty Member 1',
+    badgeIcon: <GraduationCap size={12} className="security-icon" />
   },
   {
     name: 'Dr. Chinmay Ghoroi',
@@ -16,7 +19,9 @@ const FACULTY_TEAM = [
     title: 'Professor, Chemical Engineering',
     email: 'chinmayg@iitgn.ac.in',
     id: 'KISEM-FAC-02',
-    photo: '/team/Dr. Chinmay Ghoroi.png'
+    photo: '/team/Dr. Chinmay Ghoroi.png',
+    badgeText: 'Faculty Member 2',
+    badgeIcon: <GraduationCap size={12} className="security-icon" />
   },
   {
     name: 'Mr. S. Rajendran',
@@ -24,7 +29,9 @@ const FACULTY_TEAM = [
     title: 'Professor, Electrical Engineering',
     email: 'rajendran@iitgn.ac.in',
     id: 'KISEM-FAC-03',
-    photo: '/team/Mr. S. Rajendran.png'
+    photo: '/team/Mr. S. Rajendran.png',
+    badgeText: 'Faculty Member 3',
+    badgeIcon: <GraduationCap size={12} className="security-icon" />
   },
   {
     name: 'Dr. Atul Bhargav',
@@ -32,7 +39,9 @@ const FACULTY_TEAM = [
     title: 'Professor, Mechanical Engineering',
     email: 'atul.bhargav@iitgn.ac.in',
     id: 'KISEM-FAC-04',
-    photo: '/team/Dr. Atul Bhargav.png'
+    photo: '/team/Dr. Atul Bhargav.png',
+    badgeText: 'Faculty Member 4',
+    badgeIcon: <GraduationCap size={12} className="security-icon" />
   }
 ];
 
@@ -43,7 +52,9 @@ const AUDIT_TEAM = [
     title: 'BEE CEA-30215, GHG Lead Verifier',
     email: 'rahuljayantibhai.p@iitgn.ac.in',
     id: 'KISEM-ENG-01',
-    photo: '/team/Mr. Rahul Patel.png'
+    photo: '/team/Mr. Rahul Patel.png',
+    badgeText: 'Lead Energy Auditor',
+    badgeIcon: <ClipboardCheck size={12} className="security-icon" />
   },
   {
     name: 'Mr. Abhay Singh Maurya',
@@ -51,7 +62,9 @@ const AUDIT_TEAM = [
     title: 'BEE CEM, M.Tech, EE',
     email: 'abhay.maurya@iitgn.ac.in',
     id: 'KISEM-ENG-02',
-    photo: '/team/Mr. Abhay Singh Maurya.png'
+    photo: '/team/Mr. Abhay Singh Maurya.png',
+    badgeText: 'Energy Manager',
+    badgeIcon: <Gauge size={12} className="security-icon" />
   },
   {
     name: 'Mr. Md Faizan',
@@ -59,7 +72,9 @@ const AUDIT_TEAM = [
     title: 'M.Tech, EE',
     email: 'md.faizan@iitgn.ac.in',
     id: 'KISEM-ENG-03',
-    photo: '/team/Md. Faizan.png'
+    photo: '/team/Md. Faizan.png',
+    badgeText: 'Electrical Expert',
+    badgeIcon: <Zap size={12} className="security-icon" />
   },
   {
     name: 'Mr. Sagar Loriya',
@@ -67,7 +82,9 @@ const AUDIT_TEAM = [
     title: 'B.E. Mechanical',
     email: 'loriyasagar.b@iitgn.ac.in',
     id: 'KISEM-ENG-04',
-    photo: '/team/Mr. Sagar Loriya.jpg'
+    photo: '/team/Mr. Sagar Loriya.jpg',
+    badgeText: 'Thermal Expert',
+    badgeIcon: <Thermometer size={12} className="security-icon" />
   },
   {
     name: 'Mr. Dhruvit Patel',
@@ -75,7 +92,9 @@ const AUDIT_TEAM = [
     title: 'PGD Energy Management',
     email: 'dhruvit.patel@iitgn.ac.in',
     id: 'KISEM-ENG-05',
-    photo: '/team/Mr. Dhruvit Patel.jpg'
+    photo: '/team/Mr. Dhruvit Patel.jpg',
+    badgeText: 'Solar Expert',
+    badgeIcon: <Sun size={12} className="security-icon" />
   },
   {
     name: 'Mr. Rishabh Dangi',
@@ -83,7 +102,9 @@ const AUDIT_TEAM = [
     title: 'B.E. Electrical',
     email: 'rishabh.dangi@iitgn.ac.in',
     id: 'KISEM-ENG-06',
-    photo: '/team/Mr. Rishabh Dangi.jpg'
+    photo: '/team/Mr. Rishabh Dangi.jpg',
+    badgeText: 'AI Automation',
+    badgeIcon: <Cpu size={12} className="security-icon" />
   }
 ];
 
@@ -147,6 +168,8 @@ export default function Team() {
                   email={member.email}
                   idNumber={member.id}
                   photo={member.photo}
+                  badgeText={member.badgeText}
+                  badgeIcon={member.badgeIcon}
                   overlayColor="rgba(0, 229, 160, 0.04)"
                   blurStrength={0}
                   glassDistortion={6}
@@ -208,6 +231,8 @@ export default function Team() {
                   email={member.email}
                   idNumber={member.id}
                   photo={member.photo}
+                  badgeText={member.badgeText}
+                  badgeIcon={member.badgeIcon}
                   overlayColor="rgba(96, 165, 250, 0.04)"
                   blurStrength={0}
                   glassDistortion={6}

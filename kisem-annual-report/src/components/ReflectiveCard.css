@@ -105,7 +105,17 @@
   justify-content: space-between;
   padding: 24px;
   color: var(--text-color, white);
-  background: var(--overlay-color, rgba(0, 0, 0, 0.25));
+  background: 
+    linear-gradient(to bottom, var(--overlay-color, transparent), var(--overlay-color, transparent)),
+    linear-gradient(
+      to bottom,
+      rgba(2, 8, 24, 0.85) 0%,
+      rgba(2, 8, 24, 0.3) 35%,
+      rgba(2, 8, 24, 0.25) 55%,
+      rgba(2, 8, 24, 0.75) 80%,
+      rgba(2, 8, 24, 0.95) 100%
+    );
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
 }
 
 .card-header {
