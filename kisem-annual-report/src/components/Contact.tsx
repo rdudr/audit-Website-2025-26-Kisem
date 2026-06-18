@@ -14,7 +14,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="section-padding" style={{
-      background: 'linear-gradient(180deg, var(--color-bg) 0%, #020c1f 100%)',
+      background: 'linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-2) 100%)',
       position: 'relative',
       overflow: 'hidden',
     }}>
@@ -87,7 +87,7 @@ export default function Contact() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.12 }}
               style={{
-                background: card.primary ? `linear-gradient(135deg, rgba(0,229,160,0.15), rgba(0,102,255,0.1))` : 'rgba(255,255,255,0.04)',
+                background: card.primary ? `linear-gradient(135deg, rgba(0,229,160,0.15), rgba(0,102,255,0.1))` : 'var(--color-surface)',
                 border: `1px solid ${card.color}30`,
                 borderRadius: 20,
                 padding: '2rem',
@@ -97,8 +97,8 @@ export default function Contact() {
               }}
             >
               <span style={{ fontSize: '2.5rem' }}>{card.icon}</span>
-              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: '#f0f4ff' }}>{card.title}</h3>
-              <p style={{ fontSize: '0.875rem', color: 'rgba(240,244,255,0.6)', lineHeight: 1.6, flex: 1 }}>{card.desc}</p>
+              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--color-text)' }}>{card.title}</h3>
+              <p style={{ fontSize: '0.875rem', color: 'var(--color-text-2)', lineHeight: 1.6, flex: 1 }}>{card.desc}</p>
               <button
                 className={card.primary ? 'btn-primary' : 'btn-glass'}
                 style={{ justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
@@ -119,7 +119,7 @@ export default function Contact() {
             className="glass"
             style={{ padding: '2rem' }}
           >
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#f0f4ff', marginBottom: '1.5rem' }}>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--color-text)', marginBottom: '1.5rem' }}>
               Send Us a Message
             </h3>
             {submitted ? (
@@ -128,7 +128,7 @@ export default function Contact() {
                 <h4 style={{ color: '#00e5a0', fontSize: '1.125rem', fontWeight: 700, marginBottom: '0.5rem' }}>
                   Message Received!
                 </h4>
-                <p style={{ color: 'rgba(240,244,255,0.6)', fontSize: '0.875rem' }}>
+                <p style={{ color: 'var(--color-text-2)', fontSize: '0.875rem' }}>
                   Our team will get back to you within 2 business days.
                 </p>
               </div>
@@ -140,7 +140,7 @@ export default function Contact() {
                   { key: 'org', label: 'Organization', type: 'text', placeholder: 'Company / Cluster / Institute' },
                 ].map(field => (
                   <div key={field.key}>
-                    <label style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'rgba(240,244,255,0.6)', display: 'block', marginBottom: '0.4rem' }}>
+                    <label style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--color-text-2)', display: 'block', marginBottom: '0.4rem' }}>
                       {field.label}
                     </label>
                     <input
@@ -153,22 +153,22 @@ export default function Contact() {
                       style={{
                         width: '100%',
                         padding: '0.75rem 1rem',
-                        background: 'rgba(255,255,255,0.05)',
-                        border: '1px solid rgba(255,255,255,0.1)',
+                        background: 'var(--color-surface-2)',
+                        border: '1px solid var(--color-border)',
                         borderRadius: 12,
-                        color: '#f0f4ff',
+                        color: 'var(--color-text)',
                         fontSize: '0.9375rem',
                         fontFamily: 'inherit',
                         outline: 'none',
                         transition: 'border-color 0.2s',
                       }}
                       onFocus={e => e.target.style.borderColor = 'rgba(0,229,160,0.4)'}
-                      onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
+                      onBlur={e => e.target.style.borderColor = 'var(--color-border)'}
                     />
                   </div>
                 ))}
                 <div>
-                  <label style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'rgba(240,244,255,0.6)', display: 'block', marginBottom: '0.4rem' }}>
+                  <label style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--color-text-2)', display: 'block', marginBottom: '0.4rem' }}>
                     Message
                   </label>
                   <textarea
@@ -181,10 +181,10 @@ export default function Contact() {
                     style={{
                       width: '100%',
                       padding: '0.75rem 1rem',
-                      background: 'rgba(255,255,255,0.05)',
-                      border: '1px solid rgba(255,255,255,0.1)',
+                      background: 'var(--color-surface-2)',
+                      border: '1px solid var(--color-border)',
                       borderRadius: 12,
-                      color: '#f0f4ff',
+                      color: 'var(--color-text)',
                       fontSize: '0.9375rem',
                       fontFamily: 'inherit',
                       outline: 'none',
@@ -192,7 +192,7 @@ export default function Contact() {
                       transition: 'border-color 0.2s',
                     }}
                     onFocus={e => e.target.style.borderColor = 'rgba(0,229,160,0.4)'}
-                    onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
+                    onBlur={e => e.target.style.borderColor = 'var(--color-border)'}
                   />
                 </div>
                 <button type="submit" className="btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
@@ -210,10 +210,10 @@ export default function Contact() {
             style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}
           >
             <div>
-              <h3 style={{ fontSize: '1.375rem', fontWeight: 700, color: '#f0f4ff', marginBottom: '0.75rem' }}>
+              <h3 style={{ fontSize: '1.375rem', fontWeight: 700, color: 'var(--color-text)', marginBottom: '0.75rem' }}>
                 Contact Details
               </h3>
-              <p style={{ fontSize: '0.9rem', color: 'rgba(240,244,255,0.6)', lineHeight: 1.6 }}>
+              <p style={{ fontSize: '0.9rem', color: 'var(--color-text-2)', lineHeight: 1.6 }}>
                 KISEM is executed by IIT Gandhinagar in collaboration with IIT Madras / IEAC, 
                 supported by Kotak Mahindra Bank's CSR initiative.
               </p>
@@ -240,10 +240,10 @@ export default function Contact() {
                   {info.icon}
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'rgba(240,244,255,0.4)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '0.2rem' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-text-3)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '0.2rem' }}>
                     {info.label}
                   </div>
-                  <div style={{ fontSize: '0.9375rem', color: '#f0f4ff' }}>{info.value}</div>
+                  <div style={{ fontSize: '0.9375rem', color: 'var(--color-text)' }}>{info.value}</div>
                 </div>
               </div>
             ))}
@@ -251,11 +251,11 @@ export default function Contact() {
             {/* Partner logos */}
             <div style={{
               padding: '1.5rem',
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.07)',
+              background: 'var(--color-surface)',
+              border: '1px solid var(--color-border)',
               borderRadius: 16,
             }}>
-              <p style={{ fontSize: '0.6875rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(240,244,255,0.4)', marginBottom: '1rem' }}>
+              <p style={{ fontSize: '0.6875rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-text-3)', marginBottom: '1rem' }}>
                 Our Partners
               </p>
               <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
