@@ -66,7 +66,7 @@ export default function Navbar() {
         >
           <img src="/kotak_iit_madras_save_energy_mission_logo.jpg" alt="KISEM" style={{ height: 32, width: 32, objectFit: 'contain', borderRadius: 6 }} />
           <div style={{ textAlign: 'left' }}>
-            <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#f0f4ff', letterSpacing: '-0.01em' }}>KISEM</div>
+            <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#f0f4ff', letterSpacing: '-0.01em' }}>KISEM IITGN</div>
             <div style={{ fontSize: '0.625rem', color: 'rgba(240,244,255,0.5)', fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Annual Report 2025-26</div>
           </div>
         </button>
