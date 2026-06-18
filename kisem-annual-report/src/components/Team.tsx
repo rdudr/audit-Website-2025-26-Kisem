@@ -67,7 +67,7 @@ const AUDIT_TEAM = [
     title: 'B.E. Mechanical',
     email: 'loriyasagar.b@iitgn.ac.in',
     id: 'KISEM-ENG-04',
-    photo: '/team/Mr. Sagar Loriya.png'
+    photo: '/team/Mr. Sagar Loriya.jpg'
   },
   {
     name: 'Mr. Dhruvit Patel',
