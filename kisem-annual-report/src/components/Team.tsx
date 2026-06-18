@@ -11,7 +11,7 @@ const FACULTY_TEAM = [
     id: 'KISEM-FAC-01',
     photo: '/team/Dr. Naran Pindoriya.png',
     badgeText: 'Faculty Member 1',
-    badgeIcon: <GraduationCap size={12} className="security-icon" />
+    badgeIcon: <GraduationCap size={14} className="security-icon" />
   },
   {
     name: 'Dr. Chinmay Ghoroi',
@@ -21,7 +21,7 @@ const FACULTY_TEAM = [
     id: 'KISEM-FAC-02',
     photo: '/team/Dr. Chinmay Ghoroi.png',
     badgeText: 'Faculty Member 2',
-    badgeIcon: <GraduationCap size={12} className="security-icon" />
+    badgeIcon: <GraduationCap size={14} className="security-icon" />
   },
   {
     name: 'Mr. S. Rajendran',
@@ -31,7 +31,7 @@ const FACULTY_TEAM = [
     id: 'KISEM-FAC-03',
     photo: '/team/Mr. S. Rajendran.png',
     badgeText: 'Faculty Member 3',
-    badgeIcon: <GraduationCap size={12} className="security-icon" />
+    badgeIcon: <GraduationCap size={14} className="security-icon" />
   },
   {
     name: 'Dr. Atul Bhargav',
@@ -41,7 +41,7 @@ const FACULTY_TEAM = [
     id: 'KISEM-FAC-04',
     photo: '/team/Dr. Atul Bhargav.png',
     badgeText: 'Faculty Member 4',
-    badgeIcon: <GraduationCap size={12} className="security-icon" />
+    badgeIcon: <GraduationCap size={14} className="security-icon" />
   }
 ];
 
@@ -54,7 +54,7 @@ const AUDIT_TEAM = [
     id: 'KISEM-ENG-01',
     photo: '/team/Mr. Rahul Patel.png',
     badgeText: 'Lead Energy Auditor',
-    badgeIcon: <ClipboardCheck size={12} className="security-icon" />
+    badgeIcon: <ClipboardCheck size={14} className="security-icon" />
   },
   {
     name: 'Mr. Abhay Singh Maurya',
@@ -64,7 +64,7 @@ const AUDIT_TEAM = [
     id: 'KISEM-ENG-02',
     photo: '/team/Mr. Abhay Singh Maurya.jpg',
     badgeText: 'Energy Manager',
-    badgeIcon: <Gauge size={12} className="security-icon" />
+    badgeIcon: <Gauge size={14} className="security-icon" />
   },
   {
     name: 'Mr. Md Faizan',
@@ -74,7 +74,7 @@ const AUDIT_TEAM = [
     id: 'KISEM-ENG-03',
     photo: '/team/Md. Faizan.png',
     badgeText: 'Electrical Expert',
-    badgeIcon: <Zap size={12} className="security-icon" />
+    badgeIcon: <Zap size={14} className="security-icon" />
   },
   {
     name: 'Mr. Sagar Loriya',
@@ -84,7 +84,7 @@ const AUDIT_TEAM = [
     id: 'KISEM-ENG-04',
     photo: '/team/Mr. Sagar Loriya.jpg',
     badgeText: 'Thermal Expert',
-    badgeIcon: <Thermometer size={12} className="security-icon" />
+    badgeIcon: <Thermometer size={14} className="security-icon" />
   },
   {
     name: 'Mr. Dhruvit Patel',
@@ -94,7 +94,7 @@ const AUDIT_TEAM = [
     id: 'KISEM-ENG-05',
     photo: '/team/Dhruvit Patel.png',
     badgeText: 'Solar Expert',
-    badgeIcon: <Sun size={12} className="security-icon" />
+    badgeIcon: <Sun size={14} className="security-icon" />
   },
   {
     name: 'Mr. Rishabh Dangi',
@@ -104,7 +104,7 @@ const AUDIT_TEAM = [
     id: 'KISEM-ENG-06',
     photo: '/team/Mr. Rishabh Dangi.jpg',
     badgeText: 'AI Automation',
-    badgeIcon: <Cpu size={12} className="security-icon" />
+    badgeIcon: <Cpu size={14} className="security-icon" />
   }
 ];
 

@@ -122,24 +122,45 @@ const ReflectiveCard = ({
       <div className="reflective-sheen" />
       <div className="reflective-border" />
 
-      <div className="reflective-content">
-        <div className="card-header">
-          <div className="security-badge">
-            {badgeIcon || <Lock size={12} className="security-icon" />}
-            <span>{badgeText || 'SECURE ACCESS'}</span>
-          </div>
+      {/* Bookmark Cutout Backing for IITGN Logo */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        right: '24px',
+        width: '38px',
+        height: '52px',
+        filter: 'drop-shadow(0px 4px 6px rgba(0,0,0,0.45))',
+        zIndex: 30,
+        pointerEvents: 'none',
+      }}>
+        <div style={{
+          width: '100%',
+          height: '100%',
+          background: '#ffffff',
+          clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 50% 88%, 0% 100%)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingBottom: '6px',
+        }}>
           <img 
             src="/iitgn_Logo.png" 
             alt="IITGN Logo" 
-            className="status-icon" 
             style={{ 
-              width: '20px', 
-              height: '20px', 
-              objectFit: 'contain', 
-              opacity: 0.9,
-              filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))'
+              width: '26px', 
+              height: '26px', 
+              objectFit: 'contain',
             }} 
           />
+        </div>
+      </div>
+
+      <div className="reflective-content">
+        <div className="card-header" style={{ paddingRight: '48px' }}>
+          <div className="security-badge">
+            {badgeIcon || <Lock size={14} className="security-icon" />}
+            <span>{badgeText || 'SECURE ACCESS'}</span>
+          </div>
         </div>
 
         <div className="card-body">
