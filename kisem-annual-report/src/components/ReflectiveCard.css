@@ -39,10 +39,10 @@
   object-fit: cover;
   transform: scale(1.01);
 
-  filter: saturate(var(--saturation, 1)) contrast(100%) brightness(100%);
+  filter: none !important;
 
   z-index: 0;
-  opacity: 0.95;
+  opacity: 1 !important;
   transition: all 0.3s ease;
 }
 

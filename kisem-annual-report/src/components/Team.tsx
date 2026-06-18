@@ -148,7 +148,7 @@ export default function Team() {
                   idNumber={member.id}
                   photo={member.photo}
                   overlayColor="rgba(0, 229, 160, 0.04)"
-                  blurStrength={1}
+                  blurStrength={0}
                   glassDistortion={6}
                   metalness={0.8}
                   roughness={0.2}
@@ -209,7 +209,7 @@ export default function Team() {
                   idNumber={member.id}
                   photo={member.photo}
                   overlayColor="rgba(96, 165, 250, 0.04)"
-                  blurStrength={1}
+                  blurStrength={0}
                   glassDistortion={6}
                   metalness={0.8}
                   roughness={0.2}
