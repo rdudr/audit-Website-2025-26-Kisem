@@ -718,6 +718,14 @@
   color: #475569 !important;
 }
 
+/* Override bright green inline text for readability */
+.light-theme [style*="color:#00e5a0"],
+.light-theme [style*="color: #00e5a0"],
+.light-theme [style*="color: rgb(0, 229, 160)"],
+.light-theme [style*="color:rgb(0, 229, 160)"] {
+  color: #008a60 !important;
+}
+
 /* Redefine card, container, and button backgrounds inside light theme */
 .light-theme .kpi-card {
   background: #ffffff !important;

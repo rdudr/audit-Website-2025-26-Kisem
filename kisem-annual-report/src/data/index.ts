@@ -115,14 +115,98 @@ export const SCOPE_ITEMS = [
 
 // Instruments & capabilities
 export const INSTRUMENTS = [
-  { name: 'Power Quality Analyzer', brand: 'Fluke/Hioki', img: '🔌', desc: 'Real-time power, harmonics, PF measurement across all phases' },
-  { name: 'Thermal Camera', brand: 'FLIR Systems', img: '📷', desc: 'Infrared thermography for hotspot & insulation gap detection' },
-  { name: 'Flue Gas Analyzer', brand: 'Testo/Bacharach', img: '💨', desc: 'O₂, CO, CO₂, NOx, SOx combustion efficiency analysis' },
-  { name: 'Ultrasonic Flow Meter', brand: 'Endress+Hauser', img: '〰️', desc: 'Non-intrusive clamp-on flow measurement for liquids' },
-  { name: 'Acoustic Imager', brand: 'FLIR Si124', img: '🔊', desc: 'Compressed air & gas leak detection using acoustic imaging' },
-  { name: 'Solar Irradiance Meter', brand: 'Kipp & Zonen', img: '☀️', desc: 'GHI, DNI, DHI measurement for solar performance assessment' },
-  { name: 'GHG Dashboard', brand: 'KISEM Proprietary', img: '🌍', desc: 'Real-time Scope 1-3 emissions tracking and verification tool' },
-  { name: 'Lux Meter', brand: 'Extech/Sekonic', img: '💡', desc: 'Illuminance measurement for lighting retrofit analysis' },
+  {
+    name: 'Power Quality Analyzer',
+    brand: 'Hioki PQ3198, Krykard ALM-45/36/31/20',
+    img: '/instruments/Power Quality Study.png',
+    desc: [
+      'Class A, IEC 61000-4-30 standard compliance',
+      'Inter-harmonics measurement from 0.5th to 49.5 order',
+      'Super-harmonics detection from 2 kHz to 80 kHz',
+      'Captures transient voltage, current waveform peaks, and 1/2 RMS values',
+      'Swell, dip, interruption, and instantaneous flicker value monitoring',
+      'Inrush current, current RMS, and multi-interval frequency logging',
+      'Two-circuit measurement capability for inverter efficiency',
+      'High accuracy (DC: ±0.5% rdg. ±0.5% f.s. + sensor accuracy)'
+    ]
+  },
+  {
+    name: 'Thermal Imaging Camera',
+    brand: 'Testo T-883/T-872, Raytek RAYR3IPLUS, Fluke TC01A, HTC MTX2, IRX68',
+    img: '/instruments/Thermal Imager.png',
+    desc: [
+      'High-resolution infrared camera (320 × 240 pixels)',
+      'Non-contact measurement range from -30 °C to 650 °C',
+      'Professional reporting using Testo IR Soft analysis software',
+      'Laser marker and manual focus for pinpoint hot-spot targeting',
+      'Ideal for electrical panels, insulation checks, and mechanical systems',
+      'Perfect for quick diagnostics in MSME industries',
+      'Rugged, industrial-grade design & mobile phone compatible',
+      'Molten metal pyrometer up to 2000 °C with recording capabilities'
+    ]
+  },
+  {
+    name: 'Flue Gas Analyzer',
+    brand: 'Kane K988 (with 1250°C probe), K958',
+    img: '/instruments/Flue Gas Analysis.png',
+    desc: [
+      'Multi-Gas: Simultaneous detection of O₂, CO, CO₂, NO, NO₂, SO₂, H₂S, and HC gases',
+      'High-temperature stack measurement up to 1250 °C',
+      'Measures flue gas temperature, draft, and differential pressure',
+      'Computes combustion efficiency, excess air, and CO₂ percentage instantly',
+      'Data logging and real-time reporting for industrial boilers'
+    ]
+  },
+  {
+    name: 'Acoustic Leakage & Flow Detection',
+    brand: 'Testo LD Pro, VP Flow PN16, Lutron GS-5800, Wise 4, Extech RD300',
+    img: '/instruments/Acoustic Leakage Detection.png',
+    desc: [
+      'In-line demand & supply side compressed air and technical gas flow measurement',
+      'Shared air compressor flow measurements and diagnosis',
+      'Sensors for flow, pressure, and temperature (0 to 60 °C) with logging',
+      'Acoustic Imaging services for real-time compressed air leak rate detection',
+      'Complete system diagnosis of compressed air networks',
+      'Refrigerant Leakage: R-22, R-134a, R-404a, R-410a, and all CFCs, HCFCs, HFCs',
+      'LED selector display with high sensitivity of 0.25/0.50/0.99 oz per year'
+    ]
+  },
+  {
+    name: 'Detailed Solar PV Analysis',
+    brand: 'Solar DC Power Analyzer, Ambient Temp/Humidity Logger, Irradiance Meter',
+    img: '/instruments/Detailed Solar PV Analysis.png',
+    desc: [
+      'Module efficiency, Inverter efficiency, and Performance Ratio (PR)',
+      'Assessment of temperature losses, shading losses, and soiling losses (dust/dirt)',
+      'Mismatch, cable, and inverter efficiency loss evaluation',
+      'Tilt and orientation optimization for maximum solar utilization',
+      'Irradiance utilization efficiency and distribution/metering losses',
+      'Thermographic hot-spot assessment of solar modules',
+      'Inverter overloading performance and complete PV system troubleshooting'
+    ]
+  },
+  {
+    name: 'Ultrasonic Flow Meter',
+    brand: 'Endress+Hauser',
+    img: '/instruments/Fluid Flow Measurment.png',
+    desc: [
+      'Non-intrusive clamp-on flow measurement for liquids',
+      'Supports wide range of pipe sizes and materials without system shutdown',
+      'High-accuracy transit-time ultrasonic sensors with data logging'
+    ]
+  },
+  {
+    name: 'GHG Dashboard',
+    brand: 'KISEM Proprietary',
+    img: '🌍',
+    desc: 'Real-time Scope 1-3 emissions tracking and verification tool'
+  },
+  {
+    name: 'Lux Meter',
+    brand: 'Extech/Sekonic',
+    img: '💡',
+    desc: 'Illuminance measurement for lighting retrofit analysis'
+  }
 ];
 
 // Partners

@@ -50,15 +50,20 @@ export default function Instruments() {
                 width: 64,
                 height: 64,
                 borderRadius: 18,
-                background: 'linear-gradient(135deg, rgba(0,229,160,0.15), rgba(0,102,255,0.1))',
-                border: '1px solid rgba(0,229,160,0.2)',
+                background: inst.img.startsWith('/') ? 'none' : 'linear-gradient(135deg, rgba(0,229,160,0.15), rgba(0,102,255,0.1))',
+                border: inst.img.startsWith('/') ? 'none' : '1px solid rgba(0,229,160,0.2)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontSize: '1.875rem',
                 marginBottom: '1.25rem',
+                overflow: 'hidden',
               }}>
-                {inst.img}
+                {inst.img.startsWith('/') ? (
+                  <img src={inst.img} alt={inst.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                ) : (
+                  inst.img
+                )}
               </div>
 
               {/* Content */}
@@ -68,9 +73,17 @@ export default function Instruments() {
               <p style={{ fontSize: '0.75rem', color: '#00e5a0', fontWeight: 600, marginBottom: '0.75rem', letterSpacing: '0.04em' }}>
                 {inst.brand}
               </p>
-              <p style={{ fontSize: '0.8125rem', color: 'rgba(240,244,255,0.55)', lineHeight: 1.6 }}>
-                {inst.desc}
-              </p>
+              {Array.isArray(inst.desc) ? (
+                <ul style={{ paddingLeft: '1.1rem', listStyleType: 'disc', fontSize: '0.8125rem', color: 'rgba(240, 244, 255, 0.65)', lineHeight: 1.5 }}>
+                  {inst.desc.map((bullet, idx) => (
+                    <li key={idx} style={{ marginBottom: '0.35rem' }}>{bullet}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p style={{ fontSize: '0.8125rem', color: 'rgba(240,244,255,0.55)', lineHeight: 1.6 }}>
+                  {inst.desc}
+                </p>
+              )}
             </motion.div>
           ))}
         </div>
