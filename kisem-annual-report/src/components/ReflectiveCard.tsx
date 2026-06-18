@@ -1,6 +1,6 @@
 import React from 'react';
 import './ReflectiveCard.css';
-import { Activity, Lock } from 'lucide-react';
+import { Lock } from 'lucide-react';
 
 interface ReflectiveCardProps {
   blurStrength?: number;
@@ -128,7 +128,18 @@ const ReflectiveCard = ({
             {badgeIcon || <Lock size={12} className="security-icon" />}
             <span>{badgeText || 'SECURE ACCESS'}</span>
           </div>
-          <Activity className="status-icon" size={18} />
+          <img 
+            src="/iitgn_Logo.png" 
+            alt="IITGN Logo" 
+            className="status-icon" 
+            style={{ 
+              width: '20px', 
+              height: '20px', 
+              objectFit: 'contain', 
+              opacity: 0.9,
+              filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))'
+            }} 
+          />
         </div>
 
         <div className="card-body">
