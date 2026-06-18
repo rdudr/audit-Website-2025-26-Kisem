@@ -7,28 +7,32 @@ const FACULTY_TEAM = [
     role: 'Project Coordinator, IITGN-KISEM',
     title: 'Professor & Head, Electrical Engineering',
     email: 'naran@iitgn.ac.in',
-    id: 'KISEM-FAC-01'
+    id: 'KISEM-FAC-01',
+    photo: '/team/Dr. Naran Pindoriya.png'
   },
   {
     name: 'Dr. Chinmay Ghoroi',
     role: 'B. S. Gelot Chair Professor',
     title: 'Professor, Chemical Engineering',
     email: 'chinmayg@iitgn.ac.in',
-    id: 'KISEM-FAC-02'
+    id: 'KISEM-FAC-02',
+    photo: '/team/Dr. Chinmay Ghoroi.png'
   },
   {
     name: 'Mr. S. Rajendran',
     role: 'Associate Teaching Professor',
     title: 'Professor, Electrical Engineering',
     email: 'rajendran@iitgn.ac.in',
-    id: 'KISEM-FAC-03'
+    id: 'KISEM-FAC-03',
+    photo: '/team/Mr. S. Rajendran.png'
   },
   {
     name: 'Dr. Atul Bhargav',
     role: 'Professor',
     title: 'Professor, Mechanical Engineering',
     email: 'atul.bhargav@iitgn.ac.in',
-    id: 'KISEM-FAC-04'
+    id: 'KISEM-FAC-04',
+    photo: '/team/Dr. Atul Bhargav.png'
   }
 ];
 
@@ -38,42 +42,48 @@ const AUDIT_TEAM = [
     role: 'Project Manager-II',
     title: 'BEE CEA-30215, GHG Lead Verifier',
     email: 'rahuljayantibhai.p@iitgn.ac.in',
-    id: 'KISEM-ENG-01'
+    id: 'KISEM-ENG-01',
+    photo: '/team/Mr. Rahul Patel.png'
   },
   {
     name: 'Mr. Abhay Singh Maurya',
     role: 'Project Fellow',
     title: 'BEE CEM, M.Tech, EE',
     email: 'abhay.maurya@iitgn.ac.in',
-    id: 'KISEM-ENG-02'
+    id: 'KISEM-ENG-02',
+    photo: '/team/Mr. Abhay Singh Maurya.png'
   },
   {
     name: 'Mr. Md Faizan',
     role: 'Project Fellow',
     title: 'M.Tech, EE',
     email: 'md.faizan@iitgn.ac.in',
-    id: 'KISEM-ENG-03'
+    id: 'KISEM-ENG-03',
+    photo: '/team/Md. Faizan.png'
   },
   {
     name: 'Mr. Sagar Loriya',
     role: 'Project Assistant-III',
     title: 'B.E. Mechanical',
     email: 'loriyasagar.b@iitgn.ac.in',
-    id: 'KISEM-ENG-04'
+    id: 'KISEM-ENG-04',
+    photo: '/team/Mr. Sagar Loriya.png'
   },
   {
     name: 'Mr. Dhruvit Patel',
     role: 'Project Assistant-I',
     title: 'PGD Energy Management',
     email: 'dhruvit.patel@iitgn.ac.in',
-    id: 'KISEM-ENG-05'
+    id: 'KISEM-ENG-05',
+    photo: '/team/Mr. Dhruvit Patel.jpg'
   },
   {
     name: 'Mr. Rishabh Dangi',
     role: 'Project Assistant-I',
     title: 'B.E. Electrical',
     email: 'rishabh.dangi@iitgn.ac.in',
-    id: 'KISEM-ENG-06'
+    id: 'KISEM-ENG-06',
+    photo: '/team/Mr. Rishabh Dangi.jpg'
   }
 ];
 
@@ -136,15 +146,16 @@ export default function Team() {
                   role={member.role}
                   email={member.email}
                   idNumber={member.id}
+                  photo={member.photo}
                   overlayColor="rgba(0, 229, 160, 0.04)"
-                  blurStrength={8}
-                  glassDistortion={10}
-                  metalness={0.9}
-                  roughness={0.4}
-                  displacementStrength={15}
-                  noiseScale={1.2}
-                  specularConstant={1.5}
-                  grayscale={0.3}
+                  blurStrength={1}
+                  glassDistortion={6}
+                  metalness={0.8}
+                  roughness={0.2}
+                  displacementStrength={10}
+                  noiseScale={0.8}
+                  specularConstant={1.4}
+                  grayscale={0}
                   color="#ffffff"
                 />
               </motion.div>
@@ -196,15 +207,16 @@ export default function Team() {
                   role={member.role}
                   email={member.email}
                   idNumber={member.id}
+                  photo={member.photo}
                   overlayColor="rgba(96, 165, 250, 0.04)"
-                  blurStrength={8}
-                  glassDistortion={10}
-                  metalness={0.9}
-                  roughness={0.4}
-                  displacementStrength={15}
-                  noiseScale={1.2}
-                  specularConstant={1.5}
-                  grayscale={0.3}
+                  blurStrength={1}
+                  glassDistortion={6}
+                  metalness={0.8}
+                  roughness={0.2}
+                  displacementStrength={10}
+                  noiseScale={0.8}
+                  specularConstant={1.4}
+                  grayscale={0}
                   color="#ffffff"
                 />
               </motion.div>

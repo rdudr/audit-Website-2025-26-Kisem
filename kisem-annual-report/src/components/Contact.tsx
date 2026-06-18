@@ -14,10 +14,22 @@ export default function Contact() {
 
   return (
     <section id="contact" className="section-padding" style={{
-      background: 'linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-2) 100%)',
+      background: 'linear-gradient(180deg, #020818 0%, #0b1528 100%)',
       position: 'relative',
       overflow: 'hidden',
-    }}>
+      '--color-bg': '#020818',
+      '--color-bg-2': '#0b1528',
+      '--color-bg-3': '#0a1628',
+      '--color-surface': 'rgba(255, 255, 255, 0.04)',
+      '--color-surface-2': 'rgba(255, 255, 255, 0.08)',
+      '--color-text': '#ffffff',
+      '--color-text-2': 'rgba(255, 255, 255, 0.7)',
+      '--color-text-3': 'rgba(255, 255, 255, 0.45)',
+      '--color-border': 'rgba(255, 255, 255, 0.1)',
+      '--color-border-2': 'rgba(255, 255, 255, 0.06)',
+      '--glass-bg': 'rgba(255, 255, 255, 0.05)',
+      '--glass-border': 'rgba(255, 255, 255, 0.12)',
+    } as React.CSSProperties}>
       {/* Background elements */}
       <div className="glow-orb" style={{
         width: 700,
@@ -62,6 +74,8 @@ export default function Contact() {
               cta: 'Apply for Audit',
               color: '#00e5a0',
               primary: true,
+              href: 'https://docs.google.com/forms/d/e/1FAIpQLSfeadTKCwRTvHE4xfaucn2SZ8SN00jFp-2lOI_qiD4C9Jfziw/viewform',
+              target: '_blank',
             },
             {
               icon: '🤝',
@@ -70,6 +84,8 @@ export default function Contact() {
               cta: 'Explore Partnership',
               color: '#60a5fa',
               primary: false,
+              href: '#contact',
+              target: undefined,
             },
             {
               icon: '📄',
@@ -78,6 +94,8 @@ export default function Contact() {
               cta: 'Download PDF',
               color: '#f59e0b',
               primary: false,
+              href: '/KISEM-Annual-Report-2025-26.pdf',
+              target: '_blank',
             },
           ].map((card, i) => (
             <motion.div
@@ -99,12 +117,15 @@ export default function Contact() {
               <span style={{ fontSize: '2.5rem' }}>{card.icon}</span>
               <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--color-text)' }}>{card.title}</h3>
               <p style={{ fontSize: '0.875rem', color: 'var(--color-text-2)', lineHeight: 1.6, flex: 1 }}>{card.desc}</p>
-              <button
+              <a
+                href={card.href}
+                target={card.target}
+                rel={card.target ? "noopener noreferrer" : undefined}
                 className={card.primary ? 'btn-primary' : 'btn-glass'}
-                style={{ justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+                style={{ justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none' }}
               >
                 {card.cta} <ChevronRight size={14} />
-              </button>
+              </a>
             </motion.div>
           ))}
         </div>

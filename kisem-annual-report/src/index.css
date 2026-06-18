@@ -675,7 +675,7 @@
 
 /* Light Theme Variables and Overrides */
 .light-theme {
-  background-color: #ffffff !important;
+  background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 15%, #ecfdf5 35%, #f0f9ff 55%, #f5f3ff 75%, #fdf2f8 90%, #ffffff 100%) !important;
   color: #0f172a !important;
   
   --color-bg: #ffffff;

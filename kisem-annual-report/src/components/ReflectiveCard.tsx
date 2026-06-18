@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import './ReflectiveCard.css';
 import { Fingerprint, Activity, Lock } from 'lucide-react';
 
@@ -19,59 +19,28 @@ interface ReflectiveCardProps {
   role: string;
   email?: string;
   idNumber?: string;
+  photo?: string;
 }
 
 const ReflectiveCard = ({
-  blurStrength = 12,
+  blurStrength = 1,
   color = 'white',
   metalness = 1,
   roughness = 0.4,
   overlayColor = 'rgba(255, 255, 255, 0.1)',
-  displacementStrength = 20,
+  displacementStrength = 15,
   noiseScale = 1,
   specularConstant = 1.2,
-  grayscale = 1,
+  grayscale = 0.2,
   glassDistortion = 0,
   className = '',
   style = {},
   name,
   role,
   email,
-  idNumber
+  idNumber,
+  photo
 }: ReflectiveCardProps) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    let stream: MediaStream | null = null;
-
-    const startWebcam = async () => {
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            width: { ideal: 300 },
-            height: { ideal: 400 },
-            facingMode: 'user'
-          }
-        });
-
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      } catch (err) {
-        // Suppress or handle errors silently when webcam is blocked
-        console.warn('Webcam permission not granted or unavailable for ReflectiveCard:', err);
-      }
-    };
-
-    startWebcam();
-
-    return () => {
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-      }
-    };
-  }, []);
-
   const baseFrequency = 0.03 / Math.max(0.1, noiseScale);
   const saturation = 1 - Math.max(0, Math.min(1, grayscale));
 
@@ -134,7 +103,16 @@ const ReflectiveCard = ({
         </defs>
       </svg>
 
-      <video ref={videoRef} autoPlay playsInline muted className="reflective-video" />
+      {photo ? (
+        <img src={photo} alt={name} className="reflective-photo" />
+      ) : (
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(135deg, #1f2937, #111827)',
+          zIndex: 0
+        }} />
+      )}
 
       <div className="reflective-noise" />
       <div className="reflective-sheen" />

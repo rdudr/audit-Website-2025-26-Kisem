@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 import { data, formatCrore, formatNumber, formatTonne } from '../data';
-import Beams from './Beams';
 
 interface KpiItem {
   label: string;
@@ -207,21 +206,6 @@ export default function YearInNumbers() {
 
   return (
     <section id="kpi" className="section-padding" style={{ position: 'relative', overflow: 'hidden' }}>
-      {/* Beams Background */}
-      <div style={{ position: 'absolute', inset: 0, zIndex: 0, opacity: 0.25, pointerEvents: 'none' }}>
-        <Beams
-          beamWidth={2}
-          beamHeight={16}
-          beamNumber={10}
-          lightColor="#00e5a0"
-          speed={1.5}
-          noiseIntensity={1.2}
-          scale={0.15}
-          rotation={-20}
-          backgroundColor="#ffffff"
-        />
-      </div>
-
       {/* Background glow */}
       <div className="glow-orb" style={{
         width: 600,
