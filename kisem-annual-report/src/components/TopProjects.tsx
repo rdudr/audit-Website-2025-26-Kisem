@@ -169,18 +169,34 @@ export default function TopProjects() {
 
         {/* Show more / Toggle button */}
         {sorted.length > 10 && (
-          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+          <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
             <button
               onClick={() => setShowAll(!showAll)}
-              className="btn-glass"
+              className="btn-primary"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
                 cursor: 'pointer',
+                background: 'linear-gradient(135deg, #00e5a0 0%, #0066ff 100%)',
+                color: '#ffffff',
+                border: 'none',
+                boxShadow: '0 4px 15px rgba(0, 229, 160, 0.3)',
+                padding: '0.75rem 1.75rem',
+                borderRadius: 100,
+                fontWeight: 600,
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 102, 255, 0.4)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'none';
+                e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 229, 160, 0.3)';
               }}
             >
-              <span>Implementation Plan</span>
+              <span>{showAll ? 'Show Less' : 'Show More all 60 Audits'}</span>
               <ChevronDown
                 size={16}
                 style={{
