@@ -36,8 +36,8 @@ export default function Navbar() {
         style={{
           position: 'fixed',
           top: 16,
-          left: scrolled ? '1.5rem' : '50%',
-          transform: scrolled ? 'none' : 'translateX(-50%)',
+          left: scrolled ? 'calc(100% - 1.5rem)' : '50%',
+          transform: scrolled ? 'translateX(-100%)' : 'translateX(-50%)',
           zIndex: 400,
           width: scrolled ? 'auto' : 'calc(100% - 2rem)',
           maxWidth: scrolled ? '95%' : 1200,
