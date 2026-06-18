@@ -153,8 +153,8 @@
       "fy": "FY22-23",
       "auditNumber": "22-23/3",
       "companyName": "Jay Ambe Himghar pvt Ltd",
-      "location": "Dehgam, Gandhinaagar",
-      "district": "Gandhinaagar",
+      "location": "Dehgam, Gandhinagar",
+      "district": "Gandhinagar",
       "sector": "Cold Storage",
       "product": "Cold Storage",
       "auditDate": "2022-11-18",
@@ -2016,7 +2016,7 @@
       "auditNumber": "25-26/8",
       "companyName": "Salet Seafoods Pvt. Ltd",
       "location": "PLOT NO.38 TO 40, GIDC, AT -VANANA, TAL. RANAVAV VANANA, Porbandar. Gujarat",
-      "district": "",
+      "district": "Porbandar",
       "sector": "Sea Food",
       "product": "Fish Product",
       "auditDate": "2025-12-19",
@@ -2043,8 +2043,8 @@
       "actualEnergyCostSavingsInr": 1926484,
       "actualCo2ReductionTonnes": 58.440636,
       "coordinates": {
-        "lat": 23.012689682303467,
-        "lng": 72.57378223549937
+        "lat": 21.6434,
+        "lng": 69.6063
       },
       "implementationPct": 33
     },
@@ -2054,7 +2054,7 @@
       "auditNumber": "25-26/9",
       "companyName": "JP Kachiwala",
       "location": "Gujarat Eco Textile Park, A-36, N H:48, near palsana, Chokdi, Palsana, Gujarat 394315",
-      "district": "",
+      "district": "Surat",
       "sector": "Textile",
       "product": "Plyster Fabric",
       "auditDate": "2026-01-05",
@@ -2081,8 +2081,8 @@
       "actualEnergyCostSavingsInr": 3023382,
       "actualCo2ReductionTonnes": 880.646932,
       "coordinates": {
-        "lat": 23.00017318962949,
-        "lng": 72.57256069327165
+        "lat": 21.1631,
+        "lng": 72.8459
       },
       "implementationPct": 44
     },
@@ -2092,7 +2092,7 @@
       "auditNumber": "25-26/10",
       "companyName": "Rangoli Plywood",
       "location": "Survey No. 416, 1&2, Village, Chopadva, Bhachau, Gujarat 370140",
-      "district": "",
+      "district": "Gandhidham",
       "sector": "Timber",
       "product": "Plywood",
       "auditDate": "2026-01-28",
@@ -2119,8 +2119,8 @@
       "actualEnergyCostSavingsInr": 851643,
       "actualCo2ReductionTonnes": 46,
       "coordinates": {
-        "lat": 23.03691082511068,
-        "lng": 72.5812743080794
+        "lat": 23.0712,
+        "lng": 70.1505
       },
       "implementationPct": 43
     },
@@ -2130,7 +2130,7 @@
       "auditNumber": "25-26/11",
       "companyName": "Vasu Ice Factory",
       "location": "Plot No.:242, Dharampur GIDC, Porbandar, Gujarat-360577",
-      "district": "",
+      "district": "Porbandar",
       "sector": "Industrial Ice",
       "product": "Ice",
       "auditDate": "2025-10-12",
@@ -2157,8 +2157,8 @@
       "actualEnergyCostSavingsInr": 1873892,
       "actualCo2ReductionTonnes": 158.9,
       "coordinates": {
-        "lat": 23.006676584094276,
-        "lng": 72.58005810625559
+        "lat": 21.6455,
+        "lng": 69.612
       },
       "implementationPct": 92
     },
@@ -2168,7 +2168,7 @@
       "auditNumber": "25-26/12",
       "companyName": "Ramdev Cold Storage",
       "location": "Sabarkata, Gujarat",
-      "district": "",
+      "district": "Sbarkantha",
       "sector": "Cold Storage",
       "product": "Potato",
       "auditDate": "2026-02-25",
@@ -2195,8 +2195,8 @@
       "actualEnergyCostSavingsInr": 249013,
       "actualCo2ReductionTonnes": 8.130896,
       "coordinates": {
-        "lat": 23.030981944579626,
-        "lng": 72.55892148913091
+        "lat": 23.965,
+        "lng": 73.072
       },
       "implementationPct": 36
     },
@@ -2206,7 +2206,7 @@
       "auditNumber": "25-26/13",
       "companyName": "Prayosha Cold Stroage",
       "location": "Modasa, Sabarkatha",
-      "district": "",
+      "district": "Aravalli",
       "sector": "Cold Storage",
       "product": "Potato",
       "auditDate": "2026-02-21",
@@ -2233,8 +2233,8 @@
       "actualEnergyCostSavingsInr": 181419,
       "actualCo2ReductionTonnes": 5.1552,
       "coordinates": {
-        "lat": 23.004779937300054,
-        "lng": 72.59144787633166
+        "lat": 23.518,
+        "lng": 73.008
       },
       "implementationPct": 36
     },
@@ -2244,7 +2244,7 @@
       "auditNumber": "25-26/14",
       "companyName": "Par Drug and Chemical",
       "location": "333/1, GIDC Industrial Estate, Phase II, Chitra, Bhavnagar - 364004, Gujarat",
-      "district": "",
+      "district": "Bhavnagar",
       "sector": "Pharma",
       "product": "API",
       "auditDate": "2026-03-09",
@@ -2271,8 +2271,8 @@
       "actualEnergyCostSavingsInr": 1137594,
       "actualCo2ReductionTonnes": 100.24,
       "coordinates": {
-        "lat": 23.02134230927438,
-        "lng": 72.57589985889116
+        "lat": 21.785,
+        "lng": 72.138
       },
       "implementationPct": 17
     },
@@ -2282,7 +2282,7 @@
       "auditNumber": "25-26/15",
       "companyName": "Valient Organic",
       "location": "Plot No. A-1-210, 231, 232, 233, 235, 236, GIDC Estate, Phase 2, Beside The Green Environment Services Co-Op. Soc. Ltd., Vatva, Ahmedabad - 382445,",
-      "district": "",
+      "district": "Ahmedabad",
       "sector": "Chemical",
       "product": "Chemical",
       "auditDate": "2026-02-09",
@@ -2309,8 +2309,8 @@
       "actualEnergyCostSavingsInr": 928226,
       "actualCo2ReductionTonnes": 199,
       "coordinates": {
-        "lat": 23.012428463880635,
-        "lng": 72.59149897375367
+        "lat": 23.0124,
+        "lng": 72.5915
       },
       "implementationPct": 10
     },
@@ -2320,7 +2320,7 @@
       "auditNumber": "25-26/16",
       "companyName": "Sezon Paper Mill",
       "location": " 8-A, National Higway, Survey No-156, P-1, Lakhdhirpur Road, At, Kalikanagar, Morbi, Gujarat 363641",
-      "district": "",
+      "district": "Morbi",
       "sector": "Paper",
       "product": "Paper Craft",
       "auditDate": "2026-03-16",
@@ -2347,8 +2347,8 @@
       "actualEnergyCostSavingsInr": 0,
       "actualCo2ReductionTonnes": 0,
       "coordinates": {
-        "lat": 23.044877600336562,
-        "lng": 72.56362600041618
+        "lat": 22.8355,
+        "lng": 70.854
       },
       "implementationPct": 0
     }

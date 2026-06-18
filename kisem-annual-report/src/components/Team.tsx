@@ -92,7 +92,7 @@ const AUDIT_TEAM = [
     title: 'PGD Energy Management',
     email: 'dhruvit.patel@iitgn.ac.in',
     id: 'KISEM-ENG-05',
-    photo: '/team/Mr. Dhruvit Patel.jpg',
+    photo: '/team/Dhruvit Patel.png',
     badgeText: 'Solar Expert',
     badgeIcon: <Sun size={12} className="security-icon" />
   },
