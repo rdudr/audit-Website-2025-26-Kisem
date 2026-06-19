@@ -163,9 +163,36 @@ function parseAuditSheet(sheetName, fy) {
     const auditNo = data[ROW.AUDIT_NO] ? data[ROW.AUDIT_NO][col] : null;
     if (!auditNo) continue;
     
-    const district = data[ROW.DISTRICT] ? data[ROW.DISTRICT][col] : null;
+    let districtVal = data[ROW.DISTRICT] ? data[ROW.DISTRICT][col] : null;
+    let district = districtVal ? String(districtVal).trim() : '';
+
+    if (district.toLowerCase() === 'gandhinaagar') {
+      district = 'Gandhinagar';
+    }
+
+    if (!district) {
+      const loc = data[ROW.LOCATION] ? String(data[ROW.LOCATION][col]).toLowerCase() : '';
+      if (loc.includes('porbandar')) {
+        district = 'Porbandar';
+      } else if (loc.includes('palsana') || loc.includes('surat')) {
+        district = 'Surat';
+      } else if (loc.includes('bhachau') || loc.includes('gandhidham') || loc.includes('kutch')) {
+        district = 'Gandhidham';
+      } else if (loc.includes('morbi')) {
+        district = 'Morbi';
+      } else if (loc.includes('sabarkata') || loc.includes('sabarkantha')) {
+        district = 'Sbarkantha';
+      } else if (loc.includes('modasa') || loc.includes('aravalli') || loc.includes('sabarkatha')) {
+        district = 'Aravalli';
+      } else if (loc.includes('bhavnagar')) {
+        district = 'Bhavnagar';
+      } else if (loc.includes('vatva') || loc.includes('ahmedabad')) {
+        district = 'Ahmedabad';
+      }
+    }
+
     const sector = normalizeSector(data[ROW.SECTOR] ? data[ROW.SECTOR][col] : null);
-    const coords = getCoords(district ? String(district).trim() : '');
+    const coords = getCoords(district);
     
     // Add slight random offset so markers don't overlap
     const jitter = () => (Math.random() - 0.5) * 0.05;
@@ -176,7 +203,7 @@ function parseAuditSheet(sheetName, fy) {
       auditNumber: String(auditNo),
       companyName: data[ROW.INDUSTRY_NAME] ? data[ROW.INDUSTRY_NAME][col] || '' : '',
       location: data[ROW.LOCATION] ? data[ROW.LOCATION][col] || '' : '',
-      district: district ? String(district).trim() : '',
+      district: district,
       sector,
       product: data[ROW.PRODUCT] ? data[ROW.PRODUCT][col] || '' : '',
       auditDate: parseDate(data[ROW.AUDIT_DATE] ? data[ROW.AUDIT_DATE][col] : null),

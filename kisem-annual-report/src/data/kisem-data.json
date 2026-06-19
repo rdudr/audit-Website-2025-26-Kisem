@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-17T07:52:00.405Z",
+  "generated": "2026-06-19T05:35:25.969Z",
   "grandTotals": {
     "totalAudits": 60,
     "totalPaidAudits": 5,
@@ -105,8 +105,8 @@
       "actualEnergyCostSavingsInr": 12006566,
       "actualCo2ReductionTonnes": 2011.4,
       "coordinates": {
-        "lat": 23.019277160499968,
-        "lng": 72.59278706872774
+        "lat": 22.999073662466433,
+        "lng": 72.59179869479982
       },
       "implementationPct": 53
     },
@@ -143,8 +143,8 @@
       "actualEnergyCostSavingsInr": 1619133,
       "actualCo2ReductionTonnes": 265,
       "coordinates": {
-        "lat": 23.960540970952586,
-        "lng": 73.07036997114065
+        "lat": 23.963240712293846,
+        "lng": 73.06529607920488
       },
       "implementationPct": 46
     },
@@ -153,7 +153,7 @@
       "fy": "FY22-23",
       "auditNumber": "22-23/3",
       "companyName": "Jay Ambe Himghar pvt Ltd",
-      "location": "Dehgam, Gandhinagar",
+      "location": "Dehgam, Gandhinaagar",
       "district": "Gandhinagar",
       "sector": "Cold Storage",
       "product": "Cold Storage",
@@ -181,8 +181,8 @@
       "actualEnergyCostSavingsInr": 264527,
       "actualCo2ReductionTonnes": 29.9,
       "coordinates": {
-        "lat": 22.236678735706906,
-        "lng": 71.1709505590297
+        "lat": 23.198894826685173,
+        "lng": 72.61596578744239
       },
       "implementationPct": 38
     },
@@ -219,8 +219,8 @@
       "actualEnergyCostSavingsInr": 0,
       "actualCo2ReductionTonnes": 0,
       "coordinates": {
-        "lat": 23.03209231062892,
-        "lng": 72.57228456365539
+        "lat": 23.031707263997546,
+        "lng": 72.5517467132287
       },
       "implementationPct": 50
     },
@@ -257,8 +257,8 @@
       "actualEnergyCostSavingsInr": 1544498,
       "actualCo2ReductionTonnes": 106,
       "coordinates": {
-        "lat": 23.012339586577838,
-        "lng": 72.55779019106457
+        "lat": 23.04222092578043,
+        "lng": 72.5852050033062
       },
       "implementationPct": 25
     },
@@ -295,8 +295,8 @@
       "actualEnergyCostSavingsInr": 288362,
       "actualCo2ReductionTonnes": 5.4,
       "coordinates": {
-        "lat": 23.013030021445775,
-        "lng": 72.58805991918695
+        "lat": 23.014916527762068,
+        "lng": 72.59313349523842
       },
       "implementationPct": 67
     },
@@ -333,8 +333,8 @@
       "actualEnergyCostSavingsInr": 2346921,
       "actualCo2ReductionTonnes": 206.00751,
       "coordinates": {
-        "lat": 23.01230756888915,
-        "lng": 72.5713285750381
+        "lat": 23.00558086169903,
+        "lng": 72.58089997582307
       },
       "implementationPct": 55
     },
@@ -371,8 +371,8 @@
       "actualEnergyCostSavingsInr": 6817440,
       "actualCo2ReductionTonnes": 643.5182,
       "coordinates": {
-        "lat": 21.68182449491572,
-        "lng": 72.98664266049832
+        "lat": 21.722957940554952,
+        "lng": 72.98444056705304
       },
       "implementationPct": 33
     },
@@ -409,8 +409,8 @@
       "actualEnergyCostSavingsInr": 307945,
       "actualCo2ReductionTonnes": 22.18,
       "coordinates": {
-        "lat": 23.207236121584728,
-        "lng": 72.65514246553748
+        "lat": 23.240510935054335,
+        "lng": 72.64648029655356
       },
       "implementationPct": 36
     },
@@ -447,8 +447,8 @@
       "actualEnergyCostSavingsInr": 87345,
       "actualCo2ReductionTonnes": 9.20034,
       "coordinates": {
-        "lat": 23.519148693673593,
-        "lng": 73.01201033353573
+        "lat": 23.523230195628397,
+        "lng": 73.01687525476225
       },
       "implementationPct": 50
     },
@@ -485,8 +485,8 @@
       "actualEnergyCostSavingsInr": 67080,
       "actualCo2ReductionTonnes": 7.06576,
       "coordinates": {
-        "lat": 23.51609050242346,
-        "lng": 72.98360363959428
+        "lat": 23.50529879474429,
+        "lng": 72.99435531790706
       },
       "implementationPct": 80
     },
@@ -523,8 +523,8 @@
       "actualEnergyCostSavingsInr": 39690,
       "actualCo2ReductionTonnes": 9.438130000000001,
       "coordinates": {
-        "lat": 23.490809046963246,
-        "lng": 73.00450996938608
+        "lat": 23.51635057865231,
+        "lng": 73.03022251765586
       },
       "implementationPct": 50
     },
@@ -561,8 +561,8 @@
       "actualEnergyCostSavingsInr": 1144502,
       "actualCo2ReductionTonnes": 254.9829,
       "coordinates": {
-        "lat": 23.043944646385228,
-        "lng": 72.55211068239451
+        "lat": 23.037366021527973,
+        "lng": 72.57970300822657
       },
       "implementationPct": 67
     },
@@ -599,8 +599,8 @@
       "actualEnergyCostSavingsInr": 358281,
       "actualCo2ReductionTonnes": 12.61,
       "coordinates": {
-        "lat": 23.046969554744265,
-        "lng": 72.56233622383391
+        "lat": 23.02865276678285,
+        "lng": 72.58198885760626
       },
       "implementationPct": 57
     },
@@ -637,8 +637,8 @@
       "actualEnergyCostSavingsInr": 713314,
       "actualCo2ReductionTonnes": 429,
       "coordinates": {
-        "lat": 23.033686939980868,
-        "lng": 72.55276003483681
+        "lat": 23.044791856156337,
+        "lng": 72.5771813099015
       },
       "implementationPct": 80
     },
@@ -675,8 +675,8 @@
       "actualEnergyCostSavingsInr": 3656770,
       "actualCo2ReductionTonnes": 842.4590000000001,
       "coordinates": {
-        "lat": 21.166505995917714,
-        "lng": 72.81830046551765
+        "lat": 21.188619001669633,
+        "lng": 72.85329818053857
       },
       "implementationPct": 75
     },
@@ -713,8 +713,8 @@
       "actualEnergyCostSavingsInr": 26811,
       "actualCo2ReductionTonnes": 2.03,
       "coordinates": {
-        "lat": 21.149547421348508,
-        "lng": 72.82847935873274
+        "lat": 21.186249408860814,
+        "lng": 72.80725318387802
       },
       "implementationPct": 44
     },
@@ -751,8 +751,8 @@
       "actualEnergyCostSavingsInr": 138771,
       "actualCo2ReductionTonnes": 12.92756,
       "coordinates": {
-        "lat": 21.149805337680842,
-        "lng": 72.80728684403306
+        "lat": 21.147953000562715,
+        "lng": 72.83459248410479
       },
       "implementationPct": 89
     },
@@ -789,8 +789,8 @@
       "actualEnergyCostSavingsInr": 5329344,
       "actualCo2ReductionTonnes": 834.58911,
       "coordinates": {
-        "lat": 21.70724161042685,
-        "lng": 72.99270631689855
+        "lat": 21.682471922597866,
+        "lng": 73.01153477101244
       },
       "implementationPct": 62
     },
@@ -827,8 +827,8 @@
       "actualEnergyCostSavingsInr": 15308822,
       "actualCo2ReductionTonnes": 2822.4634499999997,
       "coordinates": {
-        "lat": 22.8347287478436,
-        "lng": 70.85288949684954
+        "lat": 22.81486544300491,
+        "lng": 70.82646189065126
       },
       "implementationPct": 63
     },
@@ -865,8 +865,8 @@
       "actualEnergyCostSavingsInr": 10113734,
       "actualCo2ReductionTonnes": 2559.4086599999996,
       "coordinates": {
-        "lat": 20.3611201581715,
-        "lng": 72.90009297696048
+        "lat": 20.382692517929,
+        "lng": 72.9241213165035
       },
       "implementationPct": 57
     },
@@ -903,8 +903,8 @@
       "actualEnergyCostSavingsInr": 163257,
       "actualCo2ReductionTonnes": 13.50505,
       "coordinates": {
-        "lat": 23.225643876943433,
-        "lng": 72.62705750645354
+        "lat": 23.221826872534223,
+        "lng": 72.62791095900302
       },
       "implementationPct": 85
     },
@@ -941,8 +941,8 @@
       "actualEnergyCostSavingsInr": 75169,
       "actualCo2ReductionTonnes": 3.1521,
       "coordinates": {
-        "lat": 23.03745911000245,
-        "lng": 72.56746637309337
+        "lat": 23.030529826893922,
+        "lng": 72.56678534024562
       },
       "implementationPct": 29
     },
@@ -979,8 +979,8 @@
       "actualEnergyCostSavingsInr": 4332472,
       "actualCo2ReductionTonnes": 1405.525024,
       "coordinates": {
-        "lat": 23.06622401840722,
-        "lng": 70.14531046328871
+        "lat": 23.075783097211232,
+        "lng": 70.12866245710353
       },
       "implementationPct": 56
     },
@@ -1017,8 +1017,8 @@
       "actualEnergyCostSavingsInr": 198897,
       "actualCo2ReductionTonnes": 16.95024,
       "coordinates": {
-        "lat": 21.650549759579793,
-        "lng": 69.61346838778182
+        "lat": 21.627391284084275,
+        "lng": 69.60980399601111
       },
       "implementationPct": 8
     },
@@ -1055,8 +1055,8 @@
       "actualEnergyCostSavingsInr": 312000,
       "actualCo2ReductionTonnes": 0,
       "coordinates": {
-        "lat": 21.650027628139323,
-        "lng": 69.61926279111145
+        "lat": 21.631576862771784,
+        "lng": 69.64300042315976
       },
       "implementationPct": 9
     },
@@ -1093,8 +1093,8 @@
       "actualEnergyCostSavingsInr": 510716,
       "actualCo2ReductionTonnes": 28.946447999999997,
       "coordinates": {
-        "lat": 20.89986858154269,
-        "lng": 70.37512171418473
+        "lat": 20.891231547485507,
+        "lng": 70.36458396531972
       },
       "implementationPct": 13
     },
@@ -1131,8 +1131,8 @@
       "actualEnergyCostSavingsInr": 420912,
       "actualCo2ReductionTonnes": 29.036664,
       "coordinates": {
-        "lat": 22.28053729786159,
-        "lng": 70.81014392934092
+        "lat": 22.303194212031716,
+        "lng": 70.7930705560291
       },
       "implementationPct": 43
     },
@@ -1169,8 +1169,8 @@
       "actualEnergyCostSavingsInr": 0,
       "actualCo2ReductionTonnes": 0,
       "coordinates": {
-        "lat": 21.687473377798508,
-        "lng": 72.97438708398442
+        "lat": 21.709989259956995,
+        "lng": 72.97641544326491
       },
       "implementationPct": 0
     },
@@ -1207,8 +1207,8 @@
       "actualEnergyCostSavingsInr": 3844000,
       "actualCo2ReductionTonnes": 277.228792,
       "coordinates": {
-        "lat": 24.570298814939033,
-        "lng": 72.69877796654522
+        "lat": 24.60760608960842,
+        "lng": 72.68632719667887
       },
       "implementationPct": 67
     },
@@ -1245,8 +1245,8 @@
       "actualEnergyCostSavingsInr": 516807,
       "actualCo2ReductionTonnes": 41.696976,
       "coordinates": {
-        "lat": 23.225010249773554,
-        "lng": 72.61825870548188
+        "lat": 23.222204137923786,
+        "lng": 72.62169529925274
       },
       "implementationPct": 63
     },
@@ -1283,8 +1283,8 @@
       "actualEnergyCostSavingsInr": 5201822,
       "actualCo2ReductionTonnes": 1676.065236,
       "coordinates": {
-        "lat": 21.189084363399424,
-        "lng": 72.82699566389935
+        "lat": 21.15119658222103,
+        "lng": 72.83927203235949
       },
       "implementationPct": 75
     },
@@ -1321,8 +1321,8 @@
       "actualEnergyCostSavingsInr": 210000,
       "actualCo2ReductionTonnes": 55.26978,
       "coordinates": {
-        "lat": 23.600899503391236,
-        "lng": 72.3777266957122
+        "lat": 23.606018063234675,
+        "lng": 72.35059698987705
       },
       "implementationPct": 40
     },
@@ -1359,8 +1359,8 @@
       "actualEnergyCostSavingsInr": 1143898,
       "actualCo2ReductionTonnes": 96.811792,
       "coordinates": {
-        "lat": 23.02861203290516,
-        "lng": 72.56965464644222
+        "lat": 23.01541620049101,
+        "lng": 72.57088347822904
       },
       "implementationPct": 57
     },
@@ -1397,8 +1397,8 @@
       "actualEnergyCostSavingsInr": 452652,
       "actualCo2ReductionTonnes": 36.66278,
       "coordinates": {
-        "lat": 23.233919166953758,
-        "lng": 72.63763977208403
+        "lat": 23.232735029690215,
+        "lng": 72.61798052438476
       },
       "implementationPct": 20
     },
@@ -1435,8 +1435,8 @@
       "actualEnergyCostSavingsInr": 4271757,
       "actualCo2ReductionTonnes": 113.69363999999999,
       "coordinates": {
-        "lat": 23.218652024953883,
-        "lng": 72.61284640275215
+        "lat": 23.193552431317617,
+        "lng": 72.66080432307436
       },
       "implementationPct": 50
     },
@@ -1473,8 +1473,8 @@
       "actualEnergyCostSavingsInr": 60034,
       "actualCo2ReductionTonnes": 42.984344,
       "coordinates": {
-        "lat": 23.206195214176624,
-        "lng": 72.63044066899805
+        "lat": 23.194907692578028,
+        "lng": 72.61734189195364
       },
       "implementationPct": 55
     },
@@ -1511,8 +1511,8 @@
       "actualEnergyCostSavingsInr": 1544597,
       "actualCo2ReductionTonnes": 121.530976,
       "coordinates": {
-        "lat": 21.64922771924598,
-        "lng": 69.60567084125051
+        "lat": 21.640490171465647,
+        "lng": 69.63440509592003
       },
       "implementationPct": 44
     },
@@ -1549,8 +1549,8 @@
       "actualEnergyCostSavingsInr": 1397757,
       "actualCo2ReductionTonnes": 112.57524799999999,
       "coordinates": {
-        "lat": 23.024165038825764,
-        "lng": 72.5682096666075
+        "lat": 23.04496986070885,
+        "lng": 72.56262261540392
       },
       "implementationPct": 25
     },
@@ -1587,8 +1587,8 @@
       "actualEnergyCostSavingsInr": 3172026,
       "actualCo2ReductionTonnes": 810.81916,
       "coordinates": {
-        "lat": 20.349964247275487,
-        "lng": 72.92196779899074
+        "lat": 20.398011434800395,
+        "lng": 72.90750471667195
       },
       "implementationPct": 27
     },
@@ -1625,8 +1625,8 @@
       "actualEnergyCostSavingsInr": 1926300,
       "actualCo2ReductionTonnes": 424.1,
       "coordinates": {
-        "lat": 20.385263866017016,
-        "lng": 72.84066966826859
+        "lat": 20.39970460726318,
+        "lng": 72.81170353849889
       },
       "implementationPct": 50
     },
@@ -1663,8 +1663,8 @@
       "actualEnergyCostSavingsInr": 2653264,
       "actualCo2ReductionTonnes": 612.366816,
       "coordinates": {
-        "lat": 23.015799857996274,
-        "lng": 72.59183287226467
+        "lat": 23.024291686218067,
+        "lng": 72.57362114365452
       },
       "implementationPct": 50
     },
@@ -1701,8 +1701,8 @@
       "actualEnergyCostSavingsInr": 339900,
       "actualCo2ReductionTonnes": 27.526619999999998,
       "coordinates": {
-        "lat": 23.213550755075577,
-        "lng": 72.6514937343979
+        "lat": 23.205325853714328,
+        "lng": 72.64825602877755
       },
       "implementationPct": 82
     },
@@ -1739,8 +1739,8 @@
       "actualEnergyCostSavingsInr": 356046,
       "actualCo2ReductionTonnes": 29.403972,
       "coordinates": {
-        "lat": 21.789388886518996,
-        "lng": 72.13408742648848
+        "lat": 21.752267932939347,
+        "lng": 72.16558374967609
       },
       "implementationPct": 22
     },
@@ -1777,8 +1777,8 @@
       "actualEnergyCostSavingsInr": 1341639,
       "actualCo2ReductionTonnes": 124.61765199999999,
       "coordinates": {
-        "lat": 23.567188536452736,
-        "lng": 72.38995406348582
+        "lat": 23.575887774563274,
+        "lng": 72.38617789153308
       },
       "implementationPct": 44
     },
@@ -1815,8 +1815,8 @@
       "actualEnergyCostSavingsInr": 303232,
       "actualCo2ReductionTonnes": 25.846884,
       "coordinates": {
-        "lat": 23.606099982300393,
-        "lng": 72.34507641734187
+        "lat": 23.572749094547845,
+        "lng": 72.3578266103492
       },
       "implementationPct": 40
     },
@@ -1853,8 +1853,8 @@
       "actualEnergyCostSavingsInr": 1182561,
       "actualCo2ReductionTonnes": 97.063108,
       "coordinates": {
-        "lat": 23.03857237488785,
-        "lng": 72.58216349259023
+        "lat": 22.99771797692664,
+        "lng": 72.55872382346107
       },
       "implementationPct": 33
     },
@@ -1891,8 +1891,8 @@
       "actualEnergyCostSavingsInr": 0,
       "actualCo2ReductionTonnes": 0,
       "coordinates": {
-        "lat": 21.907043440832638,
-        "lng": 71.65445178368614
+        "lat": 21.904643053440637,
+        "lng": 71.67074152350625
       },
       "implementationPct": 0
     },
@@ -1929,8 +1929,8 @@
       "actualEnergyCostSavingsInr": 1420000,
       "actualCo2ReductionTonnes": 212.875724,
       "coordinates": {
-        "lat": 21.16306407940234,
-        "lng": 72.84585794801323
+        "lat": 21.170135686284162,
+        "lng": 72.85425582098802
       },
       "implementationPct": 64
     },
@@ -1967,8 +1967,8 @@
       "actualEnergyCostSavingsInr": 899757,
       "actualCo2ReductionTonnes": 80.908716,
       "coordinates": {
-        "lat": 21.711749066203875,
-        "lng": 72.9833723871791
+        "lat": 21.704503196336514,
+        "lng": 72.98059473560949
       },
       "implementationPct": 31
     },
@@ -2005,8 +2005,8 @@
       "actualEnergyCostSavingsInr": 419640,
       "actualCo2ReductionTonnes": 25.155227999999997,
       "coordinates": {
-        "lat": 21.643435204951803,
-        "lng": 69.6063352467271
+        "lat": 21.649564933579395,
+        "lng": 69.63018288852447
       },
       "implementationPct": 29
     },
@@ -2043,8 +2043,8 @@
       "actualEnergyCostSavingsInr": 1926484,
       "actualCo2ReductionTonnes": 58.440636,
       "coordinates": {
-        "lat": 21.6434,
-        "lng": 69.6063
+        "lat": 21.641959635913775,
+        "lng": 69.62277502801746
       },
       "implementationPct": 33
     },
@@ -2081,8 +2081,8 @@
       "actualEnergyCostSavingsInr": 3023382,
       "actualCo2ReductionTonnes": 880.646932,
       "coordinates": {
-        "lat": 21.1631,
-        "lng": 72.8459
+        "lat": 21.156240478369007,
+        "lng": 72.8283241884062
       },
       "implementationPct": 44
     },
@@ -2119,8 +2119,8 @@
       "actualEnergyCostSavingsInr": 851643,
       "actualCo2ReductionTonnes": 46,
       "coordinates": {
-        "lat": 23.0712,
-        "lng": 70.1505
+        "lat": 23.074334829117728,
+        "lng": 70.11096756337466
       },
       "implementationPct": 43
     },
@@ -2157,8 +2157,8 @@
       "actualEnergyCostSavingsInr": 1873892,
       "actualCo2ReductionTonnes": 158.9,
       "coordinates": {
-        "lat": 21.6455,
-        "lng": 69.612
+        "lat": 21.64606688006823,
+        "lng": 69.61742951368734
       },
       "implementationPct": 92
     },
@@ -2195,8 +2195,8 @@
       "actualEnergyCostSavingsInr": 249013,
       "actualCo2ReductionTonnes": 8.130896,
       "coordinates": {
-        "lat": 23.965,
-        "lng": 73.072
+        "lat": 24.005826086266573,
+        "lng": 73.04832408295546
       },
       "implementationPct": 36
     },
@@ -2233,8 +2233,8 @@
       "actualEnergyCostSavingsInr": 181419,
       "actualCo2ReductionTonnes": 5.1552,
       "coordinates": {
-        "lat": 23.518,
-        "lng": 73.008
+        "lat": 23.50245236999365,
+        "lng": 73.028235297905
       },
       "implementationPct": 36
     },
@@ -2271,8 +2271,8 @@
       "actualEnergyCostSavingsInr": 1137594,
       "actualCo2ReductionTonnes": 100.24,
       "coordinates": {
-        "lat": 21.785,
-        "lng": 72.138
+        "lat": 21.787432442340624,
+        "lng": 72.15658864147875
       },
       "implementationPct": 17
     },
@@ -2309,8 +2309,8 @@
       "actualEnergyCostSavingsInr": 928226,
       "actualCo2ReductionTonnes": 199,
       "coordinates": {
-        "lat": 23.0124,
-        "lng": 72.5915
+        "lat": 23.017767313967592,
+        "lng": 72.5774579143641
       },
       "implementationPct": 10
     },
@@ -2347,8 +2347,8 @@
       "actualEnergyCostSavingsInr": 0,
       "actualCo2ReductionTonnes": 0,
       "coordinates": {
-        "lat": 22.8355,
-        "lng": 70.854
+        "lat": 22.83018068086759,
+        "lng": 70.81710960231392
       },
       "implementationPct": 0
     }
@@ -2380,8 +2380,8 @@
       "investmentInr": 1220235,
       "roiMonths": 1.6340321195095542,
       "coordinates": {
-        "lat": 21.19445733410223,
-        "lng": 72.81218352262403
+        "lat": 21.168168957652284,
+        "lng": 72.83470305872709
       }
     },
     {
@@ -2410,8 +2410,8 @@
       "investmentInr": 2174000,
       "roiMonths": 3.663719737236807,
       "coordinates": {
-        "lat": 21.183902047737085,
-        "lng": 72.85569745493127
+        "lat": 21.18826481619341,
+        "lng": 72.81872208853581
       }
     },
     {
@@ -2440,8 +2440,8 @@
       "investmentInr": 1980000,
       "roiMonths": 5.598021090120365,
       "coordinates": {
-        "lat": 21.187567672250463,
-        "lng": 72.84848091106252
+        "lat": 21.18174511663497,
+        "lng": 72.84302526385883
       }
     },
     {
@@ -2470,8 +2470,8 @@
       "investmentInr": 814000,
       "roiMonths": 2.3014086703828163,
       "coordinates": {
-        "lat": 21.150588510868165,
-        "lng": 72.81656264150597
+        "lat": 21.157368969036146,
+        "lng": 72.85415336271606
       }
     },
     {
@@ -2500,8 +2500,8 @@
       "investmentInr": 3361000,
       "roiMonths": 2.2941577587832933,
       "coordinates": {
-        "lat": 21.193331922798965,
-        "lng": 72.84075025291314
+        "lat": 21.164940640589137,
+        "lng": 72.81561541435806
       }
     }
   ],

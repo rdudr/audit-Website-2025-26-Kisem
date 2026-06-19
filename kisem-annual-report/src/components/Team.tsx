@@ -102,7 +102,7 @@ const AUDIT_TEAM = [
     title: 'B.E. Electrical',
     email: 'rishabh.dangi@iitgn.ac.in',
     id: 'KISEM-ENG-06',
-    photo: '/team/Mr. Rishabh Dangi.jpg',
+    photo: '/team/rishabhdangi2.png',
     badgeText: 'AI Automation',
     badgeIcon: <Cpu size={14} className="security-icon" />
   }

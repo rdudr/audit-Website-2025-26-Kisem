@@ -248,9 +248,9 @@ export default function AuditMap() {
     co2: filteredAudits.reduce((s, a) => s + a.annualCo2ReductionTonnes, 0),
   };
 
-  // Group and count audits by district from filteredAudits (excluding Abu and Daman to represent Gujarat)
+  // Group and count audits by district from filteredAudits
   const { sortedDistricts, maxCount, districtAudits } = useMemo(() => {
-    const gujaratAudits = filteredAudits.filter(a => a.district !== 'Abu' && a.district !== 'Daman');
+    const gujaratAudits = filteredAudits;
 
     const distAudits = gujaratAudits.reduce<Record<string, AuditProject[]>>((acc, audit) => {
       const district = audit.district ? audit.district.trim() : 'Unknown';
