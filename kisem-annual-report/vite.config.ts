@@ -17,4 +17,8 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['@studio-freight/lenis'],
   },
+  build: {
+    chunkSizeWarningLimit: 2000,
+  },
 })
+
