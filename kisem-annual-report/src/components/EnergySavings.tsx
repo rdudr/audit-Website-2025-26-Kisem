@@ -5,8 +5,11 @@ import { data, formatCrore, formatNumber } from '../data';
 
 export default function EnergySavings() {
   const yearSummary = data.yearSummary;
-  const years = ['FY22-23', 'FY23-24', 'FY24-25', 'FY25-26'];
-  const labels = ['FY 2022-23', 'FY 2023-24', 'FY 2024-25', 'FY 2025-26'];
+  const years = Array.from(new Set(data.audits.map(a => a.fy))).sort();
+  const labels = years.map(y => {
+    const match = y.match(/FY(\d{2})-(\d{2})/);
+    return match ? `FY 20${match[1]}-${match[2]}` : y;
+  });
 
   // Calculate electrical vs thermal from audit data
   const electricalRec = years.map(y =>

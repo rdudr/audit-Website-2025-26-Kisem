@@ -240,7 +240,9 @@ export default function AuditMap() {
   }, [allAudits, selectedSector, selectedFy]);
 
   const uniqueSectors = ['All', ...new Set(allAudits.map(a => a.sector))].sort();
-  const fyOptions = ['All', 'FY22-23', 'FY23-24', 'FY24-25', 'FY25-26'];
+  const fyOptions = useMemo(() => {
+    return ['All', ...Array.from(new Set(allAudits.map(a => a.fy))).sort()];
+  }, [allAudits]);
 
   const mapStats = {
     audits: filteredAudits.length,

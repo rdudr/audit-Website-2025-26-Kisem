@@ -370,14 +370,21 @@ function parsePaidAudits() {
 function parseAll() {
   console.log('Parsing Excel data...');
   
-  const audits2223 = parseAuditSheet('2022-23', 'FY22-23');
-  const audits2324 = parseAuditSheet('2023-24', 'FY23-24');
-  const audits2425 = parseAuditSheet('2024-25', 'FY24-25');
-  const audits2526 = parseAuditSheet('2025-26', 'FY25-26');
+  const yearSheets = wb.SheetNames.filter(name => /^\d{4}-\d{2}$/.test(name));
+  yearSheets.sort();
+  console.log(`Found year sheets: ${yearSheets.join(', ')}`);
+  
+  const allAudits = [];
+  const yearSummary = {};
   const paidAudits = parsePaidAudits();
   const { metrics, kisem } = parseSummary();
   
-  const allAudits = [...audits2223, ...audits2324, ...audits2425, ...audits2526];
+  yearSheets.forEach(sheetName => {
+    const fy = `FY${sheetName.substring(2, 4)}-${sheetName.substring(5, 7)}`;
+    const audits = parseAuditSheet(sheetName, fy);
+    allAudits.push(...audits);
+    yearSummary[fy] = buildYearSummary(audits, fy, metrics, kisem);
+  });
   
   // Compute sector breakdown
   const sectorStats = {};
@@ -400,14 +407,6 @@ function parseAll() {
     sectorStats[a.sector].totalEcmRecommended += a.ecmRecommended;
     sectorStats[a.sector].totalEcmImplemented += a.ecmImplemented;
   });
-  
-  // Year-over-year summary
-  const yearSummary = {
-    'FY22-23': buildYearSummary(audits2223, 'FY22-23', metrics, kisem),
-    'FY23-24': buildYearSummary(audits2324, 'FY23-24', metrics, kisem),
-    'FY24-25': buildYearSummary(audits2425, 'FY24-25', metrics, kisem),
-    'FY25-26': buildYearSummary(audits2526, 'FY25-26', metrics, kisem),
-  };
   
   // Grand totals
   const grandTotals = {

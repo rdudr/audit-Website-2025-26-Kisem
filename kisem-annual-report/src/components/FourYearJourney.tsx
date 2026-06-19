@@ -3,19 +3,24 @@ import { motion } from 'framer-motion';
 import ReactECharts from 'echarts-for-react';
 import { data, formatCrore, formatNumber, formatTonne } from '../data';
 
-const FY_ITEMS = [
-  { key: 'FY22-23', label: 'FY 2022–23', color: '#60a5fa', index: 0 },
-  { key: 'FY23-24', label: 'FY 2023–24', color: '#a78bfa', index: 1 },
-  { key: 'FY24-25', label: 'FY 2024–25', color: '#00e5a0', index: 2 },
-  { key: 'FY25-26', label: 'FY 2025–26', color: '#f59e0b', index: 3 },
-];
-
-const CHART_COLORS = ['#60a5fa', '#a78bfa', '#00e5a0', '#f59e0b'];
+const CHART_COLORS = ['#60a5fa', '#a78bfa', '#00e5a0', '#f59e0b', '#fb923c', '#ec4899', '#8b5cf6', '#f97316'];
 
 export default function FourYearJourney() {
   const [activeTab, setActiveTab] = useState<'audits' | 'savings' | 'co2' | 'ecm'>('audits');
 
   const yearSummary = data.yearSummary;
+  const uniqueYears = Array.from(new Set(data.audits.map(a => a.fy))).sort();
+  const FY_ITEMS = uniqueYears.map((key, i) => {
+    const match = key.match(/FY(\d{2})-(\d{2})/);
+    const label = match ? `FY 20${match[1]}–${match[2]}` : key;
+    return {
+      key,
+      label,
+      color: CHART_COLORS[i % CHART_COLORS.length],
+      index: i
+    };
+  });
+
   const years = FY_ITEMS.map(f => f.key);
   const labels = FY_ITEMS.map(f => f.label);
 
@@ -237,7 +242,7 @@ export default function FourYearJourney() {
         </div>
 
         {/* Year cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '3rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '3rem' }}>
           {FY_ITEMS.map((fy, i) => {
             const ys = yearSummary[fy.key];
             return (

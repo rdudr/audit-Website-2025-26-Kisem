@@ -1,0 +1,51 @@
+name: Update KISEM Company Data
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight UTC
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Download Spreadsheet from Google Sheets
+        run: |
+          URL=$(jq -r '.googleSheetExcelUrl' google-sheet-config.json)
+          if [[ "$URL" == *"YOUR_GOOGLE_SHEETS_PUBLISHED"* ]] || [[ "$URL" == *"1A2B3C4D5E6F7G8H9I0J"* ]]; then
+            echo "Google Sheet URL is the default placeholder. Skipping data update."
+            exit 0
+          fi
+          echo "Downloading live spreadsheet from Google Sheets..."
+          curl -L -o "IIT Gandhinagar KISEM - Audit Master Data Sheet Latest 2025-26.xlsx" "$URL"
+
+      - name: Install dependencies and Parse Excel
+        run: |
+          # Install xlsx in root folder for parsing script
+          npm install xlsx
+          # Run the parser script
+          node kisem-annual-report/scripts/parse-excel.cjs
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # Check if there are any modifications
+          if git diff --quiet kisem-annual-report/src/data/kisem-data.json "IIT Gandhinagar KISEM - Audit Master Data Sheet Latest 2025-26.xlsx"; then
+            echo "No data changes detected. Skipping push."
+          else
+            git add kisem-annual-report/src/data/kisem-data.json "IIT Gandhinagar KISEM - Audit Master Data Sheet Latest 2025-26.xlsx"
+            git commit -m "data: automatically sync company data from Google Sheets [skip ci]"
+            git push
+            echo "Updated company data successfully pushed to GitHub!"
+          fi
