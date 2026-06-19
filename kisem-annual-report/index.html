@@ -12,7 +12,55 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+    <!-- Automatic Recovery for Chunk Load / Deployment Errors on Vercel -->
+    <script>
+      (function() {
+        var reloadKey = 'kisem-chunk-error-reload';
+        
+        function handleLoadError(details) {
+          console.warn('[Auto-Recovery] Detected script/resource load failure:', details);
+          var isRefreshed = sessionStorage.getItem(reloadKey);
+          if (!isRefreshed) {
+            sessionStorage.setItem(reloadKey, 'true');
+            window.location.reload();
+          } else {
+            console.error('[Auto-Recovery] Reloaded once but error persists. Preventing infinite reload loop.');
+          }
+        }
+
+        // 1. Listen for Vite's preload errors (triggered during failed dynamic imports)
+        window.addEventListener('vite:preloadError', function(event) {
+          handleLoadError('Vite Preload Error');
+        });
+
+        // 2. Listen for direct script or style resource failures (capture phase)
+        window.addEventListener('error', function(event) {
+          var target = event.target || event.srcElement;
+          if (target && (target.tagName === 'SCRIPT' || target.tagName === 'LINK')) {
+            handleLoadError('Resource Load Failed: ' + (target.src || target.href));
+          }
+        }, true);
+
+        // 3. Listen for unhandled promise rejections (often thrown by failed chunk loads)
+        window.addEventListener('unhandledrejection', function(event) {
+          if (event.reason && (
+            (event.reason.message && event.reason.message.indexOf('Failed to fetch dynamically imported module') > -1) ||
+            event.reason.name === 'ChunkLoadError'
+          )) {
+            handleLoadError('Promise Rejection ChunkLoadError');
+          }
+        });
+
+        // 4. Reset reload flag when page successfully loads and runs for a few seconds
+        window.addEventListener('load', function() {
+          setTimeout(function() {
+            sessionStorage.removeItem(reloadKey);
+          }, 3000);
+        });
+      })();
+    </script>
     <title>KISEM Annual Report FY 2025-26 | IIT Gandhinagar</title>
+
   </head>
   <body>
     <div id="root"></div>
