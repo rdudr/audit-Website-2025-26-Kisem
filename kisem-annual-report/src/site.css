@@ -112,6 +112,12 @@ select.inp { padding: 0 10px; font-size: 14px; }
 .cgrid { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 20px; align-items: start; }
 
 /* ---------------------------------------------------------------- phone */
+/* Small phones: shorter logo title and sign-in label so the header fits on one line. */
+.show-xs { display: none; }
+@media (max-width: 480px) {
+  .hide-xs { display: none !important; }
+  .show-xs { display: inline; }
+}
 /* The section menu needs about 1080px beside the logo and buttons; below that it folds into the menu button. */
 @media (max-width: 1080px) {
   .secnav { display: none !important; }

@@ -42,7 +42,7 @@ export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             <button type="button" className="ghost" onClick={signButton} aria-pressed={signed} disabled={signingIn}
               style={{ height: 42, padding: '0 14px', border: '1px solid #D4D4D4', borderRadius: 12, background: '#FFFFFF', fontSize: 14, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
-              <Icon d={signed ? PATHS.unlock : PATHS.lock} size={15} />{signingIn ? 'Signing in…' : signed ? 'Sign out' : 'Team sign in'}
+              <Icon d={signed ? PATHS.unlock : PATHS.lock} size={15} />{signingIn ? 'Signing in…' : signed ? 'Sign out' : <><span className="hide-xs">Team&nbsp;</span>sign in</>}
             </button>
             <a className="hide-sm btn btnp" href={APPLY_URL} target="_blank" rel="noopener" style={{ height: 42 }}>Apply for an audit</a>
             <button type="button" className="menubtn ghost" onClick={() => setMenu(!menu)} aria-expanded={menu} aria-controls="phone-menu" aria-label="Menu"
