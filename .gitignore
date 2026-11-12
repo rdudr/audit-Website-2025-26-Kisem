@@ -42,3 +42,6 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+# Team-only data from the master sheet: company names, addresses and plant contacts.
+private/

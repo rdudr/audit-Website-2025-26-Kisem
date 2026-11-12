@@ -1,87 +1,94 @@
-import { useEffect, lazy, Suspense } from 'react';
-import Lenis from 'lenis';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import YearInNumbers from './components/YearInNumbers';
-import AssessmentFunnel from './components/AssessmentFunnel';
-import ScopeOfAssessment from './components/ScopeOfAssessment';
-import TopProjects from './components/TopProjects';
-import BaselineEnergy from './components/BaselineEnergy';
-import Instruments from './components/Instruments';
-import Partnerships from './components/Partnerships';
-import Team from './components/Team';
-import Contact from './components/Contact';
-import LaalMinarBanner from './components/LaalMinarBanner';
-import Footer from './components/Footer';
-import LoadingSkeleton from './components/LoadingSkeleton';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
+import { data, mergeRows, type Row } from './data';
+import { ConsoleError, fetchPublicRows, loadSession, signOut, team, type Change, type Session } from './lib/console';
+import PublicSite from './site/PublicSite';
 
-// Lazy load heavy interactive components to drastically reduce initial bundle size
-const AuditMap = lazy(() => import('./components/AuditMap'));
-const FourYearJourney = lazy(() => import('./components/FourYearJourney'));
-const EnergySavings = lazy(() => import('./components/EnergySavings'));
-const IndustryVerticals = lazy(() => import('./components/IndustryVerticals'));
-const RoiScatter = lazy(() => import('./components/RoiScatter'));
-const PaidAudits = lazy(() => import('./components/PaidAudits'));
+const Companies = lazy(() => import('./site/Companies'));
 
+export interface SiteState {
+  rows: Row[];
+  session: Session | null;
+  changes: Change[];
+  teamError: string;
+  /** Put a saved row (and its change) into the page without reloading. */
+  applySaved: (row: Row, change: Change | null) => void;
+  signedIn: (s: Session) => void;
+  signOutNow: () => void;
+  openSignIn: () => void;
+}
+
+// "#/companies" or "#/companies/26-27/3" opens the team page; anything else is the public site.
+function routeOf(hash: string) {
+  const m = hash.match(/^#\/companies(?:\/(.+))?$/);
+  return m ? { page: 'companies' as const, code: m[1] ? decodeURIComponent(m[1]) : null } : { page: 'site' as const, code: null };
+}
 
 export default function App() {
+  const [publicRows, setPublicRows] = useState<Row[]>(data.rows);
+  const [teamRows, setTeamRows] = useState<Row[] | null>(null);
+  const [changes, setChanges] = useState<Change[]>([]);
+  const [session, setSession] = useState<Session | null>(() => loadSession());
+  const [teamError, setTeamError] = useState('');
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [route, setRoute] = useState(() => routeOf(location.hash));
+
   useEffect(() => {
-    // Initialize Lenis smooth scroll
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    });
-
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-
-    return () => {
-      lenis.destroy();
-    };
+    const on = () => setRoute(routeOf(location.hash));
+    addEventListener('hashchange', on);
+    return () => removeEventListener('hashchange', on);
   }, []);
 
-  return (
-    <div style={{ minHeight: '100vh', background: '#020818' }}>
-      <Navbar />
-      <main>
-        <Hero />
-        <div className="light-theme">
-          <YearInNumbers />
-          <Suspense fallback={<LoadingSkeleton height="550px" label="Loading interactive audit map" isLightTheme />}>
-            <AuditMap />
-          </Suspense>
-          <Suspense fallback={<LoadingSkeleton height="450px" label="Loading 4-year journey trends" isLightTheme />}>
-            <FourYearJourney />
-          </Suspense>
-          <Suspense fallback={<LoadingSkeleton height="450px" label="Loading energy savings analysis" isLightTheme />}>
-            <EnergySavings />
-          </Suspense>
-          <Suspense fallback={<LoadingSkeleton height="450px" label="Loading industry vertical breakdown" isLightTheme />}>
-            <IndustryVerticals />
-          </Suspense>
-          <AssessmentFunnel />
-          <ScopeOfAssessment />
-          <Suspense fallback={<LoadingSkeleton height="450px" label="Loading ROI scatter plot" isLightTheme />}>
-            <RoiScatter />
-          </Suspense>
-          <TopProjects />
-          <BaselineEnergy />
-          <Suspense fallback={<LoadingSkeleton height="400px" label="Loading audit comparison details" isLightTheme />}>
-            <PaidAudits />
-          </Suspense>
-          <Instruments />
-          <Team />
-          <Partnerships />
-          <Contact />
-        </div>
-        <LaalMinarBanner />
-      </main>
-      <Footer />
-    </div>
-  );
+  // Team edits made since the master sheet import (public fields only). If FOX Console cannot be
+  // reached, the figures from the master sheet still show.
+  useEffect(() => {
+    const ac = new AbortController();
+    fetchPublicRows(ac.signal).then(out => { if (out) setPublicRows(mergeRows(data.rows, out.rows)); });
+    return () => ac.abort();
+  }, []);
+
+  const signOutNow = useCallback(() => {
+    signOut(session);
+    setSession(null); setTeamRows(null); setChanges([]); setTeamError('');
+    if (routeOf(location.hash).page === 'companies') location.hash = '#audits';
+  }, [session]);
+
+  // Signed in: company names and the change log, straight from FOX Console.
+  useEffect(() => {
+    if (!session) return;
+    let live = true;
+    team.companies(session).then(out => {
+      if (!live) return;
+      setTeamRows(mergeRows(data.rows, out.rows)); setChanges(out.changes || []); setTeamError('');
+    }).catch((e: ConsoleError) => {
+      if (!live) return;
+      if (e.status === 401 || e.status === 403) { signOut(session); setSession(null); setTeamError(e.message); setLoginOpen(true); }
+      else if (e.status === 404) { signOut(session); setSession(null); setTeamError('Team features are not switched on in FOX Console yet. The public site works as normal.'); }
+      else setTeamError(e.message);
+    });
+    return () => { live = false; };
+  }, [session]);
+
+  const applySaved = useCallback((row: Row, change: Change | null) => {
+    setTeamRows(prev => mergeRows(prev || data.rows, [row]));
+    const { n: _name, ...pub } = row; void _name;
+    setPublicRows(prev => mergeRows(prev, [pub]));
+    if (change) setChanges(prev => [change, ...prev]);
+  }, []);
+
+  const rows = session && teamRows ? teamRows : publicRows;
+  const state: SiteState = useMemo(() => ({
+    rows, session: teamRows ? session : null, changes, teamError, applySaved,
+    signedIn: (s: Session) => { setSession(s); setLoginOpen(false); setTeamError(''); },
+    signOutNow,
+    openSignIn: () => setLoginOpen(true),
+  }), [rows, session, teamRows, changes, teamError, applySaved, signOutNow]);
+
+  if (route.page === 'companies') {
+    return (
+      <Suspense fallback={<div style={{ padding: 40, fontSize: 14, color: '#5E5E5E' }}>Opening companies…</div>}>
+        <Companies state={state} code={route.code} pending={!!session && !teamRows && !teamError} loginOpen={loginOpen} setLoginOpen={setLoginOpen} />
+      </Suspense>
+    );
+  }
+  return <PublicSite state={state} loginOpen={loginOpen} setLoginOpen={setLoginOpen} signingIn={!!session && !teamRows && !teamError} />;
 }

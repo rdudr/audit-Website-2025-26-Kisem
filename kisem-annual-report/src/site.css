@@ -1,0 +1,124 @@
+/* KISEM audit website. Values follow the "KISEM public website (audit.app)" design. */
+:root {
+  --ink: #000000;
+  --brand: #2B2644;
+  --lav: #C9C5D6;
+  --lav-2: #DDDAE6;
+  --lav-3: #ECEAF2;
+  --lav-4: #8E88A8;
+  --grey-1: #F5F5F5;
+  --grey-2: #EBEBEB;
+  --grey-3: #D4D4D4;
+  --grey-4: #A3A3A3;
+  --muted: #5E5E5E;
+  --muted-2: #6B6B6B;
+  --text-2: #3A3A3A;
+  --line: rgba(0, 0, 0, .08);
+  --green: #0B7A45;
+  --green-bg: #E1F0E8;
+  --amber: #D67800;
+  --amber-text: #9A5200;
+  --amber-bg: #F8EBDA;
+  --red: #C4161C;
+  --red-bg: #FBE8E9;
+  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: #FFFFFF;
+  color: var(--ink);
+  font-family: 'TT Norms Pro', Inter, -apple-system, 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--ink); }
+a:hover { color: var(--brand); }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+input:focus, select:focus, textarea:focus { border-color: var(--ink) !important; }
+button { font-family: inherit; }
+img { max-width: 100%; }
+.n { font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--mono); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------------------------------------------------------------- hover states */
+.navl { text-decoration: none; }
+.navl:hover { text-decoration: underline; text-underline-offset: 4px; }
+.ghost { transition: background-color .15s ease; }
+.ghost:hover { background: rgba(0, 0, 0, .04) !important; }
+.arow { transition: background-color .15s ease; }
+.arow:hover { background: #F7F7F9 !important; }
+.lift { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.lift:hover { transform: translateY(-3px); box-shadow: 0 14px 30px -16px rgba(43, 38, 68, .35); border-color: rgba(43, 38, 68, .25) !important; }
+.btnp { transition: background-color .15s ease, transform .15s ease; }
+.btnp:hover:not(:disabled) { background: var(--brand) !important; }
+.btnp:active:not(:disabled) { transform: scale(.98); }
+.btnw { transition: background-color .15s ease; }
+.btnw:hover { background: #EFEFEF !important; }
+.btno { transition: background-color .15s ease; }
+.btno:hover { background: rgba(255, 255, 255, .1) !important; }
+.mail { text-decoration: none; color: var(--brand); }
+.mail:hover { text-decoration: underline; text-underline-offset: 3px; }
+.sbar { transition: background-color .15s ease; border-radius: 10px; }
+.sbar:hover { background: #F7F7F9 !important; }
+.co { transition: background-color .15s ease; }
+.co:hover { background: #F7F7F9 !important; }
+.lrow:hover td { background: #FAFAFA; }
+.pin { transition: transform .15s ease; }
+.pin:hover { transform: scale(1.25); z-index: 2; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .lift, .btnp, .arow, .pin { transition: none; }
+  .lift:hover { transform: none; }
+}
+
+/* ---------------------------------------------------------------- layout */
+.wrap { max-width: 1200px; margin: 0 auto; }
+.sec { max-width: 1200px; margin: 0 auto; padding: clamp(56px, 9vw, 88px) 20px 0; display: flex; flex-direction: column; gap: 28px; scroll-margin-top: 128px; }
+.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted-2); }
+.h2 { margin: 0; font-size: clamp(26px, 4.6vw, 36px); font-weight: 600; letter-spacing: -0.03em; }
+.lede { margin: 0; font-size: 16px; line-height: 1.6; color: var(--muted); }
+.card { border: 1px solid var(--line); border-radius: 20px; background: #FFFFFF; }
+.pill { height: 34px; padding: 0 12px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--grey-3); background: #FFFFFF; color: var(--text-2); }
+.pill[aria-pressed="true"] { border-color: #000000; background: #000000; color: #FFFFFF; }
+.badge { height: 24px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; white-space: nowrap; }
+.code { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--brand); background: var(--lav-3); border-radius: 8px; padding: 5px 8px; flex-shrink: 0; }
+.field { display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; color: var(--muted); }
+.inp { height: 44px; padding: 0 12px; border: 1px solid var(--grey-3); border-radius: 12px; font-family: inherit; font-size: 15px; color: #000000; background: #FFFFFF; outline: none; min-width: 0; width: 100%; }
+select.inp { padding: 0 10px; font-size: 14px; }
+.btn { height: 44px; padding: 0 16px; border: 0; border-radius: 12px; background: #000000; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; white-space: nowrap; }
+.btn:disabled { background: var(--grey-4); cursor: not-allowed; }
+.btn.light { background: #FFFFFF; color: #000000; border: 1px solid var(--grey-3); }
+.btn.sm { height: 36px; padding: 0 12px; border-radius: 10px; font-size: 13px; }
+.iconbtn { width: 40px; height: 40px; border: 0; border-radius: 10px; background: var(--grey-1); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.err { font-size: 13px; color: var(--red); background: var(--red-bg); border-radius: 10px; padding: 10px 12px; line-height: 1.45; }
+
+/* ---------------------------------------------------------------- header */
+.hdr { position: sticky; top: 0; z-index: 20; background: rgba(255, 255, 255, .97); border-bottom: 1px solid var(--line); }
+.hdrin { max-width: 1200px; margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.menubtn { display: none !important; }
+.hchart { display: none; }
+
+/* ---------------------------------------------------------------- audit list rows */
+.agrid { display: grid; grid-template-columns: minmax(0, 1fr) 170px 120px 150px 24px; gap: 14px; align-items: center; }
+
+/* ---------------------------------------------------------------- companies page */
+.tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tbl th { text-align: left; font-weight: 600; font-size: 12px; color: var(--muted); background: var(--grey-1); padding: 10px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.tbl td { padding: 10px 12px; border-bottom: 1px solid var(--grey-2); vertical-align: middle; }
+.r { text-align: right !important; }
+.cgrid { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 20px; align-items: start; }
+
+/* ---------------------------------------------------------------- phone */
+@media (max-width: 860px) {
+  .secnav, .hide-sm { display: none !important; }
+  .menubtn { display: flex !important; }
+  .vchart { display: none !important; }
+  .hchart { display: flex !important; }
+  .hdrin { padding: 10px 16px !important; }
+  .agrid { grid-template-columns: minmax(0, 1fr) auto !important; }
+  .agrid .acol { display: none !important; }
+  .cgrid { grid-template-columns: minmax(0, 1fr); }
+}
