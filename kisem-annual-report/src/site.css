@@ -112,9 +112,13 @@ select.inp { padding: 0 10px; font-size: 14px; }
 .cgrid { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 20px; align-items: start; }
 
 /* ---------------------------------------------------------------- phone */
-@media (max-width: 860px) {
-  .secnav, .hide-sm { display: none !important; }
+/* The section menu needs about 1080px beside the logo and buttons; below that it folds into the menu button. */
+@media (max-width: 1080px) {
+  .secnav { display: none !important; }
   .menubtn { display: flex !important; }
+}
+@media (max-width: 860px) {
+  .hide-sm { display: none !important; }
   .vchart { display: none !important; }
   .hchart { display: flex !important; }
   .hdrin { padding: 10px 16px !important; }
