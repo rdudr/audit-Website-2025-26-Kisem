@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { data, FYS, fyLabel, ind, inr, n0, pct, STATUS_TONE, STATUSES, sum, type Row } from '../data';
 import { useCountUp } from '../lib/hooks';
-import { APPLY_URL, CONTACT, INSTRUMENTS, PARTNERS, REPORT_PDF, SCOPE, TEAMS } from './content';
+import { APPLY_URL, WORKSHOPS_CONDUCTED, CONTACT, INSTRUMENTS, PARTNERS, REPORT_PDF, SCOPE, TEAMS } from './content';
 import { Icon } from './Icon';
 import { PATHS } from './icons';
 
@@ -25,11 +25,13 @@ function Head({ eyebrow, title, lede, max = 680 }: { eyebrow: string; title: str
 export function Hero({ rows }: { rows: Row[] }) {
   const T = totals(rows);
   const [ref, p] = useCountUp<HTMLDListElement>();
-  const figures: [number, string, string][] = [
-    [data.counts.walkthrough, 'Walkthrough assessments', PATHS.clipboard],
-    [rows.length, 'Detailed energy audits', PATHS.gauge],
-    [data.counts.clusters, 'Industrial clusters', PATHS.pin],
-    [data.counts.iga, 'Investment grade audits', PATHS.medal],
+  // [figure, label, icon, suffix]
+  const figures: [number, string, string, string][] = [
+    [data.counts.walkthrough, 'Walkthrough assessments', PATHS.clipboard, ''],
+    [rows.length, 'Detailed energy audits', PATHS.gauge, ''],
+    [data.counts.clusters, 'Industrial clusters', PATHS.pin, ''],
+    [data.counts.iga, 'Paid audits', PATHS.medal, ''],
+    [WORKSHOPS_CONDUCTED, 'Workshops conducted', PATHS.people, '+'],
   ];
   return (
     <section id="top" style={{ background: '#2B2644', backgroundImage: 'linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px)', backgroundSize: '48px 48px', color: '#FFFFFF' }}>
@@ -46,11 +48,11 @@ export function Hero({ rows }: { rows: Row[] }) {
           </div>
         </div>
         <dl ref={ref} style={{ margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(140px, 100%), 1fr))', borderTop: '1px solid rgba(255,255,255,.18)' }}>
-          {figures.map(([v, label, d]) => (
+          {figures.map(([v, label, d, plus]) => (
             <div key={label} style={{ padding: '24px 24px 0 0', display: 'flex', flexDirection: 'column', gap: 8 }}>
               <span style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon d={d} size={18} stroke="#FFFFFF" width={1.9} /></span>
               <dt style={{ fontSize: 14, color: '#C9C5D6', order: 2 }}>{label}</dt>
-              <dd className="n" style={{ margin: 0, fontSize: 'clamp(32px, 6vw, 44px)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1, order: 1 }}><span aria-hidden="true">{Math.round(v * p)}</span><span className="sr-only">{v}</span></dd>
+              <dd className="n" style={{ margin: 0, fontSize: 'clamp(32px, 6vw, 44px)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1, order: 1 }}><span aria-hidden="true">{Math.round(v * p)}{plus}</span><span className="sr-only">{v}{plus}</span></dd>
             </div>
           ))}
         </dl>
