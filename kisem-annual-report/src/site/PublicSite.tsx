@@ -71,6 +71,7 @@ export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }
             {excel.msg && <div role="status" className="wrap" style={{ padding: '0 24px 10px', fontSize: 13, color: '#DDDAE6' }}>{excel.msg}</div>}
           </div>
         )}
+        {signed && state.teamEmpty && <div role="alert" className="wrap" style={{ padding: '8px 24px', fontSize: 13, color: '#C4161C' }}>Signed in, but FOX Console has no companies yet: the master data sheet has not been imported on the server, so names cannot be shown.</div>}
         {state.teamError && !loginOpen && <div role="alert" className="wrap" style={{ padding: '8px 24px', fontSize: 13, color: '#C4161C' }}>{state.teamError}</div>}
       </header>
 

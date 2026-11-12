@@ -10,6 +10,8 @@ export interface SiteState {
   session: Session | null;
   changes: Change[];
   teamError: string;
+  /** Signed in, but FOX Console holds no companies yet (the master sheet was not imported). */
+  teamEmpty: boolean;
   /** Put a saved row (and its change) into the page without reloading. */
   applySaved: (row: Row, change: Change | null) => void;
   signedIn: (s: Session) => void;
@@ -26,6 +28,7 @@ function routeOf(hash: string) {
 export default function App() {
   const [publicRows, setPublicRows] = useState<Row[]>(data.rows);
   const [teamRows, setTeamRows] = useState<Row[] | null>(null);
+  const [teamEmpty, setTeamEmpty] = useState(false);
   const [changes, setChanges] = useState<Change[]>([]);
   const [session, setSession] = useState<Session | null>(() => loadSession());
   const [teamError, setTeamError] = useState('');
@@ -58,7 +61,7 @@ export default function App() {
     let live = true;
     team.companies(session).then(out => {
       if (!live) return;
-      setTeamRows(mergeRows(data.rows, out.rows)); setChanges(out.changes || []); setTeamError('');
+      setTeamRows(mergeRows(data.rows, out.rows)); setTeamEmpty(!out.rows?.length); setChanges(out.changes || []); setTeamError('');
     }).catch((e: ConsoleError) => {
       if (!live) return;
       if (e.status === 401 || e.status === 403) { signOut(session); setSession(null); setTeamError(e.message); setLoginOpen(true); }
@@ -77,11 +80,11 @@ export default function App() {
 
   const rows = session && teamRows ? teamRows : publicRows;
   const state: SiteState = useMemo(() => ({
-    rows, session: teamRows ? session : null, changes, teamError, applySaved,
+    rows, session: teamRows ? session : null, changes, teamError, teamEmpty, applySaved,
     signedIn: (s: Session) => { setSession(s); setLoginOpen(false); setTeamError(''); },
     signOutNow,
     openSignIn: () => setLoginOpen(true),
-  }), [rows, session, teamRows, changes, teamError, applySaved, signOutNow]);
+  }), [rows, session, teamRows, changes, teamError, teamEmpty, applySaved, signOutNow]);
 
   if (route.page === 'companies') {
     return (

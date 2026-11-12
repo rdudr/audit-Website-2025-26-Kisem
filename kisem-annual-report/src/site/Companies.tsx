@@ -79,6 +79,11 @@ export default function Companies({ state, code, pending, loginOpen, setLoginOpe
         </div>
         {excel.msg && <div role="status" className="wrap" style={{ padding: '0 24px 10px', fontSize: 13, color: '#3A3A3A' }}>{excel.msg}</div>}
       </header>
+      {state.teamEmpty && (
+        <div className="wrap" style={{ padding: '14px 20px 0' }}>
+          <div className="err" role="alert"><strong>No companies in FOX Console yet.</strong> The master data sheet has not been imported on the server, so company names, details and the master Excel are not available. Run <code>scripts/site-import.mjs</code> on the server (see FOX Console docs/AUDIT_WEBSITE.md), then reload this page.</div>
+        </div>
+      )}
       <nav aria-label="Breadcrumb" className="wrap" style={{ padding: '14px 20px 0', fontSize: 13, color: '#5E5E5E', display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         <a href="#top">KISEM website</a><span aria-hidden="true">/</span><a href="#audits">All audits</a><span aria-hidden="true">/</span><span>Companies · {r?.c}</span>
       </nav>
@@ -103,7 +108,7 @@ export default function Companies({ state, code, pending, loginOpen, setLoginOpe
                   style={{ width: '100%', display: 'grid', gridTemplateColumns: 'auto minmax(0, 1fr) 10px', gap: 10, alignItems: 'center', padding: '10px 16px', border: 0, borderLeft: '3px solid ' + (on ? '#000000' : 'transparent'), borderBottom: '1px solid #F0F0F0', background: on ? '#F5F5F5' : '#FFFFFF', textAlign: 'left', cursor: 'pointer' }}>
                   <span className="code n" style={{ fontSize: 11 }}>{c.c}</span>
                   <span style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-                    <span style={{ fontSize: 14, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{c.n || 'Name not loaded'}</span>
+                    <span style={{ fontSize: 14, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{c.n || (state.teamEmpty ? 'Not imported yet' : 'No name in FOX Console')}</span>
                     <span style={{ fontSize: 12, color: '#5E5E5E', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{c.s} · {c.ci}</span>
                   </span>
                   <span title={c.st} style={{ width: 10, height: 10, borderRadius: '50%', background: STATUS_TONE[c.st][2] }}><span className="sr-only">{c.st}</span></span>
