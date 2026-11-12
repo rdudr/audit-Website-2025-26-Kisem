@@ -196,7 +196,7 @@ export default function TopProjects() {
                 e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 229, 160, 0.3)';
               }}
             >
-              <span>{showAll ? 'Show Less' : 'Show More all 60 Audits'}</span>
+              <span>{showAll ? 'Show Less' : `Show More all ${data.audits.length} Audits`}</span>
               <ChevronDown
                 size={16}
                 style={{

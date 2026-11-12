@@ -236,7 +236,7 @@ export default function FourYearJourney() {
             <span className="gradient-text">Year by Year</span>
           </h2>
           <p className="section-subtitle">
-            Tracking KISEM's evolution from 6 pilot audits in FY22-23 to 60 comprehensive 
+            Tracking KISEM's evolution from 6 pilot audits in FY22-23 to {data.audits.length} comprehensive 
             assessments, with growing impact across all metrics.
           </p>
         </div>

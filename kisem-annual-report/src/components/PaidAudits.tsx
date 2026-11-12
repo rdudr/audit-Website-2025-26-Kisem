@@ -59,8 +59,8 @@ export default function PaidAudits() {
             <span className="gradient-text-gold">Audit Programme</span>
           </h2>
           <p className="section-subtitle">
-            {paidAudits.length} investment-grade energy audits for textile units under the WRI Surat Textile 
-            Benchmarking Programme, providing bankable project reports.
+            {paidAudits.length} investment-grade energy audits, most of them for textile units under the WRI Surat
+            Textile Benchmarking Programme, providing bankable project reports.
           </p>
         </div>
 

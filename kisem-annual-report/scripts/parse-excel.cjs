@@ -1,7 +1,8 @@
 /**
  * KISEM Annual Report - Excel to JSON Data Parser
  * Run: node scripts/parse-excel.js
- * Reads: ../IIT Gandhinagar KISEM - Audit Master Data Sheet Latest 2025-26.xlsx
+ * Reads: the newest ../../IIT Gandhinagar KISEM - Audit Master Data Sheet Latest <year>.xlsx
+ *        (or the file given: node scripts/parse-excel.cjs <file.xlsx>)
  * Outputs: src/data/kisem-data.json
  */
 
@@ -9,9 +10,17 @@ const XLSX = require('xlsx');
 const fs = require('fs');
 const path = require('path');
 
-const EXCEL_FILE = path.join(__dirname, '../../IIT Gandhinagar KISEM - Audit Master Data Sheet Latest 2025-26.xlsx');
+// The master sheet: the one named on the command line, or else the newest year's
+// "IIT Gandhinagar KISEM - Audit Master Data Sheet Latest <year>.xlsx" in the repository root.
+const ROOT = path.join(__dirname, '../..');
+const EXCEL_FILE = process.argv[2]
+  ? path.resolve(process.argv[2])
+  : path.join(ROOT, fs.readdirSync(ROOT)
+      .filter(f => /^IIT Gandhinagar KISEM - Audit Master Data Sheet Latest \d{4}-\d{2}\.xlsx$/.test(f))
+      .sort().pop());
 const OUTPUT_FILE = path.join(__dirname, '../src/data/kisem-data.json');
 
+console.log(`Reading ${path.basename(EXCEL_FILE)}`);
 const wb = XLSX.readFile(EXCEL_FILE);
 
 // Helper: Get row-indexed data from a sheet
@@ -35,53 +44,70 @@ function num(v) {
   return isNaN(n) ? 0 : n;
 }
 
-// Row index constants for audit sheets (rows 0-based)
-const ROW = {
-  AUDIT_NO: 1,
-  DISTRICT: 2,
-  INDUSTRY_NAME: 3,
-  LOCATION: 4,
-  SECTOR: 5,
-  PRODUCT: 6,
-  PRODUCTION_CAPACITY: 7,
-  EMPLOYEES: 8,
-  AGE: 9,
-  CONTACT_PERSON: 10,
-  CONTACT_DETAILS: 11,
-  SOURCE: 12,
-  AUDIT_DATE: 13,
-  AUDIT_DAYS: 14,
-  MANPOWER: 15,
-  UTILITIES: 16,
-  SANCTIONED_DEMAND: 17,
-  ELEC_CONSUMPTION_KWH: 18,
-  ELEC_CONSUMPTION_TOE: 19,
-  FUEL_USED: 20,
-  FUEL_CONSUMPTION_TOE: 21,
-  ENERGY_CONSUMPTION_TOE: 22,
-  ENERGY_COST: 23,
-  ELEC_COST: 24,
-  FUEL_COST: 25,
-  ELEC_RATE: 26,
-  FUEL_RATE: 27,
-  CO2_EXISTING: 28,
-  ECM_RECOMMENDED: 29,
-  ELEC_SAVINGS_KWH: 30,
-  FUEL_SAVINGS_TOE: 31,
-  ENERGY_SAVINGS_TOE: 32,
-  ENERGY_COST_SAVINGS: 33,
-  ENERGY_SAVINGS_PCT: 34,
-  ENERGY_COST_SAVINGS_PCT: 35,
-  CO2_REDUCTION: 36,
-  INVESTMENT: 37,
-  ROI_MONTHS: 38,
-  ECM_IMPLEMENTED: 39,
-  ACTUAL_INVESTMENT: 40,
-  ACTUAL_ELEC_SAVINGS_KWH: 41,
-  ACTUAL_FUEL_SAVINGS_TOE: 42,
-  ACTUAL_ENERGY_COST_SAVINGS: 43,
-  ACTUAL_CO2_REDUCTION: 44,
+// Rows are found by their label in column A, not by position: rows get added or moved in the
+// master sheet from year to year. The label is compared with spaces, stars and dots removed.
+const FIELDS = {
+  INDUSTRY_NAME: 'industryname',
+  LOCATION: 'industrylocation',
+  SECTOR: 'sectorclassification',
+  PRODUCT: 'productproducts',
+  SOURCE: 'sourceoflead',
+  AUDIT_DATE: 'dateofcommencement',
+  AUDIT_DAYS: 'totalnumberofauditdays',
+  UTILITIES: 'listofutilities',
+  SANCTIONED_DEMAND: 'sanctioneddemand',
+  ELEC_CONSUMPTION_KWH: 'annualelectricityconsumptioninkwh',
+  ENERGY_CONSUMPTION_TOE: 'annualenergyconsumptioninmetrictoe',
+  ENERGY_COST: 'annualenergycostininr',
+  ELEC_COST: 'annualelectricitycostininr',
+  FUEL_COST: 'annualfuelcostininr',
+  CO2_EXISTING: 'existingoverallco2',
+  ECM_RECOMMENDED: 'noofecmsrecommended',
+  ELEC_SAVINGS_KWH: 'annualelectricitysavingsrecommended',
+  ENERGY_SAVINGS_TOE: 'annualenergysavingsrecommended',
+  ENERGY_COST_SAVINGS: 'annualenergycostsavingsrecommended',
+  ENERGY_SAVINGS_PCT: 'percentageofoverallenergysavings',
+  CO2_REDUCTION: 'annualco2emmisionreductionrecommended',
+  INVESTMENT: 'totalinvestmentproposed',
+  ROI_MONTHS: 'overallroiestimated',
+  ECM_IMPLEMENTED: 'noofecmsimplemented',
+  ACTUAL_INVESTMENT: 'overallactualinvestment',
+  ACTUAL_ELEC_SAVINGS_KWH: 'actualelectricitysavingsachieved',
+  ACTUAL_ENERGY_COST_SAVINGS: 'actualenergycostsavingsachieved',
+  ACTUAL_CO2_REDUCTION: 'actualco2emmisionreductionachieved',
 };
+const squash = v => String(v ?? '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+// The layout of one audit sheet: where the audit numbers are, the district row under them, every
+// labelled row, and the columns that hold an audit.
+function sheetLayout(data, firstCol) {
+  const auditRow = data.findIndex(r => r && squash(r[0]) === 'auditnumbers');
+  if (auditRow < 0) return null;
+  const rows = {};
+  for (const [key, label] of Object.entries(FIELDS)) {
+    const i = data.findIndex((r, j) => j > auditRow && r && squash(r[0]).startsWith(label));
+    rows[key] = i;
+  }
+  const cols = [];
+  const header = data[auditRow] || [];
+  for (let c = firstCol; c < header.length; c++) {
+    if (/^\d{2}-\d{2}\/\d+/.test(String(header[c] ?? '').trim())) cols.push(c);
+  }
+  return { auditRow, districtRow: auditRow + 1, rows, cols };
+}
+
+// A financial year from an audit number such as "26-27/3".
+function fyOf(auditNo) {
+  const m = String(auditNo).match(/^(\d{2})-(\d{2})/);
+  return m ? `FY${m[1]}-${m[2]}` : null;
+}
+
+// Same marker spread on every run, so the data file only changes when the data does.
+function jitterFor(id, salt) {
+  let h = 2166136261;
+  for (const ch of `${id}|${salt}`) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
+  return (((h >>> 0) % 10000) / 10000 - 0.5) * 0.05;
+}
 
 // Sector mapping
 const SECTOR_MAP = {
@@ -126,7 +152,7 @@ const DISTRICT_COORDS = {
   'Vapi': { lat: 20.3749, lng: 72.9048 },
   'Morbi': { lat: 22.8175, lng: 70.8378 },
   'Aravalli': { lat: 23.5039, lng: 73.0065 },
-  'Sbarkantha': { lat: 23.9833, lng: 73.05 },
+  'Sabarkantha': { lat: 23.9833, lng: 73.05 },
   'Porbandar': { lat: 21.6417, lng: 69.6293 },
   'Veraval': { lat: 20.9014, lng: 70.3720 },
   'Rajkot': { lat: 22.3039, lng: 70.8022 },
@@ -136,8 +162,21 @@ const DISTRICT_COORDS = {
   'Abu': { lat: 24.5925, lng: 72.7081 },
   'Bhavnagar': { lat: 21.7645, lng: 72.1519 },
   'Botad': { lat: 21.9236, lng: 71.6669 },
+  'Vadodara': { lat: 22.3072, lng: 73.1812 },
+  'Sirohi': { lat: 24.8853, lng: 72.8606 },
   'Rajasthan': { lat: 26.9124, lng: 75.7873 },
 };
+
+// One spelling per district, so the map groups a district's plants together.
+const DISTRICT_ALIASES = {
+  gandhinaagar: 'Gandhinagar',
+  sbarkantha: 'Sabarkantha', sabarkata: 'Sabarkantha', sabarkatha: 'Sabarkantha', sabarkantha: 'Sabarkantha',
+  modasa: 'Aravalli', modassa: 'Aravalli',
+};
+function cleanDistrict(v) {
+  const d = v == null ? '' : String(v).trim();
+  return DISTRICT_ALIASES[d.toLowerCase()] || d;
+}
 
 function getCoords(district) {
   if (!district) return { lat: 23.0225, lng: 72.5714 };
@@ -149,105 +188,93 @@ function getCoords(district) {
   return { lat: 22.2587, lng: 71.1924 };
 }
 
-// Parse individual audit columns from a sheet
-function parseAuditSheet(sheetName, fy) {
+// District from the plant's address, when the district row is empty.
+function districtFromLocation(location) {
+  const loc = String(location || '').toLowerCase();
+  if (loc.includes('porbandar')) return 'Porbandar';
+  if (loc.includes('palsana') || loc.includes('surat')) return 'Surat';
+  if (loc.includes('bhachau') || loc.includes('gandhidham') || loc.includes('kutch')) return 'Gandhidham';
+  if (loc.includes('morbi')) return 'Morbi';
+  if (loc.includes('sabarkata') || loc.includes('sabarkantha')) return 'Sabarkantha';
+  if (loc.includes('modasa') || loc.includes('aravalli') || loc.includes('sabarkatha')) return 'Aravalli';
+  if (loc.includes('bhavnagar')) return 'Bhavnagar';
+  if (loc.includes('vadodara') || loc.includes('baroda')) return 'Vadodara';
+  if (loc.includes('vatva') || loc.includes('ahmedabad')) return 'Ahmedabad';
+  return '';
+}
+
+// Every audit (one column each) of an audit sheet. `firstCol` is the first column that can hold an
+// audit: the year sheets have a Total column before the audits, the paid sheet does not.
+function readAudits(sheetName, firstCol) {
   const data = getSheetData(sheetName);
-  const audits = [];
-  
-  if (data.length < 5) return audits;
-  
-  // Data columns start at index 2 (col A=Description, col B=Total, col C+ = individual audits)
-  const numCols = data[ROW.AUDIT_NO] ? data[ROW.AUDIT_NO].length : 0;
-  
-  for (let col = 2; col < numCols; col++) {
-    const auditNo = data[ROW.AUDIT_NO] ? data[ROW.AUDIT_NO][col] : null;
-    if (!auditNo) continue;
-    
-    let districtVal = data[ROW.DISTRICT] ? data[ROW.DISTRICT][col] : null;
-    let district = districtVal ? String(districtVal).trim() : '';
+  const L = sheetLayout(data, firstCol);
+  if (!L) { console.warn(`  ! ${sheetName}: no "Audit Numbers" row, skipped`); return []; }
+  const missing = Object.entries(L.rows).filter(([, i]) => i < 0).map(([k]) => k);
+  if (missing.length) console.warn(`  ! ${sheetName}: rows not found: ${missing.join(', ')}`);
+  const cell = (key, col) => (L.rows[key] >= 0 && data[L.rows[key]] ? data[L.rows[key]][col] : null);
+  const text = (key, col) => { const v = cell(key, col); return v == null ? '' : String(v).trim(); };
+  const n = (key, col) => num(cell(key, col));
+  const statusRow = L.auditRow >= 2 ? data[L.auditRow - 2] : null;
 
-    if (district.toLowerCase() === 'gandhinaagar') {
-      district = 'Gandhinagar';
-    }
+  return L.cols.map(col => {
+    const auditNo = String(data[L.auditRow][col]).trim();
+    const location = text('LOCATION', col);
+    const district = cleanDistrict(data[L.districtRow] && data[L.districtRow][col]) || districtFromLocation(location);
+    const status = statusRow && statusRow[col] ? String(statusRow[col]).trim() : '';
+    return { auditNo, col, location, district, status, text, n, cell };
+  });
+}
 
-    if (!district) {
-      const loc = data[ROW.LOCATION] ? String(data[ROW.LOCATION][col]).toLowerCase() : '';
-      if (loc.includes('porbandar')) {
-        district = 'Porbandar';
-      } else if (loc.includes('palsana') || loc.includes('surat')) {
-        district = 'Surat';
-      } else if (loc.includes('bhachau') || loc.includes('gandhidham') || loc.includes('kutch')) {
-        district = 'Gandhidham';
-      } else if (loc.includes('morbi')) {
-        district = 'Morbi';
-      } else if (loc.includes('sabarkata') || loc.includes('sabarkantha')) {
-        district = 'Sbarkantha';
-      } else if (loc.includes('modasa') || loc.includes('aravalli') || loc.includes('sabarkatha')) {
-        district = 'Aravalli';
-      } else if (loc.includes('bhavnagar')) {
-        district = 'Bhavnagar';
-      } else if (loc.includes('vatva') || loc.includes('ahmedabad')) {
-        district = 'Ahmedabad';
-      }
-    }
-
-    const sector = normalizeSector(data[ROW.SECTOR] ? data[ROW.SECTOR][col] : null);
+function parseAuditSheet(sheetName, fy) {
+  return readAudits(sheetName, 2).map(({ auditNo, col, location, district, status, text, n, cell }) => {
     const coords = getCoords(district);
-    
-    // Add slight random offset so markers don't overlap
-    const jitter = () => (Math.random() - 0.5) * 0.05;
-    
     const audit = {
-      id: String(auditNo),
+      id: auditNo,
       fy,
-      auditNumber: String(auditNo),
-      companyName: data[ROW.INDUSTRY_NAME] ? data[ROW.INDUSTRY_NAME][col] || '' : '',
-      location: data[ROW.LOCATION] ? data[ROW.LOCATION][col] || '' : '',
-      district: district,
-      sector,
-      product: data[ROW.PRODUCT] ? data[ROW.PRODUCT][col] || '' : '',
-      auditDate: parseDate(data[ROW.AUDIT_DATE] ? data[ROW.AUDIT_DATE][col] : null),
-      auditDays: num(data[ROW.AUDIT_DAYS] ? data[ROW.AUDIT_DAYS][col] : 0),
-      utilities: data[ROW.UTILITIES] ? data[ROW.UTILITIES][col] || '' : '',
-      sanctionedDemand: num(data[ROW.SANCTIONED_DEMAND] ? data[ROW.SANCTIONED_DEMAND][col] : 0),
+      auditNumber: auditNo,
+      companyName: text('INDUSTRY_NAME', col),
+      location,
+      district,
+      sector: normalizeSector(text('SECTOR', col) || null),
+      product: text('PRODUCT', col),
+      auditDate: parseDate(cell('AUDIT_DATE', col)),
+      auditDays: n('AUDIT_DAYS', col),
+      utilities: text('UTILITIES', col),
+      sanctionedDemand: n('SANCTIONED_DEMAND', col),
       // Baseline
-      annualElecConsumptionKwh: num(data[ROW.ELEC_CONSUMPTION_KWH] ? data[ROW.ELEC_CONSUMPTION_KWH][col] : 0),
-      annualEnergyConsumptionToe: num(data[ROW.ENERGY_CONSUMPTION_TOE] ? data[ROW.ENERGY_CONSUMPTION_TOE][col] : 0),
-      annualEnergyCostInr: num(data[ROW.ENERGY_COST] ? data[ROW.ENERGY_COST][col] : 0),
-      annualElecCostInr: num(data[ROW.ELEC_COST] ? data[ROW.ELEC_COST][col] : 0),
-      annualFuelCostInr: num(data[ROW.FUEL_COST] ? data[ROW.FUEL_COST][col] : 0),
-      existingCo2Tonnes: num(data[ROW.CO2_EXISTING] ? data[ROW.CO2_EXISTING][col] : 0),
+      annualElecConsumptionKwh: n('ELEC_CONSUMPTION_KWH', col),
+      annualEnergyConsumptionToe: n('ENERGY_CONSUMPTION_TOE', col),
+      annualEnergyCostInr: n('ENERGY_COST', col),
+      annualElecCostInr: n('ELEC_COST', col),
+      annualFuelCostInr: n('FUEL_COST', col),
+      existingCo2Tonnes: n('CO2_EXISTING', col),
       // Recommendations
-      ecmRecommended: num(data[ROW.ECM_RECOMMENDED] ? data[ROW.ECM_RECOMMENDED][col] : 0),
-      annualElecSavingsKwh: num(data[ROW.ELEC_SAVINGS_KWH] ? data[ROW.ELEC_SAVINGS_KWH][col] : 0),
-      annualEnergySavingsToe: num(data[ROW.ENERGY_SAVINGS_TOE] ? data[ROW.ENERGY_SAVINGS_TOE][col] : 0),
-      annualSavingsInr: num(data[ROW.ENERGY_COST_SAVINGS] ? data[ROW.ENERGY_COST_SAVINGS][col] : 0),
-      annualCo2ReductionTonnes: num(data[ROW.CO2_REDUCTION] ? data[ROW.CO2_REDUCTION][col] : 0),
-      investmentInr: num(data[ROW.INVESTMENT] ? data[ROW.INVESTMENT][col] : 0),
-      roiMonths: num(data[ROW.ROI_MONTHS] ? data[ROW.ROI_MONTHS][col] : 0),
-      energySavingsPct: num(data[ROW.ENERGY_SAVINGS_PCT] ? data[ROW.ENERGY_SAVINGS_PCT][col] : 0),
+      ecmRecommended: n('ECM_RECOMMENDED', col),
+      annualElecSavingsKwh: n('ELEC_SAVINGS_KWH', col),
+      annualEnergySavingsToe: n('ENERGY_SAVINGS_TOE', col),
+      annualSavingsInr: n('ENERGY_COST_SAVINGS', col),
+      annualCo2ReductionTonnes: n('CO2_REDUCTION', col),
+      investmentInr: n('INVESTMENT', col),
+      roiMonths: n('ROI_MONTHS', col),
+      energySavingsPct: n('ENERGY_SAVINGS_PCT', col),
       // Implementation
-      ecmImplemented: num(data[ROW.ECM_IMPLEMENTED] ? data[ROW.ECM_IMPLEMENTED][col] : 0),
-      actualInvestmentInr: num(data[ROW.ACTUAL_INVESTMENT] ? data[ROW.ACTUAL_INVESTMENT][col] : 0),
-      actualElecSavingsKwh: num(data[ROW.ACTUAL_ELEC_SAVINGS_KWH] ? data[ROW.ACTUAL_ELEC_SAVINGS_KWH][col] : 0),
-      actualEnergyCostSavingsInr: num(data[ROW.ACTUAL_ENERGY_COST_SAVINGS] ? data[ROW.ACTUAL_ENERGY_COST_SAVINGS][col] : 0),
-      actualCo2ReductionTonnes: num(data[ROW.ACTUAL_CO2_REDUCTION] ? data[ROW.ACTUAL_CO2_REDUCTION][col] : 0),
-      // Coordinates for map
+      ecmImplemented: n('ECM_IMPLEMENTED', col),
+      actualInvestmentInr: n('ACTUAL_INVESTMENT', col),
+      actualElecSavingsKwh: n('ACTUAL_ELEC_SAVINGS_KWH', col),
+      actualEnergyCostSavingsInr: n('ACTUAL_ENERGY_COST_SAVINGS', col),
+      actualCo2ReductionTonnes: n('ACTUAL_CO2_REDUCTION', col),
+      // Coordinates for map (spread a little so markers don't overlap)
       coordinates: {
-        lat: coords.lat + jitter(),
-        lng: coords.lng + jitter(),
+        lat: coords.lat + jitterFor(auditNo, 'lat'),
+        lng: coords.lng + jitterFor(auditNo, 'lng'),
       },
     };
-    
-    // Computed
+    if (status) audit.status = status; // e.g. "Post Assessment Pending", "Report Under Process"
     audit.implementationPct = audit.ecmRecommended > 0
       ? Math.round((audit.ecmImplemented / audit.ecmRecommended) * 100)
       : 0;
-    
-    audits.push(audit);
-  }
-  
-  return audits;
+    return audit;
+  });
 }
 
 // Parse Summary sheet
@@ -315,55 +342,43 @@ function parseSummary() {
   return { metrics: summary, kisem: kisemSection };
 }
 
-// Parse paid audits sheet
+// Parse the paid audits sheet (all years on one sheet; the year comes from the audit number)
 function parsePaidAudits() {
-  const data = getSheetData('Paid Audit FY 25-26');
-  const audits = [];
-  const numCols = data[1] ? data[1].length : 0;
-  
-  for (let col = 1; col < numCols; col++) {
-    const auditNo = data[1] ? data[1][col] : null;
-    if (!auditNo) continue;
-    
-    const district = data[2] ? data[2][col] : null;
-    const coords = getCoords(district ? String(district).trim() : 'Surat');
-    const jitter = () => (Math.random() - 0.5) * 0.05;
-    
-    const audit = {
+  const sheet = wb.SheetNames.find(name => /^paid audit/i.test(name.trim()));
+  if (!sheet) return [];
+  return readAudits(sheet, 1).map(({ auditNo, col, location, district, text, n, cell }) => {
+    const coords = getCoords(district || 'Surat');
+    return {
       id: `paid-${auditNo}`,
-      fy: 'FY25-26',
-      auditNumber: String(auditNo),
+      fy: fyOf(auditNo) || 'FY25-26',
+      auditNumber: auditNo,
       isPaid: true,
-      companyName: data[3] ? data[3][col] || '' : '',
-      location: data[4] ? data[4][col] || '' : '',
-      district: district ? String(district).trim() : '',
-      sector: normalizeSector(data[5] ? data[5][col] : null),
-      product: data[6] ? data[6][col] || '' : '',
-      sourceOfLead: data[12] ? data[12][col] || '' : '',
-      auditDate: parseDate(data[13] ? data[13][col] : null),
-      auditDays: num(data[14] ? data[14][col] : 0),
-      utilities: data[16] ? data[16][col] || '' : '',
-      sanctionedDemand: num(data[17] ? data[17][col] : 0),
-      annualElecConsumptionKwh: num(data[18] ? data[18][col] : 0),
-      annualEnergyConsumptionToe: num(data[22] ? data[22][col] : 0),
-      annualEnergyCostInr: num(data[23] ? data[23][col] : 0),
-      existingCo2Tonnes: num(data[28] ? data[28][col] : 0),
-      ecmRecommended: num(data[29] ? data[29][col] : 0),
-      annualElecSavingsKwh: num(data[30] ? data[30][col] : 0),
-      annualSavingsInr: num(data[33] ? data[33][col] : 0),
-      annualCo2ReductionTonnes: num(data[36] ? data[36][col] : 0),
-      investmentInr: num(data[37] ? data[37][col] : 0),
-      roiMonths: num(data[38] ? data[38][col] : 0),
+      companyName: text('INDUSTRY_NAME', col),
+      location,
+      district,
+      sector: normalizeSector(text('SECTOR', col) || null),
+      product: text('PRODUCT', col),
+      sourceOfLead: text('SOURCE', col),
+      auditDate: parseDate(cell('AUDIT_DATE', col)),
+      auditDays: n('AUDIT_DAYS', col),
+      utilities: text('UTILITIES', col),
+      sanctionedDemand: n('SANCTIONED_DEMAND', col),
+      annualElecConsumptionKwh: n('ELEC_CONSUMPTION_KWH', col),
+      annualEnergyConsumptionToe: n('ENERGY_CONSUMPTION_TOE', col),
+      annualEnergyCostInr: n('ENERGY_COST', col),
+      existingCo2Tonnes: n('CO2_EXISTING', col),
+      ecmRecommended: n('ECM_RECOMMENDED', col),
+      annualElecSavingsKwh: n('ELEC_SAVINGS_KWH', col),
+      annualSavingsInr: n('ENERGY_COST_SAVINGS', col),
+      annualCo2ReductionTonnes: n('CO2_REDUCTION', col),
+      investmentInr: n('INVESTMENT', col),
+      roiMonths: n('ROI_MONTHS', col),
       coordinates: {
-        lat: coords.lat + jitter(),
-        lng: coords.lng + jitter(),
+        lat: coords.lat + jitterFor(`paid-${auditNo}`, 'lat'),
+        lng: coords.lng + jitterFor(`paid-${auditNo}`, 'lng'),
       },
     };
-    
-    audits.push(audit);
-  }
-  
-  return audits;
+  });
 }
 
 // Main parse function

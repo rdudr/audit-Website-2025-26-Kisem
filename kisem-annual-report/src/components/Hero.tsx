@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ChevronDown, Play, Map } from 'lucide-react';
+import { data } from '../data';
 
 const VIDEO_URL = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260403_050628_c4e32401-fab4-4a27-b7a8-6e9291cd5959.mp4';
 
@@ -169,9 +170,9 @@ export default function Hero() {
           }}
         >
           <p style={{ fontSize: 'clamp(1rem, 1.5vw, 1.1875rem)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.7, marginBottom: '0.5rem', fontWeight: 400 }}>
-            <strong style={{ color: '#fff' }}>60 detailed audits.</strong>{' '}
-            <strong style={{ color: '#00e5a0' }}>₹33.85 crore savings identified.</strong>{' '}
-            <strong style={{ color: '#60a5fa' }}>59,208 tonnes of CO₂ reduction potential.</strong>
+            <strong style={{ color: '#fff' }}>{data.grandTotals.totalAudits} detailed audits.</strong>{' '}
+            <strong style={{ color: '#00e5a0' }}>₹{(data.grandTotals.totalSavingsInr / 1e7).toFixed(2)} crore savings identified.</strong>{' '}
+            <strong style={{ color: '#60a5fa' }}>{Math.round(data.grandTotals.totalCo2ReductionTonnes).toLocaleString('en-IN')} tonnes of CO₂ reduction potential.</strong>
           </p>
           <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.6 }}>
             Transforming MSMEs across Gujarat, Rajasthan and Daman.

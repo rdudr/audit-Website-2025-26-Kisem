@@ -1,20 +1,20 @@
 {
-  "generated": "2026-06-19T06:38:23.834Z",
+  "generated": "2026-11-07T17:39:31.236Z",
   "grandTotals": {
-    "totalAudits": 60,
-    "totalPaidAudits": 5,
+    "totalAudits": 67,
+    "totalPaidAudits": 8,
     "totalWalkthrough": 132,
     "totalClusters": 37,
-    "totalSavingsInr": 338535502.2,
-    "totalCo2ReductionTonnes": 59208.494668000014,
-    "totalInvestmentInr": 135937037,
-    "totalEcmRecommended": 630,
-    "totalEcmImplemented": 280,
-    "totalActualSavingsInr": 111022621,
-    "totalActualCo2Tonnes": 19084.413254000003,
-    "totalElecConsumptionKwh": 259283346,
-    "totalEnergyCostInr": 4078742081.06,
-    "totalExistingCo2Tonnes": 804567.8887319999,
+    "totalSavingsInr": 401079502.2,
+    "totalCo2ReductionTonnes": 77026.58466800002,
+    "totalInvestmentInr": 181937037,
+    "totalEcmRecommended": 666,
+    "totalEcmImplemented": 293,
+    "totalActualSavingsInr": 132556961,
+    "totalActualCo2Tonnes": 21322.044213200006,
+    "totalElecConsumptionKwh": 291954901,
+    "totalEnergyCostInr": 4891930632.66,
+    "totalExistingCo2Tonnes": 989362.4887699999,
     "implementationPct": 44
   },
   "yearSummary": {
@@ -37,24 +37,24 @@
       "totalSavingsInr": 107209904,
       "totalCo2ReductionTonnes": 18427.628849999994,
       "totalInvestmentInr": 28890023,
-      "totalEcmRecommended": 204,
-      "totalEcmImplemented": 113,
+      "totalEcmRecommended": 201,
+      "totalEcmImplemented": 111,
       "implementationPct": 55,
-      "actualSavingsInr": 51226565,
-      "actualCo2Tonnes": 10107.013034,
+      "actualSavingsInr": 54683218,
+      "actualCo2Tonnes": 11206.655567999998,
       "elecSavingsKwh": 6374047
     },
     "FY24-25": {
       "fy": "FY24-25",
       "auditCount": 19,
       "totalSavingsInr": 102896353,
-      "totalCo2ReductionTonnes": 17571.14727,
+      "totalCo2ReductionTonnes": 17571.147269999998,
       "totalInvestmentInr": 42588727,
-      "totalEcmRecommended": 182,
-      "totalEcmImplemented": 71,
-      "implementationPct": 39,
-      "actualSavingsInr": 28334488,
-      "actualCo2Tonnes": 4536.719244,
+      "totalEcmRecommended": 179,
+      "totalEcmImplemented": 81,
+      "implementationPct": 45,
+      "actualSavingsInr": 46412175,
+      "actualCo2Tonnes": 5674.7076692,
       "elecSavingsKwh": 6744706
     },
     "FY25-26": {
@@ -64,11 +64,24 @@
       "totalCo2ReductionTonnes": 16824.688548,
       "totalInvestmentInr": 50575132,
       "totalEcmRecommended": 174,
-      "totalEcmImplemented": 65,
-      "implementationPct": 37,
+      "totalEcmImplemented": 70,
+      "implementationPct": 40,
       "actualSavingsInr": 15738482,
       "actualCo2Tonnes": 2022.980976,
       "elecSavingsKwh": 5448606
+    },
+    "FY26-27": {
+      "fy": "FY26-27",
+      "auditCount": 7,
+      "totalSavingsInr": 62544000,
+      "totalCo2ReductionTonnes": 17818.089999999997,
+      "totalInvestmentInr": 46000000,
+      "totalEcmRecommended": 42,
+      "totalEcmImplemented": 0,
+      "implementationPct": 0,
+      "actualSavingsInr": 0,
+      "actualCo2Tonnes": 0,
+      "elecSavingsKwh": 1221772.7
     }
   },
   "audits": [
@@ -76,7 +89,7 @@
       "id": "22-23/1",
       "fy": "FY22-23",
       "auditNumber": "22-23/1",
-      "companyName": "The Green Environment Services Co-op. Society Ltd. ",
+      "companyName": "The Green Environment Services Co-op. Society Ltd.",
       "location": "Vatva, Ahmedabad Gujarat",
       "district": "Ahmedabad",
       "sector": "CETP",
@@ -97,16 +110,16 @@
       "annualSavingsInr": 31779097.2,
       "annualCo2ReductionTonnes": 5068,
       "investmentInr": 3050365,
-      "roiMonths": 1.151838259,
-      "energySavingsPct": 0.1158164693,
+      "roiMonths": 1.1518382592693666,
+      "energySavingsPct": 0.11581646929653573,
       "ecmImplemented": 10,
       "actualInvestmentInr": 2620365,
       "actualElecSavingsKwh": 1173811,
       "actualEnergyCostSavingsInr": 12006566,
       "actualCo2ReductionTonnes": 2011.4,
       "coordinates": {
-        "lat": 23.015061539025027,
-        "lng": 72.57298025903197
+        "lat": 23.00021,
+        "lng": 72.57732
       },
       "implementationPct": 53
     },
@@ -116,7 +129,7 @@
       "auditNumber": "22-23/2",
       "companyName": "MADHUSUDHAN COLD STORAGE PVT LTD",
       "location": "Sbarkantha, Gujarat",
-      "district": "Sbarkantha",
+      "district": "Sabarkantha",
       "sector": "Cold Storage",
       "product": "Cold Storage",
       "auditDate": "2022-09-27",
@@ -135,16 +148,16 @@
       "annualSavingsInr": 3307636,
       "annualCo2ReductionTonnes": 420.97,
       "investmentInr": 2573500,
-      "roiMonths": 9.336577544,
-      "energySavingsPct": 0.3408313452,
+      "roiMonths": 9.336577543599114,
+      "energySavingsPct": 0.3408313451830346,
       "ecmImplemented": 6,
       "actualInvestmentInr": 2073500,
       "actualElecSavingsKwh": 335499,
       "actualEnergyCostSavingsInr": 1619133,
       "actualCo2ReductionTonnes": 265,
       "coordinates": {
-        "lat": 23.979764942305096,
-        "lng": 73.03982401299504
+        "lat": 24.003075,
+        "lng": 73.025025
       },
       "implementationPct": 46
     },
@@ -173,16 +186,16 @@
       "annualSavingsInr": 845282,
       "annualCo2ReductionTonnes": 86,
       "investmentInr": 1440000,
-      "roiMonths": 20.44288178,
-      "energySavingsPct": 0.2203335091,
+      "roiMonths": 20.44288178383072,
+      "energySavingsPct": 0.22033350910772903,
       "ecmImplemented": 3,
       "actualInvestmentInr": 130000,
       "actualElecSavingsKwh": 37789,
       "actualEnergyCostSavingsInr": 264527,
       "actualCo2ReductionTonnes": 29.9,
       "coordinates": {
-        "lat": 23.221008684855676,
-        "lng": 72.65790776573282
+        "lat": 23.20554,
+        "lng": 72.65493
       },
       "implementationPct": 38
     },
@@ -211,16 +224,16 @@
       "annualSavingsInr": 2373040,
       "annualCo2ReductionTonnes": 258,
       "investmentInr": 250000,
-      "roiMonths": 1.264201193,
-      "energySavingsPct": 0.08989300486,
+      "roiMonths": 1.2642011934059265,
+      "energySavingsPct": 0.08989300486099792,
       "ecmImplemented": 4,
       "actualInvestmentInr": 50000,
       "actualElecSavingsKwh": 0,
       "actualEnergyCostSavingsInr": 0,
       "actualCo2ReductionTonnes": 0,
       "coordinates": {
-        "lat": 23.000419682832437,
-        "lng": 72.59541952220889
+        "lat": 23.035385,
+        "lng": 72.557615
       },
       "implementationPct": 50
     },
@@ -249,16 +262,16 @@
       "annualSavingsInr": 6945548,
       "annualCo2ReductionTonnes": 534,
       "investmentInr": 6475000,
-      "roiMonths": 11.18702225,
-      "energySavingsPct": 0.06512444596,
+      "roiMonths": 11.187022247920538,
+      "energySavingsPct": 0.06512444596281053,
       "ecmImplemented": 4,
       "actualInvestmentInr": 500000,
       "actualElecSavingsKwh": 0,
       "actualEnergyCostSavingsInr": 1544498,
       "actualCo2ReductionTonnes": 106,
       "coordinates": {
-        "lat": 23.023442000394112,
-        "lng": 72.58894439268221
+        "lat": 23.03703,
+        "lng": 72.5733
       },
       "implementationPct": 25
     },
@@ -276,7 +289,7 @@
       "utilities": "Thermic Fluid heater, Capacitor",
       "sanctionedDemand": 200,
       "annualElecConsumptionKwh": 511260,
-      "annualEnergyConsumptionToe": 114.30501,
+      "annualEnergyConsumptionToe": 114.30501000000001,
       "annualEnergyCostInr": 10607036,
       "annualElecCostInr": 3953974,
       "annualFuelCostInr": 6653062,
@@ -287,16 +300,16 @@
       "annualSavingsInr": 464546,
       "annualCo2ReductionTonnes": 18.06,
       "investmentInr": 94290,
-      "roiMonths": 2.435668373,
-      "energySavingsPct": 0.04864791141,
+      "roiMonths": 2.435668372992126,
+      "energySavingsPct": 0.0486479114082576,
       "ecmImplemented": 4,
       "actualInvestmentInr": 70000,
       "actualElecSavingsKwh": 0,
       "actualEnergyCostSavingsInr": 288362,
       "actualCo2ReductionTonnes": 5.4,
       "coordinates": {
-        "lat": 22.999223494143727,
-        "lng": 72.56625499683442
+        "lat": 23.032935000000002,
+        "lng": 72.574805
       },
       "implementationPct": 67
     },
@@ -325,16 +338,16 @@
       "annualSavingsInr": 6300147,
       "annualCo2ReductionTonnes": 533,
       "investmentInr": 1100000,
-      "roiMonths": 2.095189207,
-      "energySavingsPct": 0.3364057314,
+      "roiMonths": 2.0951892074899203,
+      "energySavingsPct": 0.3364057313857254,
       "ecmImplemented": 6,
       "actualInvestmentInr": 600000,
       "actualElecSavingsKwh": 260769,
       "actualEnergyCostSavingsInr": 2346921,
       "actualCo2ReductionTonnes": 206.00751,
       "coordinates": {
-        "lat": 23.032542255326874,
-        "lng": 72.55660975044273
+        "lat": 23.03639,
+        "lng": 72.55362
       },
       "implementationPct": 55
     },
@@ -363,16 +376,16 @@
       "annualSavingsInr": 24505759,
       "annualCo2ReductionTonnes": 2257,
       "investmentInr": 3250000,
-      "roiMonths": 1.591462644,
-      "energySavingsPct": 0.161206665,
+      "roiMonths": 1.591462643536158,
+      "energySavingsPct": 0.16120666498119648,
       "ecmImplemented": 4,
       "actualInvestmentInr": 0,
       "actualElecSavingsKwh": 814580,
       "actualEnergyCostSavingsInr": 6817440,
       "actualCo2ReductionTonnes": 643.5182,
       "coordinates": {
-        "lat": 21.705552768930495,
-        "lng": 73.00872381098131
+        "lat": 21.693695,
+        "lng": 73.008425
       },
       "implementationPct": 33
     },
@@ -381,7 +394,7 @@
       "fy": "FY23-24",
       "auditNumber": "23-24/3",
       "companyName": "Shree Devkinandan Metals Pvt Ltd",
-      "location": " Dehgam , Gandhinagar.",
+      "location": "Dehgam , Gandhinagar.",
       "district": "Gandhinagar",
       "sector": "Foundry",
       "product": "Foundry",
@@ -401,16 +414,16 @@
       "annualSavingsInr": 2052721,
       "annualCo2ReductionTonnes": 201.16323,
       "investmentInr": 1782500,
-      "roiMonths": 10.42031528,
-      "energySavingsPct": 0.0518153071,
+      "roiMonths": 10.420315279085662,
+      "energySavingsPct": 0.05181530710250858,
       "ecmImplemented": 4,
       "actualInvestmentInr": 57000,
       "actualElecSavingsKwh": 28080,
       "actualEnergyCostSavingsInr": 307945,
       "actualCo2ReductionTonnes": 22.18,
       "coordinates": {
-        "lat": 23.229330523123185,
-        "lng": 72.6141911789914
+        "lat": 23.217879999999997,
+        "lng": 72.62155
       },
       "implementationPct": 36
     },
@@ -439,17 +452,18 @@
       "annualSavingsInr": 768614,
       "annualCo2ReductionTonnes": 80.86,
       "investmentInr": 230000,
-      "roiMonths": 3.590879167,
-      "energySavingsPct": 0.3118660779,
+      "roiMonths": 3.590879166916033,
+      "energySavingsPct": 0.3118660779223941,
       "ecmImplemented": 2,
-      "actualInvestmentInr": 60000,
-      "actualElecSavingsKwh": 11646,
-      "actualEnergyCostSavingsInr": 87345,
-      "actualCo2ReductionTonnes": 9.20034,
+      "actualInvestmentInr": 30000,
+      "actualElecSavingsKwh": 7432,
+      "actualEnergyCostSavingsInr": 55740,
+      "actualCo2ReductionTonnes": 5.8712800000000005,
       "coordinates": {
-        "lat": 23.52477418528023,
-        "lng": 72.9862440288837
+        "lat": 23.526045,
+        "lng": 73.007215
       },
+      "status": "Actual data based on Implementation Report",
       "implementationPct": 50
     },
     {
@@ -471,24 +485,25 @@
       "annualElecCostInr": 2027783,
       "annualFuelCostInr": 0,
       "existingCo2Tonnes": 248.6209,
-      "ecmRecommended": 5,
+      "ecmRecommended": 4,
       "annualElecSavingsKwh": 38831,
       "annualEnergySavingsToe": 3.339466,
       "annualSavingsInr": 291234,
       "annualCo2ReductionTonnes": 30.68,
       "investmentInr": 130000,
-      "roiMonths": 5.35651744,
-      "energySavingsPct": 0.1233866099,
-      "ecmImplemented": 4,
+      "roiMonths": 5.356517439584664,
+      "energySavingsPct": 0.1233866098948238,
+      "ecmImplemented": 2,
       "actualInvestmentInr": 30000,
-      "actualElecSavingsKwh": 8944,
-      "actualEnergyCostSavingsInr": 67080,
-      "actualCo2ReductionTonnes": 7.06576,
+      "actualElecSavingsKwh": 10183,
+      "actualEnergyCostSavingsInr": 76373,
+      "actualCo2ReductionTonnes": 7.291028,
       "coordinates": {
-        "lat": 23.49604496401568,
-        "lng": 73.01986840716978
+        "lat": 23.493930000000002,
+        "lng": 73.0057
       },
-      "implementationPct": 80
+      "status": "Actual data based on Implementation Report",
+      "implementationPct": 50
     },
     {
       "id": "23-24/6",
@@ -515,17 +530,18 @@
       "annualSavingsInr": 253752,
       "annualCo2ReductionTonnes": 26.73,
       "investmentInr": 130000,
-      "roiMonths": 6.147734796,
-      "energySavingsPct": 0.1245751822,
+      "roiMonths": 6.147734796178947,
+      "energySavingsPct": 0.12457518216998606,
       "ecmImplemented": 2,
-      "actualInvestmentInr": 30000,
-      "actualElecSavingsKwh": 11947,
-      "actualEnergyCostSavingsInr": 39690,
-      "actualCo2ReductionTonnes": 9.43813,
+      "actualInvestmentInr": 60000,
+      "actualElecSavingsKwh": 11646,
+      "actualEnergyCostSavingsInr": 87345,
+      "actualCo2ReductionTonnes": 8.338536,
       "coordinates": {
-        "lat": 23.495885480610813,
-        "lng": 72.99474718485904
+        "lat": 23.528395000000003,
+        "lng": 72.989445
       },
+      "status": "Actual data based on Implementation Report",
       "implementationPct": 50
     },
     {
@@ -553,16 +569,16 @@
       "annualSavingsInr": 2065226,
       "annualCo2ReductionTonnes": 491.7405,
       "investmentInr": 159000,
-      "roiMonths": 0.9238698331,
-      "energySavingsPct": 0.02695308158,
+      "roiMonths": 0.923869833132064,
+      "energySavingsPct": 0.02695308157733031,
       "ecmImplemented": 2,
       "actualInvestmentInr": 95000,
       "actualElecSavingsKwh": 23070,
       "actualEnergyCostSavingsInr": 1144502,
       "actualCo2ReductionTonnes": 254.9829,
       "coordinates": {
-        "lat": 23.031479420197822,
-        "lng": 72.5685951343011
+        "lat": 23.02532,
+        "lng": 72.57135
       },
       "implementationPct": 67
     },
@@ -584,23 +600,23 @@
       "annualEnergyCostInr": 54016724,
       "annualElecCostInr": 7554400,
       "annualFuelCostInr": 46462324,
-      "existingCo2Tonnes": 1738.99569,
+      "existingCo2Tonnes": 1738.9956900000002,
       "ecmRecommended": 7,
       "annualElecSavingsKwh": 70195,
       "annualEnergySavingsToe": 6.03677,
       "annualSavingsInr": 899012,
       "annualCo2ReductionTonnes": 55.45,
       "investmentInr": 488000,
-      "roiMonths": 6.513817391,
-      "energySavingsPct": 0.0113882186,
+      "roiMonths": 6.513817390646621,
+      "energySavingsPct": 0.01138821859690096,
       "ecmImplemented": 4,
       "actualInvestmentInr": 68000,
       "actualElecSavingsKwh": 15960,
       "actualEnergyCostSavingsInr": 358281,
       "actualCo2ReductionTonnes": 12.61,
       "coordinates": {
-        "lat": 23.006003949451575,
-        "lng": 72.56972996235591
+        "lat": 23.030545,
+        "lng": 72.585335
       },
       "implementationPct": 57
     },
@@ -629,16 +645,16 @@
       "annualSavingsInr": 890649,
       "annualCo2ReductionTonnes": 444,
       "investmentInr": 327500,
-      "roiMonths": 4.412512673,
-      "energySavingsPct": 0.04707699663,
+      "roiMonths": 4.412512673342698,
+      "energySavingsPct": 0.047076996628036064,
       "ecmImplemented": 4,
       "actualInvestmentInr": 232000,
       "actualElecSavingsKwh": 13200,
       "actualEnergyCostSavingsInr": 713314,
       "actualCo2ReductionTonnes": 429,
       "coordinates": {
-        "lat": 23.047300262647056,
-        "lng": 72.5704512367961
+        "lat": 23.022750000000002,
+        "lng": 72.5907
       },
       "implementationPct": 80
     },
@@ -667,17 +683,18 @@
       "annualSavingsInr": 5581420,
       "annualCo2ReductionTonnes": 1432.685,
       "investmentInr": 1044000,
-      "roiMonths": 2.244590086,
-      "energySavingsPct": 0.2605224167,
+      "roiMonths": 2.244590086393785,
+      "energySavingsPct": 0.26052241667866,
       "ecmImplemented": 9,
       "actualInvestmentInr": 589000,
       "actualElecSavingsKwh": 171500,
       "actualEnergyCostSavingsInr": 3656770,
-      "actualCo2ReductionTonnes": 842.459,
+      "actualCo2ReductionTonnes": 737.554,
       "coordinates": {
-        "lat": 21.14692999233524,
-        "lng": 72.83562436741525
+        "lat": 21.19196,
+        "lng": 72.81459000000001
       },
+      "status": "Actual data based on Implementation Report- Corrected by me",
       "implementationPct": 75
     },
     {
@@ -705,16 +722,16 @@
       "annualSavingsInr": 202630,
       "annualCo2ReductionTonnes": 54.89157,
       "investmentInr": 16500,
-      "roiMonths": 0.9771504713,
-      "energySavingsPct": 0.2938656692,
+      "roiMonths": 0.9771504713023738,
+      "energySavingsPct": 0.29386566916544743,
       "ecmImplemented": 7,
       "actualInvestmentInr": 11500,
       "actualElecSavingsKwh": 2578,
       "actualEnergyCostSavingsInr": 26811,
       "actualCo2ReductionTonnes": 2.03,
       "coordinates": {
-        "lat": 21.187196218472618,
-        "lng": 72.83620436208108
+        "lat": 21.177635000000002,
+        "lng": 72.811745
       },
       "implementationPct": 44
     },
@@ -743,16 +760,16 @@
       "annualSavingsInr": 196786,
       "annualCo2ReductionTonnes": 15.85688,
       "investmentInr": 14500,
-      "roiMonths": 0.8842092425,
-      "energySavingsPct": 0.04955559945,
+      "roiMonths": 0.8842092425274156,
+      "energySavingsPct": 0.0495555994469682,
       "ecmImplemented": 8,
       "actualInvestmentInr": 4500,
       "actualElecSavingsKwh": 16364,
       "actualEnergyCostSavingsInr": 138771,
       "actualCo2ReductionTonnes": 12.92756,
       "coordinates": {
-        "lat": 21.146974312653533,
-        "lng": 72.83695507188934
+        "lat": 21.172530000000002,
+        "lng": 72.85248
       },
       "implementationPct": 89
     },
@@ -770,7 +787,7 @@
       "utilities": "Chiller, boiler, thermic Fluid Heater, Compressor",
       "sanctionedDemand": 5500,
       "annualElecConsumptionKwh": 24579108,
-      "annualEnergyConsumptionToe": 7910.950988,
+      "annualEnergyConsumptionToe": 7910.9509880000005,
       "annualEnergyCostInr": 390977456,
       "annualElecCostInr": 227956709,
       "annualFuelCostInr": 163020747,
@@ -781,16 +798,16 @@
       "annualSavingsInr": 18412415,
       "annualCo2ReductionTonnes": 3414.60811,
       "investmentInr": 3235000,
-      "roiMonths": 2.108360039,
-      "energySavingsPct": 0.06169654884,
+      "roiMonths": 2.108360038593525,
+      "energySavingsPct": 0.06169654883974866,
       "ecmImplemented": 8,
       "actualInvestmentInr": 845000,
       "actualElecSavingsKwh": 301809,
       "actualEnergyCostSavingsInr": 5329344,
       "actualCo2ReductionTonnes": 834.58911,
       "coordinates": {
-        "lat": 21.69504576838832,
-        "lng": 73.01967386784132
+        "lat": 21.715225,
+        "lng": 73.009595
       },
       "implementationPct": 62
     },
@@ -808,27 +825,27 @@
       "utilities": "HAG, Press, Kiln, Dryer, Polishing",
       "sanctionedDemand": 2550,
       "annualElecConsumptionKwh": 15268216,
-      "annualEnergyConsumptionToe": 12587.72423,
+      "annualEnergyConsumptionToe": 12587.724225999998,
       "annualEnergyCostInr": 710502264,
       "annualElecCostInr": 135057126,
       "annualFuelCostInr": 575445138,
-      "existingCo2Tonnes": 353948.6874,
+      "existingCo2Tonnes": 353948.68744,
       "ecmRecommended": 19,
       "annualElecSavingsKwh": 547496,
-      "annualEnergySavingsToe": 354.716106,
+      "annualEnergySavingsToe": 354.71610599999997,
       "annualSavingsInr": 19782707,
-      "annualCo2ReductionTonnes": 3045.64556,
+      "annualCo2ReductionTonnes": 3045.6455599999995,
       "investmentInr": 11017623,
-      "roiMonths": 6.683184258,
-      "energySavingsPct": 0.02817952631,
+      "roiMonths": 6.683184257847017,
+      "energySavingsPct": 0.028179526309238038,
       "ecmImplemented": 12,
       "actualInvestmentInr": 1673987,
       "actualElecSavingsKwh": 501987,
       "actualEnergyCostSavingsInr": 15308822,
-      "actualCo2ReductionTonnes": 2822.46345,
+      "actualCo2ReductionTonnes": 2822.4634499999997,
       "coordinates": {
-        "lat": 22.796455183212853,
-        "lng": 70.85080050130601
+        "lat": 22.82332,
+        "lng": 70.85339
       },
       "implementationPct": 63
     },
@@ -846,29 +863,30 @@
       "utilities": "Boiler, Turbine, Compressor, Traps, pulper",
       "sanctionedDemand": 1100,
       "annualElecConsumptionKwh": 6592110,
-      "annualEnergyConsumptionToe": 3722.157172,
+      "annualEnergyConsumptionToe": 3722.1571722,
       "annualEnergyCostInr": 138706871,
       "annualElecCostInr": 58472015,
       "annualFuelCostInr": 80234856,
       "existingCo2Tonnes": 16240.0596,
-      "ecmRecommended": 14,
+      "ecmRecommended": 12,
       "annualElecSavingsKwh": 57655,
-      "annualEnergySavingsToe": 466.876072,
+      "annualEnergySavingsToe": 466.87607199999997,
       "annualSavingsInr": 12948628,
       "annualCo2ReductionTonnes": 4097.97265,
       "investmentInr": 1495000,
-      "roiMonths": 1.385474971,
-      "energySavingsPct": 0.1254315845,
-      "ecmImplemented": 8,
-      "actualInvestmentInr": 580000,
-      "actualElecSavingsKwh": 335574,
-      "actualEnergyCostSavingsInr": 10113734,
-      "actualCo2ReductionTonnes": 2559.40866,
+      "roiMonths": 1.3854749707845495,
+      "energySavingsPct": 0.12543158453570905,
+      "ecmImplemented": 9,
+      "actualInvestmentInr": 945000,
+      "actualElecSavingsKwh": 23005,
+      "actualEnergyCostSavingsInr": 13545043,
+      "actualCo2ReductionTonnes": 3811.75958,
       "coordinates": {
-        "lat": 20.39982199636268,
-        "lng": 72.90399810460242
+        "lat": 20.356875,
+        "lng": 72.929385
       },
-      "implementationPct": 57
+      "status": "Actual data based on Implementation Report",
+      "implementationPct": 75
     },
     {
       "id": "23-24/16",
@@ -895,18 +913,19 @@
       "annualSavingsInr": 184323,
       "annualCo2ReductionTonnes": 15.247,
       "investmentInr": 61000,
-      "roiMonths": 3.97128953,
-      "energySavingsPct": 0.117010828,
-      "ecmImplemented": 11,
-      "actualInvestmentInr": 52000,
+      "roiMonths": 3.9712895297928092,
+      "energySavingsPct": 0.1170108280486474,
+      "ecmImplemented": 10,
+      "actualInvestmentInr": 54000,
       "actualElecSavingsKwh": 17095,
-      "actualEnergyCostSavingsInr": 163257,
+      "actualEnergyCostSavingsInr": 163258,
       "actualCo2ReductionTonnes": 13.50505,
       "coordinates": {
-        "lat": 23.191467626072093,
-        "lng": 72.6138671467489
+        "lat": 23.19247,
+        "lng": 72.64126
       },
-      "implementationPct": 85
+      "status": "Actual data based on Implementation Report",
+      "implementationPct": 77
     },
     {
       "id": "23-24/17",
@@ -931,19 +950,20 @@
       "annualElecSavingsKwh": 35904,
       "annualEnergySavingsToe": 3.087744,
       "annualSavingsInr": 365905,
-      "annualCo2ReductionTonnes": 28.36416,
+      "annualCo2ReductionTonnes": 28.364160000000002,
       "investmentInr": 12000,
-      "roiMonths": 0.3935447726,
-      "energySavingsPct": 0.09197569448,
+      "roiMonths": 0.3935447725502521,
+      "energySavingsPct": 0.09197569448002377,
       "ecmImplemented": 2,
-      "actualInvestmentInr": 75169,
+      "actualInvestmentInr": 0,
       "actualElecSavingsKwh": 3990,
       "actualEnergyCostSavingsInr": 75169,
       "actualCo2ReductionTonnes": 3.1521,
       "coordinates": {
-        "lat": 23.035532500745127,
-        "lng": 72.54972543760717
+        "lat": 23.016685000000003,
+        "lng": 72.57903499999999
       },
+      "status": "Actual data based on Implementation Report",
       "implementationPct": 29
     },
     {
@@ -964,24 +984,25 @@
       "annualEnergyCostInr": 70198904,
       "annualElecCostInr": 27671280,
       "annualFuelCostInr": 42527624,
-      "existingCo2Tonnes": 12583.02962,
+      "existingCo2Tonnes": 12583.029620000001,
       "ecmRecommended": 27,
       "annualElecSavingsKwh": 403310,
       "annualEnergySavingsToe": 263.20666,
       "annualSavingsInr": 7577604,
-      "annualCo2ReductionTonnes": 1949.36316,
+      "annualCo2ReductionTonnes": 1949.3631600000003,
       "investmentInr": 3438400,
-      "roiMonths": 5.445098477,
-      "energySavingsPct": 0.08724404632,
+      "roiMonths": 5.445098477038388,
+      "energySavingsPct": 0.08724404631694677,
       "ecmImplemented": 15,
       "actualInvestmentInr": 1185000,
       "actualElecSavingsKwh": 221764,
       "actualEnergyCostSavingsInr": 4332472,
-      "actualCo2ReductionTonnes": 1405.525024,
+      "actualCo2ReductionTonnes": 1361.9250240000001,
       "coordinates": {
-        "lat": 23.076466637760436,
-        "lng": 70.14834435081048
+        "lat": 23.060699999999997,
+        "lng": 70.11731
       },
+      "status": "Actual data based on Implementation Report",
       "implementationPct": 56
     },
     {
@@ -1009,16 +1030,16 @@
       "annualSavingsInr": 3930372,
       "annualCo2ReductionTonnes": 252.37103,
       "investmentInr": 959000,
-      "roiMonths": 2.927967124,
-      "energySavingsPct": 0.06831259088,
+      "roiMonths": 2.92796712372264,
+      "energySavingsPct": 0.06831259088187495,
       "ecmImplemented": 1,
       "actualInvestmentInr": 0,
       "actualElecSavingsKwh": 21456,
       "actualEnergyCostSavingsInr": 198897,
       "actualCo2ReductionTonnes": 16.95024,
       "coordinates": {
-        "lat": 21.665206115175614,
-        "lng": 69.63611892969395
+        "lat": 21.638935,
+        "lng": 69.650465
       },
       "implementationPct": 8
     },
@@ -1026,7 +1047,7 @@
       "id": "24-25/1",
       "fy": "FY24-25",
       "auditNumber": "24-25/1",
-      "companyName": "Amar Food Product ",
+      "companyName": "Amar Food Product",
       "location": "Javar Village, porbandar",
       "district": "Porbandar",
       "sector": "Sea Food",
@@ -1040,23 +1061,23 @@
       "annualEnergyCostInr": 24447685,
       "annualElecCostInr": 24447685,
       "annualFuelCostInr": 0,
-      "existingCo2Tonnes": 1934.453,
+      "existingCo2Tonnes": 1934.4529999999997,
       "ecmRecommended": 11,
       "annualElecSavingsKwh": 164896,
       "annualEnergySavingsToe": 14.181056,
       "annualSavingsInr": 2296029,
       "annualCo2ReductionTonnes": 118.065536,
       "investmentInr": 559000,
-      "roiMonths": 2.921565886,
-      "energySavingsPct": 0.06103303414,
+      "roiMonths": 2.9215658861451663,
+      "energySavingsPct": 0.061033034144535946,
       "ecmImplemented": 1,
       "actualInvestmentInr": 0,
       "actualElecSavingsKwh": 0,
       "actualEnergyCostSavingsInr": 312000,
       "actualCo2ReductionTonnes": 0,
       "coordinates": {
-        "lat": 21.662715284610012,
-        "lng": 69.63878721752243
+        "lat": 21.65229,
+        "lng": 69.6181
       },
       "implementationPct": 9
     },
@@ -1085,16 +1106,16 @@
       "annualSavingsInr": 1761877,
       "annualCo2ReductionTonnes": 132.040424,
       "investmentInr": 627000,
-      "roiMonths": 4.270445667,
-      "energySavingsPct": 0.09083377499,
+      "roiMonths": 4.270445666751993,
+      "energySavingsPct": 0.09083377498970563,
       "ecmImplemented": 2,
       "actualInvestmentInr": 25000,
       "actualElecSavingsKwh": 40428,
       "actualEnergyCostSavingsInr": 510716,
-      "actualCo2ReductionTonnes": 28.946448,
+      "actualCo2ReductionTonnes": 28.946447999999997,
       "coordinates": {
-        "lat": 20.887356766527976,
-        "lng": 70.37218280168057
+        "lat": 20.917575,
+        "lng": 70.393425
       },
       "implementationPct": 13
     },
@@ -1123,17 +1144,18 @@
       "annualSavingsInr": 1235277,
       "annualCo2ReductionTonnes": 95.903904,
       "investmentInr": 389400,
-      "roiMonths": 3.782795276,
-      "energySavingsPct": 0.07444584135,
+      "roiMonths": 3.7827952758773944,
+      "energySavingsPct": 0.07444584135072314,
       "ecmImplemented": 3,
       "actualInvestmentInr": 13500,
       "actualElecSavingsKwh": 40554,
       "actualEnergyCostSavingsInr": 420912,
       "actualCo2ReductionTonnes": 29.036664,
       "coordinates": {
-        "lat": 22.298650418987872,
-        "lng": 70.78817513391384
+        "lat": 22.290239999999997,
+        "lng": 70.81663
       },
+      "status": "Actual data based on Implementation Report",
       "implementationPct": 43
     },
     {
@@ -1147,39 +1169,40 @@
       "product": "Sugar Production",
       "auditDate": "2024-02-05",
       "auditDays": 6,
-      "utilities": "Steam Boiler, Cooling Tower, Turbine, Air Compressor, ",
+      "utilities": "Steam Boiler, Cooling Tower, Turbine, Air Compressor,",
       "sanctionedDemand": 400,
       "annualElecConsumptionKwh": 934318,
-      "annualEnergyConsumptionToe": 27956.35135,
+      "annualEnergyConsumptionToe": 27956.351348,
       "annualEnergyCostInr": 8396731,
       "annualElecCostInr": 8396731,
       "annualFuelCostInr": 339360000,
       "existingCo2Tonnes": 668.971688,
-      "ecmRecommended": 14,
+      "ecmRecommended": 12,
       "annualElecSavingsKwh": 0,
       "annualEnergySavingsToe": 355.694716,
       "annualSavingsInr": 5380157,
       "annualCo2ReductionTonnes": 0,
       "investmentInr": 1621920,
-      "roiMonths": 3.617559859,
-      "energySavingsPct": 0.01272321669,
-      "ecmImplemented": 0,
-      "actualInvestmentInr": 0,
-      "actualElecSavingsKwh": 0,
-      "actualEnergyCostSavingsInr": 0,
+      "roiMonths": 3.6175598593126557,
+      "energySavingsPct": 0.01272321668776875,
+      "ecmImplemented": 2,
+      "actualInvestmentInr": 434420,
+      "actualElecSavingsKwh": 19440,
+      "actualEnergyCostSavingsInr": 3390142,
       "actualCo2ReductionTonnes": 0,
       "coordinates": {
-        "lat": 21.6997136487941,
-        "lng": 72.98135149811249
+        "lat": 21.714385,
+        "lng": 72.978515
       },
-      "implementationPct": 0
+      "status": "Actual data based on Implementation Report",
+      "implementationPct": 17
     },
     {
       "id": "24-25/5",
       "fy": "FY24-25",
       "auditNumber": "24-25/5",
       "companyName": "Daga Sheets and Utensils Pvt. Ltd.",
-      "location": "RIICO GROWTH PHASE,\nWasda, Rajasthan",
+      "location": "RIICO GROWTH PHASE,\r\nWasda, Rajasthan",
       "district": "Abu",
       "sector": "Steel",
       "product": "Manufacturing of Utensils and Kitchen Containers",
@@ -1192,24 +1215,25 @@
       "annualEnergyCostInr": 60240936,
       "annualElecCostInr": 27447746,
       "annualFuelCostInr": 32793190,
-      "existingCo2Tonnes": 2343.143,
+      "existingCo2Tonnes": 2343.1429999999996,
       "ecmRecommended": 9,
       "annualElecSavingsKwh": 144262,
       "annualEnergySavingsToe": 69.159032,
       "annualSavingsInr": 7494162,
       "annualCo2ReductionTonnes": 928.308722,
       "investmentInr": 595000,
-      "roiMonths": 0.9527416141,
-      "energySavingsPct": 0.07410180784,
+      "roiMonths": 0.952741614072394,
+      "energySavingsPct": 0.07410180783726518,
       "ecmImplemented": 6,
       "actualInvestmentInr": 505000,
-      "actualElecSavingsKwh": 101152,
+      "actualElecSavingsKwh": 52287,
       "actualEnergyCostSavingsInr": 3844000,
-      "actualCo2ReductionTonnes": 277.228792,
+      "actualCo2ReductionTonnes": 211.446292,
       "coordinates": {
-        "lat": 24.59829730747854,
-        "lng": 72.69561122895944
+        "lat": 24.58991,
+        "lng": 72.69288
       },
+      "status": "Actual data based on Implementation Report",
       "implementationPct": 67
     },
     {
@@ -1217,7 +1241,7 @@
       "fy": "FY24-25",
       "auditNumber": "24-25/6",
       "companyName": "Gajanand Foods Pvt. Ltd",
-      "location": " Kothari Cross Road, Santej, Kalol, Gujarat 382721",
+      "location": "Kothari Cross Road, Santej, Kalol, Gujarat 382721",
       "district": "Gandhinagar",
       "sector": "Food",
       "product": "Production of Whole Spices, Ground Spices, Blended Spices, Hing and Instant Milk, Tea",
@@ -1230,25 +1254,26 @@
       "annualEnergyCostInr": 3970178,
       "annualElecCostInr": 3970178,
       "annualFuelCostInr": 0,
-      "existingCo2Tonnes": 293.582912,
+      "existingCo2Tonnes": 293.58291199999996,
       "ecmRecommended": 8,
       "annualElecSavingsKwh": 66159,
       "annualEnergySavingsToe": 5.689674,
       "annualSavingsInr": 664693,
-      "annualCo2ReductionTonnes": 47.369844,
+      "annualCo2ReductionTonnes": 47.36984399999999,
       "investmentInr": 202500,
-      "roiMonths": 3.655823064,
-      "energySavingsPct": 0.1613508214,
-      "ecmImplemented": 5,
-      "actualInvestmentInr": 135500,
+      "roiMonths": 3.6558230641815093,
+      "energySavingsPct": 0.16135082139930543,
+      "ecmImplemented": 6,
+      "actualInvestmentInr": 157500,
       "actualElecSavingsKwh": 58236,
-      "actualEnergyCostSavingsInr": 516807,
+      "actualEnergyCostSavingsInr": 587999,
       "actualCo2ReductionTonnes": 41.696976,
       "coordinates": {
-        "lat": 23.206033130102337,
-        "lng": 72.63492627253655
+        "lat": 23.208914999999998,
+        "lng": 72.62318499999999
       },
-      "implementationPct": 63
+      "status": "Actual data based on Implementation Report",
+      "implementationPct": 75
     },
     {
       "id": "24-25/7",
@@ -1258,34 +1283,35 @@
       "location": "146/B Tatithaiya, Jolwa, Palsana, Surat, Gujarat-394327",
       "district": "Surat",
       "sector": "Textile",
-      "product": " Wet Processing of Polyester Greige",
+      "product": "Wet Processing of Polyester Greige",
       "auditDate": "2024-06-10",
       "auditDays": 5,
       "utilities": "Turbine, Air Compressor, Water Pumping System,Steam Jet Machine, Boiler, Transformer",
       "sanctionedDemand": 900,
       "annualElecConsumptionKwh": 6917345,
-      "annualEnergyConsumptionToe": 1613.05797,
+      "annualEnergyConsumptionToe": 1613.0579699999998,
       "annualEnergyCostInr": 205610630,
       "annualElecCostInr": 2410630,
       "annualFuelCostInr": 203200000,
       "existingCo2Tonnes": 11372.62548,
       "ecmRecommended": 8,
       "annualElecSavingsKwh": 447973,
-      "annualEnergySavingsToe": 496.425678,
+      "annualEnergySavingsToe": 496.42567799999995,
       "annualSavingsInr": 9459289,
-      "annualCo2ReductionTonnes": 3571.3827,
+      "annualCo2ReductionTonnes": 3571.382699999999,
       "investmentInr": 2355646,
-      "roiMonths": 2.988359062,
-      "energySavingsPct": 0.307754394,
+      "roiMonths": 2.9883590616588624,
+      "energySavingsPct": 0.30775439397258614,
       "ecmImplemented": 6,
       "actualInvestmentInr": 1630000,
       "actualElecSavingsKwh": 447973,
       "actualEnergyCostSavingsInr": 5201822,
       "actualCo2ReductionTonnes": 1676.065236,
       "coordinates": {
-        "lat": 21.154025404006326,
-        "lng": 72.81634963512765
+        "lat": 21.193360000000002,
+        "lng": 72.83343
       },
+      "status": "Actual data based on Implementation Report",
       "implementationPct": 75
     },
     {
@@ -1293,13 +1319,13 @@
       "fy": "FY24-25",
       "auditNumber": "24-25/8",
       "companyName": "Topline Switchgear Pvt. Ltd.",
-      "location": "Kadi Thol Road, AT: Laxmanpura,\nTaluka: Kadi, District: Mehsana-382165",
+      "location": "Kadi Thol Road, AT: Laxmanpura,\r\nTaluka: Kadi, District: Mehsana-382165",
       "district": "Mehsana",
       "sector": "Fabrication and Galvanizing",
       "product": "Manufacturing of Switchgear & Transmission Line Tower",
       "auditDate": "2024-09-30",
       "auditDays": 5,
-      "utilities": "Pumping System, Air Compressor, Zinc Melting Furnace, Solar Panel, Transformer ",
+      "utilities": "Pumping System, Air Compressor, Zinc Melting Furnace, Solar Panel, Transformer",
       "sanctionedDemand": 250,
       "annualElecConsumptionKwh": 325774,
       "annualEnergyConsumptionToe": 303.1283156,
@@ -1311,20 +1337,21 @@
       "annualElecSavingsKwh": 33600,
       "annualEnergySavingsToe": 32.1728064,
       "annualSavingsInr": 1785144,
-      "annualCo2ReductionTonnes": 96.776448,
+      "annualCo2ReductionTonnes": 96.77644799999999,
       "investmentInr": 265000,
-      "roiMonths": 1.781368898,
-      "energySavingsPct": 0.1061359324,
-      "ecmImplemented": 2,
+      "roiMonths": 1.781368897971256,
+      "energySavingsPct": 0.10613593235695729,
+      "ecmImplemented": 3,
       "actualInvestmentInr": 0,
       "actualElecSavingsKwh": 33600,
-      "actualEnergyCostSavingsInr": 210000,
-      "actualCo2ReductionTonnes": 55.26978,
+      "actualEnergyCostSavingsInr": 1101720,
+      "actualCo2ReductionTonnes": 68.5,
       "coordinates": {
-        "lat": 23.563668156758006,
-        "lng": 72.36334354893063
+        "lat": 23.600985,
+        "lng": 72.379015
       },
-      "implementationPct": 40
+      "status": "Actual data based on Implementation Report",
+      "implementationPct": 60
     },
     {
       "id": "24-25/9",
@@ -1344,25 +1371,26 @@
       "annualEnergyCostInr": 15618689.06,
       "annualElecCostInr": 1608272.4,
       "annualFuelCostInr": 14010416.66,
-      "existingCo2Tonnes": 1814.994568,
-      "ecmRecommended": 7,
+      "existingCo2Tonnes": 1814.9945679999998,
+      "ecmRecommended": 6,
       "annualElecSavingsKwh": 179102,
       "annualEnergySavingsToe": 160.192672,
       "annualSavingsInr": 6901415,
       "annualCo2ReductionTonnes": 423.608428,
       "investmentInr": 2510000,
-      "roiMonths": 4.364322389,
-      "energySavingsPct": 0.2964849015,
+      "roiMonths": 4.364322388959366,
+      "energySavingsPct": 0.29648490150976203,
       "ecmImplemented": 4,
-      "actualInvestmentInr": 500000,
-      "actualElecSavingsKwh": 135212,
-      "actualEnergyCostSavingsInr": 1143898,
-      "actualCo2ReductionTonnes": 96.811792,
+      "actualInvestmentInr": 2115000,
+      "actualElecSavingsKwh": 76006,
+      "actualEnergyCostSavingsInr": 4692387,
+      "actualCo2ReductionTonnes": 276.5,
       "coordinates": {
-        "lat": 23.044460369183657,
-        "lng": 72.57732511332881
+        "lat": 23.02129,
+        "lng": 72.59447999999999
       },
-      "implementationPct": 57
+      "status": "Actual data based on Implementation Report",
+      "implementationPct": 67
     },
     {
       "id": "24-25/10",
@@ -1389,16 +1417,16 @@
       "annualSavingsInr": 2608083,
       "annualCo2ReductionTonnes": 211.242912,
       "investmentInr": 2009000,
-      "roiMonths": 9.243570853,
-      "energySavingsPct": 0.07567624137,
+      "roiMonths": 9.243570852614736,
+      "energySavingsPct": 0.07567624136614914,
       "ecmImplemented": 2,
       "actualInvestmentInr": 35000,
       "actualElecSavingsKwh": 51205,
       "actualEnergyCostSavingsInr": 452652,
       "actualCo2ReductionTonnes": 36.66278,
       "coordinates": {
-        "lat": 23.199144667193774,
-        "lng": 72.63935104565742
+        "lat": 23.234099999999998,
+        "lng": 72.65253
       },
       "implementationPct": 20
     },
@@ -1420,25 +1448,26 @@
       "annualEnergyCostInr": 88996129,
       "annualElecCostInr": 88996129,
       "annualFuelCostInr": 0,
-      "existingCo2Tonnes": 6681.90174,
-      "ecmRecommended": 10,
+      "existingCo2Tonnes": 6681.901739999999,
+      "ecmRecommended": 13,
       "annualElecSavingsKwh": 867746,
       "annualEnergySavingsToe": 74.626156,
       "annualSavingsInr": 16900500,
       "annualCo2ReductionTonnes": 3020.306136,
       "investmentInr": 8600000,
-      "roiMonths": 6.106328215,
-      "energySavingsPct": 0.092983429,
-      "ecmImplemented": 5,
-      "actualInvestmentInr": 35000,
-      "actualElecSavingsKwh": 158790,
-      "actualEnergyCostSavingsInr": 4271757,
-      "actualCo2ReductionTonnes": 113.69364,
+      "roiMonths": 6.106328215141564,
+      "energySavingsPct": 0.09298342899606901,
+      "ecmImplemented": 8,
+      "actualInvestmentInr": 823860,
+      "actualElecSavingsKwh": 351453,
+      "actualEnergyCostSavingsInr": 3352861,
+      "actualCo2ReductionTonnes": 251.640348,
       "coordinates": {
-        "lat": 23.190981628581763,
-        "lng": 72.63554264103709
+        "lat": 23.205775,
+        "lng": 72.651365
       },
-      "implementationPct": 50
+      "status": "Actual data based on Implementation Report",
+      "implementationPct": 62
     },
     {
       "id": "24-25/12",
@@ -1458,23 +1487,23 @@
       "annualEnergyCostInr": 18019635,
       "annualElecCostInr": 18019635,
       "annualFuelCostInr": 0,
-      "existingCo2Tonnes": 1472.837776,
+      "existingCo2Tonnes": 1472.8377759999998,
       "ecmRecommended": 11,
       "annualElecSavingsKwh": 194050,
       "annualEnergySavingsToe": 16.6883,
       "annualSavingsInr": 1927578,
       "annualCo2ReductionTonnes": 138.9398,
       "investmentInr": 300600,
-      "roiMonths": 1.87136396,
-      "energySavingsPct": 0.09433476128,
+      "roiMonths": 1.871363960368919,
+      "energySavingsPct": 0.0943347612778775,
       "ecmImplemented": 6,
       "actualInvestmentInr": 282500,
       "actualElecSavingsKwh": 60034,
       "actualEnergyCostSavingsInr": 60034,
       "actualCo2ReductionTonnes": 42.984344,
       "coordinates": {
-        "lat": 23.23383547868166,
-        "lng": 72.6215099590274
+        "lat": 23.20067,
+        "lng": 72.63114
       },
       "implementationPct": 55
     },
@@ -1482,7 +1511,7 @@
       "id": "24-25/13",
       "fy": "FY24-25",
       "auditNumber": "24-25/13",
-      "companyName": "Silver Sea Food ",
+      "companyName": "Silver Sea Food",
       "location": "Javarnaka, Porbandar, Javar Village, Gujarat 360575",
       "district": "Porbandar",
       "sector": "Sea Food",
@@ -1496,25 +1525,26 @@
       "annualEnergyCostInr": 39387582,
       "annualElecCostInr": 39387582,
       "annualFuelCostInr": 0,
-      "existingCo2Tonnes": 3100.479048,
+      "existingCo2Tonnes": 3100.4790479999997,
       "ecmRecommended": 9,
       "annualElecSavingsKwh": 169736,
       "annualEnergySavingsToe": 14.597296,
       "annualSavingsInr": 4882534,
       "annualCo2ReductionTonnes": 121.530976,
       "investmentInr": 4620000,
-      "roiMonths": 11.35475964,
-      "energySavingsPct": 0.1239612526,
-      "ecmImplemented": 4,
-      "actualInvestmentInr": 70000,
-      "actualElecSavingsKwh": 169736,
-      "actualEnergyCostSavingsInr": 1544597,
-      "actualCo2ReductionTonnes": 121.530976,
+      "roiMonths": 11.354759639154587,
+      "energySavingsPct": 0.1239612525592457,
+      "ecmImplemented": 5,
+      "actualInvestmentInr": 4560000,
+      "actualElecSavingsKwh": 236003,
+      "actualEnergyCostSavingsInr": 5196763,
+      "actualCo2ReductionTonnes": 168.97814799999998,
       "coordinates": {
-        "lat": 21.661850465035613,
-        "lng": 69.65086403196135
+        "lat": 21.658725,
+        "lng": 69.624895
       },
-      "implementationPct": 44
+      "status": "Actual data based on Implementation Report- Corrected by me",
+      "implementationPct": 56
     },
     {
       "id": "24-25/14",
@@ -1541,18 +1571,19 @@
       "annualSavingsInr": 9085322,
       "annualCo2ReductionTonnes": 731.731236,
       "investmentInr": 4703000,
-      "roiMonths": 6.211777634,
-      "energySavingsPct": 0.2166307619,
-      "ecmImplemented": 2,
-      "actualInvestmentInr": 0,
-      "actualElecSavingsKwh": 157228,
-      "actualEnergyCostSavingsInr": 1397757,
-      "actualCo2ReductionTonnes": 112.575248,
+      "roiMonths": 6.211777634298487,
+      "energySavingsPct": 0.21663076188996414,
+      "ecmImplemented": 4,
+      "actualInvestmentInr": 4150000,
+      "actualElecSavingsKwh": 749228,
+      "actualEnergyCostSavingsInr": 6659066,
+      "actualCo2ReductionTonnes": 536.447248,
       "coordinates": {
-        "lat": 23.01855612388235,
-        "lng": 72.59612398567923
+        "lat": 23.00382,
+        "lng": 72.55093
       },
-      "implementationPct": 25
+      "status": "Actual data based on Implementation Report",
+      "implementationPct": 50
     },
     {
       "id": "24-25/15",
@@ -1579,18 +1610,19 @@
       "annualSavingsInr": 11277000,
       "annualCo2ReductionTonnes": 2515.050208,
       "investmentInr": 1179000,
-      "roiMonths": 1.254588986,
-      "energySavingsPct": 0.06042303923,
-      "ecmImplemented": 3,
-      "actualInvestmentInr": 3000,
-      "actualElecSavingsKwh": 67010,
-      "actualEnergyCostSavingsInr": 3172026,
-      "actualCo2ReductionTonnes": 810.81916,
+      "roiMonths": 1.254588986432562,
+      "energySavingsPct": 0.060423039229628106,
+      "ecmImplemented": 6,
+      "actualInvestmentInr": 53000,
+      "actualElecSavingsKwh": 85928,
+      "actualEnergyCostSavingsInr": 3349666,
+      "actualCo2ReductionTonnes": 824,
       "coordinates": {
-        "lat": 20.351066782170328,
-        "lng": 72.8935909635424
+        "lat": 20.355415,
+        "lng": 72.909245
       },
-      "implementationPct": 27
+      "status": "Actual data based on Implementation Report",
+      "implementationPct": 55
     },
     {
       "id": "24-25/16",
@@ -1610,24 +1642,25 @@
       "annualEnergyCostInr": 130144900,
       "annualElecCostInr": 67962860,
       "annualFuelCostInr": 62182040,
-      "existingCo2Tonnes": 24160.68852,
+      "existingCo2Tonnes": 24160.688516000002,
       "ecmRecommended": 10,
       "annualElecSavingsKwh": 2164219,
       "annualEnergySavingsToe": 376.1461412,
       "annualSavingsInr": 8410061,
       "annualCo2ReductionTonnes": 3463.532804,
       "investmentInr": 5836000,
-      "roiMonths": 8.327169089,
-      "energySavingsPct": 0.09088125243,
+      "roiMonths": 8.327169089498875,
+      "energySavingsPct": 0.09088125243062277,
       "ecmImplemented": 5,
-      "actualInvestmentInr": 123000,
-      "actualElecSavingsKwh": 78343,
-      "actualEnergyCostSavingsInr": 1926300,
-      "actualCo2ReductionTonnes": 424.1,
+      "actualInvestmentInr": 483803,
+      "actualElecSavingsKwh": 16668,
+      "actualEnergyCostSavingsInr": 3546671,
+      "actualCo2ReductionTonnes": 1031,
       "coordinates": {
-        "lat": 20.40755536749289,
-        "lng": 72.85309519720344
+        "lat": 20.40697,
+        "lng": 72.82654000000001
       },
+      "status": "Actual data based on Implementation Report",
       "implementationPct": 50
     },
     {
@@ -1655,17 +1688,18 @@
       "annualSavingsInr": 5726848,
       "annualCo2ReductionTonnes": 1184.361532,
       "investmentInr": 385661,
-      "roiMonths": 0.8081115476,
-      "energySavingsPct": 0.04158270118,
+      "roiMonths": 0.8081115475738138,
+      "energySavingsPct": 0.041582701182083584,
       "ecmImplemented": 4,
-      "actualInvestmentInr": 77500,
-      "actualElecSavingsKwh": 53376,
-      "actualEnergyCostSavingsInr": 2653264,
-      "actualCo2ReductionTonnes": 612.366816,
+      "actualInvestmentInr": 70000,
+      "actualElecSavingsKwh": 216677,
+      "actualEnergyCostSavingsInr": 2547246,
+      "actualCo2ReductionTonnes": 255.08393199999998,
       "coordinates": {
-        "lat": 23.013432375321184,
-        "lng": 72.54858702399375
+        "lat": 23.038985,
+        "lng": 72.592175
       },
+      "status": "Actual data based on Implementation Report- Corrected by me",
       "implementationPct": 50
     },
     {
@@ -1676,35 +1710,36 @@
       "location": "1 148, behind KANTA PACKAGING, Santej, Gujarat 382621",
       "district": "Gandhinagar",
       "sector": "Chemical",
-      "product": "PVC, Rubber, Paint Additives Product ",
+      "product": "PVC, Rubber, Paint Additives Product",
       "auditDate": "2025-03-06",
       "auditDays": 3,
       "utilities": "Flash Dryer, Hot Air Generator, TFH, Air Compressor, Motors, Transformer",
       "sanctionedDemand": 180,
       "annualElecConsumptionKwh": 414033,
-      "annualEnergyConsumptionToe": 329.552588,
+      "annualEnergyConsumptionToe": 329.55258799999996,
       "annualEnergyCostInr": 7733680,
       "annualElecCostInr": 3644000,
       "annualFuelCostInr": 4089680,
       "existingCo2Tonnes": 1523.351628,
-      "ecmRecommended": 11,
+      "ecmRecommended": 8,
       "annualElecSavingsKwh": 45785,
       "annualEnergySavingsToe": 24.832435,
       "annualSavingsInr": 732092,
-      "annualCo2ReductionTonnes": 119.99566,
+      "annualCo2ReductionTonnes": 119.99565999999999,
       "investmentInr": 271000,
-      "roiMonths": 4.442064659,
-      "energySavingsPct": 0.07535196477,
-      "ecmImplemented": 9,
-      "actualInvestmentInr": 56000,
-      "actualElecSavingsKwh": 38445,
-      "actualEnergyCostSavingsInr": 339900,
-      "actualCo2ReductionTonnes": 27.52662,
+      "roiMonths": 4.4420646585401835,
+      "energySavingsPct": 0.07535196476745619,
+      "ecmImplemented": 4,
+      "actualInvestmentInr": 0,
+      "actualElecSavingsKwh": 31497.7,
+      "actualEnergyCostSavingsInr": 315655,
+      "actualCo2ReductionTonnes": 22.5523532,
       "coordinates": {
-        "lat": 23.231984467698222,
-        "lng": 72.65268443069024
+        "lat": 23.22366,
+        "lng": 72.65473
       },
-      "implementationPct": 82
+      "status": "Actual data based on Implementation Report- Corrected by me",
+      "implementationPct": 50
     },
     {
       "id": "24-25/19",
@@ -1714,35 +1749,36 @@
       "location": "Survey No. 206 P 1, Taveda Savarkundla Road, Mahuva, Dist, Gujarat 364290",
       "district": "Bhavnagar",
       "sector": "FMCG",
-      "product": "Dehydration and Processing of Foods ",
+      "product": "Dehydration and Processing of Foods",
       "auditDate": "2025-03-12",
       "auditDays": 5,
       "utilities": "Hot Water Dryer, Hot Water Generator, AHU Chiller, Air Compressor",
       "sanctionedDemand": 370,
       "annualElecConsumptionKwh": 1080377,
-      "annualEnergyConsumptionToe": 2796.992422,
+      "annualEnergyConsumptionToe": 2087.912422,
       "annualEnergyCostInr": 54966739,
       "annualElecCostInr": 9366739,
       "annualFuelCostInr": 45600000,
-      "existingCo2Tonnes": 14453.54993,
+      "existingCo2Tonnes": 14453.549932,
       "ecmRecommended": 9,
       "annualElecSavingsKwh": 115852,
       "annualEnergySavingsToe": 89.3939616,
       "annualSavingsInr": 4368292,
       "annualCo2ReductionTonnes": 651,
       "investmentInr": 5559000,
-      "roiMonths": 15.27095716,
-      "energySavingsPct": 0.03196074501,
-      "ecmImplemented": 2,
-      "actualInvestmentInr": 40000,
-      "actualElecSavingsKwh": 41067,
-      "actualEnergyCostSavingsInr": 356046,
-      "actualCo2ReductionTonnes": 29.403972,
+      "roiMonths": 15.270957161288669,
+      "energySavingsPct": 0.04281499581020262,
+      "ecmImplemented": 4,
+      "actualInvestmentInr": 60000,
+      "actualElecSavingsKwh": 46575,
+      "actualEnergyCostSavingsInr": 869863,
+      "actualCo2ReductionTonnes": 173.1669,
       "coordinates": {
-        "lat": 21.77423560034574,
-        "lng": 72.1574332838875
+        "lat": 21.745515,
+        "lng": 72.175525
       },
-      "implementationPct": 22
+      "status": "Actual data based on Implementation Report",
+      "implementationPct": 44
     },
     {
       "id": "25-26/1",
@@ -1752,7 +1788,7 @@
       "location": "Plot No-31/A, Kamla Amrut Industrial Estate, Survey No.-252, Near Hitachi Johnson, At-Budasan, Ta- Kadi, Dist- Mahesana – 382715",
       "district": "Mehsana",
       "sector": "Manufacturing",
-      "product": "PV Encapsulant and Back Sheet ",
+      "product": "PV Encapsulant and Back Sheet",
       "auditDate": "2025-04-28",
       "auditDays": 3,
       "utilities": "Transformer, Air Cooled Chillers, AHU, Solar PV, Air Compressors",
@@ -1769,17 +1805,18 @@
       "annualSavingsInr": 3205671,
       "annualCo2ReductionTonnes": 297.757908,
       "investmentInr": 255000,
-      "roiMonths": 0.9545583436,
-      "energySavingsPct": 0.1215500989,
+      "roiMonths": 0.9545583436353886,
+      "energySavingsPct": 0.12155009893813225,
       "ecmImplemented": 4,
       "actualInvestmentInr": 48000,
       "actualElecSavingsKwh": 174047,
       "actualEnergyCostSavingsInr": 1341639,
-      "actualCo2ReductionTonnes": 124.617652,
+      "actualCo2ReductionTonnes": 124.61765199999999,
       "coordinates": {
-        "lat": 23.586220052463773,
-        "lng": 72.34608347759863
+        "lat": 23.591810000000002,
+        "lng": 72.36048
       },
+      "status": "Post Assessment Pending",
       "implementationPct": 44
     },
     {
@@ -1805,19 +1842,20 @@
       "annualElecSavingsKwh": 147729,
       "annualEnergySavingsToe": 12.704694,
       "annualSavingsInr": 1240923,
-      "annualCo2ReductionTonnes": 105.773964,
+      "annualCo2ReductionTonnes": 105.77396399999999,
       "investmentInr": 92000,
-      "roiMonths": 0.8896603577,
-      "energySavingsPct": 0.2614691077,
+      "roiMonths": 0.889660357653134,
+      "energySavingsPct": 0.26146910774589555,
       "ecmImplemented": 2,
       "actualInvestmentInr": 0,
       "actualElecSavingsKwh": 36099,
       "actualEnergyCostSavingsInr": 303232,
       "actualCo2ReductionTonnes": 25.846884,
       "coordinates": {
-        "lat": 23.60231681342785,
-        "lng": 72.35011025401653
+        "lat": 23.600355,
+        "lng": 72.358785
       },
+      "status": "Post Assessment Pending",
       "implementationPct": 40
     },
     {
@@ -1843,19 +1881,20 @@
       "annualElecSavingsKwh": 311811,
       "annualEnergySavingsToe": 26.815746,
       "annualSavingsInr": 2720036,
-      "annualCo2ReductionTonnes": 223.256676,
+      "annualCo2ReductionTonnes": 223.25667599999997,
       "investmentInr": 2326000,
-      "roiMonths": 10.26162889,
-      "energySavingsPct": 0.0934475163,
+      "roiMonths": 10.261628890205865,
+      "energySavingsPct": 0.0934475162957968,
       "ecmImplemented": 2,
       "actualInvestmentInr": 15000,
       "actualElecSavingsKwh": 135563,
       "actualEnergyCostSavingsInr": 1182561,
       "actualCo2ReductionTonnes": 97.063108,
       "coordinates": {
-        "lat": 23.009779146401502,
-        "lng": 72.58297894488804
+        "lat": 23.032220000000002,
+        "lng": 72.56029
       },
+      "status": "Post Assessment Pending",
       "implementationPct": 33
     },
     {
@@ -1891,9 +1930,10 @@
       "actualEnergyCostSavingsInr": 0,
       "actualCo2ReductionTonnes": 0,
       "coordinates": {
-        "lat": 21.91793799326841,
-        "lng": 71.6490184336259
+        "lat": 21.940145,
+        "lng": 71.644575
       },
+      "status": "Post Assessment Pending",
       "implementationPct": 0
     },
     {
@@ -1910,7 +1950,7 @@
       "utilities": "Thermic fluid heater, Air compressor, Cooling tower, Calender machine, Solar Panels",
       "sanctionedDemand": 650,
       "annualElecConsumptionKwh": 2717800,
-      "annualEnergyConsumptionToe": 973.1308,
+      "annualEnergyConsumptionToe": 973.1307999999999,
       "annualEnergyCostInr": 40409143,
       "annualElecCostInr": 24833000,
       "annualFuelCostInr": 15576143,
@@ -1921,24 +1961,25 @@
       "annualSavingsInr": 3272000,
       "annualCo2ReductionTonnes": 2750,
       "investmentInr": 1220000,
-      "roiMonths": 4.474327628,
-      "energySavingsPct": 0.298160683,
+      "roiMonths": 4.474327628361858,
+      "energySavingsPct": 0.298160683024317,
       "ecmImplemented": 7,
       "actualInvestmentInr": 0,
       "actualElecSavingsKwh": 131089,
       "actualEnergyCostSavingsInr": 1420000,
       "actualCo2ReductionTonnes": 212.875724,
       "coordinates": {
-        "lat": 21.152459228135267,
-        "lng": 72.84463013376053
+        "lat": 21.15175,
+        "lng": 72.8067
       },
+      "status": "Post Assessment Pending",
       "implementationPct": 64
     },
     {
       "id": "25-26/6",
       "fy": "FY25-26",
       "auditNumber": "25-26/6",
-      "companyName": "RK Synthesis, ",
+      "companyName": "RK Synthesis,",
       "location": "DP 65 to 68, Saykha Industrial Estate, Ta Vagra, Dist, Sayakha,",
       "district": "Bharuch",
       "sector": "Chemical",
@@ -1959,17 +2000,18 @@
       "annualSavingsInr": 8080696,
       "annualCo2ReductionTonnes": 317,
       "investmentInr": 1890000,
-      "roiMonths": 2.806688929,
-      "energySavingsPct": 0.1599108111,
+      "roiMonths": 2.806688928775442,
+      "energySavingsPct": 0.15991081111512992,
       "ecmImplemented": 4,
       "actualInvestmentInr": 165000,
       "actualElecSavingsKwh": 113001,
       "actualEnergyCostSavingsInr": 899757,
       "actualCo2ReductionTonnes": 80.908716,
       "coordinates": {
-        "lat": 21.72540879872834,
-        "lng": 73.00005692161675
+        "lat": 21.695195000000002,
+        "lng": 72.991245
       },
+      "status": "Post Assessment Pending",
       "implementationPct": 31
     },
     {
@@ -1997,17 +2039,18 @@
       "annualSavingsInr": 7077056,
       "annualCo2ReductionTonnes": 635.3,
       "investmentInr": 16288500,
-      "roiMonths": 27.61911168,
-      "energySavingsPct": 0.3895757297,
+      "roiMonths": 27.619111675815482,
+      "energySavingsPct": 0.3895757296866273,
       "ecmImplemented": 4,
       "actualInvestmentInr": 0,
       "actualElecSavingsKwh": 35133,
       "actualEnergyCostSavingsInr": 419640,
-      "actualCo2ReductionTonnes": 25.155228,
+      "actualCo2ReductionTonnes": 25.155227999999997,
       "coordinates": {
-        "lat": 21.63627242541306,
-        "lng": 69.65192701398328
+        "lat": 21.6386,
+        "lng": 69.62013
       },
+      "status": "Post Assessment Pending",
       "implementationPct": 29
     },
     {
@@ -2035,17 +2078,18 @@
       "annualSavingsInr": 3856115,
       "annualCo2ReductionTonnes": 202.4,
       "investmentInr": 2007500,
-      "roiMonths": 6.247220324,
-      "energySavingsPct": 0.3154156981,
+      "roiMonths": 6.247220324082658,
+      "energySavingsPct": 0.31541569813830533,
       "ecmImplemented": 5,
       "actualInvestmentInr": 340000,
       "actualElecSavingsKwh": 81621,
       "actualEnergyCostSavingsInr": 1926484,
       "actualCo2ReductionTonnes": 58.440636,
       "coordinates": {
-        "lat": 21.628025339555357,
-        "lng": 69.62493860081972
+        "lat": 21.627745,
+        "lng": 69.653795
       },
+      "status": "Post Assessment Pending",
       "implementationPct": 33
     },
     {
@@ -2069,21 +2113,22 @@
       "existingCo2Tonnes": 28130,
       "ecmRecommended": 18,
       "annualElecSavingsKwh": 142399,
-      "annualEnergySavingsToe": 976.176314,
+      "annualEnergySavingsToe": 976.1763139999999,
       "annualSavingsInr": 14199845,
       "annualCo2ReductionTonnes": 4922,
       "investmentInr": 3391632,
-      "roiMonths": 2.866199173,
-      "energySavingsPct": 0.178037381,
+      "roiMonths": 2.8661991733008354,
+      "energySavingsPct": 0.17803738099426522,
       "ecmImplemented": 8,
       "actualInvestmentInr": 20000,
       "actualElecSavingsKwh": 103127,
       "actualEnergyCostSavingsInr": 3023382,
       "actualCo2ReductionTonnes": 880.646932,
       "coordinates": {
-        "lat": 21.14916938482353,
-        "lng": 72.85130961405949
+        "lat": 21.14685,
+        "lng": 72.80776
       },
+      "status": "Post Assessment Pending",
       "implementationPct": 44
     },
     {
@@ -2111,17 +2156,18 @@
       "annualSavingsInr": 10251239,
       "annualCo2ReductionTonnes": 572,
       "investmentInr": 12984500,
-      "roiMonths": 15.19952856,
-      "energySavingsPct": 0.3114436568,
+      "roiMonths": 15.1995285643033,
+      "energySavingsPct": 0.31144365679862274,
       "ecmImplemented": 6,
       "actualInvestmentInr": 0,
       "actualElecSavingsKwh": 57539,
       "actualEnergyCostSavingsInr": 851643,
       "actualCo2ReductionTonnes": 46,
       "coordinates": {
-        "lat": 23.093104212309765,
-        "lng": 70.14205992448528
+        "lat": 23.0901,
+        "lng": 70.12695000000001
       },
+      "status": "Post Assessment Pending",
       "implementationPct": 43
     },
     {
@@ -2149,17 +2195,18 @@
       "annualSavingsInr": 2210615,
       "annualCo2ReductionTonnes": 188,
       "investmentInr": 3040000,
-      "roiMonths": 16.50219509,
-      "energySavingsPct": 0.373340522,
+      "roiMonths": 16.502195090506486,
+      "energySavingsPct": 0.37334052198094536,
       "ecmImplemented": 12,
       "actualInvestmentInr": 3040000,
       "actualElecSavingsKwh": 221976,
       "actualEnergyCostSavingsInr": 1873892,
       "actualCo2ReductionTonnes": 158.9,
       "coordinates": {
-        "lat": 21.6333470059396,
-        "lng": 69.6161178651544
+        "lat": 21.643295,
+        "lng": 69.637385
       },
+      "status": "Post Assessment Pending",
       "implementationPct": 92
     },
     {
@@ -2168,7 +2215,7 @@
       "auditNumber": "25-26/12",
       "companyName": "Ramdev Cold Storage",
       "location": "Sabarkata, Gujarat",
-      "district": "Sbarkantha",
+      "district": "Sabarkantha",
       "sector": "Cold Storage",
       "product": "Potato",
       "auditDate": "2026-02-25",
@@ -2187,17 +2234,18 @@
       "annualSavingsInr": 1269196,
       "annualCo2ReductionTonnes": 95,
       "investmentInr": 795000,
-      "roiMonths": 7.516569545,
-      "energySavingsPct": 0.2912005178,
+      "roiMonths": 7.516569544814197,
+      "energySavingsPct": 0.2912005177719954,
       "ecmImplemented": 4,
       "actualInvestmentInr": 70000,
       "actualElecSavingsKwh": 11356,
       "actualEnergyCostSavingsInr": 249013,
       "actualCo2ReductionTonnes": 8.130896,
       "coordinates": {
-        "lat": 23.990664128810696,
-        "lng": 73.04370501504607
+        "lat": 23.97075,
+        "lng": 73.03746
       },
+      "status": "Post Assessment Pending",
       "implementationPct": 36
     },
     {
@@ -2225,17 +2273,18 @@
       "annualSavingsInr": 827090,
       "annualCo2ReductionTonnes": 55.8,
       "investmentInr": 455000,
-      "roiMonths": 6.601458124,
-      "energySavingsPct": 0.4123037827,
+      "roiMonths": 6.601458124267008,
+      "energySavingsPct": 0.41230378272493845,
       "ecmImplemented": 4,
       "actualInvestmentInr": 0,
       "actualElecSavingsKwh": 7200,
       "actualEnergyCostSavingsInr": 181419,
       "actualCo2ReductionTonnes": 5.1552,
       "coordinates": {
-        "lat": 23.503733646540795,
-        "lng": 73.0101152046729
+        "lat": 23.500745000000002,
+        "lng": 72.991795
       },
+      "status": "Post Assessment Pending",
       "implementationPct": 36
     },
     {
@@ -2252,28 +2301,29 @@
       "utilities": "Transformer, Hot Air Generator, Steam Boiler, Spray Dryer, Spin Flash Dryer, Fileter Press, Air Compressor",
       "sanctionedDemand": 800,
       "annualElecConsumptionKwh": 4229355,
-      "annualEnergyConsumptionToe": 4903.44906,
+      "annualEnergyConsumptionToe": 4903.449060000001,
       "annualEnergyCostInr": 98215864,
       "annualElecCostInr": 34366364,
       "annualFuelCostInr": 63849500,
       "existingCo2Tonnes": 26593,
       "ecmRecommended": 12,
       "annualElecSavingsKwh": 169014,
-      "annualEnergySavingsToe": 149.825204,
+      "annualEnergySavingsToe": 149.82520399999999,
       "annualSavingsInr": 3441617,
       "annualCo2ReductionTonnes": 884.4,
       "investmentInr": 4505000,
-      "roiMonths": 15.70773273,
-      "energySavingsPct": 0.03055506485,
+      "roiMonths": 15.707732731445713,
+      "energySavingsPct": 0.03055506484653885,
       "ecmImplemented": 2,
       "actualInvestmentInr": 3500000,
       "actualElecSavingsKwh": 140000,
       "actualEnergyCostSavingsInr": 1137594,
       "actualCo2ReductionTonnes": 100.24,
       "coordinates": {
-        "lat": 21.739620424787276,
-        "lng": 72.14951540223457
+        "lat": 21.77128,
+        "lng": 72.13749
       },
+      "status": "Post Assessment Pending",
       "implementationPct": 17
     },
     {
@@ -2282,7 +2332,7 @@
       "auditNumber": "25-26/15",
       "companyName": "Valient Organic",
       "location": "Plot No. A-1-210, 231, 232, 233, 235, 236, GIDC Estate, Phase 2, Beside The Green Environment Services Co-Op. Soc. Ltd., Vatva, Ahmedabad - 382445,",
-      "district": "Ahmedabad",
+      "district": "Vatva",
       "sector": "Chemical",
       "product": "Chemical",
       "auditDate": "2026-02-09",
@@ -2301,17 +2351,18 @@
       "annualSavingsInr": 2659626,
       "annualCo2ReductionTonnes": 681,
       "investmentInr": 732500,
-      "roiMonths": 3.304975963,
-      "energySavingsPct": 0.1181634941,
+      "roiMonths": 3.304975962785745,
+      "energySavingsPct": 0.11816349411245719,
       "ecmImplemented": 1,
       "actualInvestmentInr": 20000,
       "actualElecSavingsKwh": 0,
       "actualEnergyCostSavingsInr": 928226,
       "actualCo2ReductionTonnes": 199,
       "coordinates": {
-        "lat": 23.034388508860385,
-        "lng": 72.5564477515812
+        "lat": 22.242755000000002,
+        "lng": 71.20002500000001
       },
+      "status": "Post Assessment Pending",
       "implementationPct": 10
     },
     {
@@ -2319,7 +2370,7 @@
       "fy": "FY25-26",
       "auditNumber": "25-26/16",
       "companyName": "Sezon Paper Mill",
-      "location": " 8-A, National Higway, Survey No-156, P-1, Lakhdhirpur Road, At, Kalikanagar, Morbi, Gujarat 363641",
+      "location": "8-A, National Higway, Survey No-156, P-1, Lakhdhirpur Road, At, Kalikanagar, Morbi, Gujarat 363641",
       "district": "Morbi",
       "sector": "Paper",
       "product": "Paper Craft",
@@ -2328,32 +2379,336 @@
       "utilities": "Air Compressor, Steam Boiler, Paper Manufacturing Machine, Large Motors, Ground Mounted Solar",
       "sanctionedDemand": 3400,
       "annualElecConsumptionKwh": 20384949,
-      "annualEnergyConsumptionToe": 13243.10561,
+      "annualEnergyConsumptionToe": 13243.105614,
       "annualEnergyCostInr": 368542340,
       "annualElecCostInr": 181823340,
       "annualFuelCostInr": 186719000,
       "existingCo2Tonnes": 83509,
       "ecmRecommended": 12,
       "annualElecSavingsKwh": 634338,
-      "annualEnergySavingsToe": 795.033068,
+      "annualEnergySavingsToe": 795.0330680000001,
       "annualSavingsInr": 18402371,
       "annualCo2ReductionTonnes": 4895,
       "investmentInr": 592500,
-      "roiMonths": 0.3863632572,
-      "energySavingsPct": 0.06003373311,
+      "roiMonths": 0.3863632572128885,
+      "energySavingsPct": 0.060033733111629635,
+      "ecmImplemented": 5,
+      "actualInvestmentInr": 0,
+      "actualElecSavingsKwh": 0,
+      "actualEnergyCostSavingsInr": 0,
+      "actualCo2ReductionTonnes": 0,
+      "coordinates": {
+        "lat": 22.82949,
+        "lng": 70.82408
+      },
+      "status": "Post Assessment Pending",
+      "implementationPct": 42
+    },
+    {
+      "id": "26-27/1",
+      "fy": "FY26-27",
+      "auditNumber": "26-27/1",
+      "companyName": "Shri Mahadev Silk Mills",
+      "location": "Surat Bardoli Road Block 301 - 303 , Plot No 5 Opp Mahavir Dying Tatithaiya, Palsana, Surat, Gujarat 394305",
+      "district": "Surat",
+      "sector": "Textile",
+      "product": "Saree",
+      "auditDate": "2026-05-06",
+      "auditDays": 4,
+      "utilities": "Transformer, Jet Machine, Drum, Soflina, Stenter, Air Compressors, Boring Pump",
+      "sanctionedDemand": 750,
+      "annualElecConsumptionKwh": 5104212,
+      "annualEnergyConsumptionToe": 7992.242232,
+      "annualEnergyCostInr": 164535897.6,
+      "annualElecCostInr": 41795097.599999994,
+      "annualFuelCostInr": 122740800,
+      "existingCo2Tonnes": 48956,
+      "ecmRecommended": 9,
+      "annualElecSavingsKwh": 122196,
+      "annualEnergySavingsToe": 753.9996560000001,
+      "annualSavingsInr": 13300000,
+      "annualCo2ReductionTonnes": 5989,
+      "investmentInr": 3710000,
+      "roiMonths": 3.3473684210526313,
+      "energySavingsPct": 0.09434144187735877,
       "ecmImplemented": 0,
       "actualInvestmentInr": 0,
       "actualElecSavingsKwh": 0,
       "actualEnergyCostSavingsInr": 0,
       "actualCo2ReductionTonnes": 0,
       "coordinates": {
-        "lat": 22.820437874570164,
-        "lng": 70.8545399217898
+        "lat": 21.181430000000002,
+        "lng": 72.81734
       },
+      "status": "Post Assessment Pending",
+      "implementationPct": 0
+    },
+    {
+      "id": "26-27/2",
+      "fy": "FY26-27",
+      "auditNumber": "26-27/2",
+      "companyName": "Bills Biotech Pvt. Ltd.",
+      "location": "Plot No. P/01, Biotech Park Phase 1, Manjusar GIDC,\r\nIndustrial Estate, Savli, Vadodara - 391775\r\nGujarat, India.",
+      "district": "Vadodara",
+      "sector": "Pharma",
+      "product": "Medicine",
+      "auditDate": "2026-06-08",
+      "auditDays": 3,
+      "utilities": "Transformer, AHU, Chiller, Air Compressor, Heat Blower",
+      "sanctionedDemand": 800,
+      "annualElecConsumptionKwh": 3009825,
+      "annualEnergyConsumptionToe": 420.73494999999997,
+      "annualEnergyCostInr": 38177810,
+      "annualElecCostInr": 25072170,
+      "annualFuelCostInr": 13105640,
+      "existingCo2Tonnes": 2547,
+      "ecmRecommended": 10,
+      "annualElecSavingsKwh": 784856,
+      "annualEnergySavingsToe": 72.387616,
+      "annualSavingsInr": 7100000,
+      "annualCo2ReductionTonnes": 572,
+      "investmentInr": 8120000,
+      "roiMonths": 13.72394366197183,
+      "energySavingsPct": 0.1720503989506933,
+      "ecmImplemented": 0,
+      "actualInvestmentInr": 0,
+      "actualElecSavingsKwh": 0,
+      "actualEnergyCostSavingsInr": 0,
+      "actualCo2ReductionTonnes": 0,
+      "coordinates": {
+        "lat": 22.289375000000003,
+        "lng": 73.18766500000001
+      },
+      "status": "Post Assessment Pending",
+      "implementationPct": 0
+    },
+    {
+      "id": "26-27/3",
+      "fy": "FY26-27",
+      "auditNumber": "26-27/3",
+      "companyName": "Investment & Precision Castings ltd.",
+      "location": "Nari Road, Bhavnagar, Gujarat, India 364 006",
+      "district": "Bhavnagar",
+      "sector": "Foundry",
+      "product": "Automobile Spare parts",
+      "auditDate": "2026-06-22",
+      "auditDays": 10,
+      "utilities": "Pumping System, Induction Furnace, Heat Treatment Furnace, Air Compressor, Motors, Transformers",
+      "sanctionedDemand": 3600,
+      "annualElecConsumptionKwh": 15948520,
+      "annualEnergyConsumptionToe": 2291.53862,
+      "annualEnergyCostInr": 204438715,
+      "annualElecCostInr": 140068715,
+      "annualFuelCostInr": 64369999.99999999,
+      "existingCo2Tonnes": 13449.6,
+      "ecmRecommended": 11,
+      "annualElecSavingsKwh": 1003.7,
+      "annualEnergySavingsToe": 88.18671819999999,
+      "annualSavingsInr": 25015000,
+      "annualCo2ReductionTonnes": 5989,
+      "investmentInr": 27189999.999999996,
+      "roiMonths": 13.043373975614628,
+      "energySavingsPct": 0.03848362730190425,
+      "ecmImplemented": 0,
+      "actualInvestmentInr": 0,
+      "actualElecSavingsKwh": 0,
+      "actualEnergyCostSavingsInr": 0,
+      "actualCo2ReductionTonnes": 0,
+      "coordinates": {
+        "lat": 21.759400000000003,
+        "lng": 72.14393
+      },
+      "status": "Post Assessment Pending",
+      "implementationPct": 0
+    },
+    {
+      "id": "26-27/4",
+      "fy": "FY26-27",
+      "auditNumber": "26-27/4",
+      "companyName": "Shree Raghukul Tex Prints Pvt. Ltd.",
+      "location": "Plot No-146A, Taluka-Palsana, Tatithaiya, Post- Jolwa, Kadodara, Gujarat 394305",
+      "district": "Surat",
+      "sector": "Textile",
+      "product": "Saree",
+      "auditDate": "2026-07-21",
+      "auditDays": 4,
+      "utilities": "Transformer, Jet Machine, Drum, Soflina, Stenter, Air Compressors, Boring Pump",
+      "sanctionedDemand": 1500,
+      "annualElecConsumptionKwh": 7397520,
+      "annualEnergyConsumptionToe": 15171.29556,
+      "annualEnergyCostInr": 397928861,
+      "annualElecCostInr": 66077061,
+      "annualFuelCostInr": 331851800,
+      "existingCo2Tonnes": 118982,
+      "ecmRecommended": 8,
+      "annualElecSavingsKwh": 134766,
+      "annualEnergySavingsToe": 656.3948172,
+      "annualSavingsInr": 15930000.000000002,
+      "annualCo2ReductionTonnes": 5140.99,
+      "investmentInr": 1960000.0000000002,
+      "roiMonths": 1.4764595103578153,
+      "energySavingsPct": 0.0432655744266576,
+      "ecmImplemented": 0,
+      "actualInvestmentInr": 0,
+      "actualElecSavingsKwh": 0,
+      "actualEnergyCostSavingsInr": 0,
+      "actualCo2ReductionTonnes": 0,
+      "coordinates": {
+        "lat": 21.153325000000002,
+        "lng": 72.834355
+      },
+      "status": "Post Assessment Pending",
+      "implementationPct": 0
+    },
+    {
+      "id": "26-27/5",
+      "fy": "FY26-27",
+      "auditNumber": "26-27/5",
+      "companyName": "Diva Fabrics Pvt. Ltd.",
+      "location": "8-13, SAYAN TEXTILE PARK-2, SUGAR ROAD, Sayan, Gujarat 394130",
+      "district": "Surat",
+      "sector": "Textile",
+      "product": "Fabric",
+      "auditDate": "2026-10-07",
+      "auditDays": 2,
+      "utilities": "Transformer, Looms Motor, Air Compressor",
+      "sanctionedDemand": 350,
+      "annualElecConsumptionKwh": 1211478,
+      "annualEnergyConsumptionToe": 104.187108,
+      "annualEnergyCostInr": 8107268,
+      "annualElecCostInr": 8107268,
+      "annualFuelCostInr": 0,
+      "existingCo2Tonnes": 860,
+      "ecmRecommended": 4,
+      "annualElecSavingsKwh": 178951,
+      "annualEnergySavingsToe": 15.389786,
+      "annualSavingsInr": 1199000,
+      "annualCo2ReductionTonnes": 127.1,
+      "investmentInr": 5020000,
+      "roiMonths": 50.241868223519596,
+      "energySavingsPct": 0.14771295888163055,
+      "ecmImplemented": 0,
+      "actualInvestmentInr": 0,
+      "actualElecSavingsKwh": 0,
+      "actualEnergyCostSavingsInr": 0,
+      "actualCo2ReductionTonnes": 0,
+      "coordinates": {
+        "lat": 21.145770000000002,
+        "lng": 72.825
+      },
+      "status": "Post Assessment Pending",
+      "implementationPct": 0
+    },
+    {
+      "id": "26-27/6",
+      "fy": "FY26-27",
+      "auditNumber": "26-27/6",
+      "companyName": "Steelcast Limited",
+      "location": "Q5M7+8C4, 6 Ruvapari road, Krishna Nagar, Bhavnagar, Gujarat 364005",
+      "district": "Bhavnagar",
+      "sector": "Foundry",
+      "product": "Automobile Spare parts",
+      "auditDate": "2026-10-12",
+      "auditDays": 7,
+      "utilities": "Pumping System, Induction Furnace, Heat Treatment Furnace, Air Compressor, Motors, Transformers",
+      "sanctionedDemand": 10000,
+      "annualElecConsumptionKwh": 0,
+      "annualEnergyConsumptionToe": 0,
+      "annualEnergyCostInr": 0,
+      "annualElecCostInr": 0,
+      "annualFuelCostInr": 0,
+      "existingCo2Tonnes": 0,
+      "ecmRecommended": 0,
+      "annualElecSavingsKwh": 0,
+      "annualEnergySavingsToe": 0,
+      "annualSavingsInr": 0,
+      "annualCo2ReductionTonnes": 0,
+      "investmentInr": 0,
+      "roiMonths": 0,
+      "energySavingsPct": 0,
+      "ecmImplemented": 0,
+      "actualInvestmentInr": 0,
+      "actualElecSavingsKwh": 0,
+      "actualEnergyCostSavingsInr": 0,
+      "actualCo2ReductionTonnes": 0,
+      "coordinates": {
+        "lat": 21.745175000000003,
+        "lng": 72.156505
+      },
+      "status": "Report Under Process",
+      "implementationPct": 0
+    },
+    {
+      "id": "26-27/7",
+      "fy": "FY26-27",
+      "auditNumber": "26-27/7",
+      "companyName": "Vimal Crop Care Pvt. Ltd., Limbadiya",
+      "location": "Plot No 98, National Highway No 8,\r\nLimbadia, Gandhinagar,\r\nGujarat 382 330",
+      "district": "Gandhinagar",
+      "sector": "Chemical",
+      "product": "Agriculture Pesticides & Chemical",
+      "auditDate": "2026-10-27",
+      "auditDays": 3,
+      "utilities": "Chiller, Cooling Tower, Air Compressor, Motors, Transformers",
+      "sanctionedDemand": 250,
+      "annualElecConsumptionKwh": 0,
+      "annualEnergyConsumptionToe": 0,
+      "annualEnergyCostInr": 0,
+      "annualElecCostInr": 0,
+      "annualFuelCostInr": 0,
+      "existingCo2Tonnes": 0,
+      "ecmRecommended": 0,
+      "annualElecSavingsKwh": 0,
+      "annualEnergySavingsToe": 0,
+      "annualSavingsInr": 0,
+      "annualCo2ReductionTonnes": 0,
+      "investmentInr": 0,
+      "roiMonths": 0,
+      "energySavingsPct": 0,
+      "ecmImplemented": 0,
+      "actualInvestmentInr": 0,
+      "actualElecSavingsKwh": 0,
+      "actualEnergyCostSavingsInr": 0,
+      "actualCo2ReductionTonnes": 0,
+      "coordinates": {
+        "lat": 23.212919999999997,
+        "lng": 72.61659
+      },
+      "status": "Report Under Process",
       "implementationPct": 0
     }
   ],
   "paidAudits": [
+    {
+      "id": "paid-24-25/1",
+      "fy": "FY24-25",
+      "auditNumber": "24-25/1",
+      "isPaid": true,
+      "companyName": "Modern Insulators",
+      "location": "GQMX+R2W, talehati, Abu Road, Rajasthan 307026",
+      "district": "Sirohi",
+      "sector": "Ceramic",
+      "product": "Insulators",
+      "sourceOfLead": "Direct",
+      "auditDate": "2024-07-20",
+      "auditDays": 0,
+      "utilities": "Transformer, Thermic Oil Heater, Air Compressor, Cooling Tower, Solar PV, Hot Air Dryer, Kilns, Pumping System, Induction Furnace, Pug Mill, Humidification, Stebalizer",
+      "sanctionedDemand": 6250,
+      "annualElecConsumptionKwh": 31628250,
+      "annualEnergyConsumptionToe": 13456.595500000001,
+      "annualEnergyCostInr": 666345766,
+      "existingCo2Tonnes": 60315.12699999999,
+      "ecmRecommended": 17,
+      "annualElecSavingsKwh": 1375263,
+      "annualSavingsInr": 99107041.91,
+      "annualCo2ReductionTonnes": 4126,
+      "investmentInr": 71120574,
+      "roiMonths": 8.611364758268367,
+      "coordinates": {
+        "lat": 24.871275,
+        "lng": 72.852705
+      }
+    },
     {
       "id": "paid-25-26/1",
       "fy": "FY25-26",
@@ -2378,10 +2733,10 @@
       "annualSavingsInr": 8961158,
       "annualCo2ReductionTonnes": 2750,
       "investmentInr": 1220235,
-      "roiMonths": 1.63403212,
+      "roiMonths": 1.6340321195095542,
       "coordinates": {
-        "lat": 21.15896388542918,
-        "lng": 72.82130751250989
+        "lat": 21.160155,
+        "lng": 72.814025
       }
     },
     {
@@ -2408,10 +2763,10 @@
       "annualSavingsInr": 7120632,
       "annualCo2ReductionTonnes": 1588,
       "investmentInr": 2174000,
-      "roiMonths": 3.663719737,
+      "roiMonths": 3.663719737236807,
       "coordinates": {
-        "lat": 21.171469486869174,
-        "lng": 72.80787975154362
+        "lat": 21.15457,
+        "lng": 72.85284
       }
     },
     {
@@ -2438,10 +2793,10 @@
       "annualSavingsInr": 4244357,
       "annualCo2ReductionTonnes": 905.3,
       "investmentInr": 1980000,
-      "roiMonths": 5.59802109,
+      "roiMonths": 5.598021090120365,
       "coordinates": {
-        "lat": 21.180535053399574,
-        "lng": 72.82112377356204
+        "lat": 21.162605000000003,
+        "lng": 72.84683500000001
       }
     },
     {
@@ -2468,10 +2823,10 @@
       "annualSavingsInr": 4244357,
       "annualCo2ReductionTonnes": 905.3,
       "investmentInr": 814000,
-      "roiMonths": 2.30140867,
+      "roiMonths": 2.3014086703828163,
       "coordinates": {
-        "lat": 21.167913920760203,
-        "lng": 72.84647024355661
+        "lat": 21.177020000000002,
+        "lng": 72.81601
       }
     },
     {
@@ -2498,31 +2853,100 @@
       "annualSavingsInr": 17580308,
       "annualCo2ReductionTonnes": 5325,
       "investmentInr": 3361000,
-      "roiMonths": 2.294157759,
+      "roiMonths": 2.2941577587832933,
       "coordinates": {
-        "lat": 21.177480618691497,
-        "lng": 72.83918110094122
+        "lat": 21.173335,
+        "lng": 72.83948500000001
+      }
+    },
+    {
+      "id": "paid-26-27/1",
+      "fy": "FY26-27",
+      "auditNumber": "26-27/1",
+      "isPaid": true,
+      "companyName": "J P Kachiwala Textiles P Ltd",
+      "location": "Gujarat Eco Textile Park, A-36, N H:48, near palsana, Chokdi, Palsana, Gujarat 394315",
+      "district": "Surat",
+      "sector": "Textile",
+      "product": "Textile Processing Unit",
+      "sourceOfLead": "WRI",
+      "auditDate": "2026-07-01",
+      "auditDays": 8,
+      "utilities": "Stenter, Printing Machine, Transformer, Air Compressor, Boiler, TFH, HAG",
+      "sanctionedDemand": 400,
+      "annualElecConsumptionKwh": 2503083,
+      "annualEnergyConsumptionToe": 4505.636738,
+      "annualEnergyCostInr": 925926827,
+      "existingCo2Tonnes": 28130,
+      "ecmRecommended": 13,
+      "annualElecSavingsKwh": 155263.82660597746,
+      "annualSavingsInr": 14049038,
+      "annualCo2ReductionTonnes": 4931,
+      "investmentInr": 3291632,
+      "roiMonths": 2.8115507979976995,
+      "coordinates": {
+        "lat": 21.158555,
+        "lng": 72.812425
+      }
+    },
+    {
+      "id": "paid-26-27/2",
+      "fy": "FY26-27",
+      "auditNumber": "26-27/2",
+      "isPaid": true,
+      "companyName": "Shailja Texprints Pvt. Ltd.",
+      "location": "Tantithaiya, Gujarat 394305",
+      "district": "Surat",
+      "sector": "Textile",
+      "product": "Textile Processing Unit",
+      "sourceOfLead": "Direct",
+      "auditDate": "2026-07-20",
+      "auditDays": 7,
+      "utilities": "Stenter, Printing Machine, Transformer, Air Compressor, Boiler, TFH, HAG",
+      "sanctionedDemand": 0,
+      "annualElecConsumptionKwh": 0,
+      "annualEnergyConsumptionToe": 0,
+      "annualEnergyCostInr": 0,
+      "existingCo2Tonnes": 0,
+      "ecmRecommended": 0,
+      "annualElecSavingsKwh": 0,
+      "annualSavingsInr": 0,
+      "annualCo2ReductionTonnes": 0,
+      "investmentInr": 0,
+      "roiMonths": 0,
+      "coordinates": {
+        "lat": 21.162650000000003,
+        "lng": 72.81092000000001
       }
     }
   ],
   "sectorBreakdown": [
+    {
+      "sector": "Chemical",
+      "count": 8,
+      "totalSavingsInr": 32139036,
+      "totalCo2Reduction": 5050.11377,
+      "totalInvestment": 7038290,
+      "totalEcmRecommended": 62,
+      "totalEcmImplemented": 29
+    },
+    {
+      "sector": "Textile",
+      "count": 8,
+      "totalSavingsInr": 68668402,
+      "totalCo2Reduction": 25117.519232,
+      "totalInvestment": 19086939,
+      "totalEcmRecommended": 78,
+      "totalEcmImplemented": 34
+    },
     {
       "sector": "Cold Storage",
       "count": 7,
       "totalSavingsInr": 7562804,
       "totalCo2Reduction": 796.04,
       "totalInvestment": 5753500,
-      "totalEcmRecommended": 56,
-      "totalEcmImplemented": 25
-    },
-    {
-      "sector": "Chemical",
-      "count": 7,
-      "totalSavingsInr": 32139036,
-      "totalCo2Reduction": 5050.11377,
-      "totalInvestment": 7038290,
-      "totalEcmRecommended": 65,
-      "totalEcmImplemented": 34
+      "totalEcmRecommended": 55,
+      "totalEcmImplemented": 23
     },
     {
       "sector": "Sea Food",
@@ -2531,16 +2955,7 @@
       "totalCo2Reduction": 1461.707966,
       "totalInvestment": 25061000,
       "totalEcmRecommended": 77,
-      "totalEcmImplemented": 17
-    },
-    {
-      "sector": "Textile",
-      "count": 5,
-      "totalSavingsInr": 38239402,
-      "totalCo2Reduction": 13860.429231999999,
-      "totalInvestment": 8396939,
-      "totalEcmRecommended": 57,
-      "totalEcmImplemented": 34
+      "totalEcmImplemented": 18
     },
     {
       "sector": "CETP",
@@ -2557,17 +2972,26 @@
       "totalSavingsInr": 51038060,
       "totalCo2Reduction": 14971.555662,
       "totalInvestment": 9102500,
-      "totalEcmRecommended": 47,
-      "totalEcmImplemented": 16
+      "totalEcmRecommended": 45,
+      "totalEcmImplemented": 25
     },
     {
       "sector": "Pharma",
+      "count": 4,
+      "totalSavingsInr": 11091845,
+      "totalCo2Reduction": 1500.01116,
+      "totalInvestment": 12698000,
+      "totalEcmRecommended": 42,
+      "totalEcmImplemented": 14
+    },
+    {
+      "sector": "Foundry",
       "count": 3,
-      "totalSavingsInr": 3991845,
-      "totalCo2Reduction": 928.01116,
-      "totalInvestment": 4578000,
-      "totalEcmRecommended": 32,
-      "totalEcmImplemented": 15
+      "totalSavingsInr": 27067721,
+      "totalCo2Reduction": 6190.16323,
+      "totalInvestment": 28972499.999999996,
+      "totalEcmRecommended": 22,
+      "totalEcmImplemented": 4
     },
     {
       "sector": "Manufacturing",
@@ -2576,7 +3000,7 @@
       "totalCo2Reduction": 1135.2631079999999,
       "totalInvestment": 5050000,
       "totalEcmRecommended": 22,
-      "totalEcmImplemented": 8
+      "totalEcmImplemented": 10
     },
     {
       "sector": "Diamond",
@@ -2597,15 +3021,6 @@
       "totalEcmImplemented": 4
     },
     {
-      "sector": "Foundry",
-      "count": 1,
-      "totalSavingsInr": 2052721,
-      "totalCo2Reduction": 201.16323,
-      "totalInvestment": 1782500,
-      "totalEcmRecommended": 11,
-      "totalEcmImplemented": 4
-    },
-    {
       "sector": "Dyeing and Printing",
       "count": 1,
       "totalSavingsInr": 2065226,
@@ -2618,7 +3033,7 @@
       "sector": "Ceramic",
       "count": 1,
       "totalSavingsInr": 19782707,
-      "totalCo2Reduction": 3045.64556,
+      "totalCo2Reduction": 3045.6455599999995,
       "totalInvestment": 11017623,
       "totalEcmRecommended": 19,
       "totalEcmImplemented": 12
@@ -2627,7 +3042,7 @@
       "sector": "Laminates",
       "count": 1,
       "totalSavingsInr": 7577604,
-      "totalCo2Reduction": 1949.36316,
+      "totalCo2Reduction": 1949.3631600000003,
       "totalInvestment": 3438400,
       "totalEcmRecommended": 27,
       "totalEcmImplemented": 15
@@ -2647,8 +3062,8 @@
       "totalSavingsInr": 5380157,
       "totalCo2Reduction": 0,
       "totalInvestment": 1621920,
-      "totalEcmRecommended": 14,
-      "totalEcmImplemented": 0
+      "totalEcmRecommended": 12,
+      "totalEcmImplemented": 2
     },
     {
       "sector": "Steel",
@@ -2663,19 +3078,19 @@
       "sector": "Food",
       "count": 1,
       "totalSavingsInr": 664693,
-      "totalCo2Reduction": 47.369844,
+      "totalCo2Reduction": 47.36984399999999,
       "totalInvestment": 202500,
       "totalEcmRecommended": 8,
-      "totalEcmImplemented": 5
+      "totalEcmImplemented": 6
     },
     {
       "sector": "Fabrication and Galvanizing",
       "count": 1,
       "totalSavingsInr": 1785144,
-      "totalCo2Reduction": 96.776448,
+      "totalCo2Reduction": 96.77644799999999,
       "totalInvestment": 265000,
       "totalEcmRecommended": 5,
-      "totalEcmImplemented": 2
+      "totalEcmImplemented": 3
     },
     {
       "sector": "Aluminium Casting",
@@ -2683,7 +3098,7 @@
       "totalSavingsInr": 6901415,
       "totalCo2Reduction": 423.608428,
       "totalInvestment": 2510000,
-      "totalEcmRecommended": 7,
+      "totalEcmRecommended": 6,
       "totalEcmImplemented": 4
     },
     {
@@ -2701,8 +3116,8 @@
       "totalSavingsInr": 16900500,
       "totalCo2Reduction": 3020.306136,
       "totalInvestment": 8600000,
-      "totalEcmRecommended": 10,
-      "totalEcmImplemented": 5
+      "totalEcmRecommended": 13,
+      "totalEcmImplemented": 8
     },
     {
       "sector": "Copper Casting",
@@ -2720,13 +3135,13 @@
       "totalCo2Reduction": 651,
       "totalInvestment": 5559000,
       "totalEcmRecommended": 9,
-      "totalEcmImplemented": 2
+      "totalEcmImplemented": 4
     },
     {
       "sector": "Manufacturing/Casting",
       "count": 1,
       "totalSavingsInr": 2720036,
-      "totalCo2Reduction": 223.256676,
+      "totalCo2Reduction": 223.25667599999997,
       "totalInvestment": 2326000,
       "totalEcmRecommended": 6,
       "totalEcmImplemented": 2
@@ -2786,7 +3201,7 @@
       "FY23-24": 7334.76026,
       "FY24-25": 5577.393947999999,
       "FY25-26": 4082.705348,
-      "total": 18823.18146
+      "total": 18823.181458
     },
     "Actual Fuel/Fuels Used**": {
       "FY22-23": 21400700,
@@ -2800,56 +3215,56 @@
       "FY23-24": 26521.7633122,
       "FY24-25": 48588.8576916,
       "FY25-26": 26714.903012,
-      "total": 110491.7893
+      "total": 110491.7893258
     },
     "Annual Energy Consumption in Metric ToE": {
       "FY22-23": 10494.587211999999,
       "FY23-24": 33856.52357220001,
       "FY24-25": 54166.251639600014,
       "FY25-26": 30797.60836,
-      "total": 129314.9708
+      "total": 129314.97078380002
     },
     "Annual Energy Cost in INR": {
       "FY22-23": 427052140,
       "FY23-24": 1755307029,
       "FY24-25": 1074920777.06,
       "FY25-26": 821462135,
-      "total": 4078742081
+      "total": 4078742081.06
     },
     "Annual Electricity Cost in INR": {
       "FY22-23": 167425679,
       "FY23-24": 766095329,
       "FY24-25": 479819290.4,
       "FY25-26": 415149572,
-      "total": 1828489870
+      "total": 1828489870.4
     },
     "Annual Fuel Cost in INR": {
       "FY22-23": 259626461,
       "FY23-24": 989211700,
       "FY24-25": 934461486.66,
       "FY25-26": 406312563,
-      "total": 2589612211
+      "total": 2589612210.66
     },
     "Average Electricity Cost per Unit in INR**": {
       "FY22-23": 43.41994855743543,
       "FY23-24": 167.60624686039338,
       "FY24-25": 171.69990417115312,
       "FY25-26": 129.2223871673782,
-      "total": 511.9484868
+      "total": 511.9484867563601
     },
     "Average Fuel Cost per actual unit in INR**": {
       "FY22-23": 93.73235584899237,
       "FY23-24": 131.23616087799564,
       "FY24-25": 261.8485527473086,
       "FY25-26": 36.8,
-      "total": 523.6170695
+      "total": 523.6170694742966
     },
     "Existing Overall CO2 Emission in Tonnes**": {
       "FY22-23": 20818.813290000002,
       "FY23-24": 474422.32159999997,
       "FY24-25": 154080.831464,
       "FY25-26": 155245.922416,
-      "total": 804567.8888
+      "total": 804567.8887699998
     },
     "No. of ECMs Recommended": {
       "FY22-23": 70,
@@ -2877,7 +3292,7 @@
       "FY23-24": 2213.4470339999993,
       "FY24-25": 2547.1566149999994,
       "FY25-26": 3577.595316,
-      "total": 9488.891622
+      "total": 9488.891622199997
     },
     "Annual Energy Cost Savings Recommended in INR": {
       "FY22-23": 45715149.2,
@@ -2891,21 +3306,21 @@
       "FY23-24": 0.06537726855740993,
       "FY24-25": 0.04702479012112068,
       "FY25-26": 0.11616471234326717,
-      "total": 0.338213071
+      "total": 0.3382130709624228
     },
     "Percentage of Overall Energy Cost Savings (%)": {
       "FY22-23": 0.10704816793565301,
       "FY23-24": 0.06107757915210855,
       "FY24-25": 0.09572459217081124,
       "FY25-26": 0.10069130697058849,
-      "total": 0.3645416462
+      "total": 0.3645416462291613
     },
     "Annual CO2 Emmision Reduction Recommended in Tonnes": {
       "FY22-23": 6385.030000000001,
       "FY23-24": 18427.628849999994,
       "FY24-25": 17571.147269999998,
       "FY25-26": 16824.688548,
-      "total": 59208.49467
+      "total": 59208.49466799999
     },
     "Total Investment Proposed in INR": {
       "FY22-23": 13883155,
@@ -2919,7 +3334,7 @@
       "FY23-24": 68.07316740046552,
       "FY24-25": 93.225673459843,
       "FY25-26": 121.33821859716602,
-      "total": 328.4552489
+      "total": 328.4552488584923
     },
     "No.of ECMs Implemented": {
       "FY22-23": 31,
@@ -2947,7 +3362,7 @@
       "FY23-24": 1069.351142,
       "FY24-25": 619.3424127999999,
       "FY25-26": 252.3316675,
-      "total": 2190.612912
+      "total": 2190.6129123
     },
     "Actual Energy Cost Savings Achieved in INR": {
       "FY22-23": 15723086,
@@ -2961,7 +3376,7 @@
       "FY23-24": 10107.013034,
       "FY24-25": 4536.719244,
       "FY25-26": 2022.980976,
-      "total": 19084.41325
+      "total": 19084.413254
     },
     "No of audit": {
       "FY22-23": 6,
@@ -2985,15 +3400,15 @@
       "total": 0
     },
     "MTOE thermal": {
-      "FY22-23": 249.58769,
+      "FY22-23": 249.58768999999998,
       "FY23-24": 1069.351142,
-      "FY24-25": 619.3424128,
+      "FY24-25": 619.3424127999999,
       "FY25-26": 252.3316675,
       "total": 0
     },
     "Tco2": {
-      "FY22-23": 2417.7,
-      "FY23-24": 10107.01303,
+      "FY22-23": 2417.7000000000003,
+      "FY23-24": 10107.013034,
       "FY24-25": 4536.719244,
       "FY25-26": 2022.980976,
       "total": 0
@@ -3001,12 +3416,12 @@
     "Total TOE Savings": {
       "FY22-23": 382.638204,
       "FY23-24": 1308.63006,
-      "FY24-25": 768.3278668,
+      "FY24-25": 768.3278667999999,
       "FY25-26": 359.6382535,
-      "total": 2819.234384
+      "total": 2819.2343843
     },
     "Rec elec TOE": {
-      "FY22-23": 187.4361572,
+      "FY22-23": 187.43615720000003,
       "FY23-24": 548.168042,
       "FY24-25": 580.044716,
       "FY25-26": 468.580116,
@@ -3015,8 +3430,8 @@
     "Rec Thermal TOE": {
       "FY22-23": 963.2565,
       "FY23-24": 1665.278992,
-      "FY24-25": 1967.111899,
-      "FY25-26": 3109.0152,
+      "FY24-25": 1967.1118990000002,
+      "FY25-26": 3109.0152000000003,
       "total": 0
     },
     "Imp elec TOE": {
@@ -3027,9 +3442,9 @@
       "total": 0
     },
     "Imp thermal TOE": {
-      "FY22-23": 249.58769,
+      "FY22-23": 249.58768999999998,
       "FY23-24": 1069.351142,
-      "FY24-25": 619.3424128,
+      "FY24-25": 619.3424127999999,
       "FY25-26": 252.3316675,
       "total": 0
     }
