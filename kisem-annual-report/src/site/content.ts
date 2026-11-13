@@ -42,12 +42,12 @@ export const SCOPE = ([
 ] as const).map(([name, what], i) => ({ n: String(i + 1).padStart(2, '0'), name, what, d: SCOPE_ICONS[i] }));
 
 export const INSTRUMENTS = [
-  { d: 'M2 12h4l3-8 4 16 3-8h6', img: '/instruments/Power Quality Study.png', name: 'Power quality analyser', models: 'Hioki PQ3198 · Krykard ALM-45/36/31/20', what: 'Class A to IEC 61000-4-30. Harmonics, transients, dips and swells, inrush current and flicker.' },
-  { d: 'M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z', img: '/instruments/Thermal Imager.png', name: 'Thermal imaging camera', models: 'Testo T-883/T-872 · Fluke TC01A · Raytek', what: '320 × 240 infrared, −30 °C to 650 °C, for panels, insulation and mechanical systems. Pyrometer for molten metal up to 2000 °C.' },
-  { d: 'M8 21h8M12 21v-4M7 4h10l-1 9a4 4 0 0 1-8 0zM9 8h6', img: '/instruments/Flue Gas Analysis.png', name: 'Flue gas analyser', models: 'Kane K988 with 1250 °C probe · K958', what: 'O₂, CO, CO₂, NO, NO₂, SO₂, H₂S and hydrocarbons together, for combustion efficiency.' },
-  { d: 'M11 5L6 9H2v6h4l5 4zM15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14', img: '/instruments/Acoustic Leakage Detection.png', name: 'Acoustic leak and flow detection', models: 'Testo LD Pro · VP Flow PN16 · Lutron GS-5800 · Extech RD300', what: 'Finds compressed air and refrigerant leaks by ultrasound, and measures air flow, pressure and temperature on the network.' },
-  { d: 'M3 10h18l-2 10H5zM12 10v10M4 15h16M12 2v3M5 5l1.5 1.5M19 5l-1.5 1.5', img: '/instruments/Detailed Solar PV Analysis.png', name: 'Solar PV analysis', models: 'Solar DC power analyser · irradiance meter · temperature and humidity logger', what: 'Module and inverter efficiency, performance ratio, and the losses from heat, shading, soiling and cabling.' },
-  { d: 'M2 9h20M2 15h20M7 9v6M17 9v6M10 12h4', img: '/instruments/Fluid Flow Measurment.png', name: 'Ultrasonic flow meter', models: 'Endress+Hauser', what: 'Clamp-on transit-time flow measurement, without cutting the pipe or stopping the process.' },
+  { d: 'M2 12h4l3-8 4 16 3-8h6', img: '/instruments/Power Quality Study.png', webp: '/instruments/webp/Power Quality Study.webp', alt: 'Power quality analysers: Hioki, Krykard ALM and other Class A loggers', name: 'Power quality analyser', models: 'Hioki PQ3198 · Krykard ALM-45/36/31/20', what: 'Class A to IEC 61000-4-30. Harmonics, transients, dips and swells, inrush current and flicker.' },
+  { d: 'M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z', img: '/instruments/Thermal Imager.png', webp: '/instruments/webp/Thermal Imager.webp', alt: 'Thermal imaging cameras: Testo, Fluke and Raytek', name: 'Thermal imaging camera', models: 'Testo T-883/T-872 · Fluke TC01A · Raytek', what: '320 × 240 infrared, −30 °C to 650 °C, for panels, insulation and mechanical systems. Pyrometer for molten metal up to 2000 °C.' },
+  { d: 'M8 21h8M12 21v-4M7 4h10l-1 9a4 4 0 0 1-8 0zM9 8h6', img: '/instruments/Flue Gas Analysis.png', webp: '/instruments/webp/Flue Gas Analysis.webp', alt: 'Kane flue gas analysers with high-temperature probe', name: 'Flue gas analyser', models: 'Kane K988 with 1250 °C probe · K958', what: 'O₂, CO, CO₂, NO, NO₂, SO₂, H₂S and hydrocarbons together, for combustion efficiency.' },
+  { d: 'M11 5L6 9H2v6h4l5 4zM15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14', img: '/instruments/Acoustic Leakage Detection.png', webp: '/instruments/webp/Acoustic Leakage Detection.webp', alt: 'Acoustic leak detector and compressed air flow meters', name: 'Acoustic leak and flow detection', models: 'Testo LD Pro · VP Flow PN16 · Lutron GS-5800 · Extech RD300', what: 'Finds compressed air and refrigerant leaks by ultrasound, and measures air flow, pressure and temperature on the network.' },
+  { d: 'M3 10h18l-2 10H5zM12 10v10M4 15h16M12 2v3M5 5l1.5 1.5M19 5l-1.5 1.5', img: '/instruments/Detailed Solar PV Analysis.png', webp: '/instruments/webp/Detailed Solar PV Analysis.webp', alt: 'Solar DC power analyser, irradiance meter and temperature logger', name: 'Solar PV analysis', models: 'Solar DC power analyser · irradiance meter · temperature and humidity logger', what: 'Module and inverter efficiency, performance ratio, and the losses from heat, shading, soiling and cabling.' },
+  { d: 'M2 9h20M2 15h20M7 9v6M17 9v6M10 12h4', img: '/instruments/Fluid Flow Measurment.png', webp: '/instruments/webp/Fluid Flow Measurment.webp', alt: 'Endress+Hauser clamp-on ultrasonic flow meter', name: 'Ultrasonic flow meter', models: 'Endress+Hauser', what: 'Clamp-on transit-time flow measurement, without cutting the pipe or stopping the process.' },
 ];
 
 type Person = { role: string; name: string; title: string; email: string; photo: string };
@@ -71,6 +71,7 @@ export const TEAMS: { label: string; people: Person[] }[] = [
 ];
 
 export const PARTNERS = [
+  { name: 'IIT Gandhinagar', role: 'Implementing institute', logo: '/iitgn_Logo.png' },
   { name: 'Kotak Mahindra Bank', role: 'CSR funder', logo: '/download.png' },
   { name: 'IIT Madras / IEAC', role: 'Knowledge partner', logo: '/kotak_iit_madras_save_energy_mission_logo.jpg' },
   { name: 'GEDA', role: 'Gujarat state partner', logo: '/geda logo.jpg' },

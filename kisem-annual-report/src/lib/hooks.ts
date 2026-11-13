@@ -18,7 +18,8 @@ export function useCountUp<T extends Element>(duration = 1600): [React.RefObject
     const run = () => {
       const t0 = performance.now();
       const step = (t: number) => {
-        const x = Math.min(1, (t - t0) / duration);
+        // The first frame can be stamped a little before t0: never count below zero.
+        const x = Math.min(1, Math.max(0, (t - t0) / duration));
         setP(1 - Math.pow(1 - x, 3));
         if (x < 1) raf = requestAnimationFrame(step);
       };

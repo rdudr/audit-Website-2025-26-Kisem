@@ -8,7 +8,7 @@ import { PATHS } from './icons';
 import { AddCompany, AuditDrawer, ChangeLog, SignIn } from './Overlays';
 import { Logo } from './Logo';
 import { useMasterExcel } from './useMasterExcel';
-import { Contact, Footer, Hero, Impact, Instruments, Journey, Scope, Sectors, Team } from './Sections';
+import { Contact, Footer, Hero, Impact, Instruments, Journey, PartnerStrip, Scope, Sectors, Team } from './Sections';
 
 const LINKS: [string, string][] = [['Impact', '#impact'], ['Year by year', '#journey'], ['All audits', '#audits'], ['Sectors', '#sectors'], ['Scope', '#scope'], ['Instruments', '#instruments'], ['Team', '#team'], ['Contact', '#contact']];
 
@@ -77,6 +77,7 @@ export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }
 
       <main>
         <Hero rows={rows} />
+        <PartnerStrip />
         <Impact rows={rows} />
         <Journey rows={rows} />
         <Audits rows={rows} signed={signed} filters={filters} setFilters={setFilters} onOpen={setOpen} onSignIn={() => setLoginOpen(true)} onSignOut={state.signOutNow} />

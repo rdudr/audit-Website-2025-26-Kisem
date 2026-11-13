@@ -1,9 +1,9 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { data, FYS, fyLabel, ind, inr, n0, pct, STATUS_TONE, STATUSES, sum, type Row } from '../data';
 import { useCountUp } from '../lib/hooks';
 import { APPLY_URL, WORKSHOPS_CONDUCTED, CONTACT, INSTRUMENTS, PARTNERS, REPORT_PDF, SCOPE, TEAMS } from './content';
-import { Icon } from './Icon';
-import { PATHS } from './icons';
+import { DuoIcon, Icon } from './Icon';
+import { DUO, PATHS } from './icons';
 
 const totals = (rows: Row[]) => ({
   rn: sum(rows, 'rn'), in: sum(rows, 'in'), ri: sum(rows, 'ri'), ii: sum(rows, 'ii'), rc: sum(rows, 'rc'), ic: sum(rows, 'ic'),
@@ -25,37 +25,124 @@ function Head({ eyebrow, title, lede, max = 680 }: { eyebrow: string; title: str
 export function Hero({ rows }: { rows: Row[] }) {
   const T = totals(rows);
   const [ref, p] = useCountUp<HTMLDListElement>();
-  // [figure, label, icon, suffix]
-  const figures: [number, string, string, string][] = [
-    [data.counts.walkthrough, 'Walkthrough assessments', PATHS.clipboard, ''],
-    [rows.length, 'Detailed energy audits', PATHS.gauge, ''],
-    [data.counts.clusters, 'Industrial clusters', PATHS.pin, ''],
-    [data.counts.iga, 'Paid audits', PATHS.medal, ''],
-    [WORKSHOPS_CONDUCTED, 'Workshops conducted', PATHS.people, '+'],
+  const heroRef = useRef<HTMLElement>(null);
+  const vidRef = useRef<HTMLVideoElement>(null);
+  // Reduced motion: nothing moves. Phones (under 640px) and data saver: the poster only, no video download.
+  const still = useMemo(() => typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches, []);
+  const lite = useMemo(() => {
+    if (typeof window === 'undefined') return true;
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+    return !!saveData || window.innerWidth < 640;
+  }, []);
+  const video = !still && !lite;
+  // The visitor's own pause stops all hero motion (video, waveform, glow, pulse): WCAG 2.2.2.
+  const [userPaused, setUserPaused] = useState(false);
+  const [inView, setInView] = useState(true);
+  const moving = !still && !userPaused;
+
+  // Off screen, the video pauses; back on screen it plays again, unless the visitor paused it.
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.05 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  useEffect(() => {
+    const v = vidRef.current;
+    if (!v) return;
+    if (moving && inView) v.play().catch(() => {});
+    else v.pause();
+  }, [moving, inView]);
+
+  const figures: { v: number; label: string; tag: string; note: string; icon: { d: string; d2: string }; plus?: string }[] = [
+    { v: data.counts.walkthrough, label: 'Walkthrough assessments', tag: 'Field', note: 'A one-day visit that finds the quick wins in a plant.', icon: DUO.walkthrough },
+    { v: rows.length, label: 'Detailed energy audits', tag: 'Measured', note: 'Logged with instruments, every ECM costed with payback.', icon: DUO.detailed },
+    { v: data.counts.clusters, label: 'Industrial clusters', tag: 'Reach', note: 'Across Gujarat, Rajasthan and Daman.', icon: DUO.clusters },
+    { v: data.counts.iga, label: 'Paid audits', tag: 'Bankable', note: 'Investment grade, detailed enough to finance the upgrade.', icon: DUO.paid },
+    { v: WORKSHOPS_CONDUCTED, label: 'Workshops conducted', tag: 'Outreach', note: 'Awareness sessions with industry associations.', icon: DUO.workshops, plus: '+' },
   ];
   return (
-    <section id="top" style={{ background: '#2B2644', backgroundImage: 'linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px)', backgroundSize: '48px 48px', color: '#FFFFFF' }}>
-      <div className="wrap" style={{ padding: 'clamp(48px, 10vw, 88px) 20px 48px', display: 'flex', flexDirection: 'column', gap: 'clamp(32px, 6vw, 48px)' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 820 }}>
-          <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#C9C5D6' }}>Energy audits for MSMEs · {fyLabel(FYS[0])} to {FYS[FYS.length - 1].replace('-', '–')}</span>
-          <h1 style={{ margin: 0, fontSize: 'clamp(34px, 7.4vw, 60px)', lineHeight: 1.06, fontWeight: 600, letterSpacing: '-0.035em', textWrap: 'balance' }}>Measuring the energy of an industrial state</h1>
-          <p style={{ margin: 0, fontSize: 'clamp(16px, 2.4vw, 19px)', lineHeight: 1.55, color: '#DDDAE6', maxWidth: 660, textWrap: 'pretty' }}>
+    <section id="top" ref={heroRef} className={`hero${moving ? '' : ' hero-still'}${video ? '' : ' hero-lite'}`}>
+      {video && (
+        <video ref={vidRef} className="hero-vid" muted loop playsInline preload="metadata" poster="/hero-poster.jpg" aria-hidden="true">
+          <source src="/hero.mp4" type="video/mp4" />
+        </video>
+      )}
+      <div aria-hidden="true" className="hero-tint" />
+      <div aria-hidden="true" className="hero-fade" />
+      <div aria-hidden="true" className="hero-grid" />
+      <div aria-hidden="true" className="hero-orb" />
+      <svg aria-hidden="true" className="hero-wave" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path className="hero-wave-line" d="M0 60 C 50 10, 100 10, 150 60 S 250 110, 300 60 S 400 10, 450 60 S 550 110, 600 60 S 700 10, 750 60 S 850 110, 900 60 S 1000 10, 1050 60 S 1150 110, 1200 60" fill="none" stroke="#C9C5D6" strokeWidth="1.5" />
+        <path d="M0 60 C 50 30, 100 30, 150 60 S 250 90, 300 60 S 400 30, 450 60 S 550 90, 600 60 S 700 30, 750 60 S 850 90, 900 60 S 1000 30, 1050 60 S 1150 90, 1200 60" fill="none" stroke="rgba(255,255,255,.18)" strokeWidth="1" />
+      </svg>
+
+      <div className="wrap hero-in">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 22, maxWidth: 800 }}>
+          <span className="hero-pill"><span className="hero-dot" aria-hidden="true" />Energy audits for MSMEs · {fyLabel(FYS[0])} to {FYS[FYS.length - 1].replace('-', '–')}</span>
+          <h1 className="hero-h1">Measuring the energy of an <span className="hero-grad">industrial state</span></h1>
+          <p style={{ margin: 0, fontSize: 'clamp(16px, 2.4vw, 19px)', lineHeight: 1.6, color: '#DDDAE6', maxWidth: 640, textWrap: 'pretty' }}>
             {rows.length} detailed audits. {inr(T.ri)} of annual savings identified, {inr(T.ii)} already achieved. {ind(T.rc)} tonnes a year of CO₂ reduction potential, across MSMEs in Gujarat, Rajasthan and Daman.
           </p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', paddingTop: 6 }}>
-            <a className="btnw" href={APPLY_URL} target="_blank" rel="noopener" style={{ height: 50, padding: '0 22px', borderRadius: 14, background: '#FFFFFF', color: '#000000', textDecoration: 'none', fontSize: 15, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 10 }}>Apply for an audit<Icon d={PATHS.arrow} size={17} width={2.2} /></a>
-            <a className="btno" href="#audits" style={{ height: 50, padding: '0 22px', borderRadius: 14, border: '1px solid rgba(255,255,255,.3)', color: '#FFFFFF', textDecoration: 'none', fontSize: 15, fontWeight: 600, display: 'flex', alignItems: 'center' }}>Explore all audits</a>
+            <a className="btnw hero-apply" href={APPLY_URL} target="_blank" rel="noopener">Apply for an audit<Icon d={PATHS.arrow} size={17} width={2.2} /></a>
+            <a className="hero-glassbtn" href="#audits">Explore all audits</a>
           </div>
         </div>
-        <dl ref={ref} style={{ margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(140px, 100%), 1fr))', borderTop: '1px solid rgba(255,255,255,.18)' }}>
-          {figures.map(([v, label, d, plus]) => (
-            <div key={label} style={{ padding: '24px 24px 0 0', display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <span style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon d={d} size={18} stroke="#FFFFFF" width={1.9} /></span>
-              <dt style={{ fontSize: 14, color: '#C9C5D6', order: 2 }}>{label}</dt>
-              <dd className="n" style={{ margin: 0, fontSize: 'clamp(32px, 6vw, 44px)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1, order: 1 }}><span aria-hidden="true">{Math.round(v * p)}{plus}</span><span className="sr-only">{v}{plus}</span></dd>
+
+        <dl ref={ref} className="hero-cards">
+          {figures.map(f => (
+            <div key={f.label} className="hero-glass">
+              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+                <span className="hero-ico"><DuoIcon d={f.icon.d} d2={f.icon.d2} /></span>
+                <span className="hero-tag">{f.tag}</span>
+              </span>
+              <dd className="n hero-num"><span aria-hidden="true">{Math.round(f.v * p)}{f.plus}</span><span className="sr-only">{f.v}{f.plus}</span></dd>
+              <dt style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                <span style={{ fontSize: 15, fontWeight: 600, color: '#FFFFFF' }}>{f.label}</span>
+                <span style={{ fontSize: 13, color: '#C9C5D6', lineHeight: 1.45 }}>{f.note}</span>
+              </dt>
             </div>
           ))}
         </dl>
+
+        <div className="hero-foot">
+          <a href="#impact" className="hero-scroll"><span className="hero-cue" aria-hidden="true"><span /></span>Scroll to see the impact</a>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+            <span>IIT Gandhinagar campus, Laal Minar</span>
+            {!still && (
+              <button type="button" className="hero-vidbtn" onClick={() => setUserPaused(x => !x)} aria-pressed={userPaused}
+                aria-label={userPaused ? 'Play the background motion' : 'Pause the background motion'}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={userPaused ? 'M8 5l11 7-11 7z' : 'M7 5h3.5v14H7zM13.5 5H17v14h-3.5z'} /></svg>
+              </button>
+            )}
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** Partner logos scrolling under the hero. The second copy is for the loop only: screen readers skip it. */
+export function PartnerStrip() {
+  const withLogo = PARTNERS.filter(pa => pa.logo);
+  const set = (hidden: boolean) => withLogo.map(pa => (
+    <span key={pa.name + (hidden ? '-2' : '')} className="pstrip-item" aria-hidden={hidden || undefined}>
+      <img src={pa.logo} alt="" loading="lazy" height={40} />
+      <span style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.2 }}>
+        <span style={{ fontSize: 14, fontWeight: 600, color: '#000000' }}>{pa.name}</span>
+        <span style={{ fontSize: 12, color: '#6B6B6B' }}>{pa.role}</span>
+      </span>
+    </span>
+  ));
+  return (
+    <section aria-label="Partners" className="pstrip">
+      <div className="wrap pstrip-in">
+        <span className="hide-sm pstrip-label">In partnership with</span>
+        <div className="pstrip-window" tabIndex={0} aria-label="Partner logos">
+          <div className="pstrip-track">{set(false)}{set(true)}</div>
+        </div>
       </div>
     </section>
   );
@@ -287,14 +374,19 @@ export function Instruments() {
         <Head eyebrow="Instruments" title="What we measure with" max={640} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))', gap: 16 }}>
           {INSTRUMENTS.map(i => (
-            <article key={i.name} className="lift" style={{ background: '#FFFFFF', border: '1px solid transparent', borderRadius: 20, padding: 24, display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
-                <span style={{ width: 40, height: 40, borderRadius: 12, background: '#ECEAF2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon d={i.d} size={20} stroke="#2B2644" width={1.9} /></span>
-                <img src={i.img} alt="" loading="lazy" style={{ height: 56, maxWidth: 110, objectFit: 'contain' }} />
-              </span>
-              <h3 style={{ margin: 0, fontSize: 18, fontWeight: 600 }}>{i.name}</h3>
-              <span style={{ fontSize: 13, fontWeight: 600, color: '#2B2644' }}>{i.models}</span>
-              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: '#5E5E5E' }}>{i.what}</p>
+            <article key={i.name} className="lift icard">
+              <div className="icard-img">
+                <picture>
+                  <source srcSet={encodeURI(i.webp)} type="image/webp" />
+                  <img src={i.img} alt={i.alt} loading="lazy" decoding="async" width={800} height={540} />
+                </picture>
+                <span className="icard-badge"><Icon d={i.d} size={20} stroke="#FFFFFF" width={1.9} /></span>
+              </div>
+              <div style={{ padding: '20px 22px 22px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <h3 style={{ margin: 0, fontSize: 18, fontWeight: 600 }}>{i.name}</h3>
+                <span style={{ fontSize: 13, fontWeight: 600, color: '#2B2644' }}>{i.models}</span>
+                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: '#5E5E5E' }}>{i.what}</p>
+              </div>
             </article>
           ))}
         </div>
