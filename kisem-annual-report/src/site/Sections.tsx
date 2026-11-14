@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { data, FYS, fyLabel, ind, inr, n0, pct, STATUS_TONE, STATUSES, sum, type Row } from '../data';
 import { useCountUp } from '../lib/hooks';
-import { APPLY_URL, WORKSHOPS_CONDUCTED, CONTACT, FIELD_PHOTOS, INSTRUMENTS, PARTNERS, REPORT_PDF, SCOPE, TEAMS } from './content';
+import { APPLY_URL, WORKSHOPS_CONDUCTED, CONTACT, FIELD_PHOTOS, INSTRUMENTS, PARTNERS, REPORT_PDF, SCOPE, SCOPE_FAMILIES, TEAMS, type ScopeFamily } from './content';
 import { DuoIcon, Icon } from './Icon';
 import { DUO, PATHS } from './icons';
 
@@ -386,19 +386,31 @@ export function Sectors({ rows, onPick }: { rows: Row[]; onPick: (sector: string
 // ---------------------------------------------------------------- scope, instruments
 
 export function Scope() {
+  const fams = Object.entries(SCOPE_FAMILIES) as [ScopeFamily, (typeof SCOPE_FAMILIES)[ScopeFamily]][];
   return (
     <section id="scope" className="sec">
       <Head eyebrow="Scope" title="What an audit covers" lede={`${SCOPE.length === 17 ? 'Seventeen' : SCOPE.length} areas, covering every major energy-using system and utility in the plant.`} max={640} />
-      <ol style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(270px, 100%), 1fr))', gap: '0 32px' }}>
-        {SCOPE.map(s => (
-          <li key={s.n} style={{ display: 'flex', gap: 14, padding: '16px 0', borderTop: '1px solid #E3E3E3' }}>
-            <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, minWidth: 34 }}>
-              <span style={{ width: 34, height: 34, borderRadius: 10, background: '#ECEAF2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon d={s.d} size={17} stroke="#2B2644" width={1.9} /></span>
-              <span className="n" style={{ fontSize: 11, fontWeight: 600, color: '#6E6890' }}>{s.n}</span>
-            </span>
-            <span style={{ display: 'flex', flexDirection: 'column', gap: 3 }}><span style={{ fontSize: 15, fontWeight: 600 }}>{s.name}</span><span style={{ fontSize: 13, lineHeight: 1.45, color: '#5E5E5E' }}>{s.what}</span></span>
-          </li>
+      <ul className="scope-legend" aria-label="Kinds of system">
+        {fams.map(([k, f]) => (
+          <li key={k} style={{ background: f.tint, color: f.ink }}><span style={{ background: `linear-gradient(145deg, ${f.from}, ${f.to})` }} />{f.label}<b className="n">{SCOPE.filter(x => x.fam === k).length}</b></li>
         ))}
+      </ul>
+      <ol className="scope-grid">
+        {SCOPE.map(x => {
+          const f = SCOPE_FAMILIES[x.fam];
+          return (
+            <li key={x.n} className="scope-card" style={{ '--tint': f.tint, '--ink': f.ink } as React.CSSProperties}>
+              <span className="scope-ico" style={{ background: `linear-gradient(145deg, ${f.from} 0%, ${f.to} 100%)`, boxShadow: `0 10px 22px -12px ${f.to}` }}>
+                <Icon d={x.d} size={22} stroke="#FFFFFF" width={1.9} />
+              </span>
+              <span className="scope-txt">
+                <span className="scope-top"><b>{x.name}</b><span className="n">{x.n}</span></span>
+                <span className="scope-what">{x.what}</span>
+                <span className="scope-fam">{f.label}</span>
+              </span>
+            </li>
+          );
+        })}
       </ol>
     </section>
   );
@@ -477,7 +489,7 @@ export function Team() {
       {TEAMS.map(g => (
         <div key={g.label} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600, color: '#5E5E5E' }}>{g.label}</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: 16 }}>
+          <div className={`team-grid${g.label === 'Field and audit team' ? ' three' : ''}`}>
             {g.people.map(m => (
               <article key={m.email} className="lift" style={{ border: '1px solid rgba(0,0,0,.08)', borderRadius: 20, padding: 12, display: 'flex', flexDirection: 'column', gap: 10, background: '#FFFFFF' }}>
                 <Photo src={m.photo} name={m.name} />

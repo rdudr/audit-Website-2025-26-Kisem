@@ -32,6 +32,19 @@ const SCOPE_ICONS = [
   'M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5',
 ];
 
+// The scope areas in five families, each with its own colour, so the list reads by kind of system.
+export const SCOPE_FAMILIES = {
+  elec: { label: 'Electrical', from: '#FBBF24', to: '#D97706', tint: '#FEF6E4', ink: '#92400E' },
+  heat: { label: 'Heat and combustion', from: '#FB923C', to: '#DC2626', tint: '#FEEEE8', ink: '#9A3412' },
+  air: { label: 'Cooling and air', from: '#2DD4BF', to: '#0F766E', tint: '#E6F7F4', ink: '#115E59' },
+  flow: { label: 'Water and flow', from: '#38BDF8', to: '#1D4ED8', tint: '#E8F3FD', ink: '#1E40AF' },
+  green: { label: 'Clean energy and carbon', from: '#4ADE80', to: '#15803D', tint: '#E8F7EE', ink: '#166534' },
+} as const;
+export type ScopeFamily = keyof typeof SCOPE_FAMILIES;
+// In SCOPE order: electrical, thermal, refrigeration, compressed air, solar, pumping, process heat, HVAC,
+// lighting, power quality, thermal imaging, flue gas, flow, acoustic, GHG, drives, waste heat.
+const SCOPE_FAMILY: ScopeFamily[] = ['elec', 'heat', 'air', 'air', 'green', 'flow', 'heat', 'air', 'elec', 'elec', 'heat', 'heat', 'flow', 'air', 'green', 'elec', 'heat'];
+
 export const SCOPE = ([
   ['Electrical systems', 'Transformers, motors, power factor, DG sets'], ['Thermal systems', 'Boilers, thermic fluid heaters, furnaces'], ['Refrigeration', 'Ammonia and freon systems, chillers, cold storage'],
   ['Compressed air', 'Compressors, leakage, pressure optimisation'], ['Solar PV', 'Generation, performance ratio, shading'], ['Pumping systems', 'Pump efficiency, piping losses, flow'],
@@ -39,7 +52,7 @@ export const SCOPE = ([
   ['Power quality', 'Harmonics, power factor, voltage stability'], ['Thermal imaging', 'Hot spots, insulation gaps, electrical faults'], ['Flue gas analysis', 'Combustion efficiency, excess air, stack losses'],
   ['Flow measurement', 'Air, water, steam and fuel flow'], ['Acoustic imaging', 'Compressed air leaks, ultrasonic detection'], ['GHG accounting', 'Scope 1, 2 and 3 emissions inventory'],
   ['Variable speed drives', 'Drive opportunities, motor sizing, load profiles'], ['Waste heat recovery', 'Heat exchangers, ORC, economisers'],
-] as const).map(([name, what], i) => ({ n: String(i + 1).padStart(2, '0'), name, what, d: SCOPE_ICONS[i] }));
+] as const).map(([name, what], i) => ({ n: String(i + 1).padStart(2, '0'), name, what, d: SCOPE_ICONS[i], fam: SCOPE_FAMILY[i] }));
 
 export const INSTRUMENTS = [
   { d: 'M2 12h4l3-8 4 16 3-8h6', img: '/instruments/Power Quality Study.png', webp: '/instruments/webp/Power Quality Study.webp', alt: 'Power quality analysers: Hioki, Krykard ALM and other Class A loggers', name: 'Power quality analyser', models: 'Hioki PQ3198 · Krykard ALM-45/36/31/20', what: 'Class A to IEC 61000-4-30. Harmonics, transients, dips and swells, inrush current and flicker.' },
