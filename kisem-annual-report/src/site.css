@@ -315,8 +315,8 @@ main { overflow-x: clip; }
 .scope-fam { margin-top: 4px; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink); }
 @media (prefers-reduced-motion: reduce) { .scope-card { transition: none; } .scope-card:hover { transform: none; } }
 
-/* ---------- team: faculty four to a row, the field and audit team three to a row ---------- */
+/* ---------- team: faculty four to a row, the field and audit team all six in one row ---------- */
 .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 16px; }
-.team-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-@media (max-width: 760px) { .team-grid.three { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
-@media (max-width: 380px) { .team-grid.three { grid-template-columns: minmax(0, 1fr); } }
+.team-grid.three { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 1000px) { .team-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .team-grid.three { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }

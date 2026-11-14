@@ -497,7 +497,7 @@ export function Team() {
                   <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '.06em', textTransform: 'uppercase', color: '#6E6890' }}>{m.role}</span>
                   <span style={{ fontSize: 15, fontWeight: 600 }}>{m.name}</span>
                   <span style={{ fontSize: 13, color: '#5E5E5E' }}>{m.title}</span>
-                  <a className="mail" href={'mailto:' + m.email} style={{ fontSize: 13, fontWeight: 500, display: 'flex', alignItems: 'center', gap: 6, paddingTop: 6, wordBreak: 'break-all', minHeight: 32 }}><Icon d={PATHS.mail} size={14} />{m.email}</a>
+                  <a className="mail" href={'mailto:' + m.email} style={{ fontSize: 13, fontWeight: 500, display: 'flex', alignItems: 'center', gap: 6, paddingTop: 6, overflowWrap: 'anywhere', minHeight: 32 }}><Icon d={PATHS.mail} size={14} />{/* a narrow card breaks the address at the @, not mid-word */}{m.email.replace('@', '​@')}</a>
                 </span>
               </article>
             ))}
