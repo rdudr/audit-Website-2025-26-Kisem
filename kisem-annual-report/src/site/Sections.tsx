@@ -103,8 +103,8 @@ export function Hero({ rows }: { rows: Row[] }) {
   return (
     <section id="top" ref={heroRef} className={`hero${moving ? '' : ' hero-still'}${video ? '' : ' hero-lite'}`}>
       {video && (
-        <video ref={vidRef} className="hero-vid" muted loop playsInline preload="metadata" poster="/hero-poster.jpg" aria-hidden="true">
-          <source src="/hero.mp4" type="video/mp4" />
+        <video ref={vidRef} className="hero-vid" muted loop playsInline preload="metadata" poster="/hero-skyline-poster.jpg" aria-hidden="true">
+          <source src="/hero-skyline.mp4" type="video/mp4" />
         </video>
       )}
       <div aria-hidden="true" className="hero-tint" />
