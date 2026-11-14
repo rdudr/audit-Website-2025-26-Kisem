@@ -110,7 +110,6 @@ export function Hero({ rows }: { rows: Row[] }) {
         <div className="hero-foot">
           <a href="#impact" className="hero-scroll"><span className="hero-cue" aria-hidden="true"><span /></span>Scroll to see the impact</a>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
-            <span>IIT Gandhinagar campus, Laal Minar</span>
             {!still && (
               <button type="button" className="hero-vidbtn" onClick={() => setUserPaused(x => !x)} aria-pressed={userPaused}
                 aria-label={userPaused ? 'Play the background motion' : 'Pause the background motion'}>
