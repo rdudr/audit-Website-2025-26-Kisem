@@ -2,7 +2,7 @@
 
 An interactive dashboard and map network for the Kotak IIT Gandhinagar Save Energy Mission (KISEM) auditing program across Gujarat, Rajasthan, and Daman.
 
-**Live Website:** [https://audit-website-2025-26-kisem.vercel.app/](https://audit-website-2025-26-kisem.vercel.app/)
+**Live Website:** [https://audit.app.eassiitgn.page/](https://audit.app.eassiitgn.page/), served from the KISEM Oracle server. (The old Vercel project is paused.)
 
 ---
 
@@ -55,7 +55,7 @@ The pipeline runs automatically once a day at midnight. To trigger an update imm
 1. Go to the **Actions** tab on your GitHub repository.
 2. Select the **"Update KISEM Company Data"** workflow on the left sidebar.
 3. Click the **Run workflow** dropdown on the right and click the green **Run workflow** button.
-4. The workflow will download, parse, commit the updated data, and trigger a Vercel rebuild automatically!
+4. The workflow will download, parse and commit the updated data. Within 15 minutes the Oracle server sees the new commit and rebuilds audit.app (fox-console `deploy/audit-site-sync.sh`, timer `kisem-audit-sync`).
 
 ---
 
@@ -79,4 +79,4 @@ To build the static files for production deployment:
 ```bash
 npm run build
 ```
-The built files will be located in the `dist/` directory, ready to be deployed to static hosting (Vercel, Netlify, etc.).
+The built files will be located in the `dist/` directory, ready for static hosting. The live site is rebuilt on the Oracle server from GitHub; to publish at once from a PC, run fox-console `bash deploy/static-deploy.sh audit "<path to kisem-annual-report>"`.
