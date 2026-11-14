@@ -290,10 +290,9 @@ select.inp { padding: 0 10px; font-size: 14px; }
 }
 
 /* ---------- All audits: its own light band, set apart from the white sections around it ---------- */
-/* A soft violet tint with a faint dot grid, a thin violet-to-lavender rule along the top as the
-   divider, and white cards on it. Instruments uses plain grey; this is the same idea, in the brand. */
+/* A soft violet tint with a faint dot grid and white cards on it: the colour change is the divider
+   (no line as well). Instruments uses plain grey; this is the same idea, in the brand. */
 main { overflow-x: clip; }
 #audits { position: relative; isolation: isolate; margin-top: clamp(56px, 9vw, 88px); padding-top: clamp(48px, 7vw, 72px); padding-bottom: clamp(48px, 7vw, 72px); }
-#audits::before { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: calc(50% - 50vw); right: calc(50% - 50vw); background-color: #F6F5FB; background-image: radial-gradient(rgba(43,38,68,.07) 1px, transparent 1px); background-size: 22px 22px; border-bottom: 1px solid rgba(43,38,68,.08); }
-#audits::after { content: ""; position: absolute; top: 0; left: calc(50% - 50vw); right: calc(50% - 50vw); height: 3px; background: linear-gradient(90deg, #2B2644 0%, #8E88A8 50%, #A796FF 100%); }
+#audits::before { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: calc(50% - 50vw); right: calc(50% - 50vw); background-color: #F6F5FB; background-image: radial-gradient(rgba(43,38,68,.07) 1px, transparent 1px); background-size: 22px 22px; }
 #audits .eyebrow { color: #5B5478; }
