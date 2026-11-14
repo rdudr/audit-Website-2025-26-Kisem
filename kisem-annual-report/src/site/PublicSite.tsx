@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { SiteState } from '../App';
 import Audits from './Audits';
 import { NO_FILTERS, type Filters } from './filters';
@@ -8,14 +8,30 @@ import { PATHS } from './icons';
 import { AddCompany, AuditDrawer, ChangeLog, SignIn } from './Overlays';
 import { Logo } from './Logo';
 import { useMasterExcel } from './useMasterExcel';
-import { Contact, Footer, Hero, Impact, Instruments, Journey, PartnerStrip, Scope, Sectors, Team } from './Sections';
+import { Contact, Footer, Hero, HowWeMeasure, Impact, Instruments, Journey, PartnerStrip, Scope, Sectors, Team } from './Sections';
 
-const LINKS: [string, string][] = [['Impact', '#impact'], ['Year by year', '#journey'], ['All audits', '#audits'], ['Sectors', '#sectors'], ['Scope', '#scope'], ['Instruments', '#instruments'], ['Team', '#team'], ['Contact', '#contact']];
+const LINKS: [string, string][] = [['Impact', '#impact'], ['Year by year', '#journey'], ['All audits', '#audits'], ['Sectors', '#sectors'], ['Scope', '#scope'], ['Instruments', '#instruments'], ['How we measure', '#how'], ['Team', '#team'], ['Contact', '#contact']];
 
 export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }: { state: SiteState; loginOpen: boolean; setLoginOpen: (v: boolean) => void; signingIn: boolean }) {
   const { rows, session } = state;
   const signed = !!session;
   const [menu, setMenu] = useState(false);
+  // Sections fade up once as they come into view, and their headings turn from light to dark.
+  // Nothing is hidden until the browser has shown it can report what is on screen (the first
+  // observer callback), so content never stays invisible; reduced motion turns it off in CSS.
+  const mainRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const root = mainRef.current;
+    if (!root || typeof IntersectionObserver === 'undefined') return;
+    const secs = [...root.querySelectorAll<HTMLElement>(':scope > section:not(#top):not(.pstrip)')];
+    secs.forEach(el => el.classList.add('rv'));
+    const io = new IntersectionObserver(entries => {
+      document.documentElement.classList.add('rv-ready');
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('rv-in'); io.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -12% 0px' });
+    secs.forEach(el => io.observe(el));
+    return () => io.disconnect();
+  }, []);
   const [filters, setFilters] = useState<Filters>(NO_FILTERS);
   const [open, setOpen] = useState<string | null>(null);
   const [showAdd, setShowAdd] = useState(false);
@@ -36,7 +52,7 @@ export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }
         <div className="hdrin">
           <Logo />
           <nav className="secnav" aria-label="Sections" style={{ display: 'flex', gap: '4px 20px', flexWrap: 'wrap', fontSize: 14, fontWeight: 500 }}>
-            {LINKS.filter(([l]) => l !== 'Instruments').map(([l, h]) => <a key={h} className="navl" href={h}>{l}</a>)}
+            {LINKS.filter(([l]) => l !== 'Instruments' && l !== 'How we measure').map(([l, h]) => <a key={h} className="navl" href={h}>{l}</a>)}
             {signed && <a className="navl" href="#/companies" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontWeight: 600, color: '#2B2644' }}><Icon d={PATHS.building} size={14} />Companies</a>}
           </nav>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
@@ -75,7 +91,7 @@ export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }
         {state.teamError && !loginOpen && <div role="alert" className="wrap" style={{ padding: '8px 24px', fontSize: 13, color: '#C4161C' }}>{state.teamError}</div>}
       </header>
 
-      <main>
+      <main ref={mainRef}>
         <Hero rows={rows} />
         <PartnerStrip />
         <Impact rows={rows} />
@@ -84,6 +100,7 @@ export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }
         <Sectors rows={rows} onPick={pickSector} />
         <Scope />
         <Instruments />
+        <HowWeMeasure />
         <Team />
         <Contact />
       </main>

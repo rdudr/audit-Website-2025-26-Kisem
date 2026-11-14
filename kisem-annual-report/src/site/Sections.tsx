@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { data, FYS, fyLabel, ind, inr, n0, pct, STATUS_TONE, STATUSES, sum, type Row } from '../data';
 import { useCountUp } from '../lib/hooks';
-import { APPLY_URL, WORKSHOPS_CONDUCTED, CONTACT, INSTRUMENTS, PARTNERS, REPORT_PDF, SCOPE, TEAMS } from './content';
+import { APPLY_URL, WORKSHOPS_CONDUCTED, CONTACT, FIELD_PHOTOS, INSTRUMENTS, PARTNERS, REPORT_PDF, SCOPE, TEAMS } from './content';
 import { DuoIcon, Icon } from './Icon';
 import { DUO, PATHS } from './icons';
 
@@ -20,7 +20,45 @@ function Head({ eyebrow, title, lede, max = 680 }: { eyebrow: string; title: str
   );
 }
 
+// Chart colours: recommended in orange, achieved in green (Impact, Year by year, Sectors).
+const REC = '#F08A24';
+const ACH = '#16A34A';
+const ACH_TEXT = '#0E7A38';
+
 // ---------------------------------------------------------------- hero
+
+// The headline lands letter by letter, as on the earlier site: each letter rises 60px, tilts back
+// into place and fades in, 30ms after the one before. Screen readers get the sentence once (aria-label).
+// "industrial state" keeps its white-to-lavender gradient as one colour per letter, since a clipped
+// gradient cannot follow letters that move on their own.
+const HEADLINE: [string, boolean][] = [['Measuring the energy of an', false], ['industrial state', true]];
+function gradAt(t: number) {
+  const stops: [number, number[]][] = [[0, [255, 255, 255]], [0.55, [201, 197, 214]], [1, [167, 150, 255]]];
+  const i = t <= 0.55 ? 0 : 1, [a, ca] = stops[i], [b, cb] = stops[i + 1], k = (t - a) / (b - a);
+  return `rgb(${ca.map((v, j) => Math.round(v + (cb[j] - v) * k)).join(',')})`;
+}
+function LandingHeadline() {
+  let n = 0;
+  return (
+    <h1 className="hero-h1" aria-label={HEADLINE.map(([t]) => t).join(' ')}>
+      {HEADLINE.map(([text, grad], pi) => {
+        const letters = text.replace(/ /g, '').length;
+        let li = 0;
+        return text.split(' ').map((word, wi) => (
+          <span key={`${pi}-${wi}`} aria-hidden="true">
+            <span className="land-word">
+              {[...word].map((ch, ci) => {
+                const style: React.CSSProperties & Record<string, string> = { '--d': `${(n++) * 30 + 400}ms` };
+                if (grad) style.color = gradAt(letters > 1 ? li++ / (letters - 1) : 0);
+                return <span key={ci} className="land-ch" style={style}>{ch}</span>;
+              })}
+            </span>{' '}
+          </span>
+        ));
+      })}
+    </h1>
+  );
+}
 
 export function Hero({ rows }: { rows: Row[] }) {
   const T = totals(rows);
@@ -79,13 +117,13 @@ export function Hero({ rows }: { rows: Row[] }) {
       </svg>
 
       <div className="wrap hero-in">
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 22, maxWidth: 800 }}>
-          <span className="hero-pill"><span className="hero-dot" aria-hidden="true" />Energy audits for MSMEs · {fyLabel(FYS[0])} to {FYS[FYS.length - 1].replace('-', '–')}</span>
-          <h1 className="hero-h1">Measuring the energy of an <span className="hero-grad">industrial state</span></h1>
-          <p style={{ margin: 0, fontSize: 'clamp(16px, 2.4vw, 19px)', lineHeight: 1.6, color: '#DDDAE6', maxWidth: 640, textWrap: 'pretty' }}>
+        <div className="hero-copy">
+          <span className="hero-pill"><span className="hero-dot" aria-hidden="true" />Energy audits for Industry · {fyLabel(FYS[0])} to {FYS[FYS.length - 1].replace('-', '–')}</span>
+          <LandingHeadline />
+          <p className="hero-lede">
             {rows.length} detailed audits. {inr(T.ri)} of annual savings identified, {inr(T.ii)} already achieved. {ind(T.rc)} tonnes a year of CO₂ reduction potential, across MSMEs in Gujarat, Rajasthan and Daman.
           </p>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', paddingTop: 6 }}>
+          <div className="hero-btns">
             <a className="btnw hero-apply" href={APPLY_URL} target="_blank" rel="noopener">Apply for an audit<Icon d={PATHS.arrow} size={17} width={2.2} /></a>
             <a className="hero-glassbtn" href="#audits">Explore all audits</a>
           </div>
@@ -94,14 +132,14 @@ export function Hero({ rows }: { rows: Row[] }) {
         <dl ref={ref} className="hero-cards">
           {figures.map(f => (
             <div key={f.label} className="hero-glass">
-              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+              <span className="hero-cardtop">
                 <span className="hero-ico"><DuoIcon d={f.icon.d} d2={f.icon.d2} /></span>
                 <span className="hero-tag">{f.tag}</span>
               </span>
               <dd className="n hero-num"><span aria-hidden="true">{Math.round(f.v * p)}{f.plus}</span><span className="sr-only">{f.v}{f.plus}</span></dd>
               <dt style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                <span style={{ fontSize: 15, fontWeight: 600, color: '#FFFFFF' }}>{f.label}</span>
-                <span style={{ fontSize: 13, color: '#C9C5D6', lineHeight: 1.45 }}>{f.note}</span>
+                <span className="hero-label">{f.label}</span>
+                <span className="hero-note">{f.note}</span>
               </dt>
             </div>
           ))}
@@ -180,11 +218,11 @@ export function Impact({ rows }: { rows: Row[] }) {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                   <span style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#5E5E5E' }}><span>Recommended</span><span className="n" style={{ fontWeight: 600, color: '#000000' }}>{k.rec}</span></span>
-                  <span aria-hidden="true" style={{ height: 8, borderRadius: 999, background: '#C9C5D6' }} />
+                  <span aria-hidden="true" style={{ height: 8, borderRadius: 999, background: REC }} />
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                   <span style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#5E5E5E' }}><span>Achieved</span><span className="n" style={{ fontWeight: 600, color: '#000000' }}>{k.imp}</span></span>
-                  <span aria-hidden="true" style={{ height: 8, borderRadius: 999, background: '#E3E3E3', display: 'flex', overflow: 'hidden' }}><span style={{ width: `calc(${share} * ${p})`, background: '#2B2644', borderRadius: 999 }} /></span>
+                  <span aria-hidden="true" style={{ height: 8, borderRadius: 999, background: '#E3E3E3', display: 'flex', overflow: 'hidden' }}><span style={{ width: `calc(${share} * ${p})`, background: ACH, borderRadius: 999 }} /></span>
                 </div>
               </div>
               <span className="n" style={{ fontSize: 26, fontWeight: 600, letterSpacing: '-0.02em' }}>{Math.round(parseInt(share) * p)}% <span style={{ fontSize: 13, fontWeight: 500, color: '#5E5E5E', letterSpacing: 0 }}>achieved so far</span></span>
@@ -277,15 +315,15 @@ export function Journey({ rows }: { rows: Row[] }) {
             <span style={{ fontSize: 13, color: '#5E5E5E' }}>{DEF.sub}</span>
           </div>
           <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap', fontSize: 13, color: '#3A3A3A' }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 12, height: 12, borderRadius: 3, background: '#C9C5D6' }} />{DEF.aLabel}</span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 12, height: 12, borderRadius: 3, background: '#2B2644' }} />{DEF.bLabel}</span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 12, height: 12, borderRadius: 3, background: REC }} />{DEF.aLabel}</span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 12, height: 12, borderRadius: 3, background: ACH }} />{DEF.bLabel}</span>
           </div>
         </div>
         <div className="vchart" role="img" aria-label={aria} style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', alignItems: 'flex-end', gap: '4%', height: 300, padding: '0 2%', borderBottom: '1px solid #D4D4D4', backgroundImage: 'linear-gradient(#F0F0F0 1px, transparent 1px)', backgroundSize: '100% 75px' }}>
             {bars.map(b => (
               <div key={b.label} style={{ flex: 1, height: '100%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: 6 }}>
-                {[['a', b.aText, b.aH, '#C9C5D6', 600, '#5E5E5E'], ['b', b.bText, b.bH, '#2B2644', 700, '#000000']].map(([k, t, h, bg, fw, fg]) => (
+                {[['a', b.aText, b.aH, REC, 600, '#5E5E5E'], ['b', b.bText, b.bH, ACH, 700, '#000000']].map(([k, t, h, bg, fw, fg]) => (
                   <div key={k as string} style={{ flex: 1, maxWidth: 56, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', gap: 6 }}>
                     <span className="n" style={{ fontSize: 12, fontWeight: fw as number, color: fg as string }}>{t}</span>
                     <span style={{ width: '100%', height: h as string, background: bg as string, borderRadius: '6px 6px 0 0', transition: 'height .4s ease' }} />
@@ -302,8 +340,8 @@ export function Journey({ rows }: { rows: Row[] }) {
           {bars.map(b => (
             <div key={b.label} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               <span style={{ fontSize: 13, fontWeight: 600 }}>{b.label}</span>
-              <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 64px', gap: 10, alignItems: 'center' }}><span style={{ height: 12, borderRadius: 999, background: '#F0F0F0', display: 'flex', overflow: 'hidden' }}><span style={{ width: b.aH, background: '#C9C5D6', borderRadius: 999 }} /></span><span className="n" style={{ fontSize: 12, color: '#5E5E5E', textAlign: 'right' }}>{b.aText}</span></div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 64px', gap: 10, alignItems: 'center' }}><span style={{ height: 12, borderRadius: 999, background: '#F0F0F0', display: 'flex', overflow: 'hidden' }}><span style={{ width: b.bH, background: '#2B2644', borderRadius: 999 }} /></span><span className="n" style={{ fontSize: 12, fontWeight: 700, textAlign: 'right' }}>{b.bText}</span></div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 64px', gap: 10, alignItems: 'center' }}><span style={{ height: 12, borderRadius: 999, background: '#F0F0F0', display: 'flex', overflow: 'hidden' }}><span style={{ width: b.aH, background: REC, borderRadius: 999 }} /></span><span className="n" style={{ fontSize: 12, color: '#5E5E5E', textAlign: 'right' }}>{b.aText}</span></div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 64px', gap: 10, alignItems: 'center' }}><span style={{ height: 12, borderRadius: 999, background: '#F0F0F0', display: 'flex', overflow: 'hidden' }}><span style={{ width: b.bH, background: ACH, borderRadius: 999 }} /></span><span className="n" style={{ fontSize: 12, fontWeight: 700, textAlign: 'right' }}>{b.bText}</span></div>
             </div>
           ))}
         </div>
@@ -322,21 +360,21 @@ export function Sectors({ rows, onPick }: { rows: Row[]; onPick: (sector: string
   const smax = sl[0] ? sl[0][1].ri || 1 : 1;
   return (
     <section id="sectors" className="sec" style={{ gap: 24 }}>
-      <Head eyebrow="Sectors" title="Savings by industry" lede="Annual savings recommended and achieved, ₹ crore, for each sector." />
+      <Head eyebrow="Sectors" title="Savings by industry" lede="Annual savings achieved out of those recommended, ₹ crore, for each sector." />
       <div className="card" style={{ padding: 'clamp(18px, 4vw, 28px)', display: 'flex', flexDirection: 'column', gap: 14 }}>
         <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap', fontSize: 13, color: '#3A3A3A' }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 12, height: 12, borderRadius: 3, background: '#C9C5D6' }} />Recommended</span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 12, height: 12, borderRadius: 3, background: '#2B2644' }} />Achieved</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 12, height: 12, borderRadius: 3, background: REC }} />Recommended</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 12, height: 12, borderRadius: 3, background: ACH }} />Achieved</span>
         </div>
         {sl.map(([name, g]) => (
-          <button key={name} type="button" className="sbar" onClick={() => onPick(name)} aria-label={`${name}: ${g.n} audits, ₹ ${(g.ri / 1e7).toFixed(2)} crore recommended, ₹ ${(g.ii / 1e7).toFixed(2)} crore achieved. Show these audits.`}
+          <button key={name} type="button" className="sbar" onClick={() => onPick(name)} aria-label={`${name}: ${g.n} audits, ₹ ${(g.ii / 1e7).toFixed(2)} crore achieved of ₹ ${(g.ri / 1e7).toFixed(2)} crore recommended. Show these audits.`}
             style={{ display: 'grid', gridTemplateColumns: 'minmax(110px, 180px) minmax(0, 1fr) 92px', gap: 14, alignItems: 'center', padding: '6px 8px', border: 0, background: 'transparent', textAlign: 'left', cursor: 'pointer' }}>
             <span style={{ display: 'flex', flexDirection: 'column' }}><span style={{ fontSize: 14, fontWeight: 600, color: '#000000' }}>{name}</span><span style={{ fontSize: 12, color: '#6B6B6B' }}>{g.n} audits</span></span>
             <span style={{ position: 'relative', height: 18, borderRadius: 6, background: '#F5F5F5', display: 'block' }}>
-              <span style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: (100 * g.ri / smax).toFixed(1) + '%', background: '#C9C5D6', borderRadius: 6 }} />
-              <span style={{ position: 'absolute', left: 0, top: 4, bottom: 4, width: (100 * g.ii / smax).toFixed(1) + '%', background: '#2B2644', borderRadius: 4 }} />
+              <span style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: (100 * g.ri / smax).toFixed(1) + '%', background: REC, borderRadius: 6 }} />
+              <span style={{ position: 'absolute', left: 0, top: 4, bottom: 4, width: (100 * g.ii / smax).toFixed(1) + '%', background: ACH, borderRadius: 4 }} />
             </span>
-            <span className="n" style={{ fontSize: 13, textAlign: 'right', color: '#000000' }}><strong>{(g.ri / 1e7).toFixed(2)}</strong> <span style={{ color: '#5E5E5E' }}>/ {(g.ii / 1e7).toFixed(2)}</span></span>
+            <span className="n" style={{ fontSize: 13, textAlign: 'right', color: '#000000' }}><strong style={{ color: ACH_TEXT }}>{(g.ii / 1e7).toFixed(2)}</strong> <span style={{ color: '#5E5E5E' }}>/ {(g.ri / 1e7).toFixed(2)}</span></span>
           </button>
         ))}
         <span style={{ fontSize: 12, color: '#6B6B6B' }}>Pick a sector to filter the audit list above.</span>
@@ -390,6 +428,33 @@ export function Instruments() {
           ))}
         </div>
       </div>
+    </section>
+  );
+}
+
+// ---------------------------------------------------------------- how we measure (photo collage)
+
+/** Field work in pictures: a framed collage of eight photos, big and small, on one landscape page. */
+export function HowWeMeasure() {
+  return (
+    <section id="how" className="sec">
+      <Head eyebrow="How we measure" title="Out on the plant floor" lede="Every detailed audit means days on site: logging the supply, imaging panels and steam lines, and testing compressors, pumps, chillers and solar." />
+      <div className="collage">
+        {FIELD_PHOTOS.map((ph, i) => (
+          <figure key={ph.slug} className={`collage-item c${i + 1}`}>
+            <picture>
+              <source srcSet={`/field/${ph.slug}.webp`} type="image/webp" />
+              <img src={`/field/${ph.slug}.jpg`} alt={`${ph.title}: ${ph.what}`} loading="lazy" decoding="async" />
+            </picture>
+            <figcaption><b>{ph.title}</b><span>{ph.what}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+      <p className="collage-credit">Photos for illustration, from Wikimedia Commons:{' '}
+        {FIELD_PHOTOS.map((ph, i) => (
+          <span key={ph.slug}>{i ? '; ' : ''}<a href={ph.source} target="_blank" rel="noopener">{ph.title.toLowerCase()}</a> by {ph.credit}</span>
+        ))}.
+      </p>
     </section>
   );
 }

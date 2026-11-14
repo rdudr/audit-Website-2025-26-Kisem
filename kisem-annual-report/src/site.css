@@ -193,10 +193,11 @@ select.inp { padding: 0 10px; font-size: 14px; }
 .pstrip-label { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #6B6B6B; white-space: nowrap; }
 .pstrip-window { flex: 1; min-width: 0; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); border-radius: 8px; }
 .pstrip-window:focus-visible { outline: 2px solid #2B2644; outline-offset: 4px; }
-.pstrip-track { display: flex; gap: 48px; width: max-content; align-items: center; animation: pstrip 32s linear infinite; }
+.pstrip-track { display: flex; gap: 0; width: max-content; align-items: center; animation: pstrip 32s linear infinite; }
 .pstrip-window:hover .pstrip-track, .pstrip-window:focus-within .pstrip-track { animation-play-state: paused; }
-@keyframes pstrip { to { transform: translateX(calc(-50% - 24px)); } }
-.pstrip-item { display: inline-flex; align-items: center; gap: 12px; height: 48px; white-space: nowrap; }
+@keyframes pstrip { to { transform: translateX(-50%); } }
+/* A thin line after every logo and name, so each partner reads as its own entry. */
+.pstrip-item { display: inline-flex; align-items: center; gap: 12px; height: 48px; white-space: nowrap; padding: 0 28px; border-right: 1px solid #D9D9D9; }
 .pstrip-item img { height: 40px; width: auto; max-width: 120px; object-fit: contain; }
 @media (prefers-reduced-motion: reduce) { .pstrip-track { animation: none; } }
 
@@ -207,3 +208,83 @@ select.inp { padding: 0 10px; font-size: 14px; }
 .icard:hover .icard-img img { transform: scale(1.06); }
 .icard-badge { position: absolute; left: 14px; top: 14px; width: 40px; height: 40px; border-radius: 12px; background: #2B2644; box-shadow: 0 6px 16px -6px rgba(43,38,68,.6); display: flex; align-items: center; justify-content: center; }
 @media (prefers-reduced-motion: reduce) { .icard-img img { transition: none; } .icard:hover .icard-img img { transform: none; } }
+
+/* ---------- how we measure: framed photo collage (4 x 3 on a wide screen, 2 columns on a phone) ---------- */
+.collage { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(3, clamp(150px, 15vw, 210px)); gap: 12px; }
+.collage-item { position: relative; margin: 0; border-radius: 18px; overflow: hidden; background: #ECEAF2; border: 5px solid #FFFFFF; box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 16px 32px -20px rgba(43,38,68,.45); }
+.collage-item picture, .collage-item img { display: block; width: 100%; height: 100%; }
+.collage-item img { object-fit: cover; transition: transform .6s ease; }
+.collage-item:hover img { transform: scale(1.05); }
+.collage-item figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 28px 14px 12px; display: flex; flex-direction: column; gap: 2px; color: #FFFFFF; background: linear-gradient(180deg, rgba(30,26,51,0), rgba(30,26,51,.85)); }
+.collage-item figcaption b { font-size: 14px; font-weight: 600; }
+.collage-item figcaption span { font-size: 12px; color: #DDDAE6; line-height: 1.35; }
+.c1 { grid-column: 1; grid-row: 1 / span 2; }
+.c2 { grid-column: 2 / span 2; grid-row: 1; }
+.c3 { grid-column: 4; grid-row: 1; }
+.c4 { grid-column: 2; grid-row: 2; }
+.c5 { grid-column: 3; grid-row: 2; }
+.c6 { grid-column: 4; grid-row: 2 / span 2; }
+.c7 { grid-column: 1 / span 2; grid-row: 3; }
+.c8 { grid-column: 3; grid-row: 3; }
+.collage-credit { margin: 0; font-size: 11px; line-height: 1.5; color: #8A8A8A; }
+.collage-credit a { color: #6B6B6B; }
+@media (max-width: 760px) {
+  .collage { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; grid-auto-rows: 150px; gap: 8px; }
+  .collage-item { border-width: 3px; border-radius: 14px; }
+  .c1, .c6 { grid-row: span 2; } .c2, .c7 { grid-column: span 2; }
+  .c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8 { grid-column-start: auto; grid-row-start: auto; }
+  .collage-item figcaption span { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .collage-item img { transition: none; } .collage-item:hover img { transform: none; } }
+
+/* ---------- hero fits one screen: the five figure cards are always on the first screen ---------- */
+/* Spacing and type scale with the screen height as well as its width, so a 768px-tall laptop and a
+   phone both show the headline, the buttons and all five cards before any scrolling. */
+.hero-in { padding: clamp(24px, 6vh, 96px) 20px 28px; gap: clamp(18px, 4vh, 48px); }
+.hero-copy { display: flex; flex-direction: column; gap: clamp(10px, 2.2vh, 22px); max-width: 800px; }
+.hero-h1 { font-size: clamp(30px, min(7.6vw, 8.6vh), 68px); }
+.hero-lede { margin: 0; font-size: clamp(15px, min(2.4vw, 2.5vh), 19px); line-height: 1.55; color: #DDDAE6; max-width: 640px; text-wrap: pretty; }
+.hero-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.hero-apply, .hero-glassbtn { height: clamp(44px, 6.4vh, 52px); }
+.hero-cardtop { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.hero-label { font-size: 15px; font-weight: 600; color: #FFFFFF; }
+.hero-note { font-size: 13px; color: #C9C5D6; line-height: 1.45; }
+.hero-glass { padding: clamp(14px, 2.2vh, 20px); gap: clamp(8px, 1.6vh, 14px); }
+.hero-num { font-size: clamp(28px, min(6vw, 5.6vh), 46px); }
+/* Laptops (short screens): the one-line notes give way so the cards stay on screen. */
+@media (max-height: 820px) and (min-width: 641px) {
+  .hero-note { display: none; }
+  .hero-ico { width: 42px; height: 42px; border-radius: 13px; }
+  .hero-ico svg { width: 24px; height: 24px; }
+  .hero-wave { bottom: 90px; }
+}
+/* Phones: compact figure tiles, three to a row: number and label only. */
+@media (max-width: 640px) {
+  .hero-in { padding-top: 22px; gap: 18px; }
+  .hero-pill { font-size: 12px; }
+  .hero-btns { flex-wrap: nowrap; }
+  .hero-apply, .hero-glassbtn { padding: 0 14px; font-size: 14px; white-space: nowrap; }
+  .hero-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .hero-glass { padding: 10px; border-radius: 14px; gap: 4px; }
+  .hero-cardtop, .hero-note { display: none; }
+  .hero-num { font-size: 24px; }
+  .hero-label { font-size: 11.5px; line-height: 1.25; font-weight: 600; }
+}
+@media (max-width: 359px) { .hero-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } .hero-btns { flex-wrap: wrap; } }
+
+/* ---------- headline landing: letters rise, tilt back and fade in (as on the earlier site) ---------- */
+.hero-h1 { perspective: 600px; }
+.land-word { display: inline-block; white-space: nowrap; }
+.land-ch { display: inline-block; opacity: 0; transform: translateY(60px) rotateX(-40deg); transform-origin: 50% 100%; animation: land-in .8s cubic-bezier(.215,.61,.355,1) var(--d, 0ms) forwards; }
+@keyframes land-in { to { opacity: 1; transform: none; } }
+
+/* ---------- sections: fade up once on scroll, headings from light to dark ---------- */
+.rv-ready .rv { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+.rv-ready .rv.rv-in { opacity: 1; transform: none; }
+.rv-ready .rv .h2 { color: #C9C5D6; transition: color .9s ease .15s; }
+.rv-ready .rv.rv-in .h2 { color: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  .land-ch { opacity: 1; transform: none; animation: none; }
+  .rv-ready .rv, .rv-ready .rv .h2 { opacity: 1; transform: none; transition: none; color: inherit; }
+}

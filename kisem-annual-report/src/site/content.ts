@@ -7,7 +7,7 @@ export const REPORT_PDF = '/KISEM-Annual-Report-2025-26.pdf';
 export const CONTACT = {
   address: 'IIT Gandhinagar, Palaj, Gandhinagar, Gujarat 382055',
   mapUrl: 'https://maps.google.com/?q=IIT+Gandhinagar+Palaj+Gandhinagar+Gujarat+382055',
-  email: 'kisem@iitgn.ac.in',
+  email: 'iea@iitgn.ac.in',
   phone: '+91 90337 98820',
   tel: '+919033798820',
 };
@@ -62,19 +62,32 @@ export const TEAMS: { label: string; people: Person[] }[] = [
   ] },
   { label: 'Field and audit team', people: [
     p('Lead energy auditor', 'Mr. Rahul Patel', 'Project Manager-II', 'rahuljayantibhai.p@iitgn.ac.in', 'Mr. Rahul Patel.png'),
-    p('Energy manager', 'Mr. Abhay Singh Maurya', 'Project Fellow', 'abhay.maurya@iitgn.ac.in', 'Mr. Abhay Singh Maurya.jpg'),
+    p('Energy manager', 'Mr. Abhay Singh Maurya', 'Project Fellow', 'abhay.maurya@iitgn.ac.in', 'Mr Abhay Singh Maurya (console).jpg'),
     p('Electrical expert', 'Mr. Md Faizan', 'Project Fellow', 'md.faizan@iitgn.ac.in', 'Md. Faizan.png'),
-    p('Thermal expert', 'Mr. Sagar Loriya', 'Project Assistant-III', 'loriyasagar.b@iitgn.ac.in', 'Mr. Sagar Loriya.jpg'),
-    p('Solar expert', 'Mr. Dhruvit Patel', 'Project Assistant-I', 'dhruvit.patel@iitgn.ac.in', 'Mr. Dhruvit Patel.jpg'),
-    p('AI automation', 'Mr. Rishabh Dangi', 'Project Assistant-I', 'rishabh.dangi@iitgn.ac.in', 'Mr. Rishabh Dangi.jpg'),
+    p('Thermal expert', 'Mr. Sagar Loriya', 'Project Assistant-III', 'loriyasagar.b@iitgn.ac.in', 'Mr Sagar Loriya (console).jpg'),
+    p('Solar expert', 'Mr. Dhruvit Patel', 'Project Assistant-I', 'dhruvit.patel@iitgn.ac.in', 'Mr Dhruvit Patel (console).jpg'),
+    p('AI automation', 'Mr. Rishabh Dangi', 'Project Assistant-I', 'rishabh.dangi@iitgn.ac.in', 'Mr Rishabh Dangi (console).jpg'),
   ] },
 ];
 
 export const PARTNERS = [
-  { name: 'IIT Gandhinagar', role: 'Implementing institute', logo: '/iitgn_Logo.png' },
   { name: 'Kotak Mahindra Bank', role: 'CSR funder', logo: '/download.png' },
   { name: 'IIT Madras / IEAC', role: 'Knowledge partner', logo: '/kotak_iit_madras_save_energy_mission_logo.jpg' },
   { name: 'GEDA', role: 'Gujarat state partner', logo: '/geda logo.jpg' },
   { name: 'WRI India', role: 'Research partner', logo: '/WRI-India-Logo.png' },
   { name: 'Ministry of MSME', role: 'Programme alignment', logo: '' },
+];
+
+// "How we measure" photo collage. Placeholder photos from Wikimedia Commons (credited below the
+// collage, as their licences ask); swap in the team's own field photos by replacing the files in
+// public/field/ with the same names, and remove the credit then.
+export const FIELD_PHOTOS = [
+  { slug: 'thermal', title: "Thermal imaging", what: "Hot spots in panels, insulation and steam lines", credit: "Asurnipal, CC BY-SA 4.0", source: "https://commons.wikimedia.org/wiki/File:Flir_E8-Thermal_imaging_camera-Thermographic_camera-03ASD.jpg" },
+  { slug: 'transformer', title: "Transformers and incomers", what: "Loading, losses and power quality at the supply", credit: "Antti Leppänen, CC BY 4.0", source: "https://commons.wikimedia.org/wiki/File:Muurame_electrical_substation_transformer.jpg" },
+  { slug: 'cooling', title: "Cooling towers and chillers", what: "Approach, range and kW per ton of cooling", credit: "Cenk Endustri, CC BY-SA 3.0", source: "https://commons.wikimedia.org/wiki/File:Cenk_Endustri_Field_Erected_Industrial_Cooling_Tower.JPG" },
+  { slug: 'machine-hall', title: "Machine halls", what: "Motor loading, belts and drive opportunities", credit: "Eebie, CC BY 4.0", source: "https://commons.wikimedia.org/wiki/File:Compressor_room_Coal_Mine_Winterslag_Genk_Belgium.jpg" },
+  { slug: 'compressor', title: "Compressed air", what: "Free air delivery, load and unload, and leaks", credit: "Work With Sounds, CC BY-SA 4.0", source: "https://commons.wikimedia.org/wiki/File:Air_compressor_in_engine_room.JPG" },
+  { slug: 'boiler-house', title: "Boiler house", what: "Combustion efficiency and heat lost from surfaces", credit: "Brylie Oxley, CC BY-SA 3.0", source: "https://commons.wikimedia.org/wiki/File:FI-Tampere-20131013_152957_HDR.JPG" },
+  { slug: 'rooftop-solar', title: "Rooftop solar", what: "Performance ratio and where the energy is lost", credit: "HokuroN, CC BY-SA 4.0", source: "https://commons.wikimedia.org/wiki/File:Hatil_rooftop_solar_panels.jpg" },
+  { slug: 'solar-array', title: "PV array inspection", what: "Soiling, shading and module health", credit: "Ayman Nakib Badhan, CC BY-SA 4.0", source: "https://commons.wikimedia.org/wiki/File:Powering_Progress.jpg" },
 ];
