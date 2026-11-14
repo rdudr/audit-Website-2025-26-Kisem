@@ -43,7 +43,7 @@ export default function Audits({ rows, signed, filters, setFilters, onOpen, onSi
         <p className="lede">Open any audit to see its baseline, what was recommended, and what the plant has carried out.</p>
       </div>
 
-      <div style={{ display: 'flex', gap: 14, alignItems: 'center', padding: '14px 18px', borderRadius: 16, background: signed ? '#E1F0E8' : '#F5F5F5', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 14, alignItems: 'center', padding: '14px 18px', borderRadius: 16, background: signed ? '#E1F0E8' : '#FFFFFF', border: '1px solid rgba(43,38,68,.08)', flexWrap: 'wrap' }}>
         <span style={{ width: 34, height: 34, borderRadius: 10, background: '#2B2644', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon d={signed ? PATHS.unlock : PATHS.lock} /></span>
         <span style={{ flex: '1 1 320px', fontSize: 14, lineHeight: 1.5 }}>
           {signed ? 'Signed in: company names are shown, and you can add companies and update implementation.'
