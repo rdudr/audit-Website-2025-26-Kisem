@@ -132,6 +132,22 @@ export const team = {
     const name = /filename="([^"]+)"/.exec(cd)?.[1] || 'KISEM master data sheet.xlsx';
     return { blob: await res.blob(), name };
   },
+  /** The annual report PDF: served by FOX Console to signed-in team members only. */
+  async annualReport(s: Session): Promise<{ blob: Blob; name: string }> {
+    let res: Response;
+    try {
+      res = await fetch(CONSOLE_URL + '/api/device/site/annual-report.pdf', { headers: { Authorization: 'Bearer ' + s.token, 'X-KISEM-App': 'audit' } });
+    } catch {
+      throw new ConsoleError('FOX Console could not be reached. Check the connection and try again.', 0);
+    }
+    if (!res.ok) {
+      const out = await res.json().catch(() => ({}));
+      throw new ConsoleError(out.error || 'The annual report could not be downloaded.', res.status, out.code);
+    }
+    const cd = res.headers.get('Content-Disposition') || '';
+    const name = /filename="([^"]+)"/.exec(cd)?.[1] || 'KISEM-Annual-Report.pdf';
+    return { blob: await res.blob(), name };
+  },
 };
 
 export function saveBlob(blob: Blob, name: string) {

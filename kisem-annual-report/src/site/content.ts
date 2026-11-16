@@ -3,13 +3,14 @@
 export const APPLY_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfeadTKCwRTvHE4xfaucn2SZ8SN00jFp-2lOI_qiD4C9Jfziw/viewform';
 // Awareness workshops held under the programme (not in the master sheet). Shown as "58+".
 export const WORKSHOPS_CONDUCTED = 58;
-export const REPORT_PDF = '/KISEM-Annual-Report-2025-26.pdf';
 export const CONTACT = {
   address: 'IIT Gandhinagar, Palaj, Gandhinagar, Gujarat 382055',
   mapUrl: 'https://maps.google.com/?q=IIT+Gandhinagar+Palaj+Gandhinagar+Gujarat+382055',
   email: 'iea@iitgn.ac.in',
-  phone: '+91 90337 98820',
-  tel: '+919033798820',
+  phones: [
+    { phone: '+91 90337 98820', tel: '+919033798820' },
+    { phone: '+91 96101 29501', tel: '+919610129501' },
+  ],
 };
 
 const SCOPE_ICONS = [
@@ -84,7 +85,7 @@ export const TEAMS: { label: string; people: Person[] }[] = [
 ];
 
 export const PARTNERS = [
-  { name: 'Kotak Mahindra Bank', role: 'CSR funder', logo: '/download.png' },
+  { name: 'Kotak Mahindra Bank', role: 'CSR funder', logo: '/kotak-csr.jpg' },
   { name: 'IIT Madras / IEAC', role: 'Knowledge partner', logo: '/kotak_iit_madras_save_energy_mission_logo.jpg' },
   { name: 'GEDA', role: 'Gujarat state partner', logo: '/geda logo.jpg' },
   { name: 'WRI India', role: 'Research partner', logo: '/WRI-India-Logo.png' },

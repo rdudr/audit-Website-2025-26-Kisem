@@ -197,8 +197,8 @@ select.inp { padding: 0 10px; font-size: 14px; }
 .pstrip-window:hover .pstrip-track, .pstrip-window:focus-within .pstrip-track { animation-play-state: paused; }
 @keyframes pstrip { to { transform: translateX(-50%); } }
 /* A thin line after every logo and name, so each partner reads as its own entry. */
-.pstrip-item { display: inline-flex; align-items: center; gap: 12px; height: 48px; white-space: nowrap; padding: 0 28px; border-right: 1px solid #D9D9D9; }
-.pstrip-item img { height: 40px; width: auto; max-width: 120px; object-fit: contain; }
+.pstrip-item { display: inline-flex; align-items: center; gap: 12px; height: 56px; white-space: nowrap; padding: 0 28px; border-right: 1px solid #D9D9D9; }
+.pstrip-item img { height: 50px; width: auto; max-width: 140px; object-fit: contain; }
 @media (prefers-reduced-motion: reduce) { .pstrip-track { animation: none; } }
 
 /* ---------- instruments: photo-led cards ---------- */

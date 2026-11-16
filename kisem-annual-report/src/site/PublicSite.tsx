@@ -102,9 +102,9 @@ export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }
         <Instruments />
         <HowWeMeasure />
         <Team />
-        <Contact />
+        <Contact session={session} />
       </main>
-      <Footer />
+      <Footer session={session} />
 
       <SignIn open={loginOpen && !signed} onClose={() => setLoginOpen(false)} onDone={state.signedIn} notice={state.teamError} />
       <AuditDrawer row={row} session={session} changes={state.changes} onClose={() => setOpen(null)} onSaved={state.applySaved} />

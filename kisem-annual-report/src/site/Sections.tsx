@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { data, FYS, fyLabel, ind, inr, n0, pct, STATUS_TONE, STATUSES, sum, type Row } from '../data';
 import { useCountUp } from '../lib/hooks';
-import { CONSOLE_URL } from '../lib/console';
-import { APPLY_URL, WORKSHOPS_CONDUCTED, CONTACT, FIELD_PHOTOS, INSTRUMENTS, PARTNERS, REPORT_PDF, SCOPE, SCOPE_FAMILIES, TEAMS, type ScopeFamily } from './content';
+import { CONSOLE_URL, saveBlob, team, type Session } from '../lib/console';
+import { APPLY_URL, WORKSHOPS_CONDUCTED, CONTACT, FIELD_PHOTOS, INSTRUMENTS, PARTNERS, SCOPE, SCOPE_FAMILIES, TEAMS, type ScopeFamily } from './content';
 import { DuoIcon, Icon } from './Icon';
 import { DUO, PATHS } from './icons';
 
@@ -167,7 +167,7 @@ export function PartnerStrip() {
   const withLogo = PARTNERS.filter(pa => pa.logo);
   const set = (hidden: boolean) => withLogo.map(pa => (
     <span key={pa.name + (hidden ? '-2' : '')} className="pstrip-item" aria-hidden={hidden || undefined}>
-      <img src={pa.logo} alt="" loading="lazy" height={40} />
+      <img src={pa.logo} alt="" loading="lazy" height={50} />
       <span style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.2 }}>
         <span style={{ fontSize: 14, fontWeight: 600, color: '#000000' }}>{pa.name}</span>
         <span style={{ fontSize: 12, color: '#6B6B6B' }}>{pa.role}</span>
@@ -510,7 +510,7 @@ export function Team() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(160px, 100%), 1fr))', gap: 12 }}>
           {PARTNERS.map(pa => (
             <span key={pa.name} className="lift" title={pa.role} style={{ minHeight: 72, borderRadius: 16, border: '1px solid rgba(0,0,0,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, fontSize: 14, fontWeight: 600, color: '#3A3A3A', textAlign: 'center', padding: '10px 12px' }}>
-              {pa.logo && <img src={pa.logo} alt="" loading="lazy" style={{ height: 32, maxWidth: 56, objectFit: 'contain' }} />}{pa.name}
+              {pa.logo && <img src={pa.logo} alt="" loading="lazy" style={{ height: 44, maxWidth: 104, objectFit: 'contain' }} />}{pa.name}
             </span>
           ))}
         </div>
@@ -519,7 +519,25 @@ export function Team() {
   );
 }
 
-export function Contact() {
+// The annual report is for the team: FOX Console hands it out after a team sign-in only.
+function ReportButton({ session }: { session: Session }) {
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const get = async () => {
+    setBusy(true); setErr(null);
+    try { const { blob, name } = await team.annualReport(session); saveBlob(blob, name); }
+    catch (e) { setErr((e as Error).message); }
+    finally { setBusy(false); }
+  };
+  return (
+    <>
+      <button type="button" className="btno" onClick={get} disabled={busy} style={{ height: 50, padding: '0 22px', borderRadius: 14, border: '1px solid rgba(255,255,255,.3)', background: 'transparent', color: '#FFFFFF', fontSize: 15, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>{busy ? 'Downloading…' : 'Annual report (PDF)'}</button>
+      {err && <span role="alert" style={{ flexBasis: '100%', fontSize: 13, color: '#FFD7D7' }}>{err}</span>}
+    </>
+  );
+}
+
+export function Contact({ session }: { session: Session | null }) {
   return (
     <section id="contact" className="wrap" style={{ padding: 'clamp(56px, 9vw, 88px) 20px', scrollMarginTop: 128 }}>
       <div style={{ background: '#2B2644', color: '#FFFFFF', borderRadius: 28, padding: 'clamp(28px, 6vw, 56px)', display: 'flex', flexWrap: 'wrap', gap: 40, justifyContent: 'space-between' }}>
@@ -528,29 +546,29 @@ export function Contact() {
           <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: '#DDDAE6' }}>MSME units can apply for an energy assessment by the IIT Gandhinagar team, funded under Kotak Mahindra Bank's CSR programme.</p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             <a className="btnw" href={APPLY_URL} target="_blank" rel="noopener" style={{ height: 50, padding: '0 22px', borderRadius: 14, background: '#FFFFFF', color: '#000000', textDecoration: 'none', fontSize: 15, fontWeight: 600, display: 'flex', alignItems: 'center' }}>Apply for an audit</a>
-            <a className="btno" href={REPORT_PDF} target="_blank" rel="noopener" style={{ height: 50, padding: '0 22px', borderRadius: 14, border: '1px solid rgba(255,255,255,.3)', color: '#FFFFFF', textDecoration: 'none', fontSize: 15, fontWeight: 600, display: 'flex', alignItems: 'center' }}>Annual report (PDF)</a>
+            {session && <ReportButton session={session} />}
           </div>
         </div>
         <address style={{ flex: '0 1 320px', fontStyle: 'normal', display: 'flex', flexDirection: 'column', gap: 14, fontSize: 15, lineHeight: 1.5 }}>
           <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', color: '#C9C5D6' }}>Contact</span>
           <a href={CONTACT.mapUrl} target="_blank" rel="noopener" style={{ color: '#FFFFFF', textDecoration: 'none' }}>{CONTACT.address}</a>
           <a href={'mailto:' + CONTACT.email} style={{ color: '#FFFFFF' }}>{CONTACT.email}</a>
-          <a href={'tel:' + CONTACT.tel} style={{ color: '#FFFFFF', textDecoration: 'none' }}>{CONTACT.phone}</a>
+          {CONTACT.phones.map(p => <a key={p.tel} href={'tel:' + p.tel} style={{ color: '#FFFFFF', textDecoration: 'none' }}>{p.phone}</a>)}
         </address>
       </div>
     </section>
   );
 }
 
-export function Footer() {
+export function Footer({ session }: { session: Session | null }) {
   const asOf = new Date(data.asOf + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
   return (
     <footer style={{ borderTop: '1px solid rgba(0,0,0,.08)' }}>
       <div className="wrap" style={{ padding: 24, display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: '10px 24px', fontSize: 13, color: '#5E5E5E' }}>
         <span>© {new Date().getFullYear()} KISEM, IIT Gandhinagar · Data as of the master data sheet, {asOf}</span>
         <nav aria-label="Footer" style={{ display: 'flex', gap: '6px 20px', flexWrap: 'wrap' }}>
-          <a className="navl" href={CONSOLE_URL} style={{ color: '#5E5E5E' }}>FOX Console</a>
-          <a className="navl" href={`${CONSOLE_URL}/apps/`} style={{ color: '#5E5E5E' }}>Field apps</a>
+          {session && <a className="navl" href={CONSOLE_URL} style={{ color: '#5E5E5E' }}>FOX Console</a>}
+          {session && <a className="navl" href={`${CONSOLE_URL}/apps/`} style={{ color: '#5E5E5E' }}>Field apps</a>}
           <a className="navl" href="#top" style={{ color: '#5E5E5E' }}>Back to top</a>
         </nav>
       </div>
