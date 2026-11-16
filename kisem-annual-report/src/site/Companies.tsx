@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import type { SiteState } from '../App';
 import { FYS, ind, inr, when, n0, NUMERIC, parseNum, STATUS_TONE, statusFrom, type Row } from '../data';
-import { team, type ConsoleError, type Ecm } from '../lib/console';
+import { CONSOLE_URL, team, type ConsoleError, type Ecm } from '../lib/console';
 import { Icon } from './Icon';
 import { PATHS } from './icons';
 import { AddCompany, SignIn } from './Overlays';
@@ -68,7 +68,7 @@ export default function Companies({ state, code, pending, loginOpen, setLoginOpe
             <nav aria-label="Site" style={{ display: 'flex', gap: 4, fontSize: 14, fontWeight: 600 }}>
               <a href="#audits" className="ghost" style={{ padding: '8px 10px', borderRadius: 10, textDecoration: 'none' }}>Website</a>
               <span aria-current="page" className="hide-sm" style={{ padding: '8px 10px', borderRadius: 10, background: '#F5F5F5' }}>Companies</span>
-              <a href="https://console.eassiitgn.page" className="ghost hide-sm" style={{ padding: '8px 10px', borderRadius: 10, textDecoration: 'none' }}>FOX Console</a>
+              <a href={CONSOLE_URL} className="ghost hide-sm" style={{ padding: '8px 10px', borderRadius: 10, textDecoration: 'none' }}>FOX Console</a>
             </nav>
             <button type="button" className="btn btnp" onClick={excel.download} disabled={excel.busy} style={{ height: 40, fontSize: 13 }}><Icon d={PATHS.download} size={15} /><span className="hide-sm">Download master Excel</span><span className="sr-only">Download master Excel</span></button>
             <button type="button" className="ghost" onClick={state.signOutNow} title="Sign out" style={{ height: 40, padding: '0 10px', border: '1px solid #D4D4D4', borderRadius: 12, background: '#FFFFFF', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>

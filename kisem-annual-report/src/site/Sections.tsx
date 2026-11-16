@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { data, FYS, fyLabel, ind, inr, n0, pct, STATUS_TONE, STATUSES, sum, type Row } from '../data';
 import { useCountUp } from '../lib/hooks';
+import { CONSOLE_URL } from '../lib/console';
 import { APPLY_URL, WORKSHOPS_CONDUCTED, CONTACT, FIELD_PHOTOS, INSTRUMENTS, PARTNERS, REPORT_PDF, SCOPE, SCOPE_FAMILIES, TEAMS, type ScopeFamily } from './content';
 import { DuoIcon, Icon } from './Icon';
 import { DUO, PATHS } from './icons';
@@ -548,8 +549,8 @@ export function Footer() {
       <div className="wrap" style={{ padding: 24, display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: '10px 24px', fontSize: 13, color: '#5E5E5E' }}>
         <span>© {new Date().getFullYear()} KISEM, IIT Gandhinagar · Data as of the master data sheet, {asOf}</span>
         <nav aria-label="Footer" style={{ display: 'flex', gap: '6px 20px', flexWrap: 'wrap' }}>
-          <a className="navl" href="https://console.eassiitgn.page" style={{ color: '#5E5E5E' }}>FOX Console</a>
-          <a className="navl" href="https://console.eassiitgn.page/apps" style={{ color: '#5E5E5E' }}>Field apps</a>
+          <a className="navl" href={CONSOLE_URL} style={{ color: '#5E5E5E' }}>FOX Console</a>
+          <a className="navl" href={`${CONSOLE_URL}/apps/`} style={{ color: '#5E5E5E' }}>Field apps</a>
           <a className="navl" href="#top" style={{ color: '#5E5E5E' }}>Back to top</a>
         </nav>
       </div>

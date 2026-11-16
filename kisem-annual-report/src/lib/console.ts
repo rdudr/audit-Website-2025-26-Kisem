@@ -7,7 +7,15 @@
 // Plant contact details are never sent to the website at all.
 import type { Row } from '../data';
 
-export const CONSOLE_URL = (import.meta.env.VITE_CONSOLE_URL as string | undefined)?.replace(/\/$/, '') || 'https://console.eassiitgn.page';
+// The Console of the domain this site is served from: foxauditiitgn.com (or www., or audit.) ->
+// console.foxauditiitgn.com; the first server's audit.app.eassiitgn.page -> console.eassiitgn.page.
+function consoleOfThisSite(): string {
+  const h = typeof location !== 'undefined' ? location.hostname : '';
+  if (/(^|\.)eassiitgn\.page$/.test(h)) return 'https://console.eassiitgn.page';
+  const root = /^(?:www\.|audit\.)?([a-z0-9-]+\.[a-z]{2,})$/.exec(h)?.[1];
+  return `https://console.${root || 'foxauditiitgn.com'}`;
+}
+export const CONSOLE_URL = (import.meta.env.VITE_CONSOLE_URL as string | undefined)?.replace(/\/$/, '') || consoleOfThisSite();
 const KEY = 'kisem-site-session';
 
 export interface Session { token: string; name: string; loginId: string }
