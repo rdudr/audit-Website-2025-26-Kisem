@@ -8,7 +8,10 @@ import { PATHS } from './icons';
 import { AddCompany, AuditDrawer, ChangeLog, SignIn } from './Overlays';
 import { Logo } from './Logo';
 import { useMasterExcel } from './useMasterExcel';
-import { Contact, Footer, Hero, HowWeMeasure, Impact, Instruments, Journey, PartnerStrip, Team } from './Sections';
+import { Contact, Footer, Team } from './Sections';
+import HeroSection from './HeroSection';
+import ImpactSection from './ImpactSection';
+import FieldSection from './FieldSection';
 import ScopeSection from './ScopeSection';
 import SectorsSection from './SectorsSection';
 import './redesign.css';
@@ -95,15 +98,12 @@ export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }
       </header>
 
       <main ref={mainRef}>
-        <Hero rows={rows} />
-        <PartnerStrip />
-        <Impact rows={rows} />
-        <Journey rows={rows} />
+        <HeroSection rows={rows} />
+        <ImpactSection rows={rows} />
         <Audits rows={rows} signed={signed} filters={filters} setFilters={setFilters} onOpen={setOpen} onSignIn={() => setLoginOpen(true)} onSignOut={state.signOutNow} />
         <SectorsSection rows={rows} onPick={pickSector} />
         <ScopeSection rows={rows} />
-        <Instruments />
-        <HowWeMeasure />
+        <FieldSection />
         <Team />
         <Contact session={session} />
       </main>
