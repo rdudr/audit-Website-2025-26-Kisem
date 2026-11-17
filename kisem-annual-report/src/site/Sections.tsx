@@ -516,7 +516,7 @@ export function Team() {
 }
 
 // The annual report is for the team: FOX Console hands it out after a team sign-in only.
-function ReportButton({ session }: { session: Session }) {
+export function ReportButton({ session }: { session: Session }) {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const get = async () => {

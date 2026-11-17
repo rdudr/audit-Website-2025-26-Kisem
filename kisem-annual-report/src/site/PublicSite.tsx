@@ -8,7 +8,7 @@ import { PATHS } from './icons';
 import { AddCompany, AuditDrawer, ChangeLog, SignIn } from './Overlays';
 import { Logo } from './Logo';
 import { useMasterExcel } from './useMasterExcel';
-import { Contact, Footer, Team } from './Sections';
+import PeopleSection, { SiteFooter } from './PeopleSection';
 import HeroSection from './HeroSection';
 import ImpactSection from './ImpactSection';
 import FieldSection from './FieldSection';
@@ -104,10 +104,9 @@ export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }
         <SectorsSection rows={rows} onPick={pickSector} />
         <ScopeSection rows={rows} />
         <FieldSection />
-        <Team />
-        <Contact session={session} />
+        <PeopleSection session={session} />
       </main>
-      <Footer session={session} />
+      <SiteFooter session={session} />
 
       <SignIn open={loginOpen && !signed} onClose={() => setLoginOpen(false)} onDone={state.signedIn} notice={state.teamError} />
       <AuditDrawer row={row} session={session} changes={state.changes} onClose={() => setOpen(null)} onSaved={state.applySaved} />
