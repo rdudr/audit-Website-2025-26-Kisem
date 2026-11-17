@@ -1,21 +1,34 @@
 import { lazy, Suspense, useMemo, useState } from 'react';
-import { FYS, fyLabel, inr, n0, STATUS_TONE, STATUSES, titleOf, type Row } from '../data';
-import { Icon } from './Icon';
-import { PATHS } from './icons';
+import { FYS, fyLabel, n0, STATUSES, titleOf, type Row, type Status } from '../data';
+import type { Filters } from './filters';
+import { NO_FILTERS } from './filters';
+import { useDevice } from './useDevice';
 
 const AuditMap = lazy(() => import('./AuditMap'));
 
-import type { Filters } from './filters';
-import { NO_FILTERS } from './filters';
+// Every audit (canvas "Component · Audits and sectors"). Same logic as before: search, filters,
+// sorting, open an audit, sign in for company names, and the map.
+
+const ST: Record<Status, [string, string]> = {
+  'Implementation verified': ['#E3F3EA', '#0E6B33'],
+  'Post-audit pending': ['#EFEBFD', '#4C35B8'],
+  'Report under process': ['#EFEFF2', '#3A3850'],
+};
+const lakh = (v: unknown) => (n0(v) / 1e5).toFixed(1);
+const month = (dt: string | null) => (dt ? new Date(dt + 'T00:00:00').toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }) : '');
+const LOCK = 'M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4';
+const UNLOCK = 'M5 11h14v10H5zM8 11V7a4 4 0 0 1 7.5-2';
 
 export default function Audits({ rows, signed, filters, setFilters, onOpen, onSignIn, onSignOut }: {
   rows: Row[]; signed: boolean; filters: Filters; setFilters: (f: Filters) => void;
   onOpen: (code: string) => void; onSignIn: () => void; onSignOut: () => void;
 }) {
+  const dev = useDevice();
+  const D = dev === 'desktop', T = dev === 'tablet';
   const [all, setAll] = useState(false);
   const set = (patch: Partial<Filters>) => { setFilters({ ...filters, ...patch }); setAll(false); };
 
-  const L = useMemo(() => {
+  const list = useMemo(() => {
     const q = filters.q.trim().toLowerCase();
     let out = rows.filter(r => (filters.fy === 'All' || r.fy === filters.fy)
       && (filters.sector === 'All sectors' || r.s === filters.sector)
@@ -27,107 +40,131 @@ export default function Audits({ rows, signed, filters, setFilters, onOpen, onSi
     if (filters.sort === 'co2') out = [...out].sort((a, b) => n0(b.rc) - n0(a.rc));
     return out;
   }, [rows, filters, signed]);
-  const shown = all ? L : L.slice(0, 12);
+  const shown = all ? list : list.slice(0, 12);
   const sectors = useMemo(() => [...new Set(rows.map(r => r.s))].sort(), [rows]);
+  const fyCount = (fy: string) => (fy === 'All' ? rows.length : rows.filter(r => r.fy === fy).length);
+  const fys = ['All', ...FYS].filter(fy => fy === 'All' || fyCount(fy) > 0);
+  const filtered = filters.q || filters.sector !== 'All sectors' || filters.fy !== 'All' || filters.status !== 'All';
 
-  const cc: Record<string, number> = {};
-  rows.forEach(r => { cc[r.ci] = (cc[r.ci] || 0) + 1; });
-  const cl = Object.entries(cc).sort((a, b) => b[1] - a[1]);
-  const cmax = cl[0] ? cl[0][1] : 1;
+  const L = {
+    pad: D ? '104px 40px 0' : T ? '80px 32px 0' : '64px 16px 0', h2: D ? 48 : T ? 40 : 32, lede: D ? 18 : 16,
+    fCols: D ? 'minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr)' : T ? 'minmax(0, 1fr) minmax(0, 1fr)' : 'minmax(0, 1fr)',
+    rCols: D ? '92px minmax(0, 1.5fr) minmax(0, 1.1fr) 100px minmax(0, 1.2fr) 190px 16px' : T ? '92px minmax(0, 1fr) auto' : 'minmax(0, 1fr)',
+    rGap: D ? 16 : 12,
+  };
+  const label = { display: 'flex', flexDirection: 'column', gap: 6, fontSize: 12, fontWeight: 600, color: '#55526A' } as const;
+  const inp = { height: 44, boxSizing: 'border-box', border: '1px solid #D9D7E3', borderRadius: 12, fontFamily: 'inherit', fontSize: 14, background: '#FFFFFF', color: '#0F0D1A' } as const;
 
   return (
-    <section id="audits" className="sec" style={{ gap: 22 }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 680 }}>
-        <span className="eyebrow">All audits</span>
-        <h2 className="h2">Every audit, recommended and implemented</h2>
-        <p className="lede">Open any audit to see its baseline, what was recommended, and what the plant has carried out.</p>
+    <section id="audits" className="rd" style={{ scrollMarginTop: 72, maxWidth: 1280, margin: '0 auto', padding: L.pad, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 28 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 20, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, maxWidth: 640 }}>
+          <span className="rd-eyebrow">Audits</span>
+          <h2 style={{ margin: 0, fontSize: L.h2, lineHeight: 1.05, fontWeight: 700, letterSpacing: '-0.035em' }}>Every audit, by number</h2>
+          <p style={{ margin: 0, fontSize: L.lede, lineHeight: 1.6, color: '#55526A' }}>
+            {signed ? 'Signed in: company names are shown, and you can add companies and update implementation. Open any audit for its baseline, recommendations and what the plant carried out.'
+              : 'Plants are shown by audit number and sector. Company names stay private to the team. Open any audit for its baseline, recommendations and what the plant carried out.'}
+          </p>
+        </div>
+        <button type="button" className="rd-ghost" onClick={signed ? onSignOut : onSignIn}
+          style={{ height: 44, padding: '0 16px', borderRadius: 12, border: '1px solid #D9D7E3', background: signed ? '#E3F3EA' : '#FFFFFF', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, color: '#0F0D1A', display: 'inline-flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={signed ? UNLOCK : LOCK} /></svg>
+          {signed ? 'Sign out' : 'Sign in to see names'}
+        </button>
       </div>
 
-      <div style={{ display: 'flex', gap: 14, alignItems: 'center', padding: '14px 18px', borderRadius: 16, background: signed ? '#E1F0E8' : '#FFFFFF', border: '1px solid rgba(43,38,68,.08)', flexWrap: 'wrap' }}>
-        <span style={{ width: 34, height: 34, borderRadius: 10, background: '#2B2644', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon d={signed ? PATHS.unlock : PATHS.lock} /></span>
-        <span style={{ flex: '1 1 320px', fontSize: 14, lineHeight: 1.5 }}>
-          {signed ? 'Signed in: company names are shown, and you can add companies and update implementation.'
-            : 'Company names are kept private. Each plant is shown by its sector and KISEM audit number. Team members can sign in to see names.'}
-        </span>
-        <button type="button" className="btn btnp" onClick={signed ? onSignOut : onSignIn} style={{ height: 40, fontSize: 13 }}>{signed ? 'Sign out' : 'Sign in to see names'}</button>
+      {/* filters */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: 16, borderRadius: 20, background: '#F7F6FB', border: '1px solid #ECEAF2' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: L.fCols, gap: 10 }}>
+          <label style={label}>Search
+            <span style={{ position: 'relative', display: 'block' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8E88A8" strokeWidth={2} strokeLinecap="round" aria-hidden="true" style={{ position: 'absolute', left: 14, top: 14 }}><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3" /></svg>
+              <input className="rd-inp" type="search" value={filters.q} onChange={e => set({ q: e.target.value })} placeholder={signed ? 'Company, audit number, city, product…' : 'Audit number, city, product…'} style={{ ...inp, width: '100%', padding: '0 12px 0 40px', fontSize: 15 }} />
+            </span>
+          </label>
+          <label style={label}>Sector
+            <select className="rd-inp" value={filters.sector} onChange={e => set({ sector: e.target.value })} style={{ ...inp, padding: '0 10px' }}>
+              {['All sectors', ...sectors].map(o => <option key={o} value={o}>{o === 'All sectors' ? `All ${sectors.length} sectors` : o}</option>)}
+            </select>
+          </label>
+          <label style={label}>Status
+            <select className="rd-inp" value={filters.status} onChange={e => set({ status: e.target.value as Filters['status'] })} style={{ ...inp, padding: '0 10px' }}>
+              {(['All', ...STATUSES] as const).map(s => <option key={s} value={s}>{s === 'All' ? 'Any status' : s}</option>)}
+            </select>
+          </label>
+          <label style={label}>Sort by
+            <select className="rd-inp" value={filters.sort} onChange={e => set({ sort: e.target.value as Filters['sort'] })} style={{ ...inp, padding: '0 10px' }}>
+              <option value="code">Audit number</option><option value="save">Savings recommended</option><option value="impl">Implementation %</option><option value="co2">CO₂ reduction</option>
+            </select>
+          </label>
+        </div>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+          <div role="group" aria-label="Audit year" style={{ display: 'flex', gap: 8, flexWrap: D || T ? 'wrap' : 'nowrap', overflowX: 'auto', maxWidth: '100%' }}>
+            {fys.map(fy => {
+              const on = filters.fy === fy;
+              return (
+                <button key={fy} type="button" className="rd-pill" aria-pressed={on} onClick={() => set({ fy })}
+                  style={{ height: 40, padding: '0 14px', borderRadius: 999, border: `1px solid ${on ? '#0F0D1A' : '#D9D7E3'}`, background: on ? '#0F0D1A' : '#FFFFFF', color: on ? '#FFFFFF' : '#2E2B3F', fontFamily: 'inherit', fontSize: 13, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0 }}>
+                  {fy === 'All' ? 'All years' : fyLabel(fy)} <span style={{ opacity: 0.65 }}>{fyCount(fy)}</span>
+                </button>
+              );
+            })}
+          </div>
+          {filtered && (
+            <button type="button" onClick={() => set({ ...NO_FILTERS, sort: filters.sort })} style={{ height: 40, padding: '0 10px', border: 0, borderRadius: 10, background: 'transparent', fontFamily: 'inherit', fontSize: 13, fontWeight: 600, color: '#0F0D1A', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 3 }}>Clear filters</button>
+          )}
+        </div>
       </div>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'flex-end' }}>
-        <label className="field" style={{ flex: '2 1 260px' }}>Search
-          <input className="inp" type="search" value={filters.q} onChange={e => set({ q: e.target.value })} placeholder={signed ? 'Company, audit number, sector or city' : 'Audit number, sector or city'} />
-        </label>
-        <label className="field" style={{ flex: '1 1 170px' }}>Sector
-          <select className="inp" value={filters.sector} onChange={e => set({ sector: e.target.value })}>
-            {['All sectors', ...sectors].map(o => <option key={o} value={o}>{o}</option>)}
-          </select>
-        </label>
-        <label className="field" style={{ flex: '1 1 170px' }}>Sort by
-          <select className="inp" value={filters.sort} onChange={e => set({ sort: e.target.value as Filters['sort'] })}>
-            <option value="code">Audit number</option><option value="save">Savings recommended</option><option value="impl">Implementation %</option><option value="co2">CO₂ reduction</option>
-          </select>
-        </label>
-      </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 16px', alignItems: 'center' }}>
-        <div role="group" aria-label="Financial year" style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-          {['All', ...FYS].map(y => <button key={y} type="button" className="pill" aria-pressed={filters.fy === y} onClick={() => set({ fy: y })}>{y === 'All' ? 'All years' : fyLabel(y)}</button>)}
-        </div>
-        <div role="group" aria-label="Status" style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-          {(['All', ...STATUSES] as const).map(s => <button key={s} type="button" className="pill" aria-pressed={filters.status === s} onClick={() => set({ status: s })}>{s === 'All' ? 'Any status' : s}</button>)}
-        </div>
-        {(filters.q || filters.sector !== 'All sectors' || filters.fy !== 'All' || filters.status !== 'All') && (
-          <button type="button" className="ghost" onClick={() => set({ ...NO_FILTERS, sort: filters.sort })} style={{ height: 34, padding: '0 10px', border: 0, borderRadius: 10, background: 'transparent', fontSize: 13, fontWeight: 600, cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 3 }}>Clear filters</button>
+      {/* the list */}
+      <div style={{ border: '1px solid #E7E5EE', borderRadius: 22, overflow: 'hidden' }}>
+        {D && (
+          <div style={{ display: 'grid', gridTemplateColumns: L.rCols, gap: 16, padding: '12px 20px', background: '#FAFAFC', borderBottom: '1px solid #ECEAF2', fontSize: 12, fontWeight: 600, color: '#55526A' }}>
+            <span>Audit</span><span>Plant</span><span>Location</span><span>ECMs done</span><span>Savings, ₹ lakh / yr</span><span>Status</span><span />
+          </div>
         )}
-      </div>
-
-      <div className="card" style={{ overflow: 'hidden' }}>
-        <div className="agrid" style={{ padding: '10px 20px', background: '#F5F5F5', fontSize: 12, fontWeight: 600, color: '#5E5E5E' }}>
-          <span aria-live="polite">Audit · {L.length} shown</span><span className="acol">Status</span><span className="acol" style={{ textAlign: 'right' }}>Saving / yr</span><span className="acol">ECMs implemented</span><span />
-        </div>
         {shown.map(r => {
-          const [sbg, sfg] = STATUS_TONE[r.st];
+          const [sbg, sfg] = ST[r.st] || ST['Report under process'];
+          const pc = n0(r.ri) ? Math.min(100, Math.round((100 * n0(r.ii)) / n0(r.ri))) : 0;
+          const loc = `${r.ci}, ${r.stt}`;
           return (
-            <button key={r.c} type="button" className="agrid arow" onClick={() => onOpen(r.c)}
-              style={{ width: '100%', padding: '14px 20px', border: 0, borderTop: '1px solid #EBEBEB', background: '#FFFFFF', textAlign: 'left', cursor: 'pointer', color: '#000000' }}>
-              <span style={{ display: 'flex', gap: 12, alignItems: 'center', minWidth: 0 }}>
-                <span className="code n">{r.c}</span>
-                <span style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}>
-                  <span style={{ fontSize: 15, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{titleOf(r, signed)}</span>
-                  <span style={{ fontSize: 13, color: '#5E5E5E', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{signed ? r.s + ' · ' : ''}{r.ci} · {fyLabel(r.fy)}</span>
-                </span>
+            <button key={r.c} type="button" className="rd-arow" onClick={() => onOpen(r.c)}
+              style={{ width: '100%', display: 'grid', gridTemplateColumns: L.rCols, gap: L.rGap, alignItems: 'center', padding: '16px 20px', border: 0, borderBottom: '1px solid #F0EFF4', background: '#FFFFFF', textAlign: 'left', cursor: 'pointer', color: '#0F0D1A', fontFamily: 'inherit' }}>
+              <span className="rd-mono" style={{ fontSize: 12, fontWeight: 700, color: '#2B2644', background: '#ECEAF2', borderRadius: 8, padding: '5px 8px', justifySelf: 'start' }}>{r.c}</span>
+              <span style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}>
+                <b style={{ fontSize: 15, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{titleOf(r, signed)}</b>
+                <span style={{ fontSize: 13, color: '#55526A', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{signed ? `${r.s} · ${r.p}` : r.p}</span>
+                {!D && <span style={{ fontSize: 12, color: '#6B6880' }}>{loc}{r.dt ? ` · ${month(r.dt)}` : ''}</span>}
               </span>
-              <span className="acol"><span className="badge" style={{ background: sbg, color: sfg }}>{r.st}</span></span>
-              <span className="n acol" style={{ fontSize: 14, fontWeight: 600, textAlign: 'right' }}>{inr(r.ri)}</span>
-              <span className="acol" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span aria-hidden="true" style={{ flex: 1, height: 6, borderRadius: 999, background: '#EBEBEB', display: 'flex', overflow: 'hidden' }}><span style={{ width: r.rn ? Math.min(100, Math.round((100 * n0(r.in)) / r.rn)) + '%' : '0%', background: '#0B7A45' }} /></span>
-                <span className="n" style={{ fontSize: 12, color: '#3A3A3A', minWidth: 40, textAlign: 'right' }}>{r.rn ? `${n0(r.in)} / ${r.rn}` : '—'}</span>
-              </span>
-              <Icon d={PATHS.chevron} stroke="#6B6B6B" width={2.2} />
+              {D && (
+                <>
+                  <span style={{ display: 'flex', flexDirection: 'column', gap: 2, fontSize: 13, minWidth: 0 }}><span>{loc}</span><span style={{ color: '#6B6880', fontSize: 12 }}>{month(r.dt) || fyLabel(r.fy)}</span></span>
+                  <span style={{ fontSize: 14, fontVariantNumeric: 'tabular-nums' }}>{r.rn ? <><b>{n0(r.in)}</b> <span style={{ color: '#6B6880' }}>of {r.rn}</span></> : '—'}</span>
+                  <span style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 0 }}>
+                    <span style={{ fontSize: 13, fontVariantNumeric: 'tabular-nums' }}><b style={{ color: '#0E6B33' }}>{lakh(r.ii)}</b> <span style={{ color: '#6B6880' }}>/ {lakh(r.ri)}</span></span>
+                    <span aria-hidden="true" style={{ height: 6, borderRadius: 999, background: '#E4E1F1', display: 'flex', overflow: 'hidden' }}><span style={{ width: pc + '%', background: '#15803D' }} /></span>
+                  </span>
+                </>
+              )}
+              <span style={{ height: 26, padding: '0 10px', borderRadius: 999, fontSize: 12, fontWeight: 600, display: 'inline-flex', alignItems: 'center', justifySelf: 'start', whiteSpace: 'nowrap', background: sbg, color: sfg }}>{r.st}</span>
+              {D && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8E88A8" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>}
             </button>
           );
         })}
-        {L.length === 0 && <div style={{ padding: '32px 20px', textAlign: 'center', fontSize: 14, color: '#5E5E5E', borderTop: '1px solid #EBEBEB' }}>No audits match these filters.</div>}
-        {!all && L.length > 12 && (
-          <button type="button" className="ghost" onClick={() => setAll(true)} style={{ width: '100%', height: 52, border: 0, borderTop: '1px solid #EBEBEB', background: '#FFFFFF', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>Show all {L.length} audits</button>
-        )}
+        {list.length === 0 && <div style={{ padding: '32px 20px', textAlign: 'center', fontSize: 14, color: '#55526A' }}>No audits match these filters.</div>}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', padding: '14px 20px', background: '#FAFAFC' }}>
+          <span aria-live="polite" style={{ fontSize: 13, color: '#55526A' }}>Showing {shown.length} of {list.length} audits{filtered ? ` (${rows.length} in all)` : ''}</span>
+          {!all && list.length > shown.length && (
+            <button type="button" className="rd-cta" onClick={() => setAll(true)} style={{ height: 44, padding: '0 18px', border: 0, borderRadius: 12, background: '#2B2644', color: '#FFFFFF', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>Show all {list.length}</button>
+          )}
+        </div>
       </div>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'stretch' }}>
-        <div style={{ flex: '1.2 1 320px', minWidth: 0, minHeight: 320, aspectRatio: '16 / 10', borderRadius: 20, overflow: 'hidden', background: '#F5F5F5', border: '1px solid rgba(0,0,0,.06)', position: 'relative' }}>
-          <Suspense fallback={<span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, color: '#5E5E5E' }}>Loading the audit map…</span>}>
-            <AuditMap rows={L} signed={signed} onOpen={onOpen} />
-          </Suspense>
-        </div>
-        <div className="card" style={{ flex: '1 1 300px', minWidth: 0, padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: 9 }}>
-          <span style={{ fontSize: 14, fontWeight: 600, paddingBottom: 4 }}>Audits by city and district</span>
-          {cl.slice(0, 10).map(([name, n], i) => (
-            <div key={name} style={{ display: 'grid', gridTemplateColumns: '104px minmax(0, 1fr) 24px', gap: 10, alignItems: 'center', fontSize: 13 }}>
-              <span style={{ fontWeight: i === 0 ? 700 : 500 }}>{name}</span>
-              <span aria-hidden="true" style={{ height: 10, borderRadius: 999, background: '#EFEFEF', overflow: 'hidden', display: 'flex' }}><span style={{ width: Math.round((100 * n) / cmax) + '%', background: i === 0 ? '#2B2644' : '#8E88A8', borderRadius: 999 }} /></span>
-              <span className="n" style={{ textAlign: 'right', fontWeight: 600 }}>{n}</span>
-            </div>
-          ))}
-          {cl.length > 10 && <span style={{ fontSize: 12, color: '#6B6B6B', paddingTop: 4 }}>{cl.length - 10} more places with one or two audits each.</span>}
-        </div>
+      {/* map */}
+      <div style={{ minHeight: 320, aspectRatio: D ? '21 / 9' : '16 / 10', borderRadius: 22, overflow: 'hidden', background: '#F4F3F8', border: '1px solid #E7E5EE', position: 'relative' }}>
+        <Suspense fallback={<span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, color: '#55526A' }}>Loading the audit map…</span>}>
+          <AuditMap rows={list} signed={signed} onOpen={onOpen} />
+        </Suspense>
       </div>
     </section>
   );

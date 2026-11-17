@@ -69,18 +69,18 @@ const p = (role: string, name: string, title: string, email: string, photo: stri
 
 export const TEAMS: { label: string; people: Person[] }[] = [
   { label: 'Associated faculty', people: [
-    p('Project coordinator', 'Dr. Naran Pindoriya', 'Project Coordinator, IITGN-KISEM', 'naran@iitgn.ac.in', 'Dr. Naran Pindoriya.png'),
-    p('Faculty', 'Dr. Chinmay Ghoroi', 'B. S. Gelot Chair Professor', 'chinmayg@iitgn.ac.in', 'Dr. Chinmay Ghoroi.png'),
-    p('Faculty', 'Mr. S. Rajendran', 'Associate Teaching Professor', 'rajendran@iitgn.ac.in', 'Mr. S. Rajendran.png'),
-    p('Faculty', 'Dr. Atul Bhargav', 'Professor', 'atul.bhargav@iitgn.ac.in', 'Dr. Atul Bhargav.png'),
+    p('Project coordinator', 'Dr. Naran Pindoriya', 'Project Coordinator, IITGN-KISEM', 'naran@iitgn.ac.in', 'naran-pindoriya.jpg'),
+    p('Faculty', 'Dr. Chinmay Ghoroi', 'B. S. Gelot Chair Professor', 'chinmayg@iitgn.ac.in', 'chinmay-ghoroi.jpg'),
+    p('Faculty', 'Mr. S. Rajendran', 'Associate Teaching Professor', 'rajendran@iitgn.ac.in', 's-rajendran.jpg'),
+    p('Faculty', 'Dr. Atul Bhargav', 'Professor', 'atul.bhargav@iitgn.ac.in', 'atul-bhargav.jpg'),
   ] },
   { label: 'Field and audit team', people: [
-    p('Lead energy auditor', 'Mr. Rahul Patel', 'Project Manager-II', 'rahuljayantibhai.p@iitgn.ac.in', 'Mr. Rahul Patel.png'),
-    p('Energy manager', 'Mr. Abhay Singh Maurya', 'Project Fellow', 'abhay.maurya@iitgn.ac.in', 'Mr Abhay Singh Maurya (console).jpg'),
-    p('Electrical expert', 'Mr. Md Faizan', 'Project Fellow', 'md.faizan@iitgn.ac.in', 'Md. Faizan.png'),
-    p('Thermal expert', 'Mr. Sagar Loriya', 'Project Assistant-III', 'loriyasagar.b@iitgn.ac.in', 'Mr Sagar Loriya (console).jpg'),
-    p('Solar expert', 'Mr. Dhruvit Patel', 'Project Assistant-I', 'dhruvit.patel@iitgn.ac.in', 'Mr Dhruvit Patel (console).jpg'),
-    p('AI automation', 'Mr. Rishabh Dangi', 'Project Assistant-I', 'rishabh.dangi@iitgn.ac.in', 'Mr Rishabh Dangi (console).jpg'),
+    p('Lead energy auditor', 'Mr. Rahul Patel', 'Project Manager-II', 'rahuljayantibhai.p@iitgn.ac.in', 'rahul-patel.jpg'),
+    p('Energy manager', 'Mr. Abhay Singh Maurya', 'Project Fellow', 'abhay.maurya@iitgn.ac.in', 'abhay-maurya.jpg'),
+    p('Electrical expert', 'Mr. Md Faizan', 'Project Fellow', 'md.faizan@iitgn.ac.in', 'md-faizan.jpg'),
+    p('Thermal expert', 'Mr. Sagar Loriya', 'Project Assistant-III', 'loriyasagar.b@iitgn.ac.in', 'sagar-loriya.jpg'),
+    p('Solar expert', 'Mr. Dhruvit Patel', 'Project Assistant-I', 'dhruvit.patel@iitgn.ac.in', 'dhruvit-patel.jpg'),
+    p('AI automation', 'Mr. Rishabh Dangi', 'Project Assistant-I', 'rishabh.dangi@iitgn.ac.in', 'rishabh-dangi.jpg'),
   ] },
 ];
 

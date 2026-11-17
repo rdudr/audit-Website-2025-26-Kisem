@@ -8,7 +8,10 @@ import { PATHS } from './icons';
 import { AddCompany, AuditDrawer, ChangeLog, SignIn } from './Overlays';
 import { Logo } from './Logo';
 import { useMasterExcel } from './useMasterExcel';
-import { Contact, Footer, Hero, HowWeMeasure, Impact, Instruments, Journey, PartnerStrip, Scope, Sectors, Team } from './Sections';
+import { Contact, Footer, Hero, HowWeMeasure, Impact, Instruments, Journey, PartnerStrip, Team } from './Sections';
+import ScopeSection from './ScopeSection';
+import SectorsSection from './SectorsSection';
+import './redesign.css';
 
 const LINKS: [string, string][] = [['Impact', '#impact'], ['Year by year', '#journey'], ['All audits', '#audits'], ['Sectors', '#sectors'], ['Scope', '#scope'], ['Instruments', '#instruments'], ['How we measure', '#how'], ['Team', '#team'], ['Contact', '#contact']];
 
@@ -97,8 +100,8 @@ export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }
         <Impact rows={rows} />
         <Journey rows={rows} />
         <Audits rows={rows} signed={signed} filters={filters} setFilters={setFilters} onOpen={setOpen} onSignIn={() => setLoginOpen(true)} onSignOut={state.signOutNow} />
-        <Sectors rows={rows} onPick={pickSector} />
-        <Scope />
+        <SectorsSection rows={rows} onPick={pickSector} />
+        <ScopeSection rows={rows} />
         <Instruments />
         <HowWeMeasure />
         <Team />
