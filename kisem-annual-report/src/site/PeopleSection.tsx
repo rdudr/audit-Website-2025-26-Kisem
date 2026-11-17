@@ -16,6 +16,12 @@ const EVENTS: Ev[] = [
   { key: 'fdp', n: 2, tag: 'Bhavnagar · Jan 2026', t: 'Faculty development programme', s: 'Energy assessment sessions for faculty at Shantilal Shah Engineering College.', alts: ['Session at Shantilal Shah Engineering College, Bhavnagar', 'Faculty development programme hall'] },
   { key: 'geda', n: 3, tag: 'With GEDA', t: 'Energy conservation workshops in colleges', s: 'Awareness workshops for engineering students, with GEDA.', alts: ['Energy conservation awareness workshop at a college', 'Workshop audience', 'Instrument demonstration for students'] },
 ];
+// The SEEM award, shown first. After the ceremony, put the certificate or a ceremony photo in
+// public/events/ and set `photo` (e.g. '/events/seem-2026.webp'); it then shows in place of the trophy.
+const SEEM: { photo: string | null } = { photo: null };
+const TROPHY = 'M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM7 6H4a3 3 0 0 0 3 3M17 6h3a3 3 0 0 1-3 3';
+const CAL = 'M4 5h16v16H4zM4 9h16M8 3v4M16 3v4';
+
 // Awards and recognition: the team's own wins.
 const AWARDS = [
   { img: '/events/quiz-1.webp', alt: 'Sagar Loriya receiving the winner’s prize on stage at the Power and Energy Quiz, Mehsana', kicker: 'Mehsana · 9 Oct 2025 · Winner', t: 'Igniting Young Minds: Power and Energy Quiz — Mr. Sagar Loriya', s: 'Won the state Power and Energy Quiz, representing the KISEM energy audit team at IIT Gandhinagar.' },
@@ -84,6 +90,27 @@ export default function PeopleSection({ session }: { session: Session | null }) 
 
         <div id="awards" style={{ display: 'flex', flexDirection: 'column', gap: 14, scrollMarginTop: 72 }}>
           {sub('Awards and recognition')}
+          <article className="rd-lift" style={{ borderRadius: 24, overflow: 'hidden', border: '1px solid #E7E5EE', background: '#FFFFFF', display: 'grid', gridTemplateColumns: D ? 'minmax(0, 0.9fr) minmax(0, 1.4fr)' : 'minmax(0, 1fr)', minWidth: 0, boxShadow: '0 24px 48px -32px rgba(43,38,68,.45)' }}>
+            {SEEM.photo
+              ? <div style={{ minHeight: 240, overflow: 'hidden' }}><img src={SEEM.photo} alt="SEEM National Energy Management Award 2026, Best Performance Award, Energy Audit Firm" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} /></div>
+              : (
+                <div style={{ position: 'relative', overflow: 'hidden', minHeight: 240, background: 'linear-gradient(150deg, #1E1A33 0%, #2B2644 45%, #5B3FD6 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 12, color: '#FFFFFF', padding: 28, boxSizing: 'border-box', textAlign: 'center' }}>
+                  <span aria-hidden="true" style={{ position: 'absolute', width: 340, height: 340, borderRadius: '50%', top: -150, right: -120, background: 'radial-gradient(circle, rgba(242,193,78,.28) 0%, rgba(242,193,78,0) 65%)' }} />
+                  <Svg d={TROPHY} size={64} stroke="#F2C14E" w={1.6} />
+                  <b style={{ fontSize: D ? 26 : 22, letterSpacing: '-0.02em', lineHeight: 1.1 }}>SEEM Awards 2026</b>
+                  <span style={{ fontSize: 13, color: '#DDDAE6' }}>National Energy Management Awards</span>
+                </div>
+              )}
+            <div style={{ padding: D ? '28px 32px' : '22px 20px', display: 'flex', flexDirection: 'column', gap: 10, justifyContent: 'center', minWidth: 0 }}>
+              <span style={{ alignSelf: 'flex-start', height: 26, padding: '0 10px', borderRadius: 999, background: '#FDF3D8', color: '#7A5600', fontSize: 11, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', display: 'inline-flex', alignItems: 'center' }}>National award · 2026</span>
+              <b style={{ fontSize: D ? 24 : 20, fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.2 }}>Best Performance Award, Energy Audit Firm</b>
+              <span style={{ fontSize: 14, lineHeight: 1.6, color: '#55526A' }}>The Energy Assessment Cell, IIT Gandhinagar (KISEM) has been selected for the SEEM National Energy Management Awards 2026 by the Society of Energy Engineers and Managers, chosen by the national jury from nearly two hundred nominations across sectors.</span>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, paddingTop: 4 }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, minHeight: 32, padding: '4px 12px', borderRadius: 999, background: '#F4F3F8', fontSize: 13, fontWeight: 600, color: '#2B2644' }}><Svg d={CAL} size={15} stroke="#5B3FD6" />Ceremony 3–4 December 2026</span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, minHeight: 32, padding: '4px 12px', borderRadius: 999, background: '#F4F3F8', fontSize: 13, fontWeight: 600, color: '#2B2644' }}><Svg d={PIN} size={15} stroke="#5B3FD6" />Dr. Ambedkar International Convention Centre, New Delhi</span>
+              </div>
+            </div>
+          </article>
           <div style={{ display: 'grid', gridTemplateColumns: D ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)', gap: 14 }}>
             {AWARDS.map(a => (
               <article key={a.t} className="rd-lift" style={{ borderRadius: 22, overflow: 'hidden', border: '1px solid #E7E5EE', background: '#FFFFFF', display: 'grid', gridTemplateColumns: L.awInner, minWidth: 0 }}>
@@ -103,15 +130,20 @@ export default function PeopleSection({ session }: { session: Session | null }) 
           <div style={{ display: 'grid', gridTemplateColumns: L.oCols, gap: 16 }}>
             {EVENTS.map(o => (
               <article key={o.key} className="rd-lift rd-card" style={{ margin: 0, borderRadius: 20, overflow: 'hidden', border: '1px solid #E7E5EE', background: '#FFFFFF', display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-                {/* One 3:2 frame for 1, 2 or 3 photos, so every card is the same height. */}
-                <div style={{ aspectRatio: '3 / 2', overflow: 'hidden', position: 'relative', display: 'grid', gap: 3, background: '#FFFFFF',
-                  gridTemplateColumns: o.n === 1 ? '1fr' : o.n === 2 ? '1fr 1fr' : '2fr 1fr', gridTemplateRows: o.n === 3 ? '1fr 1fr' : '1fr' }}>
-                  {Array.from({ length: Math.min(3, o.n) }, (_, i) => (
-                    <div key={i} style={{ overflow: 'hidden', minHeight: 0, gridRow: o.n === 3 && i === 0 ? 'span 2' : undefined }}>
-                      <img src={`/events/${o.key}-${i + 1}.webp`} alt={o.alts[i] || o.t} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                    </div>
-                  ))}
+                {/* The main photo fills the frame, uncut; the other one or two sit as small framed
+                    thumbnails in the corner, so every card stays the same height. */}
+                <div style={{ aspectRatio: '3 / 2', overflow: 'hidden', position: 'relative', background: '#1E1A33' }}>
+                  <img src={`/events/${o.key}-1.webp`} alt={o.alts[0]} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                   <span style={{ position: 'absolute', top: 12, left: 12, height: 26, padding: '0 10px', borderRadius: 8, background: 'rgba(15,13,26,.78)', color: '#FFFFFF', fontSize: 11, fontWeight: 700, letterSpacing: '.04em', display: 'inline-flex', alignItems: 'center' }}>{o.tag}</span>
+                  {o.n > 1 && (
+                    <span style={{ position: 'absolute', right: 10, bottom: 10, display: 'flex', gap: 6 }}>
+                      {Array.from({ length: Math.min(2, o.n - 1) }, (_, i) => (
+                        <span key={i} style={{ width: 76, height: 54, borderRadius: 10, overflow: 'hidden', border: '2px solid #FFFFFF', boxShadow: '0 6px 16px -6px rgba(15,13,26,.6)', background: '#ECEAF2' }}>
+                          <img src={`/events/${o.key}-${i + 2}.webp`} alt={o.alts[i + 1] || o.t} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                        </span>
+                      ))}
+                    </span>
+                  )}
                 </div>
                 <div style={{ padding: '14px 16px 16px', display: 'flex', flexDirection: 'column', gap: 4 }}><b style={{ fontSize: 15 }}>{o.t}</b><span style={{ fontSize: 13, lineHeight: 1.45, color: '#55526A' }}>{o.s}</span></div>
               </article>
