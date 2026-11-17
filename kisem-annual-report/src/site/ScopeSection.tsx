@@ -140,7 +140,7 @@ export default function ScopeSection({ rows }: { rows: Row[] }) {
             <p style={{ margin: 0, maxWidth: 560, fontSize: L.lede, lineHeight: 1.6, color: '#55526A' }}>Seventeen areas, covering every major energy-using system and utility in the plant — from the grid incomer to the top of the stack.</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', border: '1px solid #E7E5EE', borderRadius: 20, overflow: 'hidden', background: '#FAFAFC' }}>
-            {[['17', 'Areas covered'], ['9', 'Stops on the plant tour'], ['6', 'Instrument classes']].map(([v, l], k) => (
+            {[['17', 'Areas covered'], ['10', 'Stops on the plant tour'], ['6', 'Instrument classes']].map(([v, l], k) => (
               <div key={l} style={{ padding: L.kpiPad, display: 'flex', flexDirection: 'column', gap: 4, borderRight: k < 2 ? '1px solid #E7E5EE' : 0 }}>
                 <span style={{ fontSize: L.kpi, fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1, color: '#2B2644' }}>{v}</span>
                 <span style={{ fontSize: 13, fontWeight: 500, color: '#55526A' }}>{l}</span>

@@ -20,6 +20,7 @@ const IMG: Record<string, [string, number, 'contain' | 'cover', string]> = {
   boiler: ['/scope/boiler-house.webp', 1.537, 'cover', 'Boiler house at an audited plant'],
   chiller: ['/scope/chiller.webp', 0.801, 'contain', 'KISEM engineer fitting a clamp-on flow meter on a chiller line'],
   pumps: ['/scope/pumps.webp', 0.823, 'contain', 'KISEM team checking pumps and piping on site'],
+  comp: ['/scope/compressor.webp', 1.0, 'contain', 'Screw air compressor with its drive motor, air end, intake filter, separator and cooler'],
   hall: ['/scope/machine-hall.webp', 1.78, 'cover', 'Production hall during a KISEM walkthrough'],
 };
 const INS: Record<string, [string, string, string]> = {
@@ -34,10 +35,10 @@ const AIR = 'M9.6 4.6A2 2 0 1 1 11 8H2M12.6 19.4A2 2 0 1 0 14 16H2M17.5 8a2.5 2.
 
 type HS = [number, number, string, string, ('L' | 'R')?, number?];
 type Kind = 'overview' | 'photo' | 'info' | 'output';
-// [kind, img, kicker, title, short, tag, story, areas, look, rec, inst, hotspots, info icon]
-type Frame = [Kind, string | null, string, string, string, string, string, string[], string, string, string | null, HS[], string?];
+// [kind, img, kicker, title, short, tag, story, areas, look, rec, inst, hotspots, info icon, info accent]
+type Frame = [Kind, string | null, string, string, string, string, string, string[], string, string, string | null, HS[], string?, ('red' | 'violet')?];
 const F: Frame[] = [
-  ['overview', null, 'INTRODUCTION', 'One plant, every utility', 'The route', '', 'An audit follows energy the way the plant uses it: in at the incomer, through the power quality of the supply, boilers, compressors, chillers and pumps, into the machines, and out at the stack. Nine stops, seventeen areas.', [], '', '', null, []],
+  ['overview', null, 'INTRODUCTION', 'One plant, every utility', 'The route', '', 'An audit follows energy the way the plant uses it: in at the incomer, through the power quality of the supply, boilers, compressors, chillers and pumps, into the machines, and out at the stack. Ten stops, seventeen areas, and the FOX platform that turns readings into the report.', [], '', '', null, []],
   ['photo', 'panel', 'STOP 01 · POWER IN', 'The main panel and motor feeders', 'Power in', 'MCC-01 · MOTOR CONTROL CENTRE', 'Every unit the plant buys passes through its panels. Our engineers clamp on at the incomer and the big motor feeders, so loading, losses and drive opportunities are measured, not assumed.', ['01', '16'], 'Transformer losses at low load, motors running part-loaded at fixed speed, costly DG units.', 'Load balancing, VFDs, IE3 or IE4 motors, right-sizing, DG optimisation.', 'pqa',
     [[52, 40, 'Clamp-on at the feeders', 'Current, kW and load of each big motor'], [40, 74, 'Analyser on the floor', 'Logging through the production cycle'], [42, 16, 'Drives and starters', 'Where VFDs can pay back']]],
   ['photo', 'pq', 'STOP 02 · POWER QUALITY', 'Power quality at the incomer', 'Power quality', 'PQA · CLASS A, IEC 61000-4-30', 'A Class A analyser sits on the incomer for a full production cycle. It records voltage, current, power factor and harmonics on every phase, and captures each dip, swell and transient as it happens.', ['10'], 'Low power factor, harmonics from drives, voltage dips that trip machines, phase unbalance.', 'APFC panels, harmonic filters, soft starters or VFDs on large motors, load rebalancing.', 'pqa',
@@ -48,14 +49,17 @@ const F: Frame[] = [
     [[54, 52, 'Boiler and steam drum', 'Fuel in, steam out, efficiency'], [60, 26, 'Flue ducting', 'Heat leaving towards the stack'], [24, 66, 'Fuel handling', 'Fuel flow and specific consumption']]],
   ['info', 'boiler', 'STOP 05 · THE STACK', 'What leaves through the chimney', 'Stack', 'ST-01 · STACK AND FLUE GAS', 'Hot flue gas is fuel that was paid for and not used. A probe in the stack shows how well the burner mixes air and fuel, and how much heat could be recovered.', ['12', '17', '15'], 'Excess air, high stack temperature, no record of the plant’s emissions.', 'Air–fuel ratio control, economisers and air preheaters, an emissions baseline.', null,
     [[0, 0, 'O₂ · CO · CO₂', 'How well the burner mixes air and fuel'], [0, 0, 'Stack temperature', 'Heat leaving that could be recovered'], [0, 0, 'Scope 1 and 2 emissions', 'A baseline for the plant’s carbon']], STACK],
-  ['info', null, 'STOP 06 · COMPRESSED AIR', 'The compressor house', 'Air', 'AC-01 · AIR COMPRESSORS', 'Compressed air is one of the costliest utilities in a plant, and much of it is lost to leaks. We test the compressor and listen to the network with ultrasound.', ['04', '14'], 'Leaks, a pressure set-point higher than the process needs, long unload running.', 'Leak sealing, pressure reduction, a VFD or right-sized compressor.', 'acoustic',
-    [[0, 0, 'Free air delivery', 'What the compressor really delivers, load and unload'], [0, 0, 'Leaks, by ultrasound', 'Heard and tagged along the network'], [0, 0, 'Pressure set-point', 'Each 1 bar lower saves about 7 % of power']], AIR],
+  ['photo', 'comp', 'STOP 06 · COMPRESSED AIR', 'The compressor house', 'Air', 'AC-01 · AIR COMPRESSOR', 'Compressed air is one of the costliest utilities in a plant, and much of it is lost to leaks. We log the compressor through its load and unload cycles and listen to the network with ultrasound.', ['04', '14'], 'Leaks, a pressure set-point higher than the process needs, long unload running.', 'Leak sealing, pressure reduction, a VFD or right-sized compressor.', 'acoustic',
+    [[24, 74, 'Drive motor', 'kW, current and PF, logged through load and unload'], [38, 46, 'Air intake filter', 'Pressure drop, intake temperature'], [36, 28, 'Cooler fan', 'Discharge air and oil temperature'], [72, 40, 'Separator and outlet', 'Discharge pressure against the set-point'], [80, 64, 'Air end', 'Free air delivery (FAD) test']]],
   ['photo', 'chiller', 'STOP 07 · COOLING', 'Chillers and cold rooms', 'Cooling', 'CH-01 · AIR-COOLED CHILLER', 'Chilled water keeps the process, the cold rooms and the people at temperature. We clamp flow meters on the lines and work out what each ton of cooling costs in power.', ['03', '08'], 'High kW per ton, fouled condensers, poor set-points, no flow balancing.', 'Set-point optimisation, condenser cleaning, efficient fans and pumps.', 'flow',
     [[50, 60, 'Clamp-on flow meter', 'Chilled water flow, no pipe cut'], [24, 16, 'Air-cooled condenser', 'Approach and fan power'], [86, 64, 'Strainer and pump line', 'Pressure drop and pumping']]],
   ['photo', 'pumps', 'STOP 08 · WATER', 'Pumps and piping', 'Pumps', 'PU-01 · PUMP HOUSE', 'Pumps run for long hours and are often far larger than the duty needs. We measure flow, head and power together to find the pump’s real efficiency.', ['06', '13'], 'Oversized pumps, throttled valves, piping losses.', 'Impeller trimming, efficient pumps, VFDs.', 'flow',
     [[88, 26, 'Pump motor', 'Power and loading'], [55, 44, 'Readings on site', 'Flow, head and power together'], [22, 30, 'Valves and piping', 'Throttling and friction losses']]],
   ['photo', 'hall', 'STOP 09 · END USE', 'The production floor', 'Production', 'MD-01 · PRODUCTION HALL', 'This is where the energy finally does work. We log the large motors over a production cycle and check the lighting and ventilation of the hall.', ['09'], 'Old light fittings, lights on in daylight, fans running without control.', 'LED retrofit, daylight use, sensors and timers, controls on ventilation.', 'pqa',
     [[22, 62, 'Process machines', 'Load profile over the shift'], [74, 60, 'Drives and motors', 'Running hours and load'], [50, 14, 'Roof lights and daylight', 'Lux, connected load, hours']]],
+  ['info', null, 'STOP 10 · FOX PLATFORM', 'From site readings to insight, fast', 'FOX', 'FOX · REPORTING TOOLS AND AI PLATFORM', 'Every reading, photo and logger file goes into FOX, the KISEM platform built for these audits. Field apps work offline on site, the AI analyser reads power-quality files in seconds, and the report is drafted straight from the data, so findings reach the plant sooner.', [], '', '', null,
+    [[0, 0, 'Field apps, on site', 'Motors, compressors, boilers, pumps, cooling, lighting: readings and photos captured offline'], [0, 0, 'AI analysis in seconds', 'Power-quality and clamp-meter files read and checked automatically'], [0, 0, 'Report, ready to send', 'Every measure costed, with charts, drafted from the data in PostMan']],
+    'M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z', 'violet'],
   ['output', null, 'THE OUTPUT', 'A costed list of measures', 'Report', '', 'Every finding becomes an energy conservation measure, with its saving in rupees, kWh and CO₂, the investment and the payback. Three to five months later we go back and record what the plant carried out.', [], '', '', null, []],
 ];
 const DUR = 8000;
@@ -79,7 +83,8 @@ export default function PlantTour({ dev, totals }: { dev: Device; totals: TourTo
   const go = (k: number) => { setI(k); setT(0); };
 
   const RC = D || T ? 1.6 : 4 / 3;
-  const [kind, imgKey, kicker, title, , tag, story, areas, look, rec, instKey, hs, infoIcon] = F[i];
+  const [kind, imgKey, kicker, title, , tag, story, areas, look, rec, instKey, hs, infoIcon, accent] = F[i];
+  const ac = accent === 'violet' ? { ink: '#C4B8FF', glow: 'rgba(167,150,255,.22)', line: 'rgba(196,184,255,.35)' } : { ink: '#FCA5A5', glow: 'rgba(248,113,113,.18)', line: 'rgba(248,113,113,.25)' };
 
   const hsV = useMemo(() => {
     const toC = (x: number, y: number, key: string) => {
@@ -208,7 +213,7 @@ export default function PlantTour({ dev, totals }: { dev: Device; totals: TourTo
                 ))}
               </div>
               <div className={mono} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 11, fontWeight: 700, color: '#C9C5D6', flexWrap: 'wrap' }}>
-                {[['POWER', '#FDE68A'], ['POWER QUALITY', '#C4B8FF'], ['HEAT', '#FCA5A5'], ['STACK', '#C9C5D6'], ['AIR', '#5EEAD4'], ['COOLING', '#7DD3FC'], ['PUMPS', '#7DD3FC'], ['PRODUCTION', '#DDDAE6'], ['REPORT', '#86EFAC']].map(([w, c], k) => (
+                {[['POWER', '#FDE68A'], ['POWER QUALITY', '#C4B8FF'], ['HEAT', '#FCA5A5'], ['STACK', '#C9C5D6'], ['AIR', '#5EEAD4'], ['COOLING', '#7DD3FC'], ['PUMPS', '#7DD3FC'], ['PRODUCTION', '#DDDAE6'], ['FOX', '#C4B8FF'], ['REPORT', '#86EFAC']].map(([w, c], k) => (
                   <span key={w} style={{ display: 'contents' }}>{k > 0 && <span>→</span>}<span style={{ color: c }}>{w}</span></span>
                 ))}
               </div>
@@ -216,14 +221,14 @@ export default function PlantTour({ dev, totals }: { dev: Device; totals: TourTo
           )}
 
           {kind === 'info' && (
-            <div style={{ position: 'absolute', inset: 0, padding: L.ovPad, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 16, background: 'radial-gradient(circle at 75% 10%, rgba(248,113,113,.18), rgba(18,16,31,0) 55%), #12101F' }}>
-              <span className={mono} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 11, fontWeight: 700, letterSpacing: '.1em', color: '#FCA5A5' }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FCA5A5" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={infoIcon || STACK} /></svg>{tag}
+            <div style={{ position: 'absolute', inset: 0, padding: L.ovPad, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 16, background: `radial-gradient(circle at 75% 10%, ${ac.glow}, rgba(18,16,31,0) 55%), #12101F` }}>
+              <span className={mono} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 11, fontWeight: 700, letterSpacing: '.1em', color: ac.ink }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={ac.ink} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={infoIcon || STACK} /></svg>{tag}
               </span>
               <div style={{ display: 'grid', gridTemplateColumns: L.infoCols, gap: 10 }}>
                 {hsV.map(h => (
-                  <div key={h.k} style={{ padding: L.outPad, borderRadius: 14, background: 'rgba(255,255,255,.05)', border: '1px solid rgba(248,113,113,.25)', display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    <span className={mono} style={{ width: 26, height: 26, borderRadius: '50%', background: '#FCA5A5', color: '#12101F', fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{h.k}</span>
+                  <div key={h.k} style={{ padding: L.outPad, borderRadius: 14, background: 'rgba(255,255,255,.05)', border: `1px solid ${ac.line}`, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    <span className={mono} style={{ width: 26, height: 26, borderRadius: '50%', background: ac.ink, color: '#12101F', fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{h.k}</span>
                     <b style={{ fontSize: L.infoNum, fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.15, color: '#FFFFFF' }}>{h.t}</b>
                     <span style={{ fontSize: 12, lineHeight: 1.4, color: '#DDDAE6' }}>{h.s}</span>
                   </div>
