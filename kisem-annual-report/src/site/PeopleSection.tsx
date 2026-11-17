@@ -169,6 +169,9 @@ export default function PeopleSection({ session }: { session: Session | null }) 
 
       <section id="contact" style={{ scrollMarginTop: 72, maxWidth: 1280, margin: '0 auto', padding: L.cPad, boxSizing: 'border-box' }}>
         <div style={{ position: 'relative', overflow: 'hidden', background: '#2B2644', color: '#FFFFFF', borderRadius: 32, padding: L.cIn, display: 'grid', gridTemplateColumns: L.cCols, gap: 40 }}>
+          {/* IIT Gandhinagar campus, faint behind the purple, so the text stays easy to read */}
+          <img src="/contact-campus.webp" alt="" aria-hidden="true" loading="lazy" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: '70% 35%', opacity: 0.22, mixBlendMode: 'luminosity', pointerEvents: 'none' }} />
+          <span aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(100deg, rgba(43,38,68,.92) 0%, rgba(43,38,68,.72) 50%, rgba(43,38,68,.45) 100%)', pointerEvents: 'none' }} />
           <span aria-hidden="true" style={{ position: 'absolute', width: 520, height: 520, right: -160, top: -220, borderRadius: '50%', background: 'radial-gradient(circle, rgba(167,150,255,.35) 0%, rgba(167,150,255,0) 65%)' }} />
           <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 18, minWidth: 0 }}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#C4B8FF' }}>Apply</span>
