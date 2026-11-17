@@ -2,7 +2,7 @@ import { data } from '../data';
 import { useDevice } from './useDevice';
 
 // Instruments and field work (canvas "Component · Instruments and field"): the instruments, the
-// "Out on the plant floor" mosaic, GEDA walkthroughs, measuring on site and reports handed over.
+// "Out on the plant floor" mosaic, GEDA walkthroughs, and measuring on site.
 // All photos are the team's own, in public/field/.
 
 const INST = [
@@ -36,7 +36,6 @@ const MEASURES: [string, string, string][] = [
   ['flow-meter', 'Ultrasonic flow meter', 'Clamp-on flow, no pipe cut or shutdown'],
   ['pump-house', 'Pump house', 'Flow, head and power measured together'],
 ];
-const HANDOVERS = ['KISEM engineer handing an audit report to a plant owner', 'Audit report handed over at a plant office', 'Plant owner receiving the KISEM audit report'];
 
 export default function FieldSection() {
   const dev = useDevice();
@@ -48,7 +47,6 @@ export default function FieldSection() {
     cCols: D ? 'repeat(4, minmax(0, 1fr))' : T ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)', cRow: D ? 240 : T ? 260 : 300,
     wCols: D ? 'repeat(4, minmax(0, 1fr))' : T ? 'repeat(3, minmax(0, 1fr))' : 'repeat(2, minmax(0, 1fr))',
     mCols: D ? 'repeat(7, minmax(0, 1fr))' : T ? 'repeat(3, minmax(0, 1fr))' : 'repeat(2, minmax(0, 1fr))',
-    hCols: D ? 'minmax(0, 1fr) minmax(0, 1.3fr)' : 'minmax(0, 1fr)', hPad: D ? 36 : T ? 28 : 22,
   };
   const chip = (dot: string, t: string) => <span style={{ height: 34, padding: '0 12px', borderRadius: 999, background: '#FFFFFF', border: '1px solid #E1DEEA', fontSize: 13, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 8 }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: dot }} />{t}</span>;
   const h3 = (t: string, p: string) => (
@@ -133,19 +131,6 @@ export default function FieldSection() {
                 <div style={{ aspectRatio: '3 / 4', overflow: 'hidden', background: '#ECEAF2' }}><img src={`/field/${f}.webp`} alt={`${title}: ${what}`} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} /></div>
                 <figcaption style={{ padding: '12px 14px 14px', display: 'flex', flexDirection: 'column', gap: 2 }}><b style={{ fontSize: 14, fontWeight: 700 }}>{title}</b><span style={{ fontSize: 12.5, lineHeight: 1.45, color: '#55526A' }}>{what}</span></figcaption>
               </figure>
-            ))}
-          </div>
-        </div>
-
-        <div id="handover" style={{ display: 'grid', gridTemplateColumns: L.hCols, gap: 20, alignItems: 'center', marginTop: 40, padding: L.hPad, borderRadius: 24, background: '#1E1A33', color: '#FFFFFF' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, minWidth: 0 }}>
-            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#C4B8FF' }}>After the audit</span>
-            <h3 style={{ margin: 0, fontSize: 28, lineHeight: 1.1, fontWeight: 700, letterSpacing: '-0.02em' }}>Reports handed over to the plant</h3>
-            <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: '#DDDAE6' }}>Every detailed audit ends with the report in the owner's hands: each saving measure costed, with its payback, and followed up after implementation.</p>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 10, minWidth: 0 }}>
-            {HANDOVERS.map((alt, i) => (
-              <div key={i} className="rd-card" style={{ aspectRatio: '3 / 4', borderRadius: 14, overflow: 'hidden', background: '#2B2644' }}><img src={`/field/handover-${i + 1}.webp`} alt={alt} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} /></div>
             ))}
           </div>
         </div>

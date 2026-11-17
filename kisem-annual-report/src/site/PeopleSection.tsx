@@ -9,13 +9,17 @@ import { useDevice } from './useDevice';
 
 type Ev = { key: string; n: number; tag: string; t: string; s: string; alts: string[] };
 const EVENTS: Ev[] = [
-  { key: 'quiz', n: 3, tag: 'Mehsana · 9 Oct 2025', t: 'Igniting Young Minds: Power and Energy Quiz', s: 'Students recognised on stage at the state energy quiz.', alts: ['Prize distribution on stage at the Power and Energy Quiz', 'Quiz stage', 'Quiz prize distribution'] },
   { key: 'vibrant', n: 2, tag: 'Vibrant Gujarat', t: 'Vibrant Gujarat Regional Conference', s: 'North Gujarat regional conference on industry and energy.', alts: ['Panel at the Vibrant Gujarat Regional Conference', 'Conference session'] },
   { key: 'ai-msme', n: 2, tag: 'Workshop', t: 'Future Ready MSMEs with AI', s: 'Workshop on using AI to make MSMEs future ready.', alts: ['Speaker at the workshop on future-ready MSMEs with AI', 'Workshop session'] },
   { key: 'surat', n: 2, tag: 'Surat · with WRI India', t: 'Future Ready MSMEs, Surat', s: 'Industrial decarbonisation and process optimisation, with WRI India.', alts: ['Two KISEM team members at the Future Ready MSMEs event', 'Presentation on energy assessment for MSMEs'] },
   { key: 'wri', n: 1, tag: 'With WRI India', t: 'Sustainability awareness programme', s: 'Energy assessment and sustainability studies under KISEM, presented to industry.', alts: ['Presentation on energy assessment and sustainability studies'] },
   { key: 'fdp', n: 2, tag: 'Bhavnagar · Jan 2026', t: 'Faculty development programme', s: 'Energy assessment sessions for faculty at Shantilal Shah Engineering College.', alts: ['Session at Shantilal Shah Engineering College, Bhavnagar', 'Faculty development programme hall'] },
   { key: 'geda', n: 3, tag: 'With GEDA', t: 'Energy conservation workshops in colleges', s: 'Awareness workshops for engineering students, with GEDA.', alts: ['Energy conservation awareness workshop at a college', 'Workshop audience', 'Instrument demonstration for students'] },
+];
+// Awards and recognition: the team's own wins.
+const AWARDS = [
+  { img: '/events/quiz-1.webp', alt: 'Sagar Loriya receiving the winner’s prize on stage at the Power and Energy Quiz, Mehsana', kicker: 'Mehsana · 9 Oct 2025 · Winner', t: 'Igniting Young Minds: Power and Energy Quiz — Mr. Sagar Loriya', s: 'Won the state Power and Energy Quiz, representing the KISEM energy audit team at IIT Gandhinagar.' },
+  { img: '/events/award-1.webp', alt: 'Md Faizan receiving the Student of the Year award on stage', kicker: 'Individual award · Winner', t: 'Student of the Year — Mr. Md Faizan', s: 'Recognised for work with the KISEM energy audit team at IIT Gandhinagar.' },
 ];
 const MAIL = 'M4 4h16v16H4zM4 6l8 7 8-7';
 const CHECK = 'M20 6L9 17l-5-5';
@@ -80,14 +84,18 @@ export default function PeopleSection({ session }: { session: Session | null }) 
 
         <div id="awards" style={{ display: 'flex', flexDirection: 'column', gap: 14, scrollMarginTop: 72 }}>
           {sub('Awards and recognition')}
-          <article className="rd-lift" style={{ maxWidth: D ? 'calc(50% - 7px)' : 'none', borderRadius: 22, overflow: 'hidden', border: '1px solid #E7E5EE', background: '#FFFFFF', display: 'grid', gridTemplateColumns: L.awInner, minWidth: 0 }}>
-            <div style={{ aspectRatio: '3 / 2', overflow: 'hidden' }}><img src="/events/award-1.webp" alt="Md Faizan receiving the Student of the Year award on stage" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} /></div>
-            <div style={{ padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: 6, justifyContent: 'center' }}>
-              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: '#5B3FD6' }}>Individual award · Winner</span>
-              <b style={{ fontSize: 17 }}>Student of the Year — Md Faizan</b>
-              <span style={{ fontSize: 13, lineHeight: 1.5, color: '#55526A' }}>Recognised for work with the KISEM energy audit team at IIT Gandhinagar.</span>
-            </div>
-          </article>
+          <div style={{ display: 'grid', gridTemplateColumns: D ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)', gap: 14 }}>
+            {AWARDS.map(a => (
+              <article key={a.t} className="rd-lift" style={{ borderRadius: 22, overflow: 'hidden', border: '1px solid #E7E5EE', background: '#FFFFFF', display: 'grid', gridTemplateColumns: L.awInner, minWidth: 0 }}>
+                <div style={{ aspectRatio: '3 / 2', overflow: 'hidden' }}><img src={a.img} alt={a.alt} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} /></div>
+                <div style={{ padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: 6, justifyContent: 'center' }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: '#5B3FD6' }}>{a.kicker}</span>
+                  <b style={{ fontSize: 17 }}>{a.t}</b>
+                  <span style={{ fontSize: 13, lineHeight: 1.5, color: '#55526A' }}>{a.s}</span>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
 
         <div id="events" style={{ display: 'flex', flexDirection: 'column', gap: 14, scrollMarginTop: 72 }}>
