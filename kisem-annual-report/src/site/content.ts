@@ -1,8 +1,8 @@
 // Fixed page content: scope, instruments, team and partners.
 
 export const APPLY_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfeadTKCwRTvHE4xfaucn2SZ8SN00jFp-2lOI_qiD4C9Jfziw/viewform';
-// Awareness workshops held under the programme (not in the master sheet). Shown as "58+".
-export const WORKSHOPS_CONDUCTED = 58;
+// Awareness programmes held under the programme (not in the master sheet).
+export const WORKSHOPS_CONDUCTED = 45;
 export const CONTACT = {
   address: 'IIT Gandhinagar, Palaj, Gandhinagar, Gujarat 382055',
   mapUrl: 'https://maps.google.com/?q=IIT+Gandhinagar+Palaj+Gandhinagar+Gujarat+382055',
@@ -92,16 +92,15 @@ export const PARTNERS = [
   { name: 'Ministry of MSME', role: 'Programme alignment', logo: '' },
 ];
 
-// "How we measure" photo collage. Placeholder photos from Wikimedia Commons (credited below the
-// collage, as their licences ask); swap in the team's own field photos by replacing the files in
-// public/field/ with the same names, and remove the credit then.
+// "How we measure" photo collage: the team's own photos from KISEM audits, in public/field/
+// (a .jpg and a .webp for each slug). Order matters: slots 1 and 6 are tall, 2 and 7 are wide.
 export const FIELD_PHOTOS = [
-  { slug: 'thermal', title: "Thermal imaging", what: "Hot spots in panels, insulation and steam lines", credit: "Asurnipal, CC BY-SA 4.0", source: "https://commons.wikimedia.org/wiki/File:Flir_E8-Thermal_imaging_camera-Thermographic_camera-03ASD.jpg" },
-  { slug: 'transformer', title: "Transformers and incomers", what: "Loading, losses and power quality at the supply", credit: "Antti Leppänen, CC BY 4.0", source: "https://commons.wikimedia.org/wiki/File:Muurame_electrical_substation_transformer.jpg" },
-  { slug: 'cooling', title: "Cooling towers and chillers", what: "Approach, range and kW per ton of cooling", credit: "Cenk Endustri, CC BY-SA 3.0", source: "https://commons.wikimedia.org/wiki/File:Cenk_Endustri_Field_Erected_Industrial_Cooling_Tower.JPG" },
-  { slug: 'machine-hall', title: "Machine halls", what: "Motor loading, belts and drive opportunities", credit: "Eebie, CC BY 4.0", source: "https://commons.wikimedia.org/wiki/File:Compressor_room_Coal_Mine_Winterslag_Genk_Belgium.jpg" },
-  { slug: 'compressor', title: "Compressed air", what: "Free air delivery, load and unload, and leaks", credit: "Work With Sounds, CC BY-SA 4.0", source: "https://commons.wikimedia.org/wiki/File:Air_compressor_in_engine_room.JPG" },
-  { slug: 'boiler-house', title: "Boiler house", what: "Combustion efficiency and heat lost from surfaces", credit: "Brylie Oxley, CC BY-SA 3.0", source: "https://commons.wikimedia.org/wiki/File:FI-Tampere-20131013_152957_HDR.JPG" },
-  { slug: 'rooftop-solar', title: "Rooftop solar", what: "Performance ratio and where the energy is lost", credit: "HokuroN, CC BY-SA 4.0", source: "https://commons.wikimedia.org/wiki/File:Hatil_rooftop_solar_panels.jpg" },
-  { slug: 'solar-array', title: "PV array inspection", what: "Soiling, shading and module health", credit: "Ayman Nakib Badhan, CC BY-SA 4.0", source: "https://commons.wikimedia.org/wiki/File:Powering_Progress.jpg" },
+  { slug: 'power-quality', title: "Power quality logging", what: "Class A analyser on the incomer, read live on site" },
+  { slug: 'transformer-yard', title: "Transformers and incomers", what: "Loading, losses and power quality at the supply" },
+  { slug: 'mcc-panel', title: "Motor control centre", what: "Clamp-on readings on each big feeder" },
+  { slug: 'thermal-imaging', title: "Thermal imaging", what: "Heat gain and hot spots, seen in infrared" },
+  { slug: 'pipe-sensors', title: "Pipe flow and temperature", what: "Sensors clamped on a live line" },
+  { slug: 'flow-meter', title: "Ultrasonic flow meter", what: "Clamp-on flow, no pipe cut or shutdown" },
+  { slug: 'rooftop-check', title: "Rooftop solar", what: "Irradiance and module checks on the roof" },
+  { slug: 'pump-house', title: "Pump house", what: "Flow, head and power measured together" },
 ];

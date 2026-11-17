@@ -99,7 +99,7 @@ export function Hero({ rows }: { rows: Row[] }) {
     { v: rows.length, label: 'Detailed energy audits', tag: 'Measured', note: 'Logged with instruments, every ECM costed with payback.', icon: DUO.detailed },
     { v: data.counts.clusters, label: 'Industrial clusters', tag: 'Reach', note: 'Across Gujarat, Rajasthan and Daman.', icon: DUO.clusters },
     { v: data.counts.iga, label: 'Paid audits', tag: 'Bankable', note: 'Investment grade, detailed enough to finance the upgrade.', icon: DUO.paid },
-    { v: WORKSHOPS_CONDUCTED, label: 'Workshops conducted', tag: 'Outreach', note: 'Awareness sessions with industry associations.', icon: DUO.workshops, plus: '+' },
+    { v: WORKSHOPS_CONDUCTED, label: 'Awareness programmes', tag: 'Outreach', note: 'Workshops, college sessions and industry events.', icon: DUO.workshops },
   ];
   return (
     <section id="top" ref={heroRef} className={`hero${moving ? '' : ' hero-still'}${video ? '' : ' hero-lite'}`}>
@@ -463,11 +463,7 @@ export function HowWeMeasure() {
           </figure>
         ))}
       </div>
-      <p className="collage-credit">Photos for illustration, from Wikimedia Commons:{' '}
-        {FIELD_PHOTOS.map((ph, i) => (
-          <span key={ph.slug}>{i ? '; ' : ''}<a href={ph.source} target="_blank" rel="noopener">{ph.title.toLowerCase()}</a> by {ph.credit}</span>
-        ))}.
-      </p>
+      <p className="collage-credit">Photos from KISEM audits on site.</p>
     </section>
   );
 }
