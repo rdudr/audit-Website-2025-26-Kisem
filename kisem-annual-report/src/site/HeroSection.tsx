@@ -2,11 +2,28 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { data, FYS, sum, type Row } from '../data';
 import { APPLY_URL, PARTNERS, WORKSHOPS_CONDUCTED } from './content';
 import { useDevice } from './useDevice';
+import { useCountUp } from '../lib/hooks';
 
 // Hero and partners (canvas "Component · Hero and partners"). The skyline video stays behind it
 // (poster only on phones, data saver and reduced motion; a pause button for the motion).
 
 const cr = (v: number) => '₹ ' + (v / 1e7).toFixed(2) + ' Cr';
+// The headline rises in letter by letter (site.css .land-ch), the second part in lavender.
+const HEAD: [string, boolean][] = [['Measuring the energy of an', false], ['industrial state', true]];
+function Headline({ size }: { size: number }) {
+  let n = 0;
+  return (
+    <h1 aria-label={HEAD.map(([t]) => t).join(' ')} style={{ margin: 0, fontSize: size, lineHeight: 1.02, fontWeight: 700, letterSpacing: '-0.045em' }}>
+      {HEAD.map(([text, lav], pi) => text.split(' ').map((word, wi) => (
+        <span key={`${pi}-${wi}`} aria-hidden="true">
+          <span className="land-word">
+            {[...word].map((ch, ci) => <span key={ci} className="land-ch" style={{ '--d': `${(n++) * 30 + 300}ms`, color: lav ? '#C4B8FF' : undefined } as import('react').CSSProperties}>{ch}</span>)}
+          </span>{' '}
+        </span>
+      )))}
+    </h1>
+  );
+}
 const ARROW = 'M5 12h14M13 6l6 6-6 6';
 
 export default function HeroSection({ rows }: { rows: Row[] }) {
@@ -46,7 +63,9 @@ export default function HeroSection({ rows }: { rows: Row[] }) {
     };
   }, [rows]);
   const where = f.states.length > 1 ? f.states.slice(0, -1).join(', ') + ' and ' + f.states[f.states.length - 1] : f.states[0] || 'Gujarat';
-  const ring = 2 * Math.PI * 54, arc = (ring * f.pct) / 100;
+  const [figRef, p] = useCountUp<HTMLDListElement>();
+  const [cardRef, q] = useCountUp<HTMLDivElement>(1800);
+  const ring = 2 * Math.PI * 54, arc = (ring * f.pct * q) / 100;
   const figs = [
     { v: data.counts.walkthrough, label: 'Walkthrough assessments', tag: 'Field', note: 'A one-day visit that finds the quick wins in a plant.', d: 'M12 22s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z' },
     { v: rows.length, label: 'Detailed energy audits', tag: 'Measured', note: 'Logged with instruments, every ECM costed with payback.', d: 'M22 12h-4l-3 9L9 3l-3 9H2' },
@@ -79,7 +98,7 @@ export default function HeroSection({ rows }: { rows: Row[] }) {
               <span style={{ alignSelf: 'flex-start', display: 'inline-flex', alignItems: 'center', gap: 10, minHeight: 34, padding: '4px 14px 4px 12px', boxSizing: 'border-box', borderRadius: 999, background: 'rgba(255,255,255,.08)', border: '1px solid rgba(255,255,255,.18)', fontSize: 13, fontWeight: 600, color: '#ECEAF2' }}>
                 <span className="rd-hero-dot" style={{ width: 8, height: 8, borderRadius: '50%', background: '#4ADE80', flexShrink: 0 }} />Energy audits for industry · FY {fy0} to {fy1}
               </span>
-              <h1 style={{ margin: 0, fontSize: L.h1, lineHeight: 1.02, fontWeight: 700, letterSpacing: '-0.045em', textWrap: 'balance' } as import('react').CSSProperties}>Measuring the energy of an <span style={{ color: '#C4B8FF' }}>industrial state</span></h1>
+              <Headline size={L.h1} />
               <p style={{ margin: 0, maxWidth: 600, fontSize: L.lede, lineHeight: 1.6, color: '#DDDAE6' }}>{rows.length} detailed audits. {cr(f.ri)} of annual savings identified, {cr(f.ii)} already achieved. {f.co2} tonnes a year of CO₂ reduction potential, across MSMEs in {where}.</p>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <a className="rd-white" href={APPLY_URL} target="_blank" rel="noopener" style={{ height: 52, padding: '0 22px', borderRadius: 14, background: '#FFFFFF', color: '#0F0D1A', textDecoration: 'none', fontSize: 15, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 10, boxShadow: '0 12px 30px -12px rgba(167,150,255,.7)' }}>Apply for an audit
@@ -89,7 +108,7 @@ export default function HeroSection({ rows }: { rows: Row[] }) {
             </div>
 
             {/* savings scorecard */}
-            <div style={{ borderRadius: 24, padding: 24, background: 'linear-gradient(160deg, rgba(255,255,255,.13), rgba(255,255,255,.04))', border: '1px solid rgba(255,255,255,.18)', WebkitBackdropFilter: 'blur(14px)', backdropFilter: 'blur(14px)', display: 'flex', flexDirection: 'column', gap: 20, minWidth: 0 }}>
+            <div ref={cardRef} style={{ borderRadius: 24, padding: 24, background: 'linear-gradient(160deg, rgba(255,255,255,.13), rgba(255,255,255,.04))', border: '1px solid rgba(255,255,255,.18)', WebkitBackdropFilter: 'blur(14px)', backdropFilter: 'blur(14px)', display: 'flex', flexDirection: 'column', gap: 20, minWidth: 0 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
                 <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#C4B8FF' }}>Savings scorecard</span>
                 <span style={{ fontSize: 12, color: '#C9C5D6' }}>All audits · per year</span>
@@ -101,24 +120,24 @@ export default function HeroSection({ rows }: { rows: Row[] }) {
                     <circle cx="66" cy="66" r="54" fill="none" stroke="#4ADE80" strokeWidth="14" strokeLinecap="round" strokeDasharray={`${arc.toFixed(1)} ${ring.toFixed(1)}`} transform="rotate(-90 66 66)" />
                   </svg>
                   <span style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                    <b style={{ fontSize: 30, fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1 }}>{f.pct}%</b>
+                    <b style={{ fontSize: 30, fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1 }}>{Math.round(f.pct * q)}%</b>
                     <span style={{ fontSize: 11, color: '#C9C5D6', marginTop: 4 }}>achieved</span>
                   </span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12, flex: '1 1 160px', minWidth: 0 }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}><span style={{ fontSize: 12, color: '#C9C5D6' }}>Recommended</span><b style={{ fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em' }}>{cr(f.ri)}</b></div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}><span style={{ fontSize: 12, color: '#C9C5D6' }}>Achieved by plants</span><b style={{ fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', color: '#86EFAC' }}>{cr(f.ii)}</b></div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}><span style={{ fontSize: 12, color: '#C9C5D6' }}>Recommended</span><b style={{ fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em' }}>{cr(f.ri * q)}</b></div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}><span style={{ fontSize: 12, color: '#C9C5D6' }}>Achieved by plants</span><b style={{ fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', color: '#86EFAC' }}>{cr(f.ii * q)}</b></div>
                 </div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10 }}>
-                <div style={{ padding: '12px 14px', borderRadius: 14, background: 'rgba(255,255,255,.06)', display: 'flex', flexDirection: 'column', gap: 2 }}><b style={{ fontSize: 18 }}>{f.payback} months</b><span style={{ fontSize: 12, color: '#C9C5D6' }}>Average payback</span></div>
-                <div style={{ padding: '12px 14px', borderRadius: 14, background: 'rgba(255,255,255,.06)', display: 'flex', flexDirection: 'column', gap: 2 }}><b style={{ fontSize: 18 }}>{f.done} of {f.rn}</b><span style={{ fontSize: 12, color: '#C9C5D6' }}>Measures carried out</span></div>
+                <div style={{ padding: '12px 14px', borderRadius: 14, background: 'rgba(255,255,255,.06)', display: 'flex', flexDirection: 'column', gap: 2 }}><b style={{ fontSize: 18 }}>{Math.max(1, Math.round(f.payback * q))} months</b><span style={{ fontSize: 12, color: '#C9C5D6' }}>Average payback</span></div>
+                <div style={{ padding: '12px 14px', borderRadius: 14, background: 'rgba(255,255,255,.06)', display: 'flex', flexDirection: 'column', gap: 2 }}><b style={{ fontSize: 18 }}>{Math.round(f.done * q)} of {f.rn}</b><span style={{ fontSize: 12, color: '#C9C5D6' }}>Measures carried out</span></div>
               </div>
             </div>
           </div>
 
           {/* programme figures */}
-          <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: L.figCols, gap: 12 }}>
+          <dl ref={figRef} style={{ margin: 0, display: 'grid', gridTemplateColumns: L.figCols, gap: 12 }}>
             {figs.map((x, i) => (
               <div key={x.label} style={{ borderRadius: 20, padding: 18, display: 'flex', flexDirection: 'column', gap: 10, background: 'rgba(255,255,255,.07)', border: '1px solid rgba(255,255,255,.14)', minWidth: 0, gridColumn: `span ${!D && i === 4 ? (T ? 1 : 2) : 1}` }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -127,7 +146,7 @@ export default function HeroSection({ rows }: { rows: Row[] }) {
                   </span>
                   <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: '#C9C5D6' }}>{x.tag}</span>
                 </div>
-                <dd style={{ margin: 0, fontSize: L.fig, fontWeight: 700, letterSpacing: '-0.035em', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>{x.v}</dd>
+                <dd style={{ margin: 0, fontSize: L.fig, fontWeight: 700, letterSpacing: '-0.035em', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}><span aria-hidden="true">{Math.round(x.v * p)}</span><span className="sr-only">{x.v}</span></dd>
                 <dt style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                   <span style={{ fontSize: 14, fontWeight: 600 }}>{x.label}</span>
                   <span style={{ fontSize: 12, lineHeight: 1.45, color: '#C9C5D6' }}>{x.note}</span>

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { FYS, STATUSES, sum, type Row } from '../data';
 import { useDevice } from './useDevice';
+import { useCountUp } from '../lib/hooks';
 
 // Impact and year by year (canvas "Component · Impact and year by year"), worked out from the audits.
 
@@ -14,6 +15,9 @@ export default function ImpactSection({ rows }: { rows: Row[] }) {
   const dev = useDevice();
   const D = dev === 'desktop', T = dev === 'tablet';
   const [m, setM] = useState<Metric>('savings');
+  // Figures count up and bars grow the first time each block scrolls into view, as on the landing.
+  const [kRef, p] = useCountUp<HTMLDivElement>(1400);
+  const [cRef, c] = useCountUp<HTMLDivElement>(1400);
 
   const v = useMemo(() => {
     const t = (k: keyof Row) => sum(rows, k);
@@ -30,25 +34,26 @@ export default function ImpactSection({ rows }: { rows: Row[] }) {
     audits: { tab: 'Audits & ECMs', title: 'Measures recommended and implemented', sub: 'Energy conservation measures (ECMs) per audit year', aLabel: 'Recommended', bLabel: 'Implemented', a: 'rn', b: 'in', f: ind, note: `${ind(v.rn)} measures recommended; ${ind(v.in)} carried out so far.` },
     savings: { tab: 'Energy savings', title: 'Annual savings, ₹ crore', sub: 'Recommended in the audits against what plants achieved', aLabel: 'Recommended', bLabel: 'Achieved', a: 'ri', b: 'ii', f: x => x.toFixed(2), note: `${cr(v.ri)} a year recommended; ${cr(v.ii)} a year achieved. ${late}` },
     co2: { tab: 'CO₂ reduction', title: 'CO₂ reduction, tonnes a year', sub: 'Potential identified against reduction achieved', aLabel: 'Potential', bLabel: 'Achieved', a: 'rc', b: 'ic', f: ind, note: `${ind(v.rc)} t a year of potential; ${ind(v.ic)} t a year achieved.` },
-    ecm: { tab: 'Implementation', title: 'Implementation rate', sub: 'Share of recommended measures carried out, by audit year', aLabel: 'Recommended (100%)', bLabel: 'Implemented', a: null, b: 'pc', f: x => x + '%', note: `${pct(v.in, v.rn)} of all measures implemented. ${late}` },
+    ecm: { tab: 'Implementation', title: 'Implementation rate', sub: 'Share of recommended measures carried out, by audit year', aLabel: 'Recommended (100%)', bLabel: 'Implemented', a: null, b: 'pc', f: x => Math.round(x) + '%', note: `${pct(v.in, v.rn)} of all measures implemented. ${late}` },
   };
   const def = DEFS[m];
   const val = (y: (typeof v.Y)[number], k: string | null) => (k ? (y as unknown as Record<string, number>)[k] : 100);
+  const grow = (x: number) => x * c;
   const mx = def.a ? Math.max(1e-9, ...v.Y.map(y => Math.max(val(y, def.a), val(y, def.b)))) : 100;
   const hh = (x: number) => Math.max(x ? 2 : 0, Math.round((82 * x) / mx)) + '%';
-  const bars = v.Y.map(y => ({ label: D || T ? y.full : y.label, aText: def.a ? def.f(val(y, def.a)) : '', bText: def.f(val(y, def.b)), aH: hh(val(y, def.a)), bH: hh(val(y, def.b)) }));
+  const bars = v.Y.map(y => ({ label: D || T ? y.full : y.label, aText: def.a ? def.f(grow(val(y, def.a))) : '', bText: def.f(grow(val(y, def.b))), aH: hh(grow(val(y, def.a))), bH: hh(grow(val(y, def.b))) }));
   const aria = def.title + ': ' + bars.map(b => b.label + ' ' + (b.aText ? def.aLabel + ' ' + b.aText + ', ' : '') + def.bLabel + ' ' + b.bText).join('; ');
 
   const pairs = [
-    { label: 'Annual cost savings', d: 'M6 3h12M6 8h12M6 13l8.5 8M6 13h3a5 5 0 0 0 0-10', rec: cr(v.ri), imp: cr(v.ii), share: pct(v.ii, v.ri) },
-    { label: 'Measures (ECMs)', d: 'M22 11.1V12a10 10 0 1 1-5.9-9.1M22 4L12 14l-3-3', rec: ind(v.rn), imp: ind(v.in), share: pct(v.in, v.rn) },
-    { label: 'CO₂ reduction, t / yr', d: 'M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10zM2 21c0-3 1.9-5.4 5.2-6', rec: ind(v.rc), imp: ind(v.ic), share: pct(v.ic, v.rc) },
-    { label: 'Electricity saved, kWh / yr', d: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z', rec: (v.rk / 1e5).toFixed(1) + ' lakh', imp: (v.ik / 1e5).toFixed(1) + ' lakh', share: pct(v.ik, v.rk) },
+    { label: 'Annual cost savings', d: 'M6 3h12M6 8h12M6 13l8.5 8M6 13h3a5 5 0 0 0 0-10', rec: cr(v.ri * p), imp: cr(v.ii * p), share: pct(v.ii * p, v.ri) },
+    { label: 'Measures (ECMs)', d: 'M22 11.1V12a10 10 0 1 1-5.9-9.1M22 4L12 14l-3-3', rec: ind(v.rn * p), imp: ind(v.in * p), share: pct(v.in * p, v.rn) },
+    { label: 'CO₂ reduction, t / yr', d: 'M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10zM2 21c0-3 1.9-5.4 5.2-6', rec: ind(v.rc * p), imp: ind(v.ic * p), share: pct(v.ic * p, v.rc) },
+    { label: 'Electricity saved, kWh / yr', d: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z', rec: (v.rk * p / 1e5).toFixed(1) + ' lakh', imp: (v.ik * p / 1e5).toFixed(1) + ' lakh', share: pct(v.ik * p, v.rk) },
   ];
   const baseline = [
-    { label: 'Electricity assessed', v: (v.e / 1e6).toFixed(1) + ' GWh', sub: 'A year, all assessed plants' },
-    { label: 'Energy bill assessed', v: cr(v.cost), sub: 'Electricity and fuel, a year' },
-    { label: 'Investment proposed', v: cr(v.rv), sub: cr(v.iv) + ' already invested by plants' },
+    { label: 'Electricity assessed', v: (v.e * p / 1e6).toFixed(1) + ' GWh', sub: 'A year, all assessed plants' },
+    { label: 'Energy bill assessed', v: cr(v.cost * p), sub: 'Electricity and fuel, a year' },
+    { label: 'Investment proposed', v: cr(v.rv * p), sub: cr(v.iv * p) + ' already invested by plants' },
     { label: 'Average payback', v: v.ri ? Math.max(1, Math.round((12 * v.rv) / v.ri)) + ' months' : '—', sub: 'On the recommended measures' },
   ];
   const statuses = STATUSES.map(s => ({ s, n: rows.filter(r => r.st === s).length, c: STATUS_COL[s] }));
@@ -75,7 +80,7 @@ export default function ImpactSection({ rows }: { rows: Row[] }) {
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}><span style={{ width: 22, height: 8, borderRadius: 999, background: '#BDB6E3' }} />Recommended</span>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}><span style={{ width: 22, height: 8, borderRadius: 999, background: '#15803D' }} />Achieved</span>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: L.kCols, gap: 16 }}>
+        <div ref={kRef} style={{ display: 'grid', gridTemplateColumns: L.kCols, gap: 16 }}>
           {pairs.map(k => (
             <div key={k.label} className="rd-lift" style={{ background: '#FFFFFF', border: '1px solid #E7E5EE', borderRadius: 22, padding: 22, display: 'flex', flexDirection: 'column', gap: 18, minWidth: 0 }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, fontWeight: 600 }}>
@@ -88,7 +93,7 @@ export default function ImpactSection({ rows }: { rows: Row[] }) {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
                   <span style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#55526A' }}><span>Recommended</span><b style={{ color: '#0F0D1A', fontVariantNumeric: 'tabular-nums' }}>{k.rec}</b></span>
-                  <span aria-hidden="true" style={{ height: 8, borderRadius: 999, background: '#BDB6E3', display: 'block' }} />
+                  <span aria-hidden="true" style={{ height: 8, borderRadius: 999, background: '#EEECF3', display: 'flex', overflow: 'hidden' }}><span style={{ width: (100 * p).toFixed(1) + '%', background: '#BDB6E3', borderRadius: 999 }} /></span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
                   <span style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#55526A' }}><span>Achieved</span><b style={{ color: '#0F0D1A', fontVariantNumeric: 'tabular-nums' }}>{k.imp}</b></span>
@@ -109,11 +114,11 @@ export default function ImpactSection({ rows }: { rows: Row[] }) {
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: 20, borderRadius: 20, border: '1px solid #E7E5EE' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}><b style={{ fontSize: 15 }}>Where each audit stands</b><span style={{ fontSize: 13, color: '#6B6880' }}>{rows.length} audits</span></div>
-          <div aria-hidden="true" style={{ display: 'flex', height: 14, borderRadius: 999, overflow: 'hidden', gap: 3 }}>
+          <div aria-hidden="true" style={{ display: 'flex', height: 14, borderRadius: 999, overflow: 'hidden', gap: 3, width: (100 * p).toFixed(1) + '%' }}>
             {statuses.filter(s => s.n).map(s => <span key={s.s} style={{ flex: s.n, background: s.c }} />)}
           </div>
           <div style={{ display: 'flex', gap: '8px 22px', flexWrap: 'wrap', fontSize: 13 }}>
-            {statuses.map(s => <span key={s.s} style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: s.c }} /><b>{s.n}</b><span style={{ color: '#55526A' }}>{s.s}</span></span>)}
+            {statuses.map(s => <span key={s.s} style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: s.c }} /><b>{Math.round(s.n * p)}</b><span style={{ color: '#55526A' }}>{s.s}</span></span>)}
           </div>
         </div>
       </section>
@@ -140,7 +145,7 @@ export default function ImpactSection({ rows }: { rows: Row[] }) {
             </div>
           ))}
         </div>
-        <div style={{ border: '1px solid #E7E5EE', borderRadius: 24, padding: L.chartPad, display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <div ref={cRef} style={{ border: '1px solid #E7E5EE', borderRadius: 24, padding: L.chartPad, display: 'flex', flexDirection: 'column', gap: 20 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', alignItems: 'flex-start' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}><b style={{ fontSize: 17 }}>{def.title}</b><span style={{ fontSize: 13, color: '#55526A' }}>{def.sub}</span></div>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', fontSize: 13, color: '#55526A' }}>
