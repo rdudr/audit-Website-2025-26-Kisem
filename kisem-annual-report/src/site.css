@@ -131,6 +131,9 @@ select.inp { padding: 0 10px; font-size: 14px; }
   .agrid { grid-template-columns: minmax(0, 1fr) auto !important; }
   .agrid .acol { display: none !important; }
   .cgrid { grid-template-columns: minmax(0, 1fr); }
+  /* One column: the company list scrolls away with the page instead of staying over the form. */
+  .cgrid > aside { position: static !important; }
+  .cgrid > aside > div:last-child { max-height: 320px !important; }
 }
 
 /* ---------- hero (design: KISEM public website) ---------- */

@@ -1,7 +1,7 @@
 import { lazy, Suspense, useMemo, useState } from 'react';
-import { FYS, fyLabel, n0, STATUSES, titleOf, type Row, type Status } from '../data';
-import type { Filters } from './filters';
-import { NO_FILTERS } from './filters';
+import { FOLLOW_UPS, FYS, fyLabel, n0, STATUSES, titleOf, type Row, type Status } from '../data';
+import type { Check, Filters } from './filters';
+import { checkOk, NO_FILTERS } from './filters';
 import { useDevice } from './useDevice';
 
 const AuditMap = lazy(() => import('./AuditMap'));
@@ -11,6 +11,7 @@ const AuditMap = lazy(() => import('./AuditMap'));
 
 const ST: Record<Status, [string, string]> = {
   'Implementation verified': ['#E3F3EA', '#0E6B33'],
+  'Post assessment done': ['#E4EEFB', '#1D4F91'],
   'Post-audit pending': ['#EFEBFD', '#4C35B8'],
   'Report under process': ['#EFEFF2', '#3A3850'],
 };
@@ -18,6 +19,24 @@ const lakh = (v: unknown) => (n0(v) / 1e5).toFixed(1);
 const month = (dt: string | null) => (dt ? new Date(dt + 'T00:00:00').toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }) : '');
 const LOCK = 'M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4';
 const UNLOCK = 'M5 11h14v10H5zM8 11V7a4 4 0 0 1 7.5-2';
+
+/** The two follow-up checks of one audit: a tick when done, a dash when not yet. */
+export function FollowUps({ r, size = 11 }: { r: Row; size?: number }) {
+  return (
+    <span style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 10px' }}>
+      {FOLLOW_UPS.map(f => {
+        const done = r[f.key] === 1;
+        return (
+          <span key={f.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: size, fontWeight: 600, color: done ? '#0E6B33' : '#6B6880', whiteSpace: 'nowrap' }}>
+            <svg width={size + 1} height={size + 1} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={done ? 'M20 6L9 17l-5-5' : 'M6 12h12'} /></svg>
+            {f.short}<span className="sr-only">{done ? ': done' : ': not yet'}</span>
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+const CHECKS: [Check, string][] = [['All', 'Any'], ['done', 'Done'], ['pending', 'Not yet']];
 
 export default function Audits({ rows, signed, filters, setFilters, onOpen, onSignIn, onSignOut }: {
   rows: Row[]; signed: boolean; filters: Filters; setFilters: (f: Filters) => void;
@@ -33,6 +52,7 @@ export default function Audits({ rows, signed, filters, setFilters, onOpen, onSi
     let out = rows.filter(r => (filters.fy === 'All' || r.fy === filters.fy)
       && (filters.sector === 'All sectors' || r.s === filters.sector)
       && (filters.status === 'All' || r.st === filters.status)
+      && checkOk(filters.vr, r.vr) && checkOk(filters.pa, r.pa)
       && (!q || [r.c, r.s, r.sr, r.ci, r.p, signed ? r.n || '' : ''].join(' ').toLowerCase().includes(q)));
     const ip = (r: Row) => (r.rn ? n0(r.in) / r.rn : -1);
     if (filters.sort === 'save') out = [...out].sort((a, b) => n0(b.ri) - n0(a.ri));
@@ -44,12 +64,13 @@ export default function Audits({ rows, signed, filters, setFilters, onOpen, onSi
   const sectors = useMemo(() => [...new Set(rows.map(r => r.s))].sort(), [rows]);
   const fyCount = (fy: string) => (fy === 'All' ? rows.length : rows.filter(r => r.fy === fy).length);
   const fys = ['All', ...FYS].filter(fy => fy === 'All' || fyCount(fy) > 0);
-  const filtered = filters.q || filters.sector !== 'All sectors' || filters.fy !== 'All' || filters.status !== 'All';
+  const filtered = filters.q || filters.sector !== 'All sectors' || filters.fy !== 'All' || filters.status !== 'All' || filters.vr !== 'All' || filters.pa !== 'All';
+  const doneCount = (k: 'vr' | 'pa') => rows.filter(r => r[k] === 1).length;
 
   const L = {
     pad: D ? '104px 40px 0' : T ? '80px 32px 0' : '64px 16px 0', h2: D ? 48 : T ? 40 : 32, lede: D ? 18 : 16,
-    fCols: D ? 'minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr)' : T ? 'minmax(0, 1fr) minmax(0, 1fr)' : 'minmax(0, 1fr)',
-    rCols: D ? '92px minmax(0, 1.5fr) minmax(0, 1.1fr) 100px minmax(0, 1.2fr) 190px 16px' : T ? '92px minmax(0, 1fr) auto' : 'minmax(0, 1fr)',
+    fCols: D ? 'minmax(0, 1.6fr) repeat(5, minmax(0, 1fr))' : 'repeat(2, minmax(0, 1fr))',
+    rCols: D ? '92px minmax(0, 1.5fr) minmax(0, 1.1fr) 100px minmax(0, 1.2fr) 210px 16px' : T ? '92px minmax(0, 1fr) auto' : 'minmax(0, 1fr)',
     rGap: D ? 16 : 12,
   };
   const label = { display: 'flex', flexDirection: 'column', gap: 6, fontSize: 12, fontWeight: 600, color: '#55526A' } as const;
@@ -76,7 +97,7 @@ export default function Audits({ rows, signed, filters, setFilters, onOpen, onSi
       {/* filters */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: 16, borderRadius: 20, background: '#F7F6FB', border: '1px solid #ECEAF2' }}>
         <div style={{ display: 'grid', gridTemplateColumns: L.fCols, gap: 10 }}>
-          <label style={label}>Search
+          <label style={{ ...label, gridColumn: D ? undefined : '1 / -1' }}>Search
             <span style={{ position: 'relative', display: 'block' }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8E88A8" strokeWidth={2} strokeLinecap="round" aria-hidden="true" style={{ position: 'absolute', left: 14, top: 14 }}><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3" /></svg>
               <input className="rd-inp" type="search" value={filters.q} onChange={e => set({ q: e.target.value })} placeholder={signed ? 'Company, audit number, city, product…' : 'Audit number, city, product…'} style={{ ...inp, width: '100%', padding: '0 12px 0 40px', fontSize: 15 }} />
@@ -92,6 +113,13 @@ export default function Audits({ rows, signed, filters, setFilters, onOpen, onSi
               {(['All', ...STATUSES] as const).map(s => <option key={s} value={s}>{s === 'All' ? 'Any status' : s}</option>)}
             </select>
           </label>
+          {FOLLOW_UPS.map(f => (
+            <label key={f.key} style={label} title={`${f.label}: ${f.when}`}>{f.key === 'vr' ? 'Implementation verified' : 'Post assessment'}
+              <select className="rd-inp" value={filters[f.key]} onChange={e => set({ [f.key]: e.target.value as Check })} style={{ ...inp, padding: '0 10px' }}>
+                {CHECKS.map(([v, l]) => <option key={v} value={v}>{v === 'done' ? `${l} (${doneCount(f.key)})` : l}</option>)}
+              </select>
+            </label>
+          ))}
           <label style={label}>Sort by
             <select className="rd-inp" value={filters.sort} onChange={e => set({ sort: e.target.value as Filters['sort'] })} style={{ ...inp, padding: '0 10px' }}>
               <option value="code">Audit number</option><option value="save">Savings recommended</option><option value="impl">Implementation %</option><option value="co2">CO₂ reduction</option>
@@ -146,7 +174,10 @@ export default function Audits({ rows, signed, filters, setFilters, onOpen, onSi
                   </span>
                 </>
               )}
-              <span style={{ height: 26, padding: '0 10px', borderRadius: 999, fontSize: 12, fontWeight: 600, display: 'inline-flex', alignItems: 'center', justifySelf: 'start', whiteSpace: 'nowrap', background: sbg, color: sfg }}>{r.st}</span>
+              <span style={{ display: 'flex', flexDirection: 'column', gap: 6, justifySelf: 'start', minWidth: 0 }}>
+                <span style={{ height: 26, padding: '0 10px', borderRadius: 999, fontSize: 12, fontWeight: 600, display: 'inline-flex', alignItems: 'center', alignSelf: 'flex-start', whiteSpace: 'nowrap', background: sbg, color: sfg }}>{r.st}</span>
+                <FollowUps r={r} />
+              </span>
               {D && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8E88A8" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>}
             </button>
           );

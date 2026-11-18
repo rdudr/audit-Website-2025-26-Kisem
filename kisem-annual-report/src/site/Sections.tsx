@@ -95,11 +95,11 @@ export function Hero({ rows }: { rows: Row[] }) {
   }, [moving, inView]);
 
   const figures: { v: number; label: string; tag: string; note: string; icon: { d: string; d2: string }; plus?: string }[] = [
-    { v: data.counts.walkthrough, label: 'Walkthrough assessments', tag: 'Field', note: 'A one-day visit that finds the quick wins in a plant.', icon: DUO.walkthrough },
+    { v: data.counts.walkthrough, label: 'Walkthrough energy audits', tag: 'Field', note: 'A one-day visit that finds the quick wins in a plant.', icon: DUO.walkthrough },
     { v: rows.length, label: 'Detailed energy audits', tag: 'Measured', note: 'Logged with instruments, every ECM costed with payback.', icon: DUO.detailed },
     { v: data.counts.clusters, label: 'Industrial clusters', tag: 'Reach', note: 'Across Gujarat, Rajasthan and Daman.', icon: DUO.clusters },
     { v: data.counts.iga, label: 'Paid audits', tag: 'Bankable', note: 'Investment grade, detailed enough to finance the upgrade.', icon: DUO.paid },
-    { v: WORKSHOPS_CONDUCTED, label: 'Awareness programmes', tag: 'Outreach', note: 'Workshops, college sessions and industry events.', icon: DUO.workshops },
+    { v: WORKSHOPS_CONDUCTED, label: 'Awareness sessions', tag: 'Outreach', note: 'Workshops, college sessions and industry events.', icon: DUO.workshops },
   ];
   return (
     <section id="top" ref={heroRef} className={`hero${moving ? '' : ' hero-still'}${video ? '' : ' hero-lite'}`}>

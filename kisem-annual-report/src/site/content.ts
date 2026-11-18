@@ -1,7 +1,7 @@
 // Fixed page content: scope, instruments, team and partners.
 
 export const APPLY_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfeadTKCwRTvHE4xfaucn2SZ8SN00jFp-2lOI_qiD4C9Jfziw/viewform';
-// Awareness programmes held under the programme (not in the master sheet).
+// Awareness sessions held under the programme (not in the master sheet).
 export const WORKSHOPS_CONDUCTED = 45;
 export const CONTACT = {
   address: 'IIT Gandhinagar, Palaj, Gandhinagar, Gujarat 382055',

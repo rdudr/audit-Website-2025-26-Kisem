@@ -7,15 +7,21 @@ import { useDevice } from './useDevice';
 // Team, awards, events, partners, contact and footer (canvas "Component · Team, contact, footer").
 // Events show three photos at most (a cover and two small ones), to keep the page short.
 
-type Ev = { key: string; n: number; tag: string; t: string; s: string; alts: string[] };
-const EVENTS: Ev[] = [
-  { key: 'vibrant', n: 2, tag: 'Vibrant Gujarat', t: 'Vibrant Gujarat Regional Conference', s: 'North Gujarat regional conference on industry and energy.', alts: ['Panel at the Vibrant Gujarat Regional Conference', 'Conference session'] },
-  { key: 'ai-msme', n: 2, tag: 'Workshop', t: 'Future Ready MSMEs with AI', s: 'Workshop on using AI to make MSMEs future ready.', alts: ['Speaker at the workshop on future-ready MSMEs with AI', 'Workshop session'] },
-  { key: 'surat', n: 2, tag: 'Surat · with WRI India', t: 'Future Ready MSMEs, Surat', s: 'Industrial decarbonisation and process optimisation, with WRI India.', alts: ['Two KISEM team members at the Future Ready MSMEs event', 'Presentation on energy assessment for MSMEs'] },
-  { key: 'wri', n: 1, tag: 'With WRI India', t: 'Sustainability awareness programme', s: 'Energy assessment and sustainability studies under KISEM, presented to industry.', alts: ['Presentation on energy assessment and sustainability studies'] },
-  { key: 'fdp', n: 2, tag: 'Bhavnagar · Jan 2026', t: 'Faculty development programme', s: 'Energy assessment sessions for faculty at Shantilal Shah Engineering College.', alts: ['Session at Shantilal Shah Engineering College, Bhavnagar', 'Faculty development programme hall'] },
-  { key: 'geda', n: 3, tag: 'With GEDA', t: 'Energy conservation workshops in colleges', s: 'Awareness workshops for engineering students, with GEDA.', alts: ['Energy conservation awareness workshop at a college', 'Workshop audience', 'Instrument demonstration for students'] },
-];
+// `date` (YYYY-MM-DD, or YYYY when only the year is known) orders the cards, newest first, and
+// shows with the place above the title.
+type Ev = { key: string; n: number; tag: string; t: string; s: string; alts: string[]; date: string; where: string };
+const EVENTS: Ev[] = ([
+  { key: 'vibrant', n: 2, date: '2026-10-08', where: 'Mehsana', tag: 'Vibrant Gujarat', t: 'Vibrant Gujarat Regional Conference', s: 'North Gujarat regional conference on industry and energy.', alts: ['Panel at the Vibrant Gujarat Regional Conference', 'Conference session'] },
+  { key: 'ai-msme', n: 2, date: '2026-08-22', where: 'IIT Gandhinagar', tag: 'With Kotak', t: 'Kotak Future Ready MSMEs with AI', s: 'Workshop on using AI to make MSMEs future ready.', alts: ['Speaker at the workshop on future-ready MSMEs with AI', 'Workshop session'] },
+  { key: 'surat', n: 2, date: '2026-07-04', where: 'Surat', tag: 'With WRI India', t: 'KISEM with WRI India, Surat', s: 'Industrial decarbonisation and process optimisation for MSMEs, with WRI India.', alts: ['Two KISEM team members at the Future Ready MSMEs event', 'Presentation on energy assessment for MSMEs'] },
+  { key: 'wri', n: 1, date: '2026-05-08', where: 'Ahmedabad', tag: 'With WRI India', t: 'Sustainability awareness programme', s: 'Energy assessment and sustainability studies under KISEM, presented to industry.', alts: ['Presentation on energy assessment and sustainability studies'] },
+  { key: 'fdp', n: 2, date: '2026-01', where: 'Bhavnagar', tag: 'Faculty programme', t: 'Faculty development programme', s: 'Energy assessment sessions for faculty at Shantilal Shah Engineering College.', alts: ['Session at Shantilal Shah Engineering College, Bhavnagar', 'Faculty development programme hall'] },
+  { key: 'summit', n: 2, date: '2025', where: 'GCCI', tag: 'Sustainability summit', t: 'GCCI Gujarat Sustainability Summit', s: 'Decarbonisation in MSMEs through energy assessment and sustainability studies: the KISEM talk by the project coordinator.', alts: ['KISEM talk on decarbonisation in MSMEs at the GCCI Gujarat Sustainability Summit, with the audience in front of the stage', 'The talk on stage, with the speaker at the lectern'] },
+  { key: 'geda', n: 3, date: '', where: 'Colleges across Gujarat', tag: 'With GEDA', t: 'Energy conservation workshops in colleges', s: 'Awareness workshops for engineering students, with GEDA.', alts: ['Energy conservation awareness workshop at a college', 'Workshop audience', 'Instrument demonstration for students'] },
+] as Ev[]).sort((a, b) => (b.date || '0').localeCompare(a.date || '0'));
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+/** 2026-10-08 -> 8 Oct 2026; 2026-01 -> Jan 2026; 2025 -> 2025. */
+const evDate = (d: string) => { const [y, m, day] = d.split('-'); return [day && String(Number(day)), m && MONTHS[Number(m) - 1], y].filter(Boolean).join(' '); };
 // The SEEM award, shown first. After the ceremony, put the certificate or a ceremony photo in
 // public/events/ and set `photo` (e.g. '/events/seem-2026.webp'); it then shows in place of the trophy.
 const SEEM: { photo: string | null } = { photo: null };
@@ -25,7 +31,7 @@ const CAL = 'M4 5h16v16H4zM4 9h16M8 3v4M16 3v4';
 // Awards and recognition: the team's own wins.
 const AWARDS = [
   { img: '/events/quiz-1.webp', alt: 'Sagar Loriya receiving the winner’s prize on stage at the Power and Energy Quiz, Mehsana', kicker: 'Mehsana · 9 Oct 2025 · Winner', t: 'Igniting Young Minds: Power and Energy Quiz — Mr. Sagar Loriya', s: 'Won the state Power and Energy Quiz, representing the KISEM energy audit team at IIT Gandhinagar.' },
-  { img: '/events/award-1.webp', alt: 'Md Faizan receiving the Student of the Year award on stage', kicker: 'Individual award · Winner', t: 'Student of the Year — Mr. Md Faizan', s: 'Recognised for work with the KISEM energy audit team at IIT Gandhinagar.' },
+  { img: '/events/award-1.webp', alt: 'Md Faizan receiving the Student of the Year award on stage', kicker: 'Jaipur · 5 Sep 2026 · Winner', t: 'Student of the Year — Mr. Md Faizan', s: 'Recognised for work with the KISEM energy audit team at IIT Gandhinagar.' },
 ];
 const MAIL = 'M4 4h16v16H4zM4 6l8 7 8-7';
 const CHECK = 'M20 6L9 17l-5-5';
@@ -126,7 +132,7 @@ export default function PeopleSection({ session }: { session: Session | null }) 
         </div>
 
         <div id="events" style={{ display: 'flex', flexDirection: 'column', gap: 14, scrollMarginTop: 72 }}>
-          {sub('Events and outreach', `${WORKSHOPS_CONDUCTED} awareness programmes`)}
+          {sub('Events and outreach', `${WORKSHOPS_CONDUCTED} awareness sessions`)}
           <div style={{ display: 'grid', gridTemplateColumns: L.oCols, gap: 16 }}>
             {EVENTS.map(o => (
               <article key={o.key} className="rd-lift rd-card" style={{ margin: 0, borderRadius: 20, overflow: 'hidden', border: '1px solid #E7E5EE', background: '#FFFFFF', display: 'flex', flexDirection: 'column', minWidth: 0 }}>
@@ -145,7 +151,9 @@ export default function PeopleSection({ session }: { session: Session | null }) 
                     </span>
                   )}
                 </div>
-                <div style={{ padding: '14px 16px 16px', display: 'flex', flexDirection: 'column', gap: 4 }}><b style={{ fontSize: 15 }}>{o.t}</b><span style={{ fontSize: 13, lineHeight: 1.45, color: '#55526A' }}>{o.s}</span></div>
+                <div style={{ padding: '14px 16px 16px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, color: '#5B3FD6' }}><Svg d={CAL} size={13} stroke="currentColor" />{[o.where, o.date && evDate(o.date)].filter(Boolean).join(' · ')}</span>
+                  <b style={{ fontSize: 15 }}>{o.t}</b><span style={{ fontSize: 13, lineHeight: 1.45, color: '#55526A' }}>{o.s}</span></div>
               </article>
             ))}
           </div>

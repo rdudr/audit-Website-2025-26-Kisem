@@ -114,7 +114,7 @@ export default function FieldSection() {
         <div id="walkthroughs" style={{ display: 'flex', flexDirection: 'column', gap: 16, paddingTop: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 16, flexWrap: 'wrap' }}>
             {h3('Walkthrough audits with GEDA', 'One-day plant visits that find the quick wins: compressors, furnaces, drives, chillers and the lines that feed them.')}
-            <span style={{ height: 34, padding: '0 14px', borderRadius: 999, background: '#2B2644', color: '#FFFFFF', fontSize: 13, fontWeight: 700, display: 'inline-flex', alignItems: 'center' }}>{data.counts.walkthrough} walkthrough assessments</span>
+            <span style={{ height: 34, padding: '0 14px', borderRadius: 999, background: '#2B2644', color: '#FFFFFF', fontSize: 13, fontWeight: 700, display: 'inline-flex', alignItems: 'center' }}>{data.counts.walkthrough} walkthrough energy audits</span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: L.wCols, gap: 8 }}>
             {WALK_PICK.map(n => (

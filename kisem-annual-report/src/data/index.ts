@@ -3,7 +3,9 @@
 // FOX Console, and only after a team member signs in (src/lib/console.ts).
 import bundled from './audits.json';
 
-export type Status = 'Implementation verified' | 'Post-audit pending' | 'Report under process';
+export type Status = 'Implementation verified' | 'Post assessment done' | 'Post-audit pending' | 'Report under process';
+/** A follow-up check from the master sheet: 1 done, 0 not done, null not recorded. */
+export type Flag = 0 | 1 | null;
 
 /** One audit. Short keys, the same ones FOX Console and the master Excel use. */
 export interface Row {
@@ -22,6 +24,8 @@ export interface Row {
   rn: number | null; rk: number | null; rf: number | null; ri: number | null; rc: number | null; rv: number | null; // recommended
   in: number | null; iv: number | null; ik: number | null; if: number | null; ii: number | null; ic: number | null; // implemented
   st: Status;
+  pa?: Flag;          // post assessment completed (about 6 months after the report)
+  vr?: Flag;          // implementation verified by the separate team (about 3 months after the report)
   lat: number | null; lng: number | null;
   n?: string;         // company name: only present when signed in
 }
@@ -37,16 +41,17 @@ export interface SiteData {
 export const data = bundled as SiteData;
 
 export const FYS = ['2022-23', '2023-24', '2024-25', '2025-26', '2026-27'];
-export const STATUSES: Status[] = ['Implementation verified', 'Post-audit pending', 'Report under process'];
+export const STATUSES: Status[] = ['Implementation verified', 'Post assessment done', 'Post-audit pending', 'Report under process'];
 // [badge background, badge text, bar colour]
 export const STATUS_TONE: Record<Status, [string, string, string]> = {
   'Implementation verified': ['#E1F0E8', '#0B7A45', '#0B7A45'],
+  'Post assessment done': ['#E4EEFB', '#1D4F91', '#2F6FC4'],
   'Post-audit pending': ['#F8EBDA', '#9A5200', '#D67800'],
   'Report under process': ['#EFEFEF', '#3A3A3A', '#A3A3A3'],
 };
 
 // The fields a team member can change from the website, and which of them are numbers.
-export const NUMERIC = new Set(['dy', 'kva', 'e', 'f', 'cost', 'co2', 'rn', 'rk', 'rf', 'ri', 'rc', 'rv', 'in', 'iv', 'ik', 'if', 'ii', 'ic', 'emp', 'age']);
+export const NUMERIC = new Set(['dy', 'kva', 'e', 'etoe', 'f', 'cost', 'co2', 'rn', 'rk', 'rf', 'ri', 'rc', 'rv', 'in', 'iv', 'ik', 'if', 'ii', 'ic', 'emp', 'age']);
 export const IMPL_KEYS = ['in', 'ii', 'ik', 'if', 'ic', 'iv'] as const;
 
 // ---------------------------------------------------------------- formatting
@@ -74,8 +79,23 @@ export function parseNum(v: unknown): number | null {
 /** The plant's public title: its name when signed in, else sector + "plant". */
 export const titleOf = (r: Row, signed: boolean) => (signed && r.n ? r.n : r.s + ' plant');
 
-/** Status from the figures, used when a team member saves a change. */
+/** The two follow-up checks, in the words the site uses. */
+export const FOLLOW_UPS = [
+  { key: 'vr', label: 'Implementation verified', short: 'Implementation', when: 'by a separate team, about 3 months after the report' },
+  { key: 'pa', label: 'Post assessment', short: 'Post assessment', when: 'about 6 months after the report' },
+] as const;
+
+/**
+ * Status, used when a team member saves a change. The follow-up checks decide when they are
+ * recorded (FOX Console applies the same rule, lib/site-data.js statusOf); otherwise the figures.
+ */
 export function statusFrom(r: Partial<Row>, previous?: Status): Status {
+  if (r.vr === 1) return 'Implementation verified';
+  if (r.pa === 1) return 'Post assessment done';
+  if (r.vr === 0 || r.pa === 0) {
+    if (previous === 'Report under process' && !n0(r.rn)) return previous;
+    return n0(r.rn) > 0 ? 'Post-audit pending' : 'Report under process';
+  }
   if (n0(r.in) > 0) return 'Implementation verified';
   if (previous === 'Implementation verified') return previous;
   if (n0(r.rn) > 0) return 'Post-audit pending';

@@ -85,6 +85,8 @@ const SHEET_ROWS = [
   ['listofutilities', 'u'],
   ['sanctioneddemand', 'kva'],
   ['annualelectricityconsumptioninkwh', 'e'],
+  ['annualelectricityconsumptioninmetrictoe', 'etoe'],
+  ['actualfuelfuelsused', 'fu'],
   ['annualfuelconsumptioninmetrictoe', 'f'],
   ['annualenergyconsumptioninmetrictoe', 'toe'],
   ['annualenergycostininr', 'cost'],
@@ -105,11 +107,15 @@ const SHEET_ROWS = [
   ['actualenergycostsavingsachieved', 'ii'],
   ['actualco2emmisionreductionachieved', 'ic'],
 ];
-const TEXT_KEYS = new Set(['n', 'loc', 'sr', 'p', 'cap', 'ct', 'cd', 'lead', 'mp', 'u']);
+const TEXT_KEYS = new Set(['n', 'loc', 'sr', 'p', 'cap', 'ct', 'cd', 'lead', 'mp', 'u', 'fu']);
+// The two follow-up rows above "Audit Numbers" (from the November 2026 sheet): 1 = done.
+//   pa  Post Assessment Completed: about 6 months after the report.
+//   vr  Implimentation Verification Completed: by a separate team, about 3 months after the report.
+const FLAG_ROWS = [['postassessment', 'pa'], ['implimentationverification', 'vr'], ['implementationverification', 'vr']];
 const TEAM_ONLY = new Set(SHEET_ROWS.filter(r => r[2]).map(r => r[1]));
 // What the public website may show. Everything else stays in the private file.
 const PUBLIC_KEYS = ['c', 'fy', 's', 'sr', 'p', 'ci', 'stt', 'dt', 'dy', 'u', 'kva', 'e', 'f', 'cost', 'co2',
-  'rn', 'rk', 'rf', 'ri', 'rc', 'rv', 'in', 'iv', 'ik', 'if', 'ii', 'ic', 'st', 'lat', 'lng'];
+  'rn', 'rk', 'rf', 'ri', 'rc', 'rv', 'in', 'iv', 'ik', 'if', 'ii', 'ic', 'st', 'pa', 'vr', 'lat', 'lng'];
 
 // ---------------------------------------------------------------- clean-up rules
 
@@ -176,9 +182,17 @@ function jitter(id, salt) {
   return (((h >>> 0) % 10000) / 10000 - 0.5) * 0.05;
 }
 
-// The status line above each audit column -> one of three statuses.
+// The status of an audit. The follow-up rows decide when the sheet has them (implementation
+// verified first, then post assessment done); otherwise the status line above each audit column.
+// Same rule as FOX Console's lib/site-data.js statusOf.
 function statusOf(sheetStatus, r) {
+  if (r.vr === 1) return 'Implementation verified';
+  if (r.pa === 1) return 'Post assessment done';
   const s = squash(sheetStatus);
+  if (r.vr === 0 || r.pa === 0) {
+    if (s.includes('reportunder') || s.includes('underprocess')) return 'Report under process';
+    return (r.rn ?? 0) > 0 ? 'Post-audit pending' : 'Report under process';
+  }
   if (s.includes('implementation')) return 'Implementation verified';
   if (s.includes('postassessment') || s.includes('postaudit')) return 'Post-audit pending';
   if (s.includes('reportunder') || s.includes('underprocess')) return 'Report under process';
@@ -199,6 +213,11 @@ function readSheet(sheetName, firstCol) {
   }
   const missing = SHEET_ROWS.filter(([, k]) => rowOf[k] < 0).map(([l]) => l);
   if (missing.length) console.warn(`  ! ${sheetName}: rows not found: ${missing.join(', ')}`);
+  const flagRow = {};
+  data.slice(0, auditRow).forEach((r, j) => {
+    const label = r ? squash(r[0]) : '';
+    for (const [prefix, key] of FLAG_ROWS) if (flagRow[key] == null && label.startsWith(prefix)) flagRow[key] = j;
+  });
   const header = data[auditRow] || [];
   const statusRow = auditRow >= 2 ? data[auditRow - 2] : null;
   const out = [];
@@ -212,6 +231,11 @@ function readSheet(sheetName, firstCol) {
     }
     // Contact numbers are text even when Excel stored them as numbers.
     if (r.cd == null || r.cd === '') r.cd = text(rowOf.cd >= 0 && data[rowOf.cd] ? data[rowOf.cd][col] : '');
+    for (const key of ['pa', 'vr']) {
+      if (flagRow[key] == null) continue;
+      const v = numOrNull(data[flagRow[key]][col]);
+      r[key] = v == null ? null : v >= 1 ? 1 : 0;
+    }
     r.ci = cleanDistrict(data[auditRow + 1] && data[auditRow + 1][col], r.loc);
     r.stt = stateOf(r.ci);
     r.s = sectorGroup(r.sr);
@@ -225,13 +249,17 @@ function readSheet(sheetName, firstCol) {
 }
 
 // Walkthrough assessments are not in the master sheet. Change this number when more are done.
-const WALKTHROUGH_ASSESSMENTS = 132;
+const WALKTHROUGH_ASSESSMENTS = 151;
+// Figures the sheet may not carry (the November 2026 sheet has no "Paid audit" sheet and no
+// cluster block in its Summary): the last published figure is kept, with a warning.
+let LAST_COUNTS = {};
+try { LAST_COUNTS = JSON.parse(fs.readFileSync(PUBLIC_FILE, 'utf8')).counts || {}; } catch { /* first run */ }
 
 // Industrial clusters: the "No of cluster" row of the KISEM AUDIT block in the Summary sheet,
 // summed over the years. If the sheet's layout changes, the last known figure is kept and a
 // warning is printed, so a layout change never silently shows zero.
 function programmeCounts() {
-  const fallback = { walkthrough: WALKTHROUGH_ASSESSMENTS, clusters: 37 };
+  const fallback = { walkthrough: WALKTHROUGH_ASSESSMENTS, clusters: LAST_COUNTS.clusters ?? 37 };
   const sheet = wb.SheetNames.find(n => squash(n) === 'summary');
   if (!sheet) { console.warn('  ! No Summary sheet: cluster count kept as before'); return fallback; }
   const data = rowsOf(sheet);
@@ -292,7 +320,8 @@ if (masterSheet) {
 const pick = (r, keys) => Object.fromEntries(keys.map(k => [k, r[k] ?? null]));
 const generated = new Date().toISOString();
 const asOf = fs.statSync(EXCEL_FILE).mtime.toISOString().slice(0, 10);
-const counts = { ...programmeCounts(), iga: paid.length };
+if (!paidSheet) console.warn(`  ! No "Paid audit" sheet: paid audits kept at ${LAST_COUNTS.iga ?? 0}`);
+const counts = { ...programmeCounts(), iga: paidSheet ? paid.length : (LAST_COUNTS.iga ?? 0) };
 
 const publicData = {
   generated,

@@ -2,7 +2,8 @@
 // Only reachable with a FOX Console sign-in; every save goes to FOX Console and is logged there.
 import { useEffect, useState } from 'react';
 import type { SiteState } from '../App';
-import { FYS, ind, inr, when, n0, NUMERIC, parseNum, STATUS_TONE, statusFrom, type Row } from '../data';
+import { FOLLOW_UPS, FYS, ind, inr, when, n0, NUMERIC, parseNum, STATUS_TONE, statusFrom, type Row } from '../data';
+import { FollowUps } from './Audits';
 import { CONSOLE_URL, team, type ConsoleError, type Ecm } from '../lib/console';
 import { Icon } from './Icon';
 import { PATHS } from './icons';
@@ -23,11 +24,13 @@ const SHEET: [string, string, number, boolean?][] = [
   ['Production Capacity', 'cap', 0], ['No of Employees', 'emp', 0], ['Age of the Plant', 'age', 0],
   ['Name of the Plant Contact Personnel & Designation', 'ct', 0, true], ['Contact details of Plant Personnel (Mobile & Email)', 'cd', 0, true], ['Source of Lead', 'lead', 0, true],
   ['Date of Commencement of Energy Audit', 'dt', 0], ['Total number of Audit Days', 'dy', 0], ['List of Utilities/Components Assessed', 'u', 0], ['Sanctioned Demand (kVA)', 'kva', 0],
-  ['Annual Electricity Consumption in kWh', 'e', 1], ['Annual Fuel Consumption in Metric ToE', 'f', 1], ['Annual Energy Cost in INR', 'cost', 1], ['Existing Overall CO2 Emission in Tonnes', 'co2', 1],
+  ['Annual Electricity Consumption in kWh', 'e', 1], ['Annual Electricity Consumption in Metric ToE', 'etoe', 1], ['Actual Fuel/Fuels Used', 'fu', 1], ['Annual Fuel Consumption in Metric ToE', 'f', 1], ['Annual Energy Cost in INR', 'cost', 1], ['Existing Overall CO2 Emission in Tonnes', 'co2', 1],
   ['No. of ECMs Recommended', 'rn', 2], ['Annual Electricity Savings Recommended in kWh', 'rk', 2], ['Annual Fuel Savings Recommended in Metric ToE', 'rf', 2], ['Annual Energy Cost Savings Recommended in INR', 'ri', 2], ['Annual CO2 Emmision Reduction Recommended in Tonnes', 'rc', 2], ['Total Investment Proposed in INR', 'rv', 2],
   ['No.of ECMs Implemented', 'in', 3], ['Overall Actual Investment Cost in INR', 'iv', 3], ['Actual Electricity Savings Achieved in kWh', 'ik', 3], ['Actual Fuel Savings Achieved in Metric ToE', 'if', 3], ['Actual Energy Cost Savings Achieved in INR', 'ii', 3], ['Actual CO2 Emmision Reduction Achieved in Tonnes', 'ic', 3],
 ];
-const GROUPS = ['Plant', 'Baseline energy', 'Recommended (totals)', 'Implemented (after the post-audit visit)'];
+const GROUPS = ['Plant', 'Baseline energy', 'Recommended (totals)', 'Implemented (from implementation verification)'];
+// The follow-up rows at the top of the master sheet: ticked = 1 in the sheet.
+const CHECK_ROWS = FOLLOW_UPS.map(f => ({ key: f.key, label: f.key === 'vr' ? 'Implementation Verification Completed' : 'Post Assessment Completed', when: f.when }));
 type Tab = 'Ledger' | 'Details' | 'History';
 
 export default function Companies({ state, code, pending, loginOpen, setLoginOpen }: { state: SiteState; code: string | null; pending: boolean; loginOpen: boolean; setLoginOpen: (v: boolean) => void }) {
@@ -150,6 +153,7 @@ function Company({ r, tab, setTab, state }: { r: Row; tab: Tab; setTab: (t: Tab)
             <span style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}><span className="code n">{r.c}</span><span className="badge" style={{ background: sbg, color: sfg }}>{r.st}</span></span>
             <h1 style={{ margin: 0, fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: 600, letterSpacing: '-0.02em' }}>{r.n || 'New company'}</h1>
             <span style={{ fontSize: 14, color: '#5E5E5E' }}>{[r.p, r.ci, 'FY ' + r.fy.replace('-', '–')].filter(Boolean).join(' · ')}</span>
+            <FollowUps r={r} size={12} />
           </div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignSelf: 'flex-start' }}>
             {[['Measures', r.rn ? `${n0(r.in)} / ${r.rn}` : '—'], ['Saving / yr', inr(r.ri, 2)], ['Achieved', inr(r.ii, 2)]].map(([k, v]) => (
@@ -337,9 +341,11 @@ function Details({ r, state }: { r: Row; state: SiteState }) {
   }, [session, r.c]);
 
   const valueOf = (k: string) => { const v = (r as unknown as Record<string, unknown>)[k]; return v == null ? '' : String(v); };
+  const isCheck = (k: string) => k === 'pa' || k === 'vr';
   const D = (k: string, team?: boolean) => (draft && k in draft ? draft[k] : team ? '' : valueOf(k));
   const changedKeys = draft ? Object.keys(draft).filter(k => {
     const teamOnly = SHEET.find(s => s[1] === k)?.[3];
+    if (isCheck(k)) return draft[k] !== (valueOf(k) === '1' ? '1' : '0');
     return teamOnly ? draft[k].trim() !== '' : draft[k] !== valueOf(k);
   }) : [];
   const dirty = changedKeys.length > 0;
@@ -348,7 +354,7 @@ function Details({ r, state }: { r: Row; state: SiteState }) {
     if (draft?.n !== undefined && !draft.n.trim()) { setErr('The industry name cannot be empty.'); return; }
     if (draft?.dt && !/^\d{4}-\d{2}-\d{2}$/.test(draft.dt.trim())) { setErr('Write the audit start date as YYYY-MM-DD, for example 2026-11-12.'); return; }
     const fields: Record<string, unknown> = {};
-    for (const k of changedKeys) fields[k] = NUMERIC.has(k) ? parseNum(draft![k]) : draft![k].trim();
+    for (const k of changedKeys) fields[k] = isCheck(k) ? Number(draft![k]) : NUMERIC.has(k) ? parseNum(draft![k]) : draft![k].trim();
     const merged = { ...r, ...fields } as Row;
     fields.st = statusFrom(merged, r.st);
     setBusy(true); setErr(''); setSaved(false);
@@ -364,6 +370,24 @@ function Details({ r, state }: { r: Row; state: SiteState }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 620 }}><h2 style={{ margin: 0, fontSize: 18, fontWeight: 600 }}>Company details</h2><span style={{ fontSize: 13, color: '#5E5E5E' }}>The same rows as the master data sheet. Fields marked "team only" are kept in FOX Console and never appear on the website, not even here: type a new value to replace what is stored.</span></div>
         <span role="status" style={{ fontSize: 13, fontWeight: 600, color: dirty ? '#9A5200' : '#0B7A45' }}>{dirty ? 'Unsaved changes' : saved ? 'Saved' : 'All saved'}</span>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <span style={{ fontSize: 13, fontWeight: 600, color: '#5E5E5E', textTransform: 'uppercase', letterSpacing: '.06em' }}>Follow-up checks</span>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(240px, 100%), 1fr))', gap: 12 }}>
+          {CHECK_ROWS.map(c => {
+            const on = D(c.key) === '1';
+            const changed = changedKeys.includes(c.key);
+            return (
+              <label key={c.key} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '12px 14px', borderRadius: 14, border: '1px solid ' + (changed ? '#E8C79A' : '#E5E5E5'), background: changed ? '#FFFBF3' : '#FFFFFF', cursor: 'pointer' }}>
+                <input type="checkbox" checked={on} onChange={e => setDraft({ ...(draft || {}), [c.key]: e.target.checked ? '1' : '0' })} style={{ width: 20, height: 20, marginTop: 1, accentColor: '#0B7A45', flexShrink: 0 }} />
+                <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <span style={{ fontSize: 14, fontWeight: 600, color: '#1A1A1A' }}>{c.label}</span>
+                  <span style={{ fontSize: 12, color: changed ? '#9A5200' : '#6B6B6B' }}>{changed ? 'Changed, not saved yet' : `Tick when done: ${c.when}`}</span>
+                </span>
+              </label>
+            );
+          })}
+        </div>
       </div>
       {GROUPS.map((label, gi) => (
         <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

@@ -4,9 +4,11 @@ name: Update KISEM Company Data
 # (kisem-annual-report/src/data/audits.json: no company names, addresses or plant contacts).
 # The spreadsheet itself and the team-only file are never committed: they hold plant contacts.
 
+# Since November 2026 the master data is kept on the website itself: team members add and update
+# companies after signing in, FOX Console stores them, and the master sheet is downloaded from there.
+# The nightly run from the published Google Sheet is therefore switched off (it would bring back the
+# old sheet's figures). It can still be run by hand from the Actions tab.
 on:
-  schedule:
-    - cron: '0 0 * * *' # daily at midnight UTC
   workflow_dispatch:
 
 permissions:

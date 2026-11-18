@@ -26,9 +26,11 @@ This writes two files:
 * `kisem-annual-report/src/data/audits.json`: **public**, bundled into the site. Commit this one.
 * `private/kisem-master-full.json`: **team only** (names, addresses, plant contacts). Git ignores it. It goes to FOX Console once, on the server, with `scripts/site-import.mjs` (see fox-console `docs/AUDIT_WEBSITE.md`). Never e-mail or chat it.
 
-The import cleans the sheet as it reads it: one spelling per district, sector groups for the filters (`Dyeing and Printing` → Textile), blank cells kept blank rather than 0, and the status line above each column turned into one of *Implementation verified*, *Post-audit pending* or *Report under process*. Walkthrough assessments (132) are not in the sheet; change `WALKTHROUGH_ASSESSMENTS` in the script when that number changes.
+The import cleans the sheet as it reads it: one spelling per district, sector groups for the filters (`Dyeing and Printing` → Textile), blank cells kept blank rather than 0, and the status line above each column turned into one of *Implementation verified*, *Post-audit pending* or *Report under process*. Walkthrough energy audits (151) are not in the sheet; change `WALKTHROUGH_ASSESSMENTS` in the script when that number changes.
 
-The GitHub Action (`.github/workflows/update-data.yml`) runs the same import every night from the published Google Sheet and commits only `audits.json`.
+**Follow-up checks.** From the November 2026 sheet, two rows sit above "Audit Numbers": *Post Assessment Completed* (about 6 months after the report) and *Implimentation Verification Completed* (done by a separate team about 3 months after the report). A `1` in an audit's column means done. They become `pa` and `vr` in the data, and they decide the status: *Implementation verified*, then *Post assessment done*, otherwise *Post-audit pending* or *Report under process*. The site shows both checks on every audit, counts them under Impact, and filters by them.
+
+**Where the master data is kept now.** Team members add and update companies on the website after signing in. FOX Console stores the entry, logs who changed what, and builds the master sheet download from the stored template (the November 2026 sheet), with the same rows and columns. A new audit gets its own column with the sheet's per-column formulas. The sheet is no longer kept by hand and synced: the GitHub Action (`.github/workflows/update-data.yml`) no longer runs every night, only when started by hand.
 
 **Settings:** `VITE_CONSOLE_URL` (default `https://console.eassiitgn.page`) is where the site signs in and reads team data. For a local check, put `VITE_CONSOLE_URL=http://127.0.0.1:<port>` in `kisem-annual-report/.env.local`.
 

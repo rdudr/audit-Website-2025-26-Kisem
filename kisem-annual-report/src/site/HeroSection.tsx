@@ -67,11 +67,11 @@ export default function HeroSection({ rows }: { rows: Row[] }) {
   const [cardRef, q] = useCountUp<HTMLDivElement>(1800);
   const ring = 2 * Math.PI * 54, arc = (ring * f.pct * q) / 100;
   const figs = [
-    { v: data.counts.walkthrough, label: 'Walkthrough assessments', tag: 'Field', note: 'A one-day visit that finds the quick wins in a plant.', d: 'M12 22s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z' },
+    { v: data.counts.walkthrough, label: 'Walkthrough energy audits', tag: 'Field', note: 'A one-day visit that finds the quick wins in a plant.', d: 'M12 22s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z' },
     { v: rows.length, label: 'Detailed energy audits', tag: 'Measured', note: 'Logged with instruments, every ECM costed with payback.', d: 'M22 12h-4l-3 9L9 3l-3 9H2' },
     { v: data.counts.clusters, label: 'Industrial clusters', tag: 'Reach', note: `Across ${where}.`, d: 'M3 21h18M5 21V9l5 3V9l5 3V5h4v16' },
     { v: data.counts.iga, label: 'Paid audits', tag: 'Bankable', note: 'Investment grade, detailed enough to finance the upgrade.', d: 'M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6' },
-    { v: WORKSHOPS_CONDUCTED, label: 'Awareness programmes', tag: 'Outreach', note: 'Workshops, college sessions and industry events.', d: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8' },
+    { v: WORKSHOPS_CONDUCTED, label: 'Awareness sessions', tag: 'Outreach', note: 'Workshops, college sessions and industry events.', d: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8' },
   ];
   const L = {
     pad: D ? '96px 40px 48px' : T ? '72px 32px 40px' : '48px 16px 32px', gap: D ? 56 : 40,

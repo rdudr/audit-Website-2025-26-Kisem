@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { FYS, STATUSES, sum, type Row } from '../data';
+import { FOLLOW_UPS, FYS, STATUSES, sum, type Row } from '../data';
 import { useDevice } from './useDevice';
 import { useCountUp } from '../lib/hooks';
 
@@ -8,7 +8,8 @@ import { useCountUp } from '../lib/hooks';
 const ind = (v: number) => Math.round(v).toLocaleString('en-IN');
 const cr = (v: number) => '₹ ' + (v / 1e7).toFixed(2) + ' Cr';
 const pct = (a: number, b: number) => (b ? Math.round((100 * a) / b) : 0) + '%';
-const STATUS_COL: Record<string, string> = { 'Implementation verified': '#15803D', 'Post-audit pending': '#5B3FD6', 'Report under process': '#A3A0B5' };
+const STATUS_COL: Record<string, string> = { 'Implementation verified': '#15803D', 'Post assessment done': '#2F6FC4', 'Post-audit pending': '#5B3FD6', 'Report under process': '#A3A0B5' };
+const WORDS = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
 type Metric = 'audits' | 'savings' | 'co2' | 'ecm';
 
 export default function ImpactSection({ rows }: { rows: Row[] }) {
@@ -74,7 +75,7 @@ export default function ImpactSection({ rows }: { rows: Row[] }) {
       <section id="impact" style={{ scrollMarginTop: 72, maxWidth: 1280, margin: '0 auto', padding: L.pad, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 32 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14, maxWidth: 680 }}>
           {eyebrow('Impact')}{h2('Recommended, and actually achieved')}
-          {lede('Every audit recommends energy conservation measures (ECMs). A year later we go back and record what the plant carried out.')}
+          {lede('Every audit recommends energy conservation measures (ECMs). About 3 months after the report a separate team verifies what the plant implemented, and about 6 months after it we do a post assessment.')}
         </div>
         <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap', fontSize: 13, color: '#55526A' }}>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}><span style={{ width: 22, height: 8, borderRadius: 999, background: '#BDB6E3' }} />Recommended</span>
@@ -120,13 +121,30 @@ export default function ImpactSection({ rows }: { rows: Row[] }) {
           <div style={{ display: 'flex', gap: '8px 22px', flexWrap: 'wrap', fontSize: 13 }}>
             {statuses.map(s => <span key={s.s} style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: s.c }} /><b>{Math.round(s.n * p)}</b><span style={{ color: '#55526A' }}>{s.s}</span></span>)}
           </div>
+          {/* The two follow-up checks, counted on their own: an audit can have one without the other. */}
+          <div style={{ display: 'grid', gridTemplateColumns: D || T ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)', gap: 12, paddingTop: 6 }}>
+            {FOLLOW_UPS.map(f => {
+              const n = rows.filter(r => r[f.key] === 1).length;
+              return (
+                <div key={f.key} style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: '14px 16px', borderRadius: 16, background: '#FAFAFC', border: '1px solid #ECEAF2', minWidth: 0 }}>
+                  <span style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}>
+                    <b style={{ fontSize: 28, fontWeight: 700, letterSpacing: '-0.03em', fontVariantNumeric: 'tabular-nums', color: f.key === 'vr' ? '#15803D' : '#1D4F91' }}>{Math.round(n * p)}</b>
+                    <span style={{ fontSize: 14, color: '#55526A' }}>of {rows.length} audits</span>
+                  </span>
+                  <span aria-hidden="true" style={{ height: 6, borderRadius: 999, background: '#E4E1F1', display: 'flex', overflow: 'hidden' }}><span style={{ width: (rows.length ? (100 * n * p) / rows.length : 0).toFixed(1) + '%', background: f.key === 'vr' ? '#15803D' : '#2F6FC4' }} /></span>
+                  <b style={{ fontSize: 14, fontWeight: 600 }}>{f.key === 'vr' ? 'Implementation verified' : 'Post assessment done'}</b>
+                  <span style={{ fontSize: 13, lineHeight: 1.5, color: '#6B6880' }}>{f.key === 'vr' ? 'Checked at the plant by a separate team, about 3 months after the report.' : 'A return visit about 6 months after the report.'}</span>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
       <section id="journey" style={{ scrollMarginTop: 72, maxWidth: 1280, margin: '0 auto', padding: L.pad, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 28 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 20, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14, maxWidth: 640 }}>
-            {eyebrow('Year by year')}{h2(`${v.Y.length === 4 ? 'Four' : v.Y.length} years of impact`)}
+            {eyebrow('Year by year')}{h2(`${WORDS[v.Y.length] ?? v.Y.length} years of impact`)}
             {first && lede(`From ${first.n} pilot audits in ${first.full} to ${rows.length} detailed audits today.`)}
           </div>
           <div role="tablist" aria-label="Chart" style={{ display: 'flex', gap: 2, padding: 4, background: '#F4F3F8', borderRadius: 14, flexWrap: 'wrap', maxWidth: '100%' }}>

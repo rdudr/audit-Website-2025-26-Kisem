@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { fyLabel, IMPL_KEYS, when, ind, inr, n0, parseNum, STATUS_TONE, statusFrom, titleOf, type Row } from '../data';
+import { FOLLOW_UPS, fyLabel, IMPL_KEYS, when, ind, inr, n0, parseNum, STATUS_TONE, statusFrom, titleOf, type Row } from '../data';
 import { ConsoleError, signIn, team, type Change, type Session } from '../lib/console';
 import { useOverlay } from '../lib/hooks';
 import { Icon } from './Icon';
@@ -43,7 +43,7 @@ function SignInForm({ open, onClose, onDone, notice }: SignInProps) {
         </div>
         {notice && !err && <div className="err" role="status">{notice}</div>}
         <label className="field" style={{ fontSize: 13, color: '#000000' }}>Login ID
-          <input autoFocus className="inp" type="text" autoComplete="username" autoCapitalize="none" spellCheck={false} value={id} onChange={e => setId(e.target.value)} placeholder="e.g. rishabh" />
+          <input autoFocus className="inp" type="text" autoComplete="username" autoCapitalize="none" spellCheck={false} value={id} onChange={e => setId(e.target.value)} placeholder="Your FOX Console login ID" />
         </label>
         <label className="field" style={{ fontSize: 13, color: '#000000' }}>Password
           <input className="inp" type="password" autoComplete="current-password" value={pw} onChange={e => setPw(e.target.value)} />
@@ -70,6 +70,7 @@ export function AuditDrawer({ row, ...rest }: DrawerProps & { row: Row | null })
 function Drawer({ row, session, changes, onClose, onSaved }: DrawerProps & { row: Row }) {
   const [editing, setEditing] = useState(false);
   const [impl, setImpl] = useState<Record<string, string>>({});
+  const [checks, setChecks] = useState<{ vr: boolean; pa: boolean }>({ vr: false, pa: false });
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
   const panel = useRef<HTMLElement>(null);
@@ -100,13 +101,16 @@ function Drawer({ row, session, changes, onClose, onSaved }: DrawerProps & { row
     setErr('');
     setEditing(!editing);
     setImpl(Object.fromEntries(IMPL.map(([k]) => [k, r[k] == null ? '' : String(r[k])])));
+    setChecks({ vr: r.vr === 1, pa: r.pa === 1 });
   };
   const save = async () => {
     if (!session) return;
     const upd: Record<string, number | null> = {};
     for (const [k] of IMPL) upd[k] = parseNum(impl[k]);
     if (upd.in != null && r.rn != null && upd.in > r.rn) { setErr(`ECMs implemented (${upd.in}) cannot be more than recommended (${r.rn}).`); return; }
-    const changed = IMPL.some(([k]) => (upd[k] ?? null) !== (r[k] ?? null));
+    // A check is sent only when it changed, so an audit with nothing recorded stays unrecorded.
+    for (const f of FOLLOW_UPS) if (checks[f.key] !== (r[f.key] === 1)) upd[f.key] = checks[f.key] ? 1 : 0;
+    const changed = IMPL.some(([k]) => (upd[k] ?? null) !== (r[k] ?? null)) || FOLLOW_UPS.some(f => f.key in upd);
     if (!changed) { setEditing(false); return; }
     setBusy(true); setErr('');
     try {
@@ -115,9 +119,9 @@ function Drawer({ row, session, changes, onClose, onSaved }: DrawerProps & { row
     } catch (x) { setErr((x as ConsoleError).message); }
     finally { setBusy(false); }
   };
-  const note = r.st === 'Implementation verified' ? 'Implemented figures are from the post-audit implementation report.'
-    : r.st === 'Post-audit pending' ? 'Implementation is recorded at the post-audit visit, 3–5 months after the audit. That visit has not happened yet.'
-      : 'The audit report is still being prepared.';
+  const note = r.st === 'Report under process' ? 'The audit report is still being prepared.'
+    : r.vr === 1 ? 'Implemented figures were verified at the plant by the implementation team.'
+      : 'Implemented figures are as reported so far. Verification at the plant is done by a separate team, about 3 months after the report.';
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 50, background: 'rgba(0,0,0,.35)', display: 'flex', justifyContent: 'flex-end' }}>
@@ -140,6 +144,23 @@ function Drawer({ row, session, changes, onClose, onSaved }: DrawerProps & { row
             <div style={{ padding: 14, borderRadius: 16, background: '#E1F0E8', color: '#0B7A45' }}><span style={{ display: 'block', fontSize: 11 }}>Saving achieved</span><span className="n" style={{ fontSize: 18, fontWeight: 600 }}>{inr(r.ii)}</span><span style={{ display: 'block', fontSize: 11 }}>a year</span></div>
             <div style={{ padding: 14, borderRadius: 16, background: '#F5F5F5' }}><span style={{ display: 'block', fontSize: 11, color: '#5E5E5E' }}>Payback</span><span className="n" style={{ fontSize: 18, fontWeight: 600 }}>{r.ri ? months((12 * n0(r.rv)) / r.ri) : '—'}</span><span style={{ display: 'block', fontSize: 11, color: '#5E5E5E' }}>{r.ii ? 'Actual ' + months((12 * n0(r.iv)) / r.ii) : 'Recommended'}</span></div>
           </div>
+
+          <section aria-label="Follow-up checks" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))', gap: 10 }}>
+            {FOLLOW_UPS.map(f => {
+              const done = r[f.key] === 1;
+              return (
+                <div key={f.key} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '12px 14px', borderRadius: 14, border: '1px solid ' + (done ? '#BFE0CC' : '#EBEBEB'), background: done ? '#F1F8F4' : '#FAFAFA' }}>
+                  <span aria-hidden="true" style={{ width: 26, height: 26, borderRadius: '50%', background: done ? '#0B7A45' : '#E5E5E5', color: done ? '#FFFFFF' : '#6B6B6B', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round"><path d={done ? 'M20 6L9 17l-5-5' : 'M6 12h12'} /></svg>
+                  </span>
+                  <span style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}>
+                    <b style={{ fontSize: 14 }}>{f.label}: {done ? 'done' : 'not yet'}</b>
+                    <span style={{ fontSize: 12, color: '#5E5E5E' }}>{f.key === 'vr' ? 'By a separate team, about 3 months after the report' : 'About 6 months after the report'}</span>
+                  </span>
+                </div>
+              );
+            })}
+          </section>
 
           <section style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
@@ -168,7 +189,16 @@ function Drawer({ row, session, changes, onClose, onSaved }: DrawerProps & { row
               </>
             ) : (
               <div style={{ border: '1px solid #000000', borderRadius: 16, padding: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <span style={{ fontSize: 13, color: '#5E5E5E' }}>Enter what the plant has carried out, from the post-audit visit or implementation report.</span>
+                <span style={{ fontSize: 13, color: '#5E5E5E' }}>Enter what the plant has carried out, from the implementation verification or the post assessment.</span>
+                <fieldset style={{ border: 0, margin: 0, padding: 0, display: 'flex', gap: '8px 20px', flexWrap: 'wrap' }}>
+                  <legend style={{ fontSize: 13, fontWeight: 600, color: '#3A3A3A', marginBottom: 6, padding: 0 }}>Follow-up checks done</legend>
+                  {FOLLOW_UPS.map(f => (
+                    <label key={f.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, minHeight: 44, fontSize: 14, cursor: 'pointer' }}>
+                      <input type="checkbox" checked={checks[f.key]} onChange={e => setChecks({ ...checks, [f.key]: e.target.checked })} style={{ width: 20, height: 20, accentColor: '#0B7A45' }} />
+                      {f.label}
+                    </label>
+                  ))}
+                </fieldset>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(160px, 100%), 1fr))', gap: 10 }}>
                   {IMPL.map(([k, label, rk, f]) => (
                     <label key={k} className="field" style={{ color: '#3A3A3A', gap: 4 }}>{label}
@@ -234,15 +264,15 @@ function Drawer({ row, session, changes, onClose, onSaved }: DrawerProps & { row
 
 type AddField = [key: string, label: string, placeholder: string, hint: string];
 const ADD: AddField[][] = [
-  [['n', 'Industry name', 'e.g. Shree Ganesh Textiles Pvt. Ltd.', 'Required'], ['sr', 'Sector', 'e.g. Textile', 'Required'], ['p', 'Products manufactured', 'e.g. Saree', ''], ['ci', 'City / district', 'e.g. Surat', 'Required'],
+  [['n', 'Industry name', 'Full registered name', 'Required'], ['sr', 'Sector', 'e.g. Textile', 'Required'], ['p', 'Products manufactured', 'e.g. Saree', ''], ['ci', 'City / district', 'e.g. Surat', 'Required'],
     ['loc', 'Industry location', 'Plot, estate, taluka', 'Team only, never shown on the website'], ['dt', 'Audit start date', 'YYYY-MM-DD', ''], ['dy', 'Audit days', 'e.g. 4', ''], ['u', 'Utilities assessed', 'Comma separated', ''],
     ['kva', 'Sanctioned demand, kVA', 'e.g. 750', ''], ['ct', 'Plant contact & designation', '', 'Team only, never shown on the website'], ['cd', 'Plant contact mobile & email', '', 'Team only, never shown on the website']],
-  [['e', 'Annual electricity, kWh', '', ''], ['f', 'Annual fuel, TOE', '', ''], ['cost', 'Annual energy cost, ₹', '', ''], ['co2', 'Existing CO₂, t', '', '']],
+  [['e', 'Annual electricity, kWh', '', ''], ['etoe', 'Annual electricity, TOE', '', 'Left empty, the sheet works it out from kWh'], ['fu', 'Fuels used', 'Quantity and fuel, as in the sheet', ''], ['f', 'Annual fuel, TOE', '', ''], ['cost', 'Annual energy cost, ₹', '', ''], ['co2', 'Existing CO₂, t', '', '']],
   [['rn', 'ECMs recommended', '', ''], ['rk', 'Electricity savings, kWh / yr', '', ''], ['rf', 'Fuel savings, TOE / yr', '', ''], ['ri', 'Cost savings, ₹ / yr', '', ''], ['rc', 'CO₂ reduction, t / yr', '', ''], ['rv', 'Investment proposed, ₹', '', '']],
-  [['in', 'ECMs implemented', '', 'Fill after the post-audit visit'], ['ii', 'Actual cost savings, ₹ / yr', '', ''], ['ik', 'Electricity saved, kWh / yr', '', ''], ['if', 'Fuel saved, TOE / yr', '', ''], ['ic', 'CO₂ reduced, t / yr', '', ''], ['iv', 'Actual investment, ₹', '', '']],
+  [['in', 'ECMs implemented', '', 'Fill after implementation verification'], ['ii', 'Actual cost savings, ₹ / yr', '', ''], ['ik', 'Electricity saved, kWh / yr', '', ''], ['if', 'Fuel saved, TOE / yr', '', ''], ['ic', 'CO₂ reduced, t / yr', '', ''], ['iv', 'Actual investment, ₹', '', '']],
 ];
 const TABS = ['1 · Plant', '2 · Baseline', '3 · Recommended', '4 · Implemented'];
-const TEXT_FIELDS = new Set(['n', 'sr', 'p', 'ci', 'loc', 'dt', 'u', 'ct', 'cd']);
+const TEXT_FIELDS = new Set(['n', 'sr', 'p', 'ci', 'loc', 'dt', 'u', 'ct', 'cd', 'fu']);
 
 type AddProps = { open: boolean; session: Session | null; rows: Row[]; onClose: () => void; onSaved: (row: Row, change: Change | null) => void };
 export function AddCompany(props: AddProps) {
