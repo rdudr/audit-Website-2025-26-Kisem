@@ -316,7 +316,14 @@ function useStoryMotion() {
 
 export function KStory({ rows }: { rows: Row[] }) {
   useStoryMotion();
-  const split: [string, string][] = [[String(COUNTS.walkthrough + rows.length), 'audits so far'], ['17', 'areas measured on site'], ['3 months', 'to the verification visit']];
+  const T = totals(rows);
+  // Each figure from the live audit rows, so it follows the master sheet.
+  const split: [string, string][] = [
+    [String(rows.length), 'detailed energy audits'],
+    [String(COUNTS.walkthrough), 'walkthrough audits'],
+    [pctS(T.in, T.rn), 'of recommended measures implemented'],
+    [cr(T.ii), 'verified savings a year'],
+  ];
   return (
     <>
       <section id="kstate" aria-label="What KISEM does" style={{ position: 'relative', height: '300vh', background: '#FFFFFF' }}>
@@ -338,10 +345,10 @@ export function KStory({ rows }: { rows: Row[] }) {
             <Letters lines={H2} />
           </h2>
           <div id="krow" className="krow">
-            <h3 style={{ margin: 0, fontSize: 'clamp(17px, 1.4vw, 21px)', fontWeight: 500 }}>MSME plants</h3>
-            <p style={{ margin: 0, fontSize: 'clamp(14px, 1.1vw, 16px)', lineHeight: 1.45, color: 'rgba(255,255,255,.55)', maxWidth: '22em' }}><strong style={{ color: '#FFFFFF', fontWeight: 600 }}>Measured. Costed. Verified.</strong> Seventeen areas logged on site, every measure priced with its saving and payback, and a return visit to record what the plant carried out.</p>
-            <div style={{ gridColumn: '1 / -1', display: 'flex', gap: 28, flexWrap: 'wrap', paddingTop: '2vh' }}>
-              {split.map(([v, k]) => <span key={k} style={{ display: 'flex', flexDirection: 'column' }}><span className="n" style={{ fontSize: 'clamp(26px, 2.4vw, 36px)', fontWeight: 600, letterSpacing: '-.03em', color: '#FFFFFF' }}>{v}</span><span style={{ fontSize: 13, color: 'rgba(255,255,255,.5)' }}>{k}</span></span>)}
+            <h3 style={{ margin: 0, fontSize: 'clamp(17px, 1.4vw, 21px)', fontWeight: 500 }}>Our approach</h3>
+            <p style={{ margin: 0, fontSize: 'clamp(14px, 1.1vw, 16px)', lineHeight: 1.45, color: 'rgba(255,255,255,.55)', maxWidth: '22em' }}><strong style={{ color: '#FFFFFF', fontWeight: 600 }}>Measure, quantify, verify.</strong> Calibrated instruments log seventeen energy systems under normal production. Each conservation measure is costed with its annual saving, investment and payback, and an independent follow-up about three months later confirms what the plant has implemented.</p>
+            <div style={{ gridColumn: '1 / -1', display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '20px 28px', paddingTop: '2vh', maxWidth: 520 }}>
+              {split.map(([v, k]) => <span key={k} style={{ display: 'flex', flexDirection: 'column' }}><span className="n" style={{ fontSize: 'clamp(26px, 2.4vw, 36px)', fontWeight: 600, letterSpacing: '-.03em', color: '#FFFFFF' }}>{v}</span><span style={{ fontSize: 13, lineHeight: 1.35, color: 'rgba(255,255,255,.6)' }}>{k}</span></span>)}
             </div>
           </div>
         </div>
