@@ -22,23 +22,29 @@ const IMG: Record<string, [string, number, 'contain' | 'cover', string]> = {
   pumps: ['/scope/pumps.webp', 0.823, 'contain', 'KISEM team checking pumps and piping on site'],
   comp: ['/scope/compressor.webp', 1.0, 'contain', 'Screw air compressor with its drive motor, air end, intake filter, separator and cooler'],
   hall: ['/scope/machine-hall.webp', 1.78, 'cover', 'Production hall during a KISEM walkthrough'],
+  furnace: ['/field/walk/12.webp', 1.5, 'cover', 'Hot billet coming out of a reheating furnace at an audited plant'],
+  thermo: ['/field/walk/08.webp', 1.5, 'cover', 'KISEM engineer checking a line with a thermal imaging camera'],
 };
+// Photos on the last frame (the report), in place of figures.
+const REPORT_PHOTOS: [string, string, string][] = [
+  ['/field/walk/04.webp', 'KISEM engineers going through the findings with the plant team', 'Findings talked through with the plant team'],
+  ['/field/walk/13.webp', 'KISEM team with the plant staff after an audit', 'The report goes to the plant, with every measure costed'],
+];
 const INS: Record<string, [string, string, string]> = {
   pqa: ['/scope/inst-pqa.webp', 'Power quality analyser', 'Hioki PQ3198 · Krykard ALM · Class A'],
-  thermal: ['/scope/inst-thermal.webp', 'Thermal imaging camera', 'Testo T-883/T-872 · Fluke TC01A'],
+  thermal: ['/scope/inst-thermal.webp', 'Thermal imaging camera', 'Testo T-883/T-872 · Fluke TC01A · Sonel KT-510 · Metravi Ti 20'],
   acoustic: ['/scope/inst-acoustic.webp', 'Acoustic leak and flow detection', 'Testo LD Pro · VP Flow PN16'],
   flow: ['/scope/inst-flow.webp', 'Ultrasonic flow meter', 'Endress+Hauser, clamp-on'],
   solar: ['/scope/inst-solar.webp', 'Solar PV analysis kit', 'DC power analyser · irradiance meter'],
 };
 const STACK = 'M9 22V8l1-6h4l1 6v14M5 22h14M9 12h6M9 17h6';
-const AIR = 'M9.6 4.6A2 2 0 1 1 11 8H2M12.6 19.4A2 2 0 1 0 14 16H2M17.5 8a2.5 2.5 0 1 1 2 4H2';
 
 type HS = [number, number, string, string, ('L' | 'R')?, number?];
 type Kind = 'overview' | 'photo' | 'info' | 'output';
 // [kind, img, kicker, title, short, tag, story, areas, look, rec, inst, hotspots, info icon, info accent]
 type Frame = [Kind, string | null, string, string, string, string, string, string[], string, string, string | null, HS[], string?, ('red' | 'violet')?];
 const F: Frame[] = [
-  ['overview', null, 'INTRODUCTION', 'One plant, every utility', 'The route', '', 'An audit follows energy the way the plant uses it: in at the incomer, through the power quality of the supply, boilers, compressors, chillers and pumps, into the machines, and out at the stack. Ten stops, seventeen areas, and the FOX platform that turns readings into the report.', [], '', '', null, []],
+  ['overview', null, 'INTRODUCTION', 'One plant, every utility', 'The route', '', 'An audit follows energy the way the plant uses it: in at the incomer, through the power quality of the supply, boilers, compressors, chillers and pumps, into the machines, and out at the stack. Twelve stops, seventeen areas, and the FOX platform that turns readings into the report.', [], '', '', null, []],
   ['photo', 'panel', 'STOP 01 · POWER IN', 'The main panel and motor feeders', 'Power in', 'MCC-01 · MOTOR CONTROL CENTRE', 'Every unit the plant buys passes through its panels. Our engineers clamp on at the incomer and the big motor feeders, so loading, losses and drive opportunities are measured, not assumed.', ['01', '16'], 'Transformer losses at low load, motors running part-loaded at fixed speed, costly DG units.', 'Load balancing, VFDs, IE3 or IE4 motors, right-sizing, DG optimisation.', 'pqa',
     [[52, 40, 'Clamp-on at the feeders', 'Current, kW and load of each big motor'], [40, 74, 'Analyser on the floor', 'Logging through the production cycle'], [42, 16, 'Drives and starters', 'Where VFDs can pay back']]],
   ['photo', 'pq', 'STOP 02 · POWER QUALITY', 'Power quality at the incomer', 'Power quality', 'PQA · CLASS A, IEC 61000-4-30', 'A Class A analyser sits on the incomer for a full production cycle. It records voltage, current, power factor and harmonics on every phase, and captures each dip, swell and transient as it happens.', ['10'], 'Low power factor, harmonics from drives, voltage dips that trip machines, phase unbalance.', 'APFC panels, harmonic filters, soft starters or VFDs on large motors, load rebalancing.', 'pqa',
@@ -47,20 +53,24 @@ const F: Frame[] = [
     [[33, 45, 'Irradiance and module temperature', 'Logged alongside the output'], [72, 72, 'Module rows', 'Soiling, shading, module health'], [60, 52, 'Roof layout', 'Space for new capacity']]],
   ['photo', 'boiler', 'STOP 04 · HEAT', 'Boilers, steam and process heat', 'Heat', 'BL-01 · BOILER HOUSE', 'Fuel becomes steam or hot oil here, and travels to the process. We measure what goes in, what comes out, and what escapes from surfaces, traps and lines.', ['02', '07', '11'], 'Low combustion efficiency, bare steam lines, failed traps, poor condensate return.', 'Combustion tuning, insulation, trap replacement, condensate recovery.', 'thermal',
     [[54, 52, 'Boiler and steam drum', 'Fuel in, steam out, efficiency'], [60, 26, 'Flue ducting', 'Heat leaving towards the stack'], [24, 66, 'Fuel handling', 'Fuel flow and specific consumption']]],
-  ['info', 'boiler', 'STOP 05 · THE STACK', 'What leaves through the chimney', 'Stack', 'ST-01 · STACK AND FLUE GAS', 'Hot flue gas is fuel that was paid for and not used. A probe in the stack shows how well the burner mixes air and fuel, and how much heat could be recovered.', ['12', '17', '15'], 'Excess air, high stack temperature, no record of the plant’s emissions.', 'Air–fuel ratio control, economisers and air preheaters, an emissions baseline.', null,
+  ['photo', 'furnace', 'STOP 05 · FURNACES', 'Furnaces and hot metal', 'Furnace', 'FN-01 · REHEATING FURNACE', 'Furnaces turn fuel or power into heat for melting, forging and heat treatment, often around the clock. We measure the energy that goes in per tonne and look for heat escaping through openings, walls and hot product.', ['07', '11', '17'], 'Open doors and wall losses, poor burner tuning, hot product and flue gas carrying heat away.', 'Burner tuning, door and wall insulation, recuperators and waste heat recovery.', 'thermal',
+    [[52, 56, 'Hot billet at the exit', 'Surface temperature by pyrometer and thermal camera'], [80, 20, 'Furnace hood and flue', 'Fuel per tonne, opening and wall losses']]],
+  ['info', 'boiler', 'STOP 06 · THE STACK', 'What leaves through the chimney', 'Stack', 'ST-01 · STACK AND FLUE GAS', 'Hot flue gas is fuel that was paid for and not used. A probe in the stack shows how well the burner mixes air and fuel, and how much heat could be recovered.', ['12', '17', '15'], 'Excess air, high stack temperature, no record of the plant’s emissions.', 'Air–fuel ratio control, economisers and air preheaters, an emissions baseline.', null,
     [[0, 0, 'O₂ · CO · CO₂', 'How well the burner mixes air and fuel'], [0, 0, 'Stack temperature', 'Heat leaving that could be recovered'], [0, 0, 'Scope 1 and 2 emissions', 'A baseline for the plant’s carbon']], STACK],
-  ['photo', 'comp', 'STOP 06 · COMPRESSED AIR', 'The compressor house', 'Air', 'AC-01 · AIR COMPRESSOR', 'Compressed air is one of the costliest utilities in a plant, and much of it is lost to leaks. We log the compressor through its load and unload cycles and listen to the network with ultrasound.', ['04', '14'], 'Leaks, a pressure set-point higher than the process needs, long unload running.', 'Leak sealing, pressure reduction, a VFD or right-sized compressor.', 'acoustic',
+  ['photo', 'comp', 'STOP 07 · COMPRESSED AIR', 'The compressor house', 'Air', 'AC-01 · AIR COMPRESSOR', 'Compressed air is one of the costliest utilities in a plant, and much of it is lost to leaks. We log the compressor through its load and unload cycles and listen to the network with ultrasound.', ['04', '14'], 'Leaks, a pressure set-point higher than the process needs, long unload running.', 'Leak sealing, pressure reduction, a VFD or right-sized compressor.', 'acoustic',
     [[24, 74, 'Drive motor', 'kW, current and PF, logged through load and unload'], [38, 46, 'Air intake filter', 'Pressure drop, intake temperature'], [36, 28, 'Cooler fan', 'Discharge air and oil temperature'], [72, 40, 'Separator and outlet', 'Discharge pressure against the set-point'], [80, 64, 'Air end', 'Free air delivery (FAD) test']]],
-  ['photo', 'chiller', 'STOP 07 · COOLING', 'Chillers and cold rooms', 'Cooling', 'CH-01 · AIR-COOLED CHILLER', 'Chilled water keeps the process, the cold rooms and the people at temperature. We clamp flow meters on the lines and work out what each ton of cooling costs in power.', ['03', '08'], 'High kW per ton, fouled condensers, poor set-points, no flow balancing.', 'Set-point optimisation, condenser cleaning, efficient fans and pumps.', 'flow',
+  ['photo', 'chiller', 'STOP 08 · COOLING', 'Chillers and cold rooms', 'Cooling', 'CH-01 · AIR-COOLED CHILLER', 'Chilled water keeps the process, the cold rooms and the people at temperature. We clamp flow meters on the lines and work out what each ton of cooling costs in power.', ['03', '08'], 'High kW per ton, fouled condensers, poor set-points, no flow balancing.', 'Set-point optimisation, condenser cleaning, efficient fans and pumps.', 'flow',
     [[50, 60, 'Clamp-on flow meter', 'Chilled water flow, no pipe cut'], [24, 16, 'Air-cooled condenser', 'Approach and fan power'], [86, 64, 'Strainer and pump line', 'Pressure drop and pumping']]],
-  ['photo', 'pumps', 'STOP 08 · WATER', 'Pumps and piping', 'Pumps', 'PU-01 · PUMP HOUSE', 'Pumps run for long hours and are often far larger than the duty needs. We measure flow, head and power together to find the pump’s real efficiency.', ['06', '13'], 'Oversized pumps, throttled valves, piping losses.', 'Impeller trimming, efficient pumps, VFDs.', 'flow',
+  ['photo', 'pumps', 'STOP 09 · WATER', 'Pumps and piping', 'Pumps', 'PU-01 · PUMP HOUSE', 'Pumps run for long hours and are often far larger than the duty needs. We measure flow, head and power together to find the pump’s real efficiency.', ['06', '13'], 'Oversized pumps, throttled valves, piping losses.', 'Impeller trimming, efficient pumps, VFDs.', 'flow',
     [[88, 26, 'Pump motor', 'Power and loading'], [55, 44, 'Readings on site', 'Flow, head and power together'], [22, 30, 'Valves and piping', 'Throttling and friction losses']]],
-  ['photo', 'hall', 'STOP 09 · END USE', 'The production floor', 'Production', 'MD-01 · PRODUCTION HALL', 'This is where the energy finally does work. We log the large motors over a production cycle and check the lighting and ventilation of the hall.', ['09'], 'Old light fittings, lights on in daylight, fans running without control.', 'LED retrofit, daylight use, sensors and timers, controls on ventilation.', 'pqa',
+  ['photo', 'hall', 'STOP 10 · END USE', 'The production floor', 'Production', 'MD-01 · PRODUCTION HALL', 'This is where the energy finally does work. We log the large motors over a production cycle and check the lighting and ventilation of the hall.', ['09'], 'Old light fittings, lights on in daylight, fans running without control.', 'LED retrofit, daylight use, sensors and timers, controls on ventilation.', 'pqa',
     [[22, 62, 'Process machines', 'Load profile over the shift'], [74, 60, 'Drives and motors', 'Running hours and load'], [50, 14, 'Roof lights and daylight', 'Lux, connected load, hours']]],
-  ['info', null, 'STOP 10 · FOX PLATFORM', 'From site readings to insight, fast', 'FOX', 'FOX · REPORTING TOOLS AND AI PLATFORM', 'Every reading, photo and logger file goes into FOX, the KISEM platform built for these audits. Field apps work offline on site, the AI analyser reads power-quality files in seconds, and the report is drafted straight from the data, so findings reach the plant sooner.', [], '', '', null,
+  ['photo', 'thermo', 'STOP 11 · HOT SPOTS', 'Thermal imaging across the plant', 'Thermal', 'TI-01 · THERMAL IMAGING CAMERA', 'A thermal camera shows what the eye cannot: loose connections in panels, bare or wet insulation, failing bearings and leaking traps. Every hot spot is photographed and goes into the report with its fix.', ['11', '01', '02'], 'Hot joints in panels, damaged insulation, overheated motors and bearings.', 'Tightening and repairs, re-insulation, a regular thermography round.', 'thermal',
+    [[42, 55, 'Thermal imaging camera', 'Hot spots and heat loss, seen in infrared'], [26, 38, 'Lines and fittings', 'Insulation gaps and leaks on the pipework']]],
+  ['info', null, 'STOP 12 · FOX PLATFORM', 'From site readings to insight, fast', 'FOX', 'FOX · REPORTING TOOLS AND AI PLATFORM', 'Every reading, photo and logger file goes into FOX, the KISEM platform built for these audits. Field apps work offline on site, the AI analyser reads power-quality files in seconds, and the report is drafted straight from the data, so findings reach the plant sooner.', [], '', '', null,
     [[0, 0, 'Field apps, on site', 'Motors, compressors, boilers, pumps, cooling, lighting: readings and photos captured offline'], [0, 0, 'AI analysis in seconds', 'Power-quality and clamp-meter files read and checked automatically'], [0, 0, 'Report, ready to send', 'Every measure costed, with charts, drafted from the data in PostMan']],
     'M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z', 'violet'],
-  ['output', null, 'THE OUTPUT', 'A costed list of measures', 'Report', '', 'Every finding becomes an energy conservation measure, with its saving in rupees, kWh and CO₂, the investment and the payback. Three to five months later we go back and record what the plant carried out.', [], '', '', null, []],
+  ['output', null, 'THE OUTPUT', 'A costed list of measures', 'Report', '', 'Every finding becomes an energy conservation measure, with its saving in rupees, kWh and CO₂, the investment and the payback, and the report goes to the plant. A separate team verifies what was implemented about 3 months later, and a post assessment follows at about 6 months.', [], '', '', null, []],
 ];
 const DUR = 8000;
 const PHOTO_KEYS = Object.keys(IMG);
@@ -132,10 +142,6 @@ export default function PlantTour({ dev, totals }: { dev: Device; totals: TourTo
     outPad: D ? 16 : 10, outNum: D ? 30 : T ? 26 : 18, film: D || T, filmSide: D ? 24 : 16,
   };
   const mono = 'rd-mono';
-  const outs = [
-    { v: totals.recommended, l: 'annual savings identified' }, { v: totals.achieved, l: 'already achieved by plants' },
-    { v: totals.co2, l: 'CO₂ a year, reduction potential' }, { v: totals.payback, l: 'average payback' },
-  ];
   const next = F[(i + 1) % total][3];
   const routeFrames = F.slice(1, total - 1);
 
@@ -239,13 +245,13 @@ export default function PlantTour({ dev, totals }: { dev: Device; totals: TourTo
 
           {kind === 'output' && (
             <div style={{ position: 'absolute', inset: 0, padding: L.ovPad, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 14, background: 'radial-gradient(circle at 20% 0%, rgba(74,222,128,.22), rgba(18,16,31,0) 55%), #0E1F17' }}>
-              <span className={mono} style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.1em', color: '#86EFAC' }}>ACROSS {totals.audits} DETAILED AUDITS</span>
+              <span className={mono} style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.1em', color: '#86EFAC' }}>THE REPORT · {totals.audits} DETAILED AUDITS SO FAR</span>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10 }}>
-                {outs.map(o => (
-                  <div key={o.l} style={{ padding: L.outPad, borderRadius: 14, background: 'rgba(255,255,255,.06)', border: '1px solid rgba(134,239,172,.25)', display: 'flex', flexDirection: 'column', gap: 4 }}>
-                    <b style={{ fontSize: L.outNum, fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1, color: '#FFFFFF' }}>{o.v}</b>
-                    <span style={{ fontSize: 12, color: '#BBF7D0' }}>{o.l}</span>
-                  </div>
+                {REPORT_PHOTOS.map(([src, alt, cap]) => (
+                  <figure key={src} style={{ margin: 0, borderRadius: 14, overflow: 'hidden', background: 'rgba(255,255,255,.06)', border: '1px solid rgba(134,239,172,.25)', display: 'flex', flexDirection: 'column' }}>
+                    <img src={src} alt={alt} loading="lazy" style={{ width: '100%', aspectRatio: '3 / 2', objectFit: 'cover', display: 'block' }} />
+                    <figcaption style={{ padding: L.outPad, fontSize: 12, lineHeight: 1.4, color: '#BBF7D0' }}>{cap}</figcaption>
+                  </figure>
                 ))}
               </div>
             </div>

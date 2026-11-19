@@ -72,10 +72,10 @@ const DIAG = [
   { n: '14', name: 'Acoustic imaging', what: 'Ultrasonic detection of compressed air and refrigerant leaks.', img: INS.acoustic.img, alt: 'Acoustic leak detector', color: FAM.air.color },
 ];
 const STEPS = [
-  { title: 'Walk-through', text: 'A first plant visit to map the utilities, the major loads and the energy bills.', d: 'M9 4h6a1 1 0 0 1 1 1v1H8V5a1 1 0 0 1 1-1zM6 6h12v15H6zM9 11h6M9 15h4' },
-  { title: 'Measure on site', text: 'Days on the plant floor: logging the supply, imaging panels and steam lines, testing compressors, pumps, chillers and solar.', d: I.pulse },
-  { title: 'Analyse and recommend', text: 'Each finding becomes an energy conservation measure, with its saving in ₹ and CO₂ a year.', d: 'M4 20V10M10 20V4M16 20v-7M22 20H2' },
-  { title: 'Follow up', text: 'A post-audit visit three to five months later records what the plant carried out.', d: 'M22 11.1V12a10 10 0 1 1-5.9-9.1M22 4L12 14l-3-3' },
+  { title: 'Walkthrough audit', text: 'A first visit to the plant to map the utilities, the major loads and the energy bills, and to find the quick wins.', d: 'M9 4h6a1 1 0 0 1 1 1v1H8V5a1 1 0 0 1 1-1zM6 6h12v15H6zM9 11h6M9 15h4' },
+  { title: 'Detailed energy audit', text: 'Days on the plant floor: logging the supply, imaging panels and steam lines, testing compressors, pumps, chillers and solar.', d: I.pulse },
+  { title: 'Energy audit report submission', text: 'Each finding becomes an energy conservation measure with its saving in ₹, energy and CO₂ a year, the investment and the payback, submitted to the plant as the audit report.', d: 'M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5M9 13h6M9 17h4' },
+  { title: 'Implementation and follow-up', text: 'A separate team verifies what the plant implemented about 3 months after the report, and a post assessment follows about 6 months after it.', d: 'M22 11.1V12a10 10 0 1 1-5.9-9.1M22 4L12 14l-3-3' },
 ];
 
 const cr = (v: number) => '₹ ' + (v / 1e7).toFixed(2) + ' Cr';
@@ -140,7 +140,7 @@ export default function ScopeSection({ rows }: { rows: Row[] }) {
             <p style={{ margin: 0, maxWidth: 560, fontSize: L.lede, lineHeight: 1.6, color: '#55526A' }}>Seventeen areas, covering every major energy-using system and utility in the plant — from the grid incomer to the top of the stack.</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', border: '1px solid #E7E5EE', borderRadius: 20, overflow: 'hidden', background: '#FAFAFC' }}>
-            {[['17', 'Areas covered'], ['10', 'Stops on the plant tour'], ['6', 'Instrument classes']].map(([v, l], k) => (
+            {[['17', 'Areas covered'], ['12', 'Stops on the plant tour'], ['6', 'Instrument classes']].map(([v, l], k) => (
               <div key={l} style={{ padding: L.kpiPad, display: 'flex', flexDirection: 'column', gap: 4, borderRight: k < 2 ? '1px solid #E7E5EE' : 0 }}>
                 <span style={{ fontSize: L.kpi, fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1, color: '#2B2644' }}>{v}</span>
                 <span style={{ fontSize: 13, fontWeight: 500, color: '#55526A' }}>{l}</span>

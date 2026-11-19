@@ -21,6 +21,8 @@ export interface Row {
   u: string;          // utilities assessed
   kva: number | null;
   e: number | null; f: number | null; cost: number | null; co2: number | null;          // baseline
+  toe?: number | null;  // annual energy use, TOE (electricity and fuel)
+  rt?: number | null;   // annual energy savings recommended, TOE
   rn: number | null; rk: number | null; rf: number | null; ri: number | null; rc: number | null; rv: number | null; // recommended
   in: number | null; iv: number | null; ik: number | null; if: number | null; ii: number | null; ic: number | null; // implemented
   st: Status;
@@ -51,7 +53,7 @@ export const STATUS_TONE: Record<Status, [string, string, string]> = {
 };
 
 // The fields a team member can change from the website, and which of them are numbers.
-export const NUMERIC = new Set(['dy', 'kva', 'e', 'etoe', 'f', 'cost', 'co2', 'rn', 'rk', 'rf', 'ri', 'rc', 'rv', 'in', 'iv', 'ik', 'if', 'ii', 'ic', 'emp', 'age']);
+export const NUMERIC = new Set(['dy', 'kva', 'e', 'etoe', 'f', 'toe', 'rt', 'cost', 'co2', 'rn', 'rk', 'rf', 'ri', 'rc', 'rv', 'in', 'iv', 'ik', 'if', 'ii', 'ic', 'emp', 'age']);
 export const IMPL_KEYS = ['in', 'ii', 'ik', 'if', 'ic', 'iv'] as const;
 
 // ---------------------------------------------------------------- formatting
@@ -64,6 +66,9 @@ export function inr(v: unknown, lakhDigits = 1): string {
   if (x >= 1e5) return '₹ ' + (x / 1e5).toFixed(lakhDigits) + ' L';
   return x ? '₹ ' + ind(x) : '—';
 }
+/** Recommended energy savings as a share of the plant's total energy use (the sheet's
+ * "Percentage of Overall Energy Savings"), e.g. 12; null when the sheet has no energy total. */
+export const energyShare = (r: Partial<Row>) => (n0(r.toe) > 0 && r.rt != null ? Math.round((100 * n0(r.rt)) / n0(r.toe)) : null);
 export const pct = (a: number, b: number) => (b ? Math.round((100 * a) / b) + '%' : '0%');
 export const fyLabel = (fy: string) => 'FY ' + fy.replace('-', '–');
 export const sum = (rows: Row[], k: keyof Row) => rows.reduce((a, r) => a + n0(r[k]), 0);

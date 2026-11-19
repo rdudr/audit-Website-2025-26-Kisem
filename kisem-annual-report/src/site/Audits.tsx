@@ -1,8 +1,9 @@
 import { lazy, Suspense, useMemo, useState } from 'react';
-import { FOLLOW_UPS, FYS, fyLabel, n0, STATUSES, titleOf, type Row, type Status } from '../data';
+import { energyShare, FOLLOW_UPS, FYS, fyLabel, n0, STATUSES, titleOf, type Row, type Status } from '../data';
 import type { Check, Filters } from './filters';
 import { checkOk, NO_FILTERS } from './filters';
 import { useDevice } from './useDevice';
+import { CLUSTERS } from './clusters';
 
 const AuditMap = lazy(() => import('./AuditMap'));
 
@@ -148,7 +149,7 @@ export default function Audits({ rows, signed, filters, setFilters, onOpen, onSi
       <div style={{ border: '1px solid #E7E5EE', borderRadius: 22, overflow: 'hidden' }}>
         {D && (
           <div style={{ display: 'grid', gridTemplateColumns: L.rCols, gap: 16, padding: '12px 20px', background: '#FAFAFC', borderBottom: '1px solid #ECEAF2', fontSize: 12, fontWeight: 600, color: '#55526A' }}>
-            <span>Audit</span><span>Plant</span><span>Location</span><span>ECMs done</span><span>Savings, ₹ lakh / yr</span><span>Status</span><span />
+            <span>Audit</span><span>Plant</span><span>Location</span><span>ECMs done</span><span>Savings, ₹ lakh / yr · % of energy use</span><span>Status</span><span />
           </div>
         )}
         {shown.map(r => {
@@ -163,6 +164,7 @@ export default function Audits({ rows, signed, filters, setFilters, onOpen, onSi
                 <b style={{ fontSize: 15, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{titleOf(r, signed)}</b>
                 <span style={{ fontSize: 13, color: '#55526A', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{signed ? `${r.s} · ${r.p}` : r.p}</span>
                 {!D && <span style={{ fontSize: 12, color: '#6B6880' }}>{loc}{r.dt ? ` · ${month(r.dt)}` : ''}</span>}
+                {!D && energyShare(r) != null && <span style={{ fontSize: 12, color: '#55526A' }}>Recommended savings: <b style={{ color: '#2B2644' }}>{energyShare(r)}%</b> of energy use</span>}
               </span>
               {D && (
                 <>
@@ -171,6 +173,7 @@ export default function Audits({ rows, signed, filters, setFilters, onOpen, onSi
                   <span style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 0 }}>
                     <span style={{ fontSize: 13, fontVariantNumeric: 'tabular-nums' }}><b style={{ color: '#0E6B33' }}>{lakh(r.ii)}</b> <span style={{ color: '#6B6880' }}>/ {lakh(r.ri)}</span></span>
                     <span aria-hidden="true" style={{ height: 6, borderRadius: 999, background: '#E4E1F1', display: 'flex', overflow: 'hidden' }}><span style={{ width: pc + '%', background: '#15803D' }} /></span>
+                    {energyShare(r) != null && <span style={{ fontSize: 12, color: '#55526A' }}>Recommended: <b style={{ color: '#2B2644' }}>{energyShare(r)}%</b> of energy use</span>}
                   </span>
                 </>
               )}
@@ -196,6 +199,23 @@ export default function Audits({ rows, signed, filters, setFilters, onOpen, onSi
         <Suspense fallback={<span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, color: '#55526A' }}>Loading the audit map…</span>}>
           <AuditMap rows={list} signed={signed} onOpen={onOpen} />
         </Suspense>
+      </div>
+      {/* Industrial clusters: the same districts as the rings on the map. Choosing one shows its audits. */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: -12 }}>
+        <span style={{ fontSize: 13, fontWeight: 600, color: '#55526A' }}>Industrial clusters audited in Gujarat</span>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          {CLUSTERS.map(([districts, name]) => {
+            const n = rows.filter(r => districts.includes(r.ci)).length;
+            if (!n) return null;
+            const on = districts.some(d => filters.q.trim().toLowerCase() === d.toLowerCase());
+            return (
+              <button key={name} type="button" aria-pressed={on} onClick={() => { set({ q: on ? '' : districts[0] }); document.getElementById('audits')?.scrollIntoView({ behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }}
+                style={{ minHeight: 40, padding: '6px 12px', borderRadius: 999, border: `1px solid ${on ? '#9A5200' : '#E8C79A'}`, background: on ? '#9A5200' : '#FFF8EE', color: on ? '#FFFFFF' : '#7A4300', fontFamily: 'inherit', fontSize: 13, fontWeight: 600, cursor: 'pointer', textAlign: 'left' }}>
+                {name} <span style={{ opacity: 0.75 }}>· {n}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

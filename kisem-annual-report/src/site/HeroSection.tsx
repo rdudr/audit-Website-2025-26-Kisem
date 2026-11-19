@@ -56,9 +56,11 @@ export default function HeroSection({ rows }: { rows: Row[] }) {
   const f = useMemo(() => {
     const ri = sum(rows, 'ri'), ii = sum(rows, 'ii');
     return {
-      ri, ii, pct: ri ? Math.round((100 * ii) / ri) : 0, co2: Math.round(sum(rows, 'rc')).toLocaleString('en-IN'),
+      ri, ii, co2: Math.round(sum(rows, 'rc')).toLocaleString('en-IN'), ic: sum(rows, 'ic'),
       payback: ri ? Math.max(1, Math.round((12 * sum(rows, 'rv')) / ri)) : 0,
       done: Math.round(sum(rows, 'in')), rn: Math.round(sum(rows, 'rn')),
+      // The scorecard leads with implementation: the share of recommended measures (ECMs) carried out.
+      pct: sum(rows, 'rn') ? Math.round((100 * sum(rows, 'in')) / sum(rows, 'rn')) : 0,
       states: [...new Set(rows.map(r => r.stt))],
     };
   }, [rows]);
@@ -99,7 +101,7 @@ export default function HeroSection({ rows }: { rows: Row[] }) {
                 <span className="rd-hero-dot" style={{ width: 8, height: 8, borderRadius: '50%', background: '#4ADE80', flexShrink: 0 }} />Energy audits for industry · FY {fy0} to {fy1}
               </span>
               <Headline size={L.h1} />
-              <p style={{ margin: 0, maxWidth: 600, fontSize: L.lede, lineHeight: 1.6, color: '#DDDAE6' }}>{rows.length} detailed audits. {cr(f.ri)} of annual savings identified, {cr(f.ii)} already achieved. {f.co2} tonnes a year of CO₂ reduction potential, across MSMEs in {where}.</p>
+              <p style={{ margin: 0, maxWidth: 600, fontSize: L.lede, lineHeight: 1.6, color: '#DDDAE6' }}>{rows.length} detailed audits across MSMEs in {where}. {f.done} of the {f.rn} recommended measures are implemented, saving {cr(f.ii)} and {Math.round(f.ic).toLocaleString('en-IN')} tonnes of CO₂ a year.</p>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <a className="rd-white" href={APPLY_URL} target="_blank" rel="noopener" style={{ height: 52, padding: '0 22px', borderRadius: 14, background: '#FFFFFF', color: '#0F0D1A', textDecoration: 'none', fontSize: 15, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 10, boxShadow: '0 12px 30px -12px rgba(167,150,255,.7)' }}>Apply for an audit
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={ARROW} /></svg></a>
@@ -110,28 +112,28 @@ export default function HeroSection({ rows }: { rows: Row[] }) {
             {/* savings scorecard */}
             <div ref={cardRef} style={{ borderRadius: 24, padding: 24, background: 'linear-gradient(160deg, rgba(255,255,255,.13), rgba(255,255,255,.04))', border: '1px solid rgba(255,255,255,.18)', WebkitBackdropFilter: 'blur(14px)', backdropFilter: 'blur(14px)', display: 'flex', flexDirection: 'column', gap: 20, minWidth: 0 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
-                <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#C4B8FF' }}>Savings scorecard</span>
+                <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#C4B8FF' }}>Implementation scorecard</span>
                 <span style={{ fontSize: 12, color: '#C9C5D6' }}>All audits · per year</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 22, flexWrap: 'wrap' }}>
                 <div style={{ position: 'relative', width: 132, height: 132, flexShrink: 0 }}>
-                  <svg width="132" height="132" viewBox="0 0 132 132" role="img" aria-label={`${f.pct} percent of recommended savings achieved`}>
+                  <svg width="132" height="132" viewBox="0 0 132 132" role="img" aria-label={`${f.pct} percent of recommended measures implemented`}>
                     <circle cx="66" cy="66" r="54" fill="none" stroke="rgba(255,255,255,.14)" strokeWidth="14" />
                     <circle cx="66" cy="66" r="54" fill="none" stroke="#4ADE80" strokeWidth="14" strokeLinecap="round" strokeDasharray={`${arc.toFixed(1)} ${ring.toFixed(1)}`} transform="rotate(-90 66 66)" />
                   </svg>
                   <span style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                     <b style={{ fontSize: 30, fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1 }}>{Math.round(f.pct * q)}%</b>
-                    <span style={{ fontSize: 11, color: '#C9C5D6', marginTop: 4 }}>achieved</span>
+                    <span style={{ fontSize: 11, color: '#C9C5D6', marginTop: 4, textAlign: 'center', lineHeight: 1.3 }}>of ECMs<br />implemented</span>
                   </span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12, flex: '1 1 160px', minWidth: 0 }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}><span style={{ fontSize: 12, color: '#C9C5D6' }}>Recommended</span><b style={{ fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em' }}>{cr(f.ri * q)}</b></div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}><span style={{ fontSize: 12, color: '#C9C5D6' }}>Achieved by plants</span><b style={{ fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', color: '#86EFAC' }}>{cr(f.ii * q)}</b></div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}><span style={{ fontSize: 12, color: '#C9C5D6' }}>Saving achieved, a year</span><b style={{ fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', color: '#86EFAC' }}>{cr(f.ii * q)}</b></div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}><span style={{ fontSize: 12, color: '#C9C5D6' }}>CO₂ avoided, a year</span><b style={{ fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', color: '#86EFAC' }}>{Math.round(f.ic * q).toLocaleString('en-IN')} t CO₂e</b></div>
                 </div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10 }}>
                 <div style={{ padding: '12px 14px', borderRadius: 14, background: 'rgba(255,255,255,.06)', display: 'flex', flexDirection: 'column', gap: 2 }}><b style={{ fontSize: 18 }}>{Math.max(1, Math.round(f.payback * q))} months</b><span style={{ fontSize: 12, color: '#C9C5D6' }}>Average payback</span></div>
-                <div style={{ padding: '12px 14px', borderRadius: 14, background: 'rgba(255,255,255,.06)', display: 'flex', flexDirection: 'column', gap: 2 }}><b style={{ fontSize: 18 }}>{Math.round(f.done * q)} of {f.rn}</b><span style={{ fontSize: 12, color: '#C9C5D6' }}>Measures carried out</span></div>
+                <div style={{ padding: '12px 14px', borderRadius: 14, background: 'rgba(255,255,255,.06)', display: 'flex', flexDirection: 'column', gap: 2 }}><b style={{ fontSize: 18 }}>{Math.round(f.done * q)} of {f.rn}</b><span style={{ fontSize: 12, color: '#C9C5D6' }}>ECMs implemented</span></div>
               </div>
             </div>
           </div>

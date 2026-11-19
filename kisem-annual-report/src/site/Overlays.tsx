@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { FOLLOW_UPS, fyLabel, IMPL_KEYS, when, ind, inr, n0, parseNum, STATUS_TONE, statusFrom, titleOf, type Row } from '../data';
+import { energyShare, FOLLOW_UPS, fyLabel, IMPL_KEYS, when, ind, inr, n0, parseNum, STATUS_TONE, statusFrom, titleOf, type Row } from '../data';
 import { ConsoleError, signIn, team, type Change, type Session } from '../lib/console';
 import { useOverlay } from '../lib/hooks';
 import { Icon } from './Icon';
@@ -223,7 +223,7 @@ function Drawer({ row, session, changes, onClose, onSaved }: DrawerProps & { row
               <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: '#2B2644' }} />Electrical <strong className="n">{share(eT)}</strong> <span style={{ color: '#5E5E5E' }}>· {r.rk ? ind(r.rk) + ' kWh' : 'none'}</span></span>
               <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: '#D67800' }} />Thermal (fuel) <strong className="n">{share(fT)}</strong> <span style={{ color: '#5E5E5E' }}>· {r.rf ? n0(r.rf).toFixed(1) + ' TOE' : 'none'}</span></span>
             </div>
-            <span style={{ fontSize: 13, color: '#3A3A3A' }}>Recommended savings are <strong className="n">{r.cost && r.ri ? Math.round((100 * r.ri) / r.cost) + '%' : '—'}</strong> of the plant's annual energy cost.</span>
+            <span style={{ fontSize: 13, color: '#3A3A3A' }}>Recommended savings are <strong className="n">{energyShare(r) != null ? energyShare(r) + '%' : '—'}</strong> of the plant's total energy use and <strong className="n">{r.cost && r.ri ? Math.round((100 * r.ri) / r.cost) + '%' : '—'}</strong> of its annual energy cost.</span>
           </section>
 
           <section style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

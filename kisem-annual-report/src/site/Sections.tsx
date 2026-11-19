@@ -279,7 +279,7 @@ export function Journey({ rows }: { rows: Row[] }) {
   const hh = (v: number) => Math.max(v ? 2 : 0, Math.round((86 * v) / (mx || 1))) + '%';
   const bars = Y.map(y => ({ label: y.label.replace('FY 20', 'FY '), aText: DEF.a ? DEF.f(val(y, DEF.a)) : '', bText: DEF.f(val(y, DEF.b)), aH: hh(val(y, DEF.a)), bH: hh(val(y, DEF.b)) }));
   const aria = DEF.title + ': ' + Y.map(y => `${y.label} ${DEF.a ? `${DEF.aLabel} ${DEF.f(val(y, DEF.a))}, ` : ''}${DEF.bLabel} ${DEF.f(val(y, DEF.b))}`).join('; ');
-  const late = 'Implementation is recorded 3–5 months after each audit, so the latest year reads low until the post-audit visits are done.';
+  const late = 'Implementation is verified about 3 months after each report, so the latest year reads low until verification is done.';
   const note = {
     audits: `${ind(T.rn)} measures recommended; ${ind(T.in)} carried out so far.`,
     savings: `${inr(T.ri)} a year recommended; ${inr(T.ii)} a year achieved. ${late}`,

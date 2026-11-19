@@ -114,8 +114,8 @@ const TEXT_KEYS = new Set(['n', 'loc', 'sr', 'p', 'cap', 'ct', 'cd', 'lead', 'mp
 const FLAG_ROWS = [['postassessment', 'pa'], ['implimentationverification', 'vr'], ['implementationverification', 'vr']];
 const TEAM_ONLY = new Set(SHEET_ROWS.filter(r => r[2]).map(r => r[1]));
 // What the public website may show. Everything else stays in the private file.
-const PUBLIC_KEYS = ['c', 'fy', 's', 'sr', 'p', 'ci', 'stt', 'dt', 'dy', 'u', 'kva', 'e', 'f', 'cost', 'co2',
-  'rn', 'rk', 'rf', 'ri', 'rc', 'rv', 'in', 'iv', 'ik', 'if', 'ii', 'ic', 'st', 'pa', 'vr', 'lat', 'lng'];
+const PUBLIC_KEYS = ['c', 'fy', 's', 'sr', 'p', 'ci', 'stt', 'dt', 'dy', 'u', 'kva', 'e', 'f', 'toe', 'cost', 'co2',
+  'rn', 'rk', 'rf', 'rt', 'ri', 'rc', 'rv', 'in', 'iv', 'ik', 'if', 'ii', 'ic', 'st', 'pa', 'vr', 'lat', 'lng'];
 
 // ---------------------------------------------------------------- clean-up rules
 

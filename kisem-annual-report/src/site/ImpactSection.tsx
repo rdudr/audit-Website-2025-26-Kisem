@@ -30,7 +30,7 @@ export default function ImpactSection({ rows }: { rows: Row[] }) {
     return { Y, ri: t('ri'), ii: t('ii'), rn: t('rn'), in: t('in'), rc: t('rc'), ic: t('ic'), rk: t('rk'), ik: t('ik'), e: t('e'), cost: t('cost'), rv: t('rv'), iv: t('iv') };
   }, [rows]);
 
-  const late = 'Implementation is recorded 3–5 months after each audit, so the latest year reads low until the post-audit visits are done.';
+  const late = 'Implementation is verified about 3 months after each report, so the latest year reads low until verification is done.';
   const DEFS: Record<Metric, { tab: string; title: string; sub: string; aLabel: string; bLabel: string; a: 'rn' | 'ri' | 'rc' | null; b: 'in' | 'ii' | 'rc' | 'ic' | 'pc'; f: (x: number) => string; note: string }> = {
     audits: { tab: 'Audits & ECMs', title: 'Measures recommended and implemented', sub: 'Energy conservation measures (ECMs) per audit year', aLabel: 'Recommended', bLabel: 'Implemented', a: 'rn', b: 'in', f: ind, note: `${ind(v.rn)} measures recommended; ${ind(v.in)} carried out so far.` },
     savings: { tab: 'Energy savings', title: 'Annual savings, ₹ crore', sub: 'Recommended in the audits against what plants achieved', aLabel: 'Recommended', bLabel: 'Achieved', a: 'ri', b: 'ii', f: x => x.toFixed(2), note: `${cr(v.ri)} a year recommended; ${cr(v.ii)} a year achieved. ${late}` },
@@ -46,10 +46,10 @@ export default function ImpactSection({ rows }: { rows: Row[] }) {
   const aria = def.title + ': ' + bars.map(b => b.label + ' ' + (b.aText ? def.aLabel + ' ' + b.aText + ', ' : '') + def.bLabel + ' ' + b.bText).join('; ');
 
   const pairs = [
-    { label: 'Annual cost savings', d: 'M6 3h12M6 8h12M6 13l8.5 8M6 13h3a5 5 0 0 0 0-10', rec: cr(v.ri * p), imp: cr(v.ii * p), share: pct(v.ii * p, v.ri) },
-    { label: 'Measures (ECMs)', d: 'M22 11.1V12a10 10 0 1 1-5.9-9.1M22 4L12 14l-3-3', rec: ind(v.rn * p), imp: ind(v.in * p), share: pct(v.in * p, v.rn) },
-    { label: 'CO₂ reduction, t / yr', d: 'M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10zM2 21c0-3 1.9-5.4 5.2-6', rec: ind(v.rc * p), imp: ind(v.ic * p), share: pct(v.ic * p, v.rc) },
-    { label: 'Electricity saved, kWh / yr', d: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z', rec: (v.rk * p / 1e5).toFixed(1) + ' lakh', imp: (v.ik * p / 1e5).toFixed(1) + ' lakh', share: pct(v.ik * p, v.rk) },
+    { label: 'Annual cost savings', d: 'M6 3h12M6 8h12M6 13l8.5 8M6 13h3a5 5 0 0 0 0-10', rec: cr(v.ri * p), imp: cr(v.ii * p), share: pct(v.ii * p, v.ri), big: cr(v.ii * p), bigNote: 'saved a year by plants' },
+    { label: 'Measures (ECMs)', d: 'M22 11.1V12a10 10 0 1 1-5.9-9.1M22 4L12 14l-3-3', rec: ind(v.rn * p), imp: ind(v.in * p), share: pct(v.in * p, v.rn), big: pct(v.in * p, v.rn), bigNote: 'of ECMs implemented' },
+    { label: 'CO₂ reduction, t / yr', d: 'M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10zM2 21c0-3 1.9-5.4 5.2-6', rec: ind(v.rc * p), imp: ind(v.ic * p), share: pct(v.ic * p, v.rc), big: ind(v.ic * p) + ' t', bigNote: 'CO₂e avoided a year' },
+    { label: 'Electricity saved, kWh / yr', d: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z', rec: (v.rk * p / 1e5).toFixed(1) + ' lakh', imp: (v.ik * p / 1e5).toFixed(1) + ' lakh', share: pct(v.ik * p, v.rk), big: (v.ik * p / 1e5).toFixed(1) + ' lakh kWh', bigNote: 'saved a year' },
   ];
   const baseline = [
     { label: 'Electricity assessed', v: (v.e * p / 1e6).toFixed(1) + ' GWh', sub: 'A year, all assessed plants' },
@@ -87,9 +87,10 @@ export default function ImpactSection({ rows }: { rows: Row[] }) {
               <span style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, fontWeight: 600 }}>
                 <span style={{ width: 36, height: 36, borderRadius: 10, background: '#2B2644', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={k.d} /></svg></span>{k.label}
               </span>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-                <b style={{ fontSize: 40, fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, color: '#15803D', fontVariantNumeric: 'tabular-nums' }}>{k.share}</b>
-                <span style={{ fontSize: 13, color: '#55526A' }}>achieved so far</span>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px 8px', flexWrap: 'wrap' }}>
+                {/* Implementation first: what plants achieved. Only the ECM card is a share. */}
+                <b style={{ fontSize: k.big.length > 9 ? 30 : 40, fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, color: '#15803D', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }}>{k.big}</b>
+                <span style={{ fontSize: 13, color: '#55526A' }}>{k.bigNote}</span>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
