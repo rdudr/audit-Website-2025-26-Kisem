@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactNode } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { sum, type Row } from '../data';
 import { APPLY_URL } from './content';
 import PlantTour from './PlantTour';
@@ -64,6 +64,12 @@ const AREAS: { n: string; name: string; what: string; fam: Fam; d: string }[] = 
   ['16', 'Variable speed drives', 'Drive opportunities, motor sizing, load profiles', 'elec', I.drive],
   ['17', 'Waste heat recovery', 'Heat exchangers, ORC, economisers', 'heat', I.recycle],
 ] as const).map(([n, name, what, fam, d]) => ({ n, name, what, fam, d }));
+// The plant tour stops (frame numbers) that cover each area, and the short name of each stop.
+const STOPS: Record<string, number[]> = {
+  '01': [1, 11], '02': [4, 11], '03': [8], '04': [7], '05': [3], '06': [9], '07': [4, 5], '08': [8], '09': [10],
+  '10': [2], '11': [4, 5, 11], '12': [6], '13': [9], '14': [7], '15': [6], '16': [1], '17': [5, 6],
+};
+const STOP_NAME = ['', 'Power in', 'Power quality', 'Solar PV', 'Heat', 'Furnace', 'Stack', 'Air', 'Cooling', 'Pumps', 'Production', 'Thermal'];
 const KEYS: Fam[] = ['elec', 'heat', 'air', 'flow', 'green'];
 const DIAG = [
   { n: '10', name: 'Power quality', what: 'Harmonics, dips, swells and power factor at the incomer and major panels.', img: INS.pqa.img, alt: 'Power quality analysers', color: FAM.elec.color },
@@ -83,10 +89,13 @@ const Svg = ({ d, size = 18, stroke = '#FFFFFF', w = 2.2 }: { d: string; size?: 
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth={w} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ flexShrink: 0 }}><path d={d} /></svg>
 );
 
-export default function ScopeSection({ rows, fox }: { rows: Row[]; fox?: ReactNode }) {
+export default function ScopeSection({ rows }: { rows: Row[] }) {
   const dev = useDevice();
   const D = dev === 'desktop', T = dev === 'tablet';
   const [active, setActive] = useState<'all' | Fam>('all');
+  const [jump, setJump] = useState({ k: 0, n: 0 });
+  const tourRef = useRef<HTMLDivElement>(null);
+  const toStop = (k: number) => { setJump(j => ({ k, n: j.n + 1 })); tourRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
 
   const fig = useMemo(() => {
     const ri = sum(rows, 'ri'), months = ri ? (12 * sum(rows, 'rv')) / ri : 0;
@@ -107,8 +116,6 @@ export default function ScopeSection({ rows, fox }: { rows: Row[]; fox?: ReactNo
     pillWrap: (D || T ? 'wrap' : 'nowrap') as 'wrap' | 'nowrap', famCols: D ? 'repeat(6, minmax(0, 1fr))' : T ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)',
     ctaPad: D ? '28px 32px' : '22px 20px',
   };
-  const spans = D ? [3, 3, 2, 2, 2] : T ? [1, 1, 1, 1, 2] : [1, 1, 1, 1, 1];
-  const lit = (k: Fam) => active === 'all' || active === k;
   const pills: { k: 'all' | Fam; label: string; count: number; dot: string; d: string }[] = [
     { k: 'all', label: 'All areas', count: AREAS.length, dot: '#2B2644', d: I.scan },
     ...KEYS.map(k => ({ k, label: FAM[k].label, count: AREAS.filter(a => a.fam === k).length, dot: FAM[k].color, d: FAM[k].d })),
@@ -150,7 +157,7 @@ export default function ScopeSection({ rows, fox }: { rows: Row[]; fox?: ReactNo
         </div>
 
         {/* plant tour */}
-        <PlantTour dev={dev} totals={{ audits: fig.audits, recommended: fig.rec, achieved: fig.ach, co2: fig.co2, payback: fig.payback }} />
+        <div ref={tourRef} style={{ scrollMarginTop: 96 }}><PlantTour dev={dev} jump={jump} totals={{ audits: fig.audits, recommended: fig.rec, achieved: fig.ach, co2: fig.co2, payback: fig.payback }} /></div>
 
         {/* diagnostics */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -216,62 +223,57 @@ export default function ScopeSection({ rows, fox }: { rows: Row[]; fox?: ReactNo
           </ol>
         </div>
 
-        {/* the FOX platform card: how the site readings become the report */}
-        {fox}
-
-        {/* the 17 areas, by kind of system */}
+        {/* the 17 areas, by kind of system: family tiles filter the area cards; each card names the
+            plant tour stops that cover it, and a stop button plays that stop in the tour above */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          {h3('The 17 areas, by kind of system', 'Pick a family to focus it')}
-          <div role="group" aria-label="Filter by kind of system" style={{ display: 'flex', gap: 8, flexWrap: L.pillWrap, overflowX: 'auto', paddingBottom: 2 }}>
+          {h3('The 17 areas, by kind of system', 'Pick a family; tap a stop to see it on the tour')}
+          <div role="group" aria-label="Filter by kind of system" style={{ display: 'grid', gridTemplateColumns: D ? 'repeat(6, minmax(0, 1fr))' : T ? 'repeat(3, minmax(0, 1fr))' : 'repeat(2, minmax(0, 1fr))', gap: 10 }}>
             {pills.map(p => {
-              const on = active === p.k;
+              const on = active === p.k, fam = p.k === 'all' ? null : FAM[p.k];
               return (
-                <button key={p.k} type="button" className="rd-pill" aria-pressed={on} onClick={() => setActive(on && p.k !== 'all' ? 'all' : p.k)}
-                  style={{ height: 44, padding: '0 16px 0 10px', borderRadius: 999, border: `1px solid ${on ? '#0F0D1A' : '#D9D7E3'}`, background: on ? '#0F0D1A' : '#FFFFFF', color: on ? '#FFFFFF' : '#2E2B3F', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 8, cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0 }}>
-                  <span style={{ width: 24, height: 24, borderRadius: 7, background: p.dot, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Svg d={p.d} size={13} /></span>
-                  {p.label}<span style={{ fontSize: 12, fontWeight: 700, opacity: 0.7 }}>{p.count}</span>
+                <button key={p.k} type="button" aria-pressed={on} onClick={() => setActive(on && p.k !== 'all' ? 'all' : p.k)}
+                  style={{ position: 'relative', height: D ? 116 : 100, borderRadius: 18, overflow: 'hidden', padding: 0, cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left', background: p.k === 'all' ? 'linear-gradient(145deg, #2B2644, #0F0D1A)' : '#1E1A33', border: `2px solid ${on ? p.dot : 'transparent'}`, boxShadow: on ? `0 16px 32px -18px ${p.dot}` : 'none', outlineOffset: 2 }}>
+                  {fam && <img src={fam.photo} alt="" loading="lazy" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: on || active === 'all' ? 1 : 0.5, transition: 'opacity .3s ease' }} />}
+                  <span aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(15,13,26,.05) 0%, rgba(15,13,26,.88) 100%)' }} />
+                  <span style={{ position: 'absolute', top: 10, left: 10, width: 28, height: 28, borderRadius: 9, background: p.dot, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Svg d={p.d} size={15} /></span>
+                  <span style={{ position: 'absolute', left: 12, right: 12, bottom: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 8, color: '#FFFFFF' }}>
+                    <b style={{ fontSize: 14, fontWeight: 700, lineHeight: 1.2 }}>{p.label}</b><span style={{ fontSize: 24, fontWeight: 700, lineHeight: 1 }}>{p.count}</span>
+                  </span>
                 </button>
               );
             })}
           </div>
+          {active !== 'all' && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '10px 20px', padding: '14px 16px', borderRadius: 16, background: FAM[active].tint, border: `1px solid ${FAM[active].color}33` }}>
+              <b style={{ flex: '1 1 260px', fontSize: 16, color: FAM[active].ink }}>{FAM[active].blurb}</b>
+              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: '#6B6880' }}>Measured with</span>
+              {FAM[active].inst.map(x => (
+                <span key={x.name} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '4px 10px 4px 4px', borderRadius: 12, background: '#FFFFFF' }}>
+                  <img src={x.img} alt="" loading="lazy" style={{ width: 40, height: 32, objectFit: 'contain' }} />
+                  <span style={{ display: 'flex', flexDirection: 'column' }}><b style={{ fontSize: 12.5 }}>{x.name}</b><span style={{ fontSize: 11.5, color: '#5E5B70' }}>{x.models}</span></span>
+                </span>
+              ))}
+            </div>
+          )}
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: L.famCols, gap: 20, alignItems: 'start' }}>
-          {KEYS.map((k, i) => {
-            const f = FAM[k], areas = AREAS.filter(a => a.fam === k), focus = active === k, span = spans[i];
-            const photoH = D ? (span === 3 ? 260 : 220) : T ? (span === 2 ? 240 : 200) : 200;
+        <div style={{ display: 'grid', gridTemplateColumns: D ? 'repeat(4, minmax(0, 1fr))' : T ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)', gap: 12 }}>
+          {AREAS.filter(a => active === 'all' || a.fam === active).map(a => {
+            const f = FAM[a.fam];
             return (
-              <article key={k} className="rd-card" style={{ gridColumn: `span ${span}`, borderRadius: 24, background: '#FFFFFF', border: `1px solid ${focus ? f.color : '#E7E5EE'}`, overflow: 'hidden', display: 'flex', flexDirection: 'column', opacity: lit(k) ? 1 : 0.35, boxShadow: focus ? `0 24px 48px -24px ${f.color}` : '0 1px 2px rgba(15,13,26,.04)', minWidth: 0 }}>
-                <div style={{ position: 'relative', height: photoH, background: '#1E1A33', overflow: 'hidden' }}>
-                  <img src={f.photo} alt={f.alt} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 45%', display: 'block' }} />
-                  <span aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(15,13,26,.15) 0%, rgba(15,13,26,.25) 45%, rgba(15,13,26,.88) 100%)' }} />
-                  <span style={{ position: 'absolute', top: 16, left: 16, display: 'inline-flex', alignItems: 'center', gap: 8, height: 32, padding: '0 12px 0 6px', borderRadius: 999, background: 'rgba(255,255,255,.94)', color: f.ink, fontSize: 13, fontWeight: 700 }}>
-                    <span style={{ width: 22, height: 22, borderRadius: 7, background: f.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Svg d={f.d} size={13} /></span>{f.label}
-                  </span>
-                  <div style={{ position: 'absolute', left: 20, right: 20, bottom: 18, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 12, color: '#FFFFFF' }}>
-                    <b style={{ fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.15 }}>{f.blurb}</b>
-                    <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', flexShrink: 0 }}><span style={{ fontSize: 34, fontWeight: 700, lineHeight: 1 }}>{String(areas.length).padStart(2, '0')}</span><span style={{ fontSize: 12, fontWeight: 600, color: '#DDDAE6' }}>areas</span></span>
-                  </div>
+              <article key={a.n} className="rd-card" style={{ borderRadius: 18, background: '#FFFFFF', border: '1px solid #E7E5EE', borderTop: `4px solid ${f.color}`, padding: 16, display: 'flex', flexDirection: 'column', gap: 8, minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{ width: 40, height: 40, borderRadius: 12, background: f.tint, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Svg d={a.d} size={20} stroke={f.color} w={1.9} /></span>
+                  <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.06em', textTransform: 'uppercase', color: f.ink }}>{f.label}</span>
+                  <span style={{ marginLeft: 'auto', fontSize: 12, fontWeight: 700, color: f.ink, background: f.tint, borderRadius: 8, padding: '4px 8px' }}>{a.n}</span>
                 </div>
-                <span aria-hidden="true" style={{ height: 4, background: f.color, display: 'block' }} />
-                <ol style={{ listStyle: 'none', margin: 0, padding: 10, display: 'flex', flexDirection: 'column' }}>
-                  {areas.map(a => (
-                    <li key={a.n} className="rd-row" style={{ display: 'grid', gridTemplateColumns: '42px minmax(0, 1fr) auto', gap: 14, alignItems: 'center', padding: '12px 10px', borderRadius: 14 }}>
-                      <span style={{ width: 42, height: 42, borderRadius: 12, background: f.tint, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Svg d={a.d} size={20} stroke={f.color} w={1.9} /></span>
-                      <span style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}><b style={{ fontSize: 15, fontWeight: 600 }}>{a.name}</b><span style={{ fontSize: 13, lineHeight: 1.45, color: '#5E5B70' }}>{a.what}</span></span>
-                      <span style={{ fontSize: 12, fontWeight: 700, color: f.ink, background: f.tint, borderRadius: 8, padding: '4px 8px' }}>{a.n}</span>
-                    </li>
+                <b style={{ fontSize: 16, fontWeight: 700, letterSpacing: '-0.01em' }}>{a.name}</b>
+                <span style={{ fontSize: 13, lineHeight: 1.45, color: '#5E5B70' }}>{a.what}</span>
+                <div style={{ marginTop: 'auto', paddingTop: 10, borderTop: '1px solid #EEECF3', display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
+                  <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: '#6B6880', marginRight: 2 }}>On the tour</span>
+                  {STOPS[a.n].map(k => (
+                    <button key={k} type="button" onClick={() => toStop(k)} aria-label={`Play stop ${k} of the plant tour: ${STOP_NAME[k]}`}
+                      style={{ minHeight: 30, padding: '0 10px', borderRadius: 999, border: `1px solid ${f.color}55`, background: '#FFFFFF', color: f.ink, fontFamily: 'inherit', fontSize: 12, fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap' }}>{String(k).padStart(2, '0')} · {STOP_NAME[k]}</button>
                   ))}
-                </ol>
-                <div style={{ margin: '0 20px 20px', paddingTop: 14, borderTop: '1px solid #EEECF3', display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: '#6B6880' }}>Measured with</span>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(190px, 100%), 1fr))', gap: 10 }}>
-                    {f.inst.map(x => (
-                      <div key={x.name} style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
-                        <span style={{ width: 64, height: 52, borderRadius: 10, background: '#FFFFFF', border: '1px solid #ECEAF2', flexShrink: 0, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><img src={x.img} alt={x.name} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} /></span>
-                        <span style={{ display: 'flex', flexDirection: 'column', gap: 1, minWidth: 0 }}><b style={{ fontSize: 13, fontWeight: 600 }}>{x.name}</b><span style={{ fontSize: 12, color: '#5E5B70' }}>{x.models}</span></span>
-                      </div>
-                    ))}
-                  </div>
                 </div>
               </article>
             );

@@ -40,12 +40,25 @@ export function KTeam() {
               <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: '#DDDAE6' }}>The Energy Assessment Cell, IIT Gandhinagar (KISEM) has been selected for the SEEM National Energy Management Awards 2026 by the Society of Energy Engineers and Managers, chosen by the national jury from nearly two hundred nominations across sectors.</p>
               <span style={{ fontSize: 13, color: '#FCD34D', fontWeight: 600, marginTop: 'auto' }}>Ceremony 3–4 December 2026 · Dr. Ambedkar International Convention Centre, New Delhi</span>
             </article>
-            {AWARDS.map(([img, alt, kicker, t, s]: string[]) => (
-              <article key={t} className="card press" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                <div className="zoom" style={{ aspectRatio: '4 / 3', overflow: 'hidden' }}><img className="ph" src={img} alt={alt} loading="lazy" /></div>
-                <div style={{ padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: 6 }}><span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '.07em', color: '#6D5BD0' }}>{kicker}</span><span style={{ fontSize: 16, fontWeight: 700, lineHeight: 1.3 }}>{t}</span><span style={{ fontSize: 13, lineHeight: 1.5, color: 'var(--sub)' }}>{s}</span></div>
-              </article>
-            ))}
+            {AWARDS.map(([img, alt, kicker, t, s]: string[]) => {
+              const [place, date, prize] = kicker.split(' · ');
+              const [title, who] = t.split(' — ');
+              return (
+                <article key={t} className="zoom press" style={{ position: 'relative', minHeight: 420, borderRadius: 28, overflow: 'hidden', background: '#16132A', color: '#FFFFFF', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', isolation: 'isolate' }}>
+                  <img className="ph" src={img} alt={alt} loading="lazy" style={{ position: 'absolute', inset: 0, zIndex: -2 }} />
+                  <span aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: -1, background: 'linear-gradient(180deg, rgba(14,11,32,0) 30%, rgba(14,11,32,.55) 55%, rgba(14,11,32,.94) 100%)' }} />
+                  <span style={{ position: 'absolute', top: 16, left: 16, height: 30, padding: '0 12px 0 6px', borderRadius: 999, background: 'linear-gradient(135deg, #FDE68A, #F59E0B)', color: '#3B2300', fontSize: 11.5, fontWeight: 800, letterSpacing: '.08em', display: 'inline-flex', alignItems: 'center', gap: 6, boxShadow: '0 8px 20px -10px rgba(245,158,11,.9)' }}>
+                    <span style={{ width: 20, height: 20, borderRadius: '50%', background: 'rgba(255,255,255,.55)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B2300" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z" /></svg></span>{prize || 'WINNER'}
+                  </span>
+                  <div style={{ padding: '0 20px 20px', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    <span className="n" style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: '.08em', color: '#FCD34D' }}>{[place, date].filter(Boolean).join(' · ')}</span>
+                    <span style={{ fontSize: 19, fontWeight: 700, lineHeight: 1.2, letterSpacing: '-.01em' }}>{title}</span>
+                    {who && <span style={{ fontSize: 14, fontWeight: 600, color: '#ECEAF2' }}>{who}</span>}
+                    <span style={{ fontSize: 13, lineHeight: 1.5, color: '#C9C5D6' }}>{s}</span>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
 
@@ -65,8 +78,8 @@ export function KTeam() {
           <h3 style={{ margin: 0, fontSize: 24, fontWeight: 700, letterSpacing: '-.02em' }}>Partners</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: 12 }}>
             {PARTNERS.map(([name, role, logo]: string[]) => (
-              <div key={name} className="card" style={{ minHeight: 92, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 14 }}>
-                <span style={{ width: 64, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, borderRadius: 12, background: logo ? 'transparent' : '#2B2644', color: '#FFFFFF', fontSize: 13, fontWeight: 800 }}>{logo ? <img src={logo} alt="" style={{ maxWidth: 64, maxHeight: 44, objectFit: 'contain' }} /> : 'MSME'}</span>
+              <div key={name} className="card" style={{ padding: '16px 18px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 12 }}>
+                <span style={{ width: '100%', height: 56, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexShrink: 0, borderRadius: 12, background: 'transparent', color: '#FFFFFF', fontSize: 13, fontWeight: 800 }}>{logo ? <img src={logo} alt="" style={{ maxWidth: '100%', maxHeight: 56, objectFit: 'contain' }} /> : <span style={{ width: 72, height: 48, borderRadius: 12, background: '#2B2644', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>MSME</span>}</span>
                 <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}><span style={{ fontSize: 15, fontWeight: 700 }}>{name}</span><span style={{ fontSize: 13, color: 'var(--sub)' }}>{role}</span></span>
               </div>
             ))}
@@ -118,7 +131,7 @@ export function KApply() {
 
 const FOOT: [string, [string, string][]][] = [
   ['Explore', [['Impact', '#impact'], ['All audits', '#audits'], ['Map', '#map'], ['Sectors', '#sectors']]],
-  ['The work', [['What an audit covers', '#scope'], ['FOX platform', '#fox'], ['Instruments', '#instruments'], ['On the plant floor', '#field']]],
+  ['The work', [['What an audit covers', '#scope'], ['FOX platform', '#scope'], ['Instruments', '#instruments'], ['On the plant floor', '#field']]],
   ['People', [['Team', '#team'], ['Apply for an audit', '#apply'], ['Contact', '#contact']]],
 ];
 

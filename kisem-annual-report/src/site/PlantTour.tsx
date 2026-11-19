@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { Device } from './useDevice';
+import { FOXC, FOXL } from './k/design';
 
 // The plant tour, frame by frame (canvas "Component · Plant tour player"): eleven frames from the
 // incomer to the stack, auto-playing, with hotspots on the photos. All photos are the team's own,
@@ -40,7 +41,7 @@ const INS: Record<string, [string, string, string]> = {
 const STACK = 'M9 22V8l1-6h4l1 6v14M5 22h14M9 12h6M9 17h6';
 
 type HS = [number, number, string, string, ('L' | 'R')?, number?];
-type Kind = 'overview' | 'photo' | 'info' | 'output';
+type Kind = 'overview' | 'photo' | 'info' | 'fox' | 'output';
 // [kind, img, kicker, title, short, tag, story, areas, look, rec, inst, hotspots, info icon, info accent]
 type Frame = [Kind, string | null, string, string, string, string, string, string[], string, string, string | null, HS[], string?, ('red' | 'violet')?];
 const F: Frame[] = [
@@ -67,9 +68,7 @@ const F: Frame[] = [
     [[22, 62, 'Process machines', 'Load profile over the shift'], [74, 60, 'Drives and motors', 'Running hours and load'], [50, 14, 'Roof lights and daylight', 'Lux, connected load, hours']]],
   ['photo', 'thermo', 'STOP 11 · HOT SPOTS', 'Thermal imaging across the plant', 'Thermal', 'TI-01 · THERMAL IMAGING CAMERA', 'A thermal camera shows what the eye cannot: loose connections in panels, bare or wet insulation, failing bearings and leaking traps. Every hot spot is photographed and goes into the report with its fix.', ['11', '01', '02'], 'Hot joints in panels, damaged insulation, overheated motors and bearings.', 'Tightening and repairs, re-insulation, a regular thermography round.', 'thermal',
     [[42, 55, 'Thermal imaging camera', 'Hot spots and heat loss, seen in infrared'], [26, 38, 'Lines and fittings', 'Insulation gaps and leaks on the pipework']]],
-  ['info', null, 'STOP 12 · FOX PLATFORM', 'From site readings to insight, fast', 'FOX', 'FOX · REPORTING TOOLS AND AI PLATFORM', 'Every reading, photo and logger file goes into FOX, the KISEM platform built for these audits. Field apps work offline on site, the AI analyser reads power-quality files in seconds, and the report is drafted straight from the data, so findings reach the plant sooner.', [], '', '', null,
-    [[0, 0, 'Field apps, on site', 'Motors, compressors, boilers, pumps, cooling, lighting: readings and photos captured offline'], [0, 0, 'AI analysis in seconds', 'Power-quality and clamp-meter files read and checked automatically'], [0, 0, 'Report, ready to send', 'Every measure costed, with charts, drafted from the data in PostMan']],
-    'M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z', 'violet'],
+  ['fox', null, 'STOP 12 · FOX PLATFORM', 'FOX turns site readings into the report, fast', 'FOX', 'FOX · REPORTING TOOLS AND AI PLATFORM', 'The platform behind every audit. Every reading, photo and logger file goes into FOX, the KISEM platform built for these audits: eleven tools in three steps. Field apps work offline on site, the AI analyser reads power-quality files in seconds, and the report is drafted straight from the data, so findings reach the plant sooner.', [], '', '', null, []],
   ['output', null, 'THE OUTPUT', 'A costed list of measures', 'Report', '', 'Every finding becomes an energy conservation measure, with its saving in rupees, kWh and CO₂, the investment and the payback, and the report goes to the plant. A separate team verifies what was implemented about 3 months later, and a post assessment follows at about 6 months.', [], '', '', null, []],
 ];
 const DUR = 8000;
@@ -77,7 +76,7 @@ const PHOTO_KEYS = Object.keys(IMG);
 
 export type TourTotals = { audits: number; recommended: string; achieved: string; co2: string; payback: string };
 
-export default function PlantTour({ dev, totals }: { dev: Device; totals: TourTotals }) {
+export default function PlantTour({ dev, totals, jump }: { dev: Device; totals: TourTotals; jump?: { k: number; n: number } }) {
   const D = dev === 'desktop', T = dev === 'tablet';
   const total = F.length;
   const [i, setI] = useState(0);
@@ -91,6 +90,9 @@ export default function PlantTour({ dev, totals }: { dev: Device; totals: TourTo
   }, [playing]);
   useEffect(() => { if (t >= DUR) { setI(x => (x + 1) % total); setT(0); } }, [t, total]);
   const go = (k: number) => { setI(k); setT(0); };
+  const [fl, setFl] = useState<string | null>(null);
+  // A stop picked from an area card: show that frame and hold it there.
+  useEffect(() => { if (jump && jump.n > 0) { setI(jump.k); setT(0); setPlaying(false); } }, [jump]);
 
   const RC = D || T ? 1.6 : 4 / 3;
   const [kind, imgKey, kicker, title, , tag, story, areas, look, rec, instKey, hs, infoIcon, accent] = F[i];
@@ -243,6 +245,39 @@ export default function PlantTour({ dev, totals }: { dev: Device; totals: TourTo
             </div>
           )}
 
+          {kind === 'fox' && (
+            <div style={{ position: 'absolute', inset: 0, padding: L.ovPad, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: D || T ? 14 : 8, background: 'radial-gradient(120% 90% at 85% 0%, rgba(249,115,22,.22), rgba(18,16,31,0) 55%), #16132A' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <svg width={D || T ? 52 : 36} height={D || T ? 52 : 36} viewBox="0 0 64 64" aria-hidden="true" style={{ flexShrink: 0 }}>
+                  <circle cx="32" cy="32" r="26" fill="none" stroke="#3A3360" strokeWidth="5" strokeDasharray="15.15 3" transform="rotate(-90 32 32)" />
+                  <circle cx="32" cy="32" r="26" fill="none" stroke="#F97316" strokeWidth="5" strokeDasharray="15.15 3 15.15 3 15.15 3 15.15 3 15.15 3 15.15 400" transform="rotate(-90 32 32)" />
+                  <path d="M17 45 V33 L24 37 V33 L31 37 V33 L38 37 V22 H44 V45 Z" fill="#FED7AA" />
+                </svg>
+                <span style={{ display: 'flex', flexDirection: 'column' }}><b style={{ fontSize: D || T ? 30 : 20, fontWeight: 800, letterSpacing: '.02em', lineHeight: 1 }}>FOX</b><span className={mono} style={{ fontSize: 10, fontWeight: 700, letterSpacing: '.08em', color: '#C9C5D6' }}>PLANT FLOOR → F · O · X → COSTED REPORT</span></span>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: D || T ? '1fr 1.5fr 1fr' : 'minmax(0, 1fr)', gap: 8, minHeight: 0 }}>
+                {FOXL.map(([Lt, head, rest, col, lc, what]: string[]) => {
+                  const tools = FOXC.filter((c: string[]) => c[0] === Lt), on = fl === Lt;
+                  return (
+                    <button key={Lt} type="button" onClick={() => { setFl(on ? null : Lt); setPlaying(false); }} aria-pressed={on} style={{ textAlign: 'left', font: 'inherit', color: '#FFFFFF', cursor: 'pointer', padding: D || T ? 12 : '8px 10px', borderRadius: 14, border: `1px solid ${on ? lc : 'rgba(255,255,255,.12)'}`, background: on ? 'rgba(255,255,255,.12)' : 'rgba(255,255,255,.05)', display: 'flex', flexDirection: D || T ? 'column' : 'row', alignItems: D || T ? 'stretch' : 'center', gap: D || T ? 8 : 10, minWidth: 0, opacity: !fl || on ? 1 : 0.5 }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <span style={{ width: D || T ? 34 : 28, height: D || T ? 34 : 28, borderRadius: 10, background: col, fontSize: D || T ? 19 : 16, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{Lt}</span>
+                        <b style={{ fontSize: D || T ? 15 : 14, fontWeight: 700 }}><span style={{ color: lc }}>{head}</span>{rest}</b>
+                        <span className={mono} style={{ marginLeft: 'auto', fontSize: 10, color: '#8E88A8', whiteSpace: 'nowrap' }}>{tools.length} {tools.length === 1 ? 'tool' : 'tools'}</span>
+                      </span>
+                      {(D || T) && <span style={{ fontSize: 11.5, lineHeight: 1.4, color: '#C9C5D6' }}>{what}</span>}
+                      {(D || T) && (
+                        <span style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                          {tools.map((c: string[]) => <span key={c[1]} style={{ fontSize: 10.5, fontWeight: 600, padding: '3px 7px', borderRadius: 6, background: 'rgba(255,255,255,.08)', border: `1px solid ${lc}55`, color: '#ECEAF2', whiteSpace: 'nowrap' }}>{c[1]}</span>)}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           {kind === 'output' && (
             <div style={{ position: 'absolute', inset: 0, padding: L.ovPad, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 14, background: 'radial-gradient(circle at 20% 0%, rgba(74,222,128,.22), rgba(18,16,31,0) 55%), #0E1F17' }}>
               <span className={mono} style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.1em', color: '#86EFAC' }}>THE REPORT · {totals.audits} DETAILED AUDITS SO FAR</span>
@@ -287,6 +322,19 @@ export default function PlantTour({ dev, totals }: { dev: Device; totals: TourTo
               <span style={{ width: 64, height: 48, borderRadius: 8, background: '#FFFFFF', overflow: 'hidden', flexShrink: 0 }}><img src={inst[0]} alt={inst[1]} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} /></span>
               <span style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}><span className={mono} style={{ fontSize: 10, fontWeight: 700, letterSpacing: '.1em', color: '#C9C5D6' }}>INSTRUMENT ON SITE</span><b style={{ fontSize: 13 }}>{inst[1]}</b><span style={{ fontSize: 12, color: '#C9C5D6' }}>{inst[2]}</span></span>
             </div>
+          )}
+          {kind === 'fox' && (
+            <ol style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: L.twoCols, gap: 8 }}>
+              {FOXC.filter((c: string[]) => !fl || c[0] === fl).map(([Lt, name, what, d]: string[]) => {
+                const col = FOXL.find((x: string[]) => x[0] === Lt)[3];
+                return (
+                  <li key={name} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                    <span style={{ width: 26, height: 26, borderRadius: 8, background: col, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={d} /></svg></span>
+                    <span style={{ display: 'flex', flexDirection: 'column', gap: 1, minWidth: 0 }}><b style={{ fontSize: 13 }}>{name}</b><span style={{ fontSize: 12, lineHeight: 1.4, color: '#C9C5D6' }}>{what}</span></span>
+                  </li>
+                );
+              })}
+            </ol>
           )}
           {L.phoneList && kind === 'photo' && (
             <ol style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>

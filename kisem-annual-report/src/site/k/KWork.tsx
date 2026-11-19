@@ -2,7 +2,7 @@
 // instruments, and the field photographs.
 import { useState } from 'react';
 import type { Row } from '../../data';
-import { FAM, FOXC, FOXL, INSTR, MEAS, MOSAIC, TOUR, WALK } from './design';
+import { FAM, INSTR, MEAS, MOSAIC, TOUR, WALK } from './design';
 import { COUNTS, cr, indN, lakh, totals } from './kutil';
 
 // Family: key, label, colour, tint, blurb, photo, alt, instruments, areas [no, title, what].
@@ -128,66 +128,6 @@ export function KScope({ rows }: { rows: Row[] }) {
   );
 }
 
-const FC: Record<string, [string, string, string, string]> = { F: ['#6D5BD0', '#ECEAF8', '#4C3FB0', 'Forecasting'], O: ['#C2410C', '#FDEBDD', '#9A3412', 'Operation'], X: ['#0B7A45', '#E1F0E8', '#0B7A45', 'Execution'] };
-
-// FOX sits inside "What an audit covers" as one of its cards, not as a section of its own.
-export function KFox() {
-  const [fl, setFl] = useState<string | null>(null);
-  return (
-    <div id="fox" style={{ scrollMarginTop: 96 }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 18, padding: 'clamp(16px, 2.4vw, 28px)', borderRadius: 28, border: '1px solid #E7E5EE', background: '#FAFAFC' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxWidth: 760 }}>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: '#6B6880' }}>The platform behind every audit</span>
-          <h3 style={{ margin: 0, fontSize: 20, fontWeight: 700, letterSpacing: '-0.02em' }}>FOX turns site readings into the report, fast</h3>
-          <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: '#55526A' }}>Every reading, photo and logger file goes into FOX, the KISEM platform built for these audits. Eleven tools, in three steps.</p>
-        </div>
-        <div className="foxgrid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 14 }}>
-          <article style={{ gridColumn: 'span 2', gridRow: 'span 2', borderRadius: 28, padding: 28, background: 'radial-gradient(120% 90% at 85% 0%, rgba(249,115,22,.22), rgba(22,19,42,0) 55%), #16132A', color: '#FFFFFF', display: 'flex', flexDirection: 'column', gap: 22 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <svg width="76" height="76" viewBox="0 0 64 64" aria-hidden="true" style={{ flexShrink: 0 }}>
-                <circle cx="32" cy="32" r="26" fill="none" stroke="#3A3360" strokeWidth="5" strokeDasharray="15.15 3" transform="rotate(-90 32 32)" />
-                <circle cx="32" cy="32" r="26" fill="none" stroke="#F97316" strokeWidth="5" strokeDasharray="15.15 3 15.15 3 15.15 3 15.15 3 15.15 3 15.15 400" transform="rotate(-90 32 32)" />
-                <path d="M17 45 V33 L24 37 V33 L31 37 V33 L38 37 V22 H44 V45 Z" fill="#FED7AA" />
-                <circle cx="41" cy="17" r="2.2" fill="#FB923C" />
-              </svg>
-              <span style={{ display: 'flex', flexDirection: 'column' }}><span style={{ fontSize: 44, fontWeight: 800, letterSpacing: '.02em', lineHeight: 1 }}>FOX</span><span style={{ fontSize: 13, color: '#C9C5D6' }}>Reporting tools and AI platform · {FOXC.length + 1} tools</span></span>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {FOXL.map(([L, head, rest, col, lc, what]: string[]) => {
-                const on = fl === L;
-                return (
-                  <button key={L} type="button" onClick={() => setFl(on ? null : L)} aria-pressed={on} style={{ display: 'flex', gap: 16, alignItems: 'center', padding: '14px 16px', borderRadius: 18, border: `1px solid ${on ? lc : 'rgba(255,255,255,.1)'}`, background: on ? 'rgba(255,255,255,.12)' : 'rgba(255,255,255,.04)', color: '#FFFFFF', font: 'inherit', textAlign: 'left', cursor: 'pointer' }}>
-                    <span style={{ width: 52, height: 52, borderRadius: 16, background: col, fontSize: 30, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{L}</span>
-                    <span style={{ display: 'flex', flexDirection: 'column', gap: 3, minWidth: 0 }}><span style={{ fontSize: 19, fontWeight: 700, letterSpacing: '-.01em' }}><span style={{ color: lc }}>{head}</span>{rest}</span><span style={{ fontSize: 13.5, lineHeight: 1.45, color: '#C9C5D6' }}>{what}</span></span>
-                    <span className="n" style={{ marginLeft: 'auto', fontSize: 12, color: '#8E88A8', whiteSpace: 'nowrap' }}>{FOXC.filter((c: string[]) => c[0] === L).length} tools</span>
-                  </button>
-                );
-              })}
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', fontSize: 12, fontWeight: 700, letterSpacing: '.06em', color: '#8E88A8', marginTop: 'auto' }}>
-              <span>PLANT FLOOR</span><span aria-hidden="true">→</span><span style={{ color: '#C4B8FF' }}>F</span><span aria-hidden="true">·</span><span style={{ color: '#FDBA74' }}>O</span><span aria-hidden="true">·</span><span style={{ color: '#86EFAC' }}>X</span><span aria-hidden="true">→</span><span>COSTED REPORT</span>
-            </div>
-          </article>
-          {FOXC.map(([L, name, what, d]: string[], i: number) => {
-            const c = FC[L], on = fl === L;
-            return (
-              <article key={name} className="press" style={{ gridColumn: `span ${i === 9 ? 2 : 1}`, borderRadius: 24, padding: 18, background: on ? c[1] : '#FFFFFF', border: `1px solid ${on ? c[0] : 'rgba(11,10,20,.08)'}`, opacity: !fl || on ? 1 : 0.38, display: 'flex', flexDirection: 'column', gap: 10 }}>
-                <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
-                  <span style={{ width: 42, height: 42, borderRadius: 13, background: c[0], display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={d} /></svg></span>
-                  <span style={{ height: 24, padding: '0 9px', borderRadius: 999, background: c[1], color: c[2], fontSize: 11, fontWeight: 800, display: 'inline-flex', alignItems: 'center', gap: 4, whiteSpace: 'nowrap' }}><span className="n">{String(i + 2).padStart(2, '0')}</span>· {c[3]}</span>
-                </span>
-                <span style={{ fontSize: 16, fontWeight: 700, letterSpacing: '-.01em' }}>{name}</span>
-                <span style={{ fontSize: 13, lineHeight: 1.45, color: 'var(--sub)' }}>{what}</span>
-              </article>
-            );
-          })}
-        </div>
-        <p style={{ margin: 0, fontSize: 13, color: 'var(--mute)' }}>Field apps work offline on site; the AI analyser reads power-quality and clamp-meter files in seconds; the report is drafted from the data in PostMan.</p>
-      </div>
-    </div>
-  );
-}
-
 export function KInstruments() {
   return (
     <section id="instruments" className="sec">
@@ -210,6 +150,31 @@ export function KInstruments() {
         </div>
       </div>
     </section>
+  );
+}
+
+// Measuring on site: one large photo with its caption, and the others as thumbnails to pick.
+function Measuring() {
+  const [m, setM] = useState(0);
+  const [, t, s] = MEAS[m] as string[];
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <figure style={{ margin: 0, position: 'relative', aspectRatio: '16 / 10', borderRadius: 18, overflow: 'hidden', background: '#1E1A33' }}>
+        {(MEAS as string[][]).map(([g, gt, gs], k) => (
+          <img key={g} className="ph" src={`/field/${g}.webp`} alt={k === m ? `${gt}: ${gs}` : ''} aria-hidden={k !== m} loading="lazy" style={{ position: 'absolute', inset: 0, opacity: k === m ? 1 : 0, transition: 'opacity .5s ease' }} />
+        ))}
+        <span aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(11,10,20,0) 50%, rgba(11,10,20,.85) 100%)' }} />
+        <span className="n" style={{ position: 'absolute', top: 12, left: 12, height: 26, padding: '0 10px', borderRadius: 999, background: 'rgba(255,255,255,.92)', fontSize: 12, fontWeight: 700, display: 'inline-flex', alignItems: 'center' }}>{String(m + 1).padStart(2, '0')} / {String(MEAS.length).padStart(2, '0')}</span>
+        <figcaption aria-live="polite" style={{ position: 'absolute', left: 16, right: 16, bottom: 14, color: '#FFFFFF', display: 'flex', flexDirection: 'column', gap: 2 }}><span style={{ fontSize: 18, fontWeight: 700 }}>{t}</span><span style={{ fontSize: 13, color: '#DDDAE6' }}>{s}</span></figcaption>
+      </figure>
+      <div role="group" aria-label="Pick a photo" style={{ display: 'grid', gridTemplateColumns: `repeat(${MEAS.length}, minmax(0, 1fr))`, gap: 6 }}>
+        {(MEAS as string[][]).map(([g, gt], k) => (
+          <button key={g} type="button" onClick={() => setM(k)} aria-pressed={k === m} aria-label={gt} title={gt} style={{ aspectRatio: '1 / 1', padding: 0, borderRadius: 10, overflow: 'hidden', cursor: 'pointer', border: `2px solid ${k === m ? '#6D5BD0' : 'transparent'}`, opacity: k === m ? 1 : 0.62, background: '#ECEAF2', transition: 'opacity .2s ease' }}>
+            <img className="ph" src={`/field/${g}.webp`} alt="" loading="lazy" />
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -241,11 +206,7 @@ export function KField() {
           <div className="tile" style={{ flex: '1 1 460px', minWidth: 0, padding: 22, display: 'flex', flexDirection: 'column', gap: 14 }}>
             <h3 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: '-.02em' }}>Measuring on site</h3>
             <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: 'var(--sub)' }}>The team logging power, flow and heat during detailed audits, with the plant running as usual.</p>
-            <div style={{ display: 'flex', gap: 10, overflowX: 'auto', paddingBottom: 6 }}>
-              {MEAS.map(([f, t, s]: string[]) => (
-                <figure key={f} style={{ margin: 0, flex: '0 0 150px', borderRadius: 16, overflow: 'hidden', background: '#FFFFFF' }}><div className="zoom" style={{ aspectRatio: '3 / 4', overflow: 'hidden' }}><img className="ph" src={`/field/${f}.webp`} alt={`${t}: ${s}`} loading="lazy" /></div><figcaption style={{ padding: '8px 10px 10px', display: 'flex', flexDirection: 'column', gap: 2 }}><span style={{ fontSize: 13, fontWeight: 700 }}>{t}</span><span style={{ fontSize: 11.5, lineHeight: 1.35, color: 'var(--sub)' }}>{s}</span></figcaption></figure>
-              ))}
-            </div>
+            <Measuring />
           </div>
         </div>
         <span style={{ fontSize: 12, color: 'var(--mute)' }}>Photos from KISEM audits on site.</span>

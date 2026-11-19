@@ -57,7 +57,7 @@ export function KNav({ signed, signLabel, onSign, teamBar }: { signed: boolean; 
         </button>
       </nav>
       {menu && (
-        <div id="kmenu" style={{ pointerEvents: 'auto', margin: '8px 0 0', borderRadius: 24, background: '#FFFFFF', boxShadow: '0 18px 40px -16px rgba(22,19,42,.35)', padding: 8, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 4, maxHeight: 'calc(100vh - 100px)', overflowY: 'auto' }}>
+        <div id="kmenu" className="kglass" style={{ pointerEvents: 'auto', margin: '8px 0 0', borderRadius: 24, background: '#FFFFFF', boxShadow: '0 18px 40px -16px rgba(22,19,42,.35)', padding: 8, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 4, maxHeight: 'calc(100vh - 100px)', overflowY: 'auto' }}>
           {[...NAV, ...extra].map(([l, h]) => (
             <a key={h} href={h} onClick={() => setMenu(false)} style={{ minHeight: 48, padding: '0 14px', borderRadius: 14, display: 'flex', alignItems: 'center', fontSize: 16, fontWeight: 600, textDecoration: 'none', background: on === l ? '#ECEAF8' : 'transparent' }}>{l}</a>
           ))}
@@ -185,7 +185,7 @@ export function KPartners() {
           <div className="marq" style={{ display: 'flex', gap: 56, width: 'max-content', alignItems: 'center' }}>
             {list.map((p: string[], i: number) => (
               <span key={i} aria-hidden={i >= half} style={{ display: 'inline-flex', alignItems: 'center', gap: 12, whiteSpace: 'nowrap' }}>
-                <img src={p[2]} alt="" style={{ height: 38, maxWidth: 110, objectFit: 'contain' }} />
+                <img src={p[2]} alt="" style={{ height: 44, maxWidth: 120, objectFit: 'contain' }} />
                 <span style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.25 }}><span style={{ fontSize: 14, fontWeight: 600 }}>{p[0]}</span><span style={{ fontSize: 12, color: 'var(--mute)' }}>{p[1]}</span></span>
               </span>
             ))}

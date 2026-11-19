@@ -14,10 +14,11 @@ import { KHero, KNav, KPartners, KStory } from './k/KTop';
 import { KImpact, KJourney } from './k/KNumbers';
 import { KAudits } from './k/KAudits';
 import { KMap, KSectors } from './k/KMap';
-import { KField, KFox, KInstruments } from './k/KWork';
+import { KField, KInstruments } from './k/KWork';
 // "What an audit covers" stays the previous section: plant tour with its points on each photo,
 // diagnostics, energy flow, stages and the 17 areas.
 import ScopeSection from './ScopeSection';
+import { KBreak } from './k/KBreak';
 import './redesign.css';
 import { KApply, KFooter, KTeam } from './k/KPeople';
 import { goTo } from './k/kutil';
@@ -65,14 +66,19 @@ export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }
           <KHero rows={rows} />
           <KPartners />
           <KStory rows={rows} />
+          <KBreak n="01" label="The numbers" color="#6D5BD0" />
           <KImpact rows={rows} onStatus={pickStatus} />
           <KJourney rows={rows} />
+          <KBreak n="02" label="Every audit" color="#1D5BD8" />
           <KAudits rows={rows} signed={signed} filters={filters} setFilters={setFilters} onOpen={setOpen} onSign={signButton} open={open} />
+          <KBreak n="03" label="Where we work" color="#0F766E" />
           <KMap rows={rows} signed={signed} onOpen={setOpen} />
           <KSectors rows={rows} onPick={pickSector} />
-          <ScopeSection rows={rows} fox={<KFox />} />
+          <KBreak n="04" label="The work" color="#D67800" />
+          <ScopeSection rows={rows} />
           <KInstruments />
           <KField />
+          <KBreak n="05" label="The people" color="#15803D" />
           <KTeam />
           <KApply />
         </main>
