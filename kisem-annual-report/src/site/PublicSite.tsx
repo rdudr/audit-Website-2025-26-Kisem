@@ -1,43 +1,27 @@
-import { useEffect, useRef, useState } from 'react';
+// foxauditiitgn.com: the November 2026 redesign ("KISEM website (foxauditiitgn.com) · redesign").
+// Sections live in ./k; every figure comes from the live rows (master sheet + FOX Console).
+// Company names show only to signed-in team members; sign-in, the audit panel, adding companies,
+// the change log and the master Excel download are the same as before.
+import { useState } from 'react';
 import type { SiteState } from '../App';
-import Audits from './Audits';
 import { NO_FILTERS, type Filters } from './filters';
-import { APPLY_URL } from './content';
 import { Icon } from './Icon';
 import { PATHS } from './icons';
 import { AddCompany, AuditDrawer, ChangeLog, SignIn } from './Overlays';
-import { Logo } from './Logo';
 import { useMasterExcel } from './useMasterExcel';
-import PeopleSection, { SiteFooter } from './PeopleSection';
-import HeroSection from './HeroSection';
-import ImpactSection from './ImpactSection';
-import FieldSection from './FieldSection';
-import ScopeSection from './ScopeSection';
-import SectorsSection from './SectorsSection';
-import './redesign.css';
-
-const LINKS: [string, string][] = [['Impact', '#impact'], ['Year by year', '#journey'], ['All audits', '#audits'], ['Sectors', '#sectors'], ['Scope', '#scope'], ['Instruments', '#instruments'], ['How we measure', '#how'], ['Team', '#team'], ['Contact', '#contact']];
+import type { Status } from '../data';
+import { KHero, KNav, KPartners, KStory } from './k/KTop';
+import { KImpact, KJourney } from './k/KNumbers';
+import { KAudits } from './k/KAudits';
+import { KMap, KSectors } from './k/KMap';
+import { KField, KFox, KInstruments, KScope } from './k/KWork';
+import { KApply, KFooter, KTeam } from './k/KPeople';
+import { goTo } from './k/kutil';
+import './k/k.css';
 
 export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }: { state: SiteState; loginOpen: boolean; setLoginOpen: (v: boolean) => void; signingIn: boolean }) {
   const { rows, session } = state;
   const signed = !!session;
-  const [menu, setMenu] = useState(false);
-  // Sections fade up once as they come into view, and their headings turn from light to dark.
-  // Nothing is hidden until the browser has shown it can report what is on screen (the first
-  // observer callback), so content never stays invisible; reduced motion turns it off in CSS.
-  const mainRef = useRef<HTMLElement>(null);
-  useEffect(() => {
-    const root = mainRef.current;
-    if (!root || typeof IntersectionObserver === 'undefined') return;
-    const secs = [...root.querySelectorAll<HTMLElement>(':scope > section:not(#top):not(.pstrip)')];
-    secs.forEach(el => el.classList.add('rv'));
-    const io = new IntersectionObserver(entries => {
-      document.documentElement.classList.add('rv-ready');
-      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('rv-in'); io.unobserve(e.target); }
-    }, { rootMargin: '0px 0px -12% 0px' });
-    secs.forEach(el => io.observe(el));
-    return () => io.disconnect();
-  }, []);
   const [filters, setFilters] = useState<Filters>(NO_FILTERS);
   const [open, setOpen] = useState<string | null>(null);
   const [showAdd, setShowAdd] = useState(false);
@@ -45,73 +29,57 @@ export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }
   const excel = useMasterExcel(state);
   const row = rows.find(r => r.c === open) || null;
   const signButton = () => (signed ? state.signOutNow() : setLoginOpen(true));
+  const signLabel = signingIn ? 'Signing in…' : signed ? 'Sign out' : 'Team sign in';
 
-  const pickSector = (s: string) => {
-    setFilters({ ...NO_FILTERS, sort: filters.sort, sector: s });
-    document.getElementById('audits')?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const pickSector = (s: string) => setFilters({ ...NO_FILTERS, sort: filters.sort, sector: s });
+  const pickStatus = (s: Status) => { setFilters({ ...NO_FILTERS, sort: filters.sort, status: s }); goTo('audits'); };
+
+  const btn = { height: 36, padding: '0 12px', borderRadius: 999, fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6, textDecoration: 'none', font: 'inherit' } as const;
+  const teamBar = (signed || state.teamError) ? (
+    <div style={{ borderRadius: 22, background: '#16132A', color: '#FFFFFF', padding: '8px 10px 8px 16px', boxShadow: '0 12px 32px -18px rgba(22,19,42,.6)', display: 'flex', flexDirection: 'column', gap: 6 }}>
+      {signed && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <span style={{ fontSize: 13, fontWeight: 600, flex: '1 1 200px', display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: '#4ADE80', flexShrink: 0 }} />Team view · signed in as {session!.name}</span>
+          <a href="#/companies" style={{ ...btn, background: '#FFFFFF', color: '#0B0A14', border: 0 }}>Companies</a>
+          <button type="button" onClick={() => setShowAdd(true)} style={{ ...btn, background: '#FFFFFF', color: '#0B0A14', border: 0 }}>Add company</button>
+          <button type="button" onClick={() => setShowLog(true)} style={{ ...btn, background: 'transparent', color: '#FFFFFF', border: '1px solid rgba(255,255,255,.3)' }}>Change log · {state.changes.length}</button>
+          <button type="button" onClick={excel.download} disabled={excel.busy} style={{ ...btn, background: 'transparent', color: '#FFFFFF', border: '1px solid rgba(255,255,255,.3)' }}><Icon d={PATHS.download} size={14} />Master Excel</button>
+        </div>
+      )}
+      {excel.msg && <div role="status" style={{ fontSize: 13, color: '#DDDAE6' }}>{excel.msg}</div>}
+      {signed && state.teamEmpty && <div role="alert" style={{ fontSize: 13, color: '#FCA5A5' }}>Signed in, but FOX Console has no companies yet: the master data sheet has not been imported on the server, so names cannot be shown.</div>}
+      {state.teamError && !loginOpen && <div role="alert" style={{ fontSize: 13, color: '#FCA5A5' }}>{state.teamError}</div>}
+    </div>
+  ) : null;
 
   return (
-    <div>
-      <a href="#impact" className="sr-only">Skip to content</a>
-      <header className="hdr">
-        <div className="hdrin">
-          <Logo />
-          <nav className="secnav" aria-label="Sections" style={{ display: 'flex', gap: '4px 20px', flexWrap: 'wrap', fontSize: 14, fontWeight: 500 }}>
-            {LINKS.filter(([l]) => l !== 'Instruments' && l !== 'How we measure').map(([l, h]) => <a key={h} className="navl" href={h}>{l}</a>)}
-            {signed && <a className="navl" href="#/companies" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontWeight: 600, color: '#2B2644' }}><Icon d={PATHS.building} size={14} />Companies</a>}
-          </nav>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            <button type="button" className="ghost" onClick={signButton} aria-pressed={signed} disabled={signingIn}
-              style={{ height: 42, padding: '0 14px', border: '1px solid #D4D4D4', borderRadius: 12, background: '#FFFFFF', fontSize: 14, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
-              <Icon d={signed ? PATHS.unlock : PATHS.lock} size={15} />{signingIn ? 'Signing in…' : signed ? 'Sign out' : <><span className="hide-xs">Team sign in</span><span className="show-xs">Sign in</span></>}
-            </button>
-            <a className="hide-sm btn btnp" href={APPLY_URL} target="_blank" rel="noopener" style={{ height: 42 }}>Apply for an audit</a>
-            <button type="button" className="menubtn ghost" onClick={() => setMenu(!menu)} aria-expanded={menu} aria-controls="phone-menu" aria-label="Menu"
-              style={{ width: 44, height: 44, border: '1px solid #D4D4D4', borderRadius: 12, background: '#FFFFFF', cursor: 'pointer', alignItems: 'center', justifyContent: 'center' }}>
-              <Icon d={menu ? PATHS.close : PATHS.menu} size={18} />
-            </button>
-          </div>
-        </div>
-        {menu && (
-          <nav id="phone-menu" aria-label="Sections" style={{ display: 'flex', flexDirection: 'column', padding: '4px 16px 16px', borderTop: '1px solid #EBEBEB', background: '#FFFFFF', maxHeight: 'calc(100vh - 70px)', overflowY: 'auto' }}>
-            {[...LINKS, ...(signed ? [['Companies (team)', '#/companies'] as [string, string]] : [])].map(([l, h]) => (
-              <a key={h} href={h} onClick={() => setMenu(false)} style={{ minHeight: 48, display: 'flex', alignItems: 'center', fontSize: 16, fontWeight: 500, textDecoration: 'none', borderBottom: '1px solid #F0F0F0' }}>{l}</a>
-            ))}
-            <a href={APPLY_URL} target="_blank" rel="noopener" className="btn btnp" style={{ marginTop: 12, height: 48, fontSize: 15 }}>Apply for an audit</a>
-          </nav>
-        )}
-        {signed && (
-          <div style={{ background: '#2B2644', color: '#FFFFFF' }}>
-            <div className="wrap" style={{ padding: '8px 24px', display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 13, fontWeight: 600, flex: '1 1 200px', display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: '#4ADE80' }} />Team view · signed in as {session!.name}</span>
-              <a href="#/companies" className="btnw" style={{ height: 36, padding: '0 12px', borderRadius: 10, background: '#FFFFFF', color: '#000000', textDecoration: 'none', fontSize: 13, fontWeight: 600, display: 'flex', alignItems: 'center' }}>Companies</a>
-              <button type="button" className="btnw" onClick={() => setShowAdd(true)} style={{ height: 36, padding: '0 12px', border: 0, borderRadius: 10, background: '#FFFFFF', color: '#000000', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Add company</button>
-              <button type="button" className="btno" onClick={() => setShowLog(true)} style={{ height: 36, padding: '0 12px', border: '1px solid rgba(255,255,255,.3)', borderRadius: 10, background: 'transparent', color: '#FFFFFF', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Change log · {state.changes.length}</button>
-              <button type="button" className="btno" onClick={excel.download} disabled={excel.busy} style={{ height: 36, padding: '0 12px', border: '1px solid rgba(255,255,255,.3)', borderRadius: 10, background: 'transparent', color: '#FFFFFF', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}><Icon d={PATHS.download} size={14} />Master Excel</button>
-            </div>
-            {excel.msg && <div role="status" className="wrap" style={{ padding: '0 24px 10px', fontSize: 13, color: '#DDDAE6' }}>{excel.msg}</div>}
-          </div>
-        )}
-        {signed && state.teamEmpty && <div role="alert" className="wrap" style={{ padding: '8px 24px', fontSize: 13, color: '#C4161C' }}>Signed in, but FOX Console has no companies yet: the master data sheet has not been imported on the server, so names cannot be shown.</div>}
-        {state.teamError && !loginOpen && <div role="alert" className="wrap" style={{ padding: '8px 24px', fontSize: 13, color: '#C4161C' }}>{state.teamError}</div>}
-      </header>
-
-      <main ref={mainRef}>
-        <HeroSection rows={rows} />
-        <ImpactSection rows={rows} />
-        <Audits rows={rows} signed={signed} filters={filters} setFilters={setFilters} onOpen={setOpen} onSignIn={() => setLoginOpen(true)} onSignOut={state.signOutNow} />
-        <SectorsSection rows={rows} onPick={pickSector} />
-        <ScopeSection rows={rows} />
-        <FieldSection />
-        <PeopleSection session={session} />
-      </main>
-      <SiteFooter session={session} />
+    <>
+      <div className="k">
+        <a href="#impact" className="sr-only">Skip to content</a>
+        <KNav signed={signed} signLabel={signLabel} onSign={signButton} teamBar={teamBar} />
+        <main>
+          <KHero rows={rows} />
+          <KPartners />
+          <KStory rows={rows} />
+          <KImpact rows={rows} onStatus={pickStatus} />
+          <KJourney rows={rows} />
+          <KAudits rows={rows} signed={signed} filters={filters} setFilters={setFilters} onOpen={setOpen} onSign={signButton} open={open} />
+          <KMap rows={rows} signed={signed} onOpen={setOpen} />
+          <KSectors rows={rows} onPick={pickSector} />
+          <KScope rows={rows} />
+          <KFox />
+          <KInstruments />
+          <KField />
+          <KTeam />
+          <KApply />
+        </main>
+        <KFooter session={session} />
+      </div>
 
       <SignIn open={loginOpen && !signed} onClose={() => setLoginOpen(false)} onDone={state.signedIn} notice={state.teamError} />
       <AuditDrawer row={row} session={session} changes={state.changes} onClose={() => setOpen(null)} onSaved={state.applySaved} />
       <AddCompany open={showAdd && signed} session={session} rows={rows} onClose={() => setShowAdd(false)} onSaved={(r, c) => { state.applySaved(r, c); setOpen(r.c); }} />
       <ChangeLog open={showLog && signed} changes={state.changes} onClose={() => setShowLog(false)} />
-    </div>
+    </>
   );
 }
