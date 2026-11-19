@@ -68,7 +68,7 @@ const F: Frame[] = [
     [[22, 62, 'Process machines', 'Load profile over the shift'], [74, 60, 'Drives and motors', 'Running hours and load'], [50, 14, 'Roof lights and daylight', 'Lux, connected load, hours']]],
   ['photo', 'thermo', 'STOP 11 · HOT SPOTS', 'Thermal imaging across the plant', 'Thermal', 'TI-01 · THERMAL IMAGING CAMERA', 'A thermal camera shows what the eye cannot: loose connections in panels, bare or wet insulation, failing bearings and leaking traps. Every hot spot is photographed and goes into the report with its fix.', ['11', '01', '02'], 'Hot joints in panels, damaged insulation, overheated motors and bearings.', 'Tightening and repairs, re-insulation, a regular thermography round.', 'thermal',
     [[42, 55, 'Thermal imaging camera', 'Hot spots and heat loss, seen in infrared'], [26, 38, 'Lines and fittings', 'Insulation gaps and leaks on the pipework']]],
-  ['fox', null, 'STOP 12 · FOX PLATFORM', 'FOX turns site readings into the report, fast', 'FOX', 'FOX · REPORTING TOOLS AND AI PLATFORM', 'The platform behind every audit. Every reading, photo and logger file goes into FOX, the KISEM platform built for these audits: eleven tools in three steps. Field apps work offline on site, the AI analyser reads power-quality files in seconds, and the report is drafted straight from the data, so findings reach the plant sooner.', [], '', '', null, []],
+  ['fox', null, 'STOP 12 · FOX PLATFORM', 'FOX turns site readings into the report, fast', 'FOX', 'FOX · REPORTING TOOLS AND AI PLATFORM', 'The platform behind every audit. Readings, photos and logger files go into FOX on site and come out as a costed report, so findings reach the plant sooner.', [], '', '', null, []],
   ['output', null, 'THE OUTPUT', 'A costed list of measures', 'Report', '', 'Every finding becomes an energy conservation measure, with its saving in rupees, kWh and CO₂, the investment and the payback, and the report goes to the plant. A separate team verifies what was implemented about 3 months later, and a post assessment follows at about 6 months.', [], '', '', null, []],
 ];
 const DUR = 8000;
@@ -263,7 +263,7 @@ export default function PlantTour({ dev, totals, jump }: { dev: Device; totals: 
                       <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <span style={{ width: D || T ? 34 : 28, height: D || T ? 34 : 28, borderRadius: 10, background: col, fontSize: D || T ? 19 : 16, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{Lt}</span>
                         <b style={{ fontSize: D || T ? 15 : 14, fontWeight: 700 }}><span style={{ color: lc }}>{head}</span>{rest}</b>
-                        <span className={mono} style={{ marginLeft: 'auto', fontSize: 10, color: '#8E88A8', whiteSpace: 'nowrap' }}>{tools.length} {tools.length === 1 ? 'tool' : 'tools'}</span>
+                        {!(D || T) && <span className={mono} style={{ marginLeft: 'auto', fontSize: 10, color: '#8E88A8', whiteSpace: 'nowrap' }}>{tools.length} {tools.length === 1 ? 'tool' : 'tools'}</span>}
                       </span>
                       {(D || T) && <span style={{ fontSize: 11.5, lineHeight: 1.4, color: '#C9C5D6' }}>{what}</span>}
                       {(D || T) && (
@@ -323,19 +323,40 @@ export default function PlantTour({ dev, totals, jump }: { dev: Device; totals: 
               <span style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}><span className={mono} style={{ fontSize: 10, fontWeight: 700, letterSpacing: '.1em', color: '#C9C5D6' }}>INSTRUMENT ON SITE</span><b style={{ fontSize: 13 }}>{inst[1]}</b><span style={{ fontSize: 12, color: '#C9C5D6' }}>{inst[2]}</span></span>
             </div>
           )}
-          {kind === 'fox' && (
-            <ol style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: L.twoCols, gap: 8 }}>
-              {FOXC.filter((c: string[]) => !fl || c[0] === fl).map(([Lt, name, what, d]: string[]) => {
-                const col = FOXL.find((x: string[]) => x[0] === Lt)[3];
-                return (
-                  <li key={name} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                    <span style={{ width: 26, height: 26, borderRadius: 8, background: col, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={d} /></svg></span>
-                    <span style={{ display: 'flex', flexDirection: 'column', gap: 1, minWidth: 0 }}><b style={{ fontSize: 13 }}>{name}</b><span style={{ fontSize: 12, lineHeight: 1.4, color: '#C9C5D6' }}>{what}</span></span>
-                  </li>
-                );
-              })}
-            </ol>
-          )}
+          {kind === 'fox' && (() => {
+            const pick = fl ? FOXL.find((x: string[]) => x[0] === fl) : null;
+            const tools = FOXC.filter((c: string[]) => (fl ? c[0] === fl : L.phoneList));
+            return (
+              <>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 8 }}>
+                  {[['Offline', 'field apps on site'], ['Seconds', 'to read a logger file'], ['1 report', 'drafted from the data']].map(([v, k]) => (
+                    <div key={v} style={{ padding: '10px 12px', borderRadius: 12, background: 'rgba(255,255,255,.05)', border: '1px solid rgba(196,184,255,.25)', display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}>
+                      <b style={{ fontSize: 15, color: '#FFFFFF' }}>{v}</b><span style={{ fontSize: 11.5, lineHeight: 1.35, color: '#C9C5D6' }}>{k}</span>
+                    </div>
+                  ))}
+                </div>
+                {pick && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <span style={{ width: 26, height: 26, borderRadius: 8, background: pick[3], fontSize: 14, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{pick[0]}</span>
+                    <b style={{ fontSize: 14 }}><span style={{ color: pick[4] }}>{pick[1]}</span>{pick[2]} · {tools.length} {tools.length === 1 ? 'tool' : 'tools'}</b>
+                    <button type="button" onClick={() => setFl(null)} style={{ marginLeft: 'auto', height: 28, padding: '0 10px', borderRadius: 8, border: '1px solid rgba(255,255,255,.2)', background: 'transparent', color: '#C9C5D6', fontFamily: 'inherit', fontSize: 12, cursor: 'pointer' }}>Clear</button>
+                  </div>
+                )}
+                {tools.length > 0 ? (
+                  <ol style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: L.twoCols, gap: 8 }}>
+                    {tools.map(([Lt, name, what, d]: string[]) => (
+                      <li key={name} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                        <span style={{ width: 26, height: 26, borderRadius: 8, background: FOXL.find((x: string[]) => x[0] === Lt)[3], display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={d} /></svg></span>
+                        <span style={{ display: 'flex', flexDirection: 'column', gap: 1, minWidth: 0 }}><b style={{ fontSize: 13 }}>{name}</b><span style={{ fontSize: 12, lineHeight: 1.4, color: '#C9C5D6' }}>{what}</span></span>
+                      </li>
+                    ))}
+                  </ol>
+                ) : (
+                  <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#A8A3BA' }}>Pick <b style={{ color: '#C4B8FF' }}>F</b>, <b style={{ color: '#FDBA74' }}>O</b> or <b style={{ color: '#86EFAC' }}>X</b> on the left to see what each tool does.</p>
+                )}
+              </>
+            );
+          })()}
           {L.phoneList && kind === 'photo' && (
             <ol style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
               {hsV.map(h => (
