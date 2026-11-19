@@ -25,9 +25,9 @@ const MOSAIC: [string, string, string, [number, number], [number, number]][] = [
   ['cold-storage', 'Cold storage', 'Temperatures and insulation in the cold rooms', [2, 1], [2, 1]],
 ];
 const WALKS = ['Engineer explaining a panel during a walkthrough', 'Engineer at the drive panels', 'Team discussing a chiller on site', 'Discussion with the plant team', 'Walkthrough of a process line', 'Process line with the plant team', 'Machine hall walkthrough', 'Thermal imaging check in a plant', 'Inspecting process machines', 'Furnace line during a walkthrough', 'Process hall walkthrough', 'Hot billet coming out of a furnace', 'Team photo at a plant visit', 'Distribution transformer on site', 'Cooling tower fan deck', 'Induction furnace crucible'];
-// Seven of the sixteen, to keep the page short (photo 01 removed at the team's request). The last
-// one, the wide team photo, spans the end of the grid so every row stays full.
-const WALK_PICK = [3, 4, 5, 8, 10, 12, 13];
+// Six of the sixteen, to keep the page short (photos 01 and 12 taken out at the team's request).
+// Six fill the grid evenly: three across on desktop and tablet, two across on phones.
+const WALK_PICK = [3, 4, 5, 8, 10, 13];
 const MEASURES: [string, string, string][] = [
   ['power-quality', 'Power quality logging', 'Analyser on the incomer, read live on a laptop'],
   ['mcc-panel', 'Panel measurements', 'Clamp-on readings at the motor control centre'],
@@ -46,7 +46,7 @@ export default function FieldSection() {
     h2: D ? 48 : T ? 40 : 32, lede: D ? 18 : 16,
     iCols: D ? 'repeat(3, minmax(0, 1fr))' : T ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)', iImg: D ? 220 : 200,
     cCols: D ? 'repeat(4, minmax(0, 1fr))' : T ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)', cRow: D ? 240 : T ? 260 : 300,
-    wCols: D ? 'repeat(4, minmax(0, 1fr))' : T ? 'repeat(3, minmax(0, 1fr))' : 'repeat(2, minmax(0, 1fr))',
+    wCols: D || T ? 'repeat(3, minmax(0, 1fr))' : 'repeat(2, minmax(0, 1fr))',
     mCols: D ? 'repeat(7, minmax(0, 1fr))' : T ? 'repeat(3, minmax(0, 1fr))' : 'repeat(2, minmax(0, 1fr))',
   };
   const chip = (dot: string, t: string) => <span style={{ height: 34, padding: '0 12px', borderRadius: 999, background: '#FFFFFF', border: '1px solid #E1DEEA', fontSize: 13, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 8 }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: dot }} />{t}</span>;
@@ -118,10 +118,9 @@ export default function FieldSection() {
             <span style={{ height: 34, padding: '0 14px', borderRadius: 999, background: '#2B2644', color: '#FFFFFF', fontSize: 13, fontWeight: 700, display: 'inline-flex', alignItems: 'center' }}>{data.counts.walkthrough} walkthrough energy audits</span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: L.wCols, gap: 8 }}>
-            {WALK_PICK.map((n, k) => {
-              const span = k === WALK_PICK.length - 1 ? (T ? 3 : 2) : 1;
+            {WALK_PICK.map(n => {
               return (
-              <div key={n} className="rd-card" style={{ gridColumn: span > 1 ? `span ${span}` : undefined, aspectRatio: `${3 * span} / 2`, borderRadius: 12, overflow: 'hidden', background: '#ECEAF2' }}><img src={`/field/walk/${String(n).padStart(2, '0')}.webp`} alt={WALKS[n - 1]} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} /></div>
+              <div key={n} className="rd-card" style={{ aspectRatio: '3 / 2', borderRadius: 12, overflow: 'hidden', background: '#ECEAF2' }}><img src={`/field/walk/${String(n).padStart(2, '0')}.webp`} alt={WALKS[n - 1]} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} /></div>
               );
             })}
           </div>
