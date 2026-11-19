@@ -1,5 +1,6 @@
 // Team, awards, events and partners; Apply with the contact card; the footer.
 // (The design's "Rooted at IIT Gandhinagar" campus band is left out on purpose.)
+import { useEffect, useRef } from 'react';
 import type { Session } from '../../lib/console';
 import { APPLY_URL } from '../content';
 import { AWARDS, EVENTS, I, PARTNERS, TEAM } from './design';
@@ -121,22 +122,79 @@ const FOOT: [string, [string, string][]][] = [
   ['People', [['Team', '#team'], ['Apply for an audit', '#apply'], ['Contact', '#contact']]],
 ];
 
+// The footer follows the FOX Console's: two soft waves that drift sideways as the page scrolls
+// (still with reduced motion), a lavender band with the brand, link columns and a legal line.
+const WAVE_BACK = 'M0 62 C 200 20, 400 20, 600 62 S 1000 104, 1200 62 S 1600 20, 1800 62 S 2200 104, 2400 62 V110 H0 Z';
+const WAVE_FRONT = 'M0 40 C 220 100, 420 108, 640 74 S 1010 4, 1200 40 C 1420 100, 1620 108, 1840 74 S 2210 4, 2400 40 V110 H0 Z';
+
 export function KFooter({ session }: { session: Session | null }) {
+  const back = useRef<SVGSVGElement>(null), front = useRef<SVGSVGElement>(null);
+  useEffect(() => {
+    // Each wave repeats every 1200 of its 2400 units, so a shift of 0-50% loops with no seam.
+    const loop = (px: number) => ((((px % 1200) + 1200) % 1200) / 2400) * 100;
+    // Stretch: the faster the page scrolls, the taller the waves grow (up to about 1.7x); when
+    // scrolling stops they ease back down to their resting height.
+    let stretch = 0, lastY = window.scrollY || 0, lastT = performance.now(), raf = 0;
+    const place = () => {
+      const y = window.scrollY || 0;
+      if (front.current) front.current.style.transform = `translateX(-${loop(y * 0.35).toFixed(3)}%) scaleY(${(1 + stretch).toFixed(3)})`;
+      if (back.current) back.current.style.transform = `translateX(-${loop(-y * 0.21 + 300).toFixed(3)}%) scaleY(${(1 + stretch * 1.35).toFixed(3)})`;
+    };
+    place();
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    const settle = () => {
+      stretch *= 0.9;
+      if (stretch < 0.004) stretch = 0;
+      place();
+      raf = stretch ? requestAnimationFrame(settle) : 0;
+    };
+    const onScroll = () => {
+      const y = window.scrollY || 0, t = performance.now();
+      const speed = Math.abs(y - lastY) / Math.max(8, t - lastT); // px per ms
+      lastY = y; lastT = t;
+      stretch = Math.max(stretch, Math.min(0.7, speed * 0.35));
+      place();
+      if (!raf) raf = requestAnimationFrame(settle);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); };
+  }, []);
+  const wave = (ref: typeof back, d: string, fill: string, bottom: number) => (
+    <svg ref={ref} viewBox="0 0 2400 110" preserveAspectRatio="none" style={{ position: 'absolute', left: 0, bottom, width: '200%', height: 110, display: 'block', willChange: 'transform', transformOrigin: 'bottom' }}><path d={d} fill={fill} /></svg>
+  );
   return (
-    <footer style={{ marginTop: 72, position: 'relative', overflow: 'hidden', isolation: 'isolate', color: '#DDDAE6', background: '#0E0B20' }}>
-      <img src="/campus/night-stadium.jpg" alt="" aria-hidden="true" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.28, zIndex: -1 }} />
-      <div className="wrap" style={{ paddingTop: 56, paddingBottom: 32, display: 'flex', flexDirection: 'column', gap: 32 }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 32, justifyContent: 'space-between' }}>
-          <div style={{ flex: '1 1 280px', maxWidth: 360, display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}><img src="/brand/kisem.png" alt="KISEM" width={38} height={38} style={{ borderRadius: 10, background: '#FFFFFF', objectFit: 'contain' }} /><img src="/brand/iitgn.png" alt="IIT Gandhinagar" width={38} height={38} style={{ objectFit: 'contain', background: '#FFFFFF', borderRadius: 10 }} /></span>
-            <span style={{ fontSize: 15, fontWeight: 700, color: '#FFFFFF' }}>KISEM · IIT Gandhinagar</span>
-            <span style={{ fontSize: 13, lineHeight: 1.6 }}>Energy audits for MSMEs in Gujarat, Rajasthan and Daman, funded under Kotak Mahindra Bank's CSR programme.</span>
+    <footer className="kfoot" style={{ marginTop: 0, color: '#2B2644', overflowX: 'clip' }}>
+      <div aria-hidden="true" style={{ position: 'relative', height: 110, marginTop: 100, overflow: 'visible', clipPath: 'inset(-120px 0 0 0)' }}>
+        {wave(back, WAVE_BACK, '#EEEDF3', 0)}
+        {wave(front, WAVE_FRONT, '#E4E3EC', -1)}
+      </div>
+      <div className="kfoot-body" style={{ background: '#E4E3EC', padding: '12px 40px 28px', display: 'flex', flexDirection: 'column', gap: 36 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '40px 64px', justifyContent: 'space-between', maxWidth: 1280, width: '100%', margin: '0 auto' }}>
+          <div style={{ flex: '1 1 260px', maxWidth: 360, display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <a href="#top" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', color: '#2B2644', fontSize: 17, fontWeight: 700, letterSpacing: '.02em' }}>
+              <span style={{ display: 'flex', gap: 8 }}>
+                <img src="/brand/kisem.png" alt="" width={38} height={38} style={{ borderRadius: 11, background: '#FFFFFF', objectFit: 'contain', padding: 3, boxSizing: 'border-box' }} />
+                <img src="/brand/iitgn.png" alt="" width={38} height={38} style={{ borderRadius: 11, background: '#FFFFFF', objectFit: 'contain', padding: 3, boxSizing: 'border-box' }} />
+              </span>
+              <span>KISEM · IIT GANDHINAGAR</span>
+            </a>
+            <p style={{ margin: 0, fontSize: 15, lineHeight: 1.55, color: '#3A3A3A' }}>Energy audits for MSMEs in Gujarat, Rajasthan and Daman, funded under Kotak Mahindra Bank's CSR programme.</p>
+            <p style={{ margin: 0, fontSize: 13, color: '#3A3A3A' }}>Questions about an audit: <a href={CONTACT[1][2]} style={{ color: '#2B2644' }}>{CONTACT[1][1]}</a></p>
           </div>
-          {FOOT.map(([t, links]) => (
-            <nav key={t} aria-label={t} style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 150 }}><span style={{ fontSize: 12, fontWeight: 800, letterSpacing: '.08em', color: '#8E88A8' }}>{t.toUpperCase()}</span>{links.map(([l, h]) => <a key={h} href={h} style={{ fontSize: 14, color: '#DDDAE6', textDecoration: 'none' }}>{l}</a>)}{t === 'People' && session && <a href="#/companies" style={{ fontSize: 14, color: '#DDDAE6', textDecoration: 'none' }}>Companies (team)</a>}</nav>
-          ))}
+          <div style={{ flex: '2 1 420px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(150px, 100%), 1fr))', gap: '28px 32px' }}>
+            {FOOT.map(([t, links]) => (
+              <nav key={t} aria-label={t} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <span style={{ fontSize: 15, fontWeight: 600, paddingBottom: 4 }}>{t}</span>
+                {links.map(([l, h]) => <a key={h} className="kflink" href={h}>{l}</a>)}
+                {t === 'People' && session && <a className="kflink" href="#/companies">Companies (team)</a>}
+              </nav>
+            ))}
+          </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', paddingTop: 18, borderTop: '1px solid rgba(255,255,255,.12)', fontSize: 12, color: '#8E88A8' }}><span>Figures are totals across all KISEM audits, from the master data sheet as of {AS_OF}.</span><span>Campus photographs: IIT Gandhinagar</span></div>
+        <div style={{ maxWidth: 1280, width: '100%', margin: '0 auto', borderTop: '1px solid #A9A6BB', paddingTop: 18, display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: '8px 24px', fontSize: 13, color: '#5E5E5E' }}>
+          <span>© {new Date().getFullYear()} KISEM, IIT Gandhinagar. Figures are totals across all KISEM audits, from the master data sheet as of {AS_OF}.</span>
+          <span>Campus photographs: IIT Gandhinagar</span>
+        </div>
       </div>
     </footer>
   );
