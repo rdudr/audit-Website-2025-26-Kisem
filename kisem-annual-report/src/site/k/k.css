@@ -83,7 +83,7 @@
 @media (prefers-reduced-motion: reduce){.k .knav{animation:none}.k .krv .ch{opacity:1 !important;filter:none !important;color:inherit}.k .krow,.k .kfade{opacity:1;transform:none;transition:none}}
 
 @media (max-width: 960px){.k .foxgrid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}.k .foxgrid > article:first-child{grid-column:span 2 !important;grid-row:auto !important}.k .awardgrid{grid-template-columns:1fr !important}.k .mosaic{grid-template-columns:repeat(2,minmax(0,1fr)) !important}}
-@media (max-width: 560px){.k .foxgrid{grid-template-columns:1fr !important}.k .foxgrid > article{grid-column:auto !important}.k .mosaic figure{grid-column:span 1 !important;grid-row:span 1 !important}.k .mosaic{grid-template-columns:1fr !important;grid-auto-rows:220px !important}}
+@media (max-width: 560px){.k .foxgrid{grid-template-columns:minmax(0,1fr) !important}.k .foxgrid > article{grid-column:auto !important}.k .foxgrid > article:first-child{padding:20px 16px !important}.k .mosaic figure{grid-column:span 1 !important;grid-row:span 1 !important}.k .mosaic{grid-template-columns:1fr !important;grid-auto-rows:220px !important}}
 
 /* Site additions to the design: phone sizes for the year chart, the tour text and the hero. */
 .k .klogin:disabled{opacity:.6;cursor:default}

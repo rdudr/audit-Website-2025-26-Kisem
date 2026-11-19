@@ -2,13 +2,13 @@
 // hero with the implementation scorecard, the partner strip, the scroll statement with its glow,
 // and the dark split with Laal Minar. Motion follows the design export and switches off for
 // prefers-reduced-motion.
-import { Fragment, useEffect, useState, type ReactNode } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react';
 import type { Row } from '../../data';
 import { APPLY_URL } from '../content';
 import { H2, PARTNERS, STATS, STMT } from './design';
 import { COUNTS, DOT_PATH, cr, indN, pctS, totals } from './kutil';
 
-const NAV: [string, string][] = [['Impact', '#impact'], ['Years', '#journey'], ['Audits', '#audits'], ['Map', '#map'], ['Sectors', '#sectors'], ['Scope', '#scope'], ['FOX', '#fox'], ['Team', '#team'], ['Contact', '#contact']];
+const NAV: [string, string][] = [['Impact', '#impact'], ['Years', '#journey'], ['Audits', '#audits'], ['Map', '#map'], ['Sectors', '#sectors'], ['Scope', '#scope'], ['Team', '#team'], ['Contact', '#contact']];
 const NAV_TOP = ['Impact', 'Audits', 'Map', 'Sectors', 'Scope', 'FOX', 'Team'];
 
 export function Dot({ big }: { big?: boolean }) {
@@ -70,13 +70,54 @@ export function KNav({ signed, signLabel, onSign, teamBar }: { signed: boolean; 
   );
 }
 
+// The skyline video of the previous landing page, behind the hero. Phones, data saver and
+// reduced motion get its still frame; it pauses when scrolled away and has a pause button.
+function HeroVideo({ host }: { host: RefObject<HTMLElement | null> }) {
+  const still = useMemo(() => typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches, []);
+  const lite = useMemo(() => {
+    if (typeof window === 'undefined') return true;
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+    return !!saveData || window.innerWidth < 640;
+  }, []);
+  const video = !still && !lite;
+  const vid = useRef<HTMLVideoElement>(null);
+  const [paused, setPaused] = useState(false);
+  const [inView, setInView] = useState(true);
+  useEffect(() => {
+    const el = host.current;
+    if (!video || !el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.05 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [video, host]);
+  useEffect(() => {
+    const v = vid.current;
+    if (!v) return;
+    if (!paused && inView) v.play().catch(() => {});
+    else v.pause();
+  }, [paused, inView]);
+  const fill = { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: -3 } as const;
+  if (!video) return <img src="/hero-skyline-poster.jpg" alt="" aria-hidden="true" style={fill} />;
+  return (
+    <>
+      <video ref={vid} muted loop playsInline preload="metadata" poster="/hero-skyline-poster.jpg" aria-hidden="true" style={fill}><source src="/hero-skyline.mp4" type="video/mp4" /></video>
+      <button type="button" onClick={() => setPaused((p) => !p)} aria-pressed={paused} aria-label={paused ? 'Play the background video' : 'Pause the background video'} title={paused ? 'Play video' : 'Pause video'} style={{ position: 'absolute', right: 20, bottom: 20, zIndex: 2, width: 40, height: 40, borderRadius: '50%', border: '1px solid rgba(255,255,255,.3)', background: 'rgba(14,11,32,.55)', color: '#FFFFFF', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}>
+        {paused
+          ? <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9.5-5.5z" fill="currentColor" /></svg>
+          : <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h3v11H3zM8 1.5h3v11H8z" fill="currentColor" /></svg>}
+      </button>
+    </>
+  );
+}
+
 export function KHero({ rows }: { rows: Row[] }) {
+  const host = useRef<HTMLElement>(null);
   const T = totals(rows);
   const vals = [COUNTS.walkthrough, rows.length, COUNTS.clusters, COUNTS.iga, COUNTS.sessions];
   const pct = pctS(T.in, T.rn);
   return (
-    <section id="top" style={{ position: 'relative', marginTop: -80, minHeight: 860, color: '#FFFFFF', overflow: 'hidden', isolation: 'isolate', background: '#16132A' }}>
-      <img className="kb" src="/campus/hero-aerial-golden.jpg" alt="" aria-hidden="true" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: -3 }} />
+    <section id="top" ref={host} style={{ position: 'relative', marginTop: -80, minHeight: 860, color: '#FFFFFF', overflow: 'hidden', isolation: 'isolate', background: '#16132A' }}>
+      <HeroVideo host={host} />
       <div aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: -2, background: 'linear-gradient(100deg, rgba(14,11,32,.95) 0%, rgba(30,24,64,.82) 42%, rgba(43,38,68,.35) 75%, rgba(43,38,68,.15) 100%)' }} />
       <div aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: -2, background: 'linear-gradient(180deg, rgba(14,11,32,.55) 0%, rgba(14,11,32,0) 22%, rgba(14,11,32,0) 60%, rgba(14,11,32,.92) 100%)' }} />
       <div className="wrap" style={{ paddingTop: 168, paddingBottom: 40, display: 'flex', flexDirection: 'column', gap: 48 }}>

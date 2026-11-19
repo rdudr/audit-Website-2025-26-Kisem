@@ -14,7 +14,11 @@ import { KHero, KNav, KPartners, KStory } from './k/KTop';
 import { KImpact, KJourney } from './k/KNumbers';
 import { KAudits } from './k/KAudits';
 import { KMap, KSectors } from './k/KMap';
-import { KField, KFox, KInstruments, KScope } from './k/KWork';
+import { KField, KFox, KInstruments } from './k/KWork';
+// "What an audit covers" stays the previous section: plant tour with its points on each photo,
+// diagnostics, energy flow, stages and the 17 areas.
+import ScopeSection from './ScopeSection';
+import './redesign.css';
 import { KApply, KFooter, KTeam } from './k/KPeople';
 import { goTo } from './k/kutil';
 import './k/k.css';
@@ -66,8 +70,7 @@ export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }
           <KAudits rows={rows} signed={signed} filters={filters} setFilters={setFilters} onOpen={setOpen} onSign={signButton} open={open} />
           <KMap rows={rows} signed={signed} onOpen={setOpen} />
           <KSectors rows={rows} onPick={pickSector} />
-          <KScope rows={rows} />
-          <KFox />
+          <ScopeSection rows={rows} fox={<KFox />} />
           <KInstruments />
           <KField />
           <KTeam />

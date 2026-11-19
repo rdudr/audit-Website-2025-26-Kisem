@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import { sum, type Row } from '../data';
 import { APPLY_URL } from './content';
 import PlantTour from './PlantTour';
@@ -83,7 +83,7 @@ const Svg = ({ d, size = 18, stroke = '#FFFFFF', w = 2.2 }: { d: string; size?: 
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth={w} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ flexShrink: 0 }}><path d={d} /></svg>
 );
 
-export default function ScopeSection({ rows }: { rows: Row[] }) {
+export default function ScopeSection({ rows, fox }: { rows: Row[]; fox?: ReactNode }) {
   const dev = useDevice();
   const D = dev === 'desktop', T = dev === 'tablet';
   const [active, setActive] = useState<'all' | Fam>('all');
@@ -215,6 +215,9 @@ export default function ScopeSection({ rows }: { rows: Row[] }) {
             ))}
           </ol>
         </div>
+
+        {/* the FOX platform card: how the site readings become the report */}
+        {fox}
 
         {/* the 17 areas, by kind of system */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>

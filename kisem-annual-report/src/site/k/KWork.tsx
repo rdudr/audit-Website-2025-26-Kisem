@@ -130,15 +130,16 @@ export function KScope({ rows }: { rows: Row[] }) {
 
 const FC: Record<string, [string, string, string, string]> = { F: ['#6D5BD0', '#ECEAF8', '#4C3FB0', 'Forecasting'], O: ['#C2410C', '#FDEBDD', '#9A3412', 'Operation'], X: ['#0B7A45', '#E1F0E8', '#0B7A45', 'Execution'] };
 
+// FOX sits inside "What an audit covers" as one of its cards, not as a section of its own.
 export function KFox() {
   const [fl, setFl] = useState<string | null>(null);
   return (
-    <section id="fox" className="sec">
-      <div className="wrap" style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, maxWidth: 760 }}>
-          <span className="eyebrow">The platform behind every audit</span>
-          <h2 className="h2">FOX turns site readings into the report, fast</h2>
-          <p className="lede">Every reading, photo and logger file goes into FOX, the KISEM platform built for these audits. Eleven tools, in three steps.</p>
+    <div id="fox" style={{ scrollMarginTop: 96 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 18, padding: 'clamp(16px, 2.4vw, 28px)', borderRadius: 28, border: '1px solid #E7E5EE', background: '#FAFAFC' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxWidth: 760 }}>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: '#6B6880' }}>The platform behind every audit</span>
+          <h3 style={{ margin: 0, fontSize: 20, fontWeight: 700, letterSpacing: '-0.02em' }}>FOX turns site readings into the report, fast</h3>
+          <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: '#55526A' }}>Every reading, photo and logger file goes into FOX, the KISEM platform built for these audits. Eleven tools, in three steps.</p>
         </div>
         <div className="foxgrid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 14 }}>
           <article style={{ gridColumn: 'span 2', gridRow: 'span 2', borderRadius: 28, padding: 28, background: 'radial-gradient(120% 90% at 85% 0%, rgba(249,115,22,.22), rgba(22,19,42,0) 55%), #16132A', color: '#FFFFFF', display: 'flex', flexDirection: 'column', gap: 22 }}>
@@ -183,7 +184,7 @@ export function KFox() {
         </div>
         <p style={{ margin: 0, fontSize: 13, color: 'var(--mute)' }}>Field apps work offline on site; the AI analyser reads power-quality and clamp-meter files in seconds; the report is drafted from the data in PostMan.</p>
       </div>
-    </section>
+    </div>
   );
 }
 
