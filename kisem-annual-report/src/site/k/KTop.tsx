@@ -43,13 +43,12 @@ export function KNav({ signed, signLabel, onSign, teamBar }: { signed: boolean; 
         <a href="#top" className="kbrand">
           <img src="/brand/kisem.png" alt="" width={30} height={30} style={{ borderRadius: 8, objectFit: 'contain' }} />
           <img src="/brand/iitgn.png" alt="" width={28} height={28} style={{ objectFit: 'contain' }} />
-          <span style={{ fontSize: 16, fontWeight: 600, letterSpacing: '-.02em' }}>KISEM <span className="hide-sm ksub" style={{ color: 'var(--mute)', fontWeight: 500 }}>· IIT Gandhinagar</span></span>
+          <span style={{ fontSize: 16, fontWeight: 600, letterSpacing: '-.02em' }}>KISEM <span className="hide-sm" style={{ color: 'var(--mute)', fontWeight: 500 }}>· IIT Gandhinagar</span></span>
         </a>
-        <span className="kgap" />
         <div className="navlinks klinks">
           {links.map(([l, h]) => <a key={h} className="klink" href={h} aria-current={on === l ? 'true' : 'false'}>{l}</a>)}
         </div>
-        <span className="kgap" />
+        <span style={{ flex: 1 }} />
         <button type="button" className="klogin hide-sm" onClick={onSign}>{signLabel}</button>
         <span className="navcta hide-sm"><a className="btnd" href={APPLY_URL} target="_blank" rel="noopener" style={{ width: 168 }}><span className="lbl">Apply for an audit</span><Dot /></a></span>
         <button type="button" className="menubtn" onClick={() => setMenu(!menu)} aria-expanded={menu} aria-controls="kmenu" aria-label="Menu"
@@ -268,8 +267,8 @@ function countUp(el: HTMLElement) {
   requestAnimationFrame(step);
 }
 
-/** Landing motion for the page: on the first scroll the nav shrinks to its own width on the
- *  left, turns to glass and opens the Apply button; headings
+/** Landing motion for the page: on the first scroll the nav turns to glass, the Apply button
+ *  opens and the links shift to make room; headings
  *  marked data-paint reveal letter by letter with the scroll, and blocks marked .kin rise in
  *  (staggered by --d) and start their bars, rings and counters. Off for reduced motion. */
 export function useLanding() {
@@ -287,21 +286,6 @@ export function useLanding() {
       io = new IntersectionObserver(es => { for (const e of es) if (e.isIntersecting) { show(e.target as HTMLElement); io?.unobserve(e.target); } }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
       ins.forEach(el => io!.observe(el));
     }
-    // The nav shrinks to its own width on the first scroll. CSS cannot animate to a content
-    // width, so measure the compact layout once (and again on resize, font load or a label
-    // change) and hand it to CSS as --knav-w.
-    const navEl = document.getElementById('knav');
-    const measure = () => {
-      if (!navEl) return;
-      navEl.classList.add('kmeasure');
-      const w = navEl.offsetWidth;
-      navEl.classList.remove('kmeasure');
-      navEl.style.setProperty('--knav-w', Math.ceil(w + 2) + 'px');
-    };
-    measure();
-    document.fonts?.ready.then(measure).catch(() => {});
-    const mo = typeof MutationObserver !== 'undefined' ? new MutationObserver(measure) : null;
-    if (navEl && mo) mo.observe(navEl, { subtree: true, childList: true, characterData: true });
     let q = 0;
     const update = () => {
       const vh = window.innerHeight || 800;
@@ -313,10 +297,9 @@ export function useLanding() {
       });
     };
     const onScroll = () => { if (q) return; q = requestAnimationFrame(() => { q = 0; update(); }); };
-    const onResize = () => { measure(); onScroll(); };
     window.addEventListener('scroll', onScroll, true);
-    window.addEventListener('resize', onResize);
+    window.addEventListener('resize', onScroll);
     update();
-    return () => { window.removeEventListener('scroll', onScroll, true); window.removeEventListener('resize', onResize); cancelAnimationFrame(q); io?.disconnect(); mo?.disconnect(); };
+    return () => { window.removeEventListener('scroll', onScroll, true); window.removeEventListener('resize', onScroll); cancelAnimationFrame(q); io?.disconnect(); };
   }, []);
 }
