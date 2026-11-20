@@ -1,7 +1,7 @@
 // Team, awards, events and partners; Apply with the contact card; the footer.
 // (The design's "Rooted at IIT Gandhinagar" campus band is left out on purpose.)
-import { useEffect, useRef } from 'react';
-import type { Session } from '../../lib/console';
+import { useEffect, useRef, useState } from 'react';
+import { CONSOLE_URL, saveBlob, team, type Session } from '../../lib/console';
 import { APPLY_URL } from '../content';
 import { AWARDS, EVENTS, I, PARTNERS, TEAM } from './design';
 import { AS_OF, COUNTS } from './kutil';
@@ -97,7 +97,31 @@ const CONTACT: [string, string, string][] = [
   [I.phone, '+91 96101 29501', 'tel:+919610129501'],
 ];
 
-export function KApply() {
+// The team's annual report as a PDF, for signed-in members. `tone` picks the light button on the
+// dark Apply card or the soft one in the footer.
+export function KReport({ session, tone }: { session: Session; tone: 'dark' | 'soft' }) {
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const get = async () => {
+    setBusy(true); setErr(null);
+    try { const { blob, name } = await team.annualReport(session); saveBlob(blob, name); }
+    catch (e) { setErr((e as Error).message); }
+    finally { setBusy(false); }
+  };
+  return (
+    <>
+      <button type="button" className={'kteam-btn ' + tone} onClick={get} disabled={busy} aria-busy={busy}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" /></svg>
+        {busy ? 'Preparing the PDF…' : 'Annual report (PDF)'}
+      </button>
+      {err && <span role="alert" style={{ flexBasis: '100%', fontSize: 13, color: tone === 'dark' ? '#FFD7D7' : '#B3261E' }}>{err}</span>}
+    </>
+  );
+}
+const ARROW_OUT = 'M7 17L17 7M9 7h8v8';
+const TEAM_LINKS: [string, string, boolean][] = [['FOX Console', CONSOLE_URL, true], ['Field apps', CONSOLE_URL + '/apps/', true], ['Companies', '#/companies', false]];
+
+export function KApply({ session }: { session: Session | null }) {
   return (
     <section id="apply" className="sec" style={{ paddingBottom: 0 }}>
       <div className="wrap">
@@ -114,7 +138,10 @@ export function KApply() {
                   <li key={p} style={{ display: 'flex', gap: 10, alignItems: 'center', fontSize: 16 }}><span style={{ width: 24, height: 24, borderRadius: '50%', background: '#4ADE80', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0B0A14" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7" /></svg></span>{p}</li>
                 ))}
               </ul>
-              <a className="btnd lg light" href={APPLY_URL} target="_blank" rel="noopener" style={{ alignSelf: 'flex-start' }}>Apply for an audit<Dot /></a>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+                <a className="btnd lg light" href={APPLY_URL} target="_blank" rel="noopener">Apply for an audit<Dot /></a>
+                {session && <KReport session={session} tone="dark" />}
+              </div>
             </div>
             <div id="contact" style={{ flex: '0 1 360px', minWidth: 0, alignSelf: 'flex-end', borderRadius: 24, padding: 22, background: 'rgba(255,255,255,.1)', border: '1px solid rgba(255,255,255,.2)', backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)', display: 'flex', flexDirection: 'column', gap: 14 }}>
               <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: '.08em', color: '#C4B8FF' }}>CONTACT</span>
@@ -194,12 +221,25 @@ export function KFooter({ session }: { session: Session | null }) {
             <p style={{ margin: 0, fontSize: 15, lineHeight: 1.55, color: '#3A3A3A' }}>Energy audits by IIT Gandhinagar, funded under Kotak Mahindra Bank's CSR programme.</p>
             <p style={{ margin: 0, fontSize: 13, color: '#3A3A3A' }}>Questions about an audit: <a href={CONTACT[1][2]} style={{ color: '#2B2644' }}>{CONTACT[1][1]}</a></p>
           </div>
+          {session && (
+            <div className="kteam-card" style={{ flex: '1 1 100%', order: -1 }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, fontWeight: 600, flex: '1 1 220px' }}>
+                <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#4ADE80', boxShadow: '0 0 0 4px rgba(74,222,128,.18)', flexShrink: 0 }} />
+                <span>Team tools <span style={{ fontWeight: 500, color: '#5E5B70' }}>· signed in as {session.name}</span></span>
+              </span>
+              <span style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                {TEAM_LINKS.map(([l, h, out]) => (
+                  <a key={l} className="kteam-btn soft" href={h} target={out ? '_blank' : undefined} rel={out ? 'noopener' : undefined}>{l}{out && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={ARROW_OUT} /></svg>}</a>
+                ))}
+                <KReport session={session} tone="soft" />
+              </span>
+            </div>
+          )}
           <div style={{ flex: '2 1 420px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(150px, 100%), 1fr))', gap: '28px 32px' }}>
             {FOOT.map(([t, links]) => (
               <nav key={t} aria-label={t} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 <span style={{ fontSize: 15, fontWeight: 600, paddingBottom: 4 }}>{t}</span>
                 {links.map(([l, h]) => <a key={h} className="kflink" href={h}>{l}</a>)}
-                {t === 'People' && session && <a className="kflink" href="#/companies">Companies (team)</a>}
               </nav>
             ))}
           </div>

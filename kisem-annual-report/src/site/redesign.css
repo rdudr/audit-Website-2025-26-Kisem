@@ -50,3 +50,11 @@
 .rd-glass { transition: background-color .15s ease; }
 .rd-glass:hover { background: rgba(255,255,255,.16) !important; color: #FFFFFF !important; }
 @media (prefers-reduced-motion: reduce) { .rd-hero-dot { animation: none; } }
+.rd-diagimg img { transition: transform .6s cubic-bezier(.22,.7,.2,1); }
+.rd-lift:hover .rd-diagimg img { transform: scale(1.06); }
+.rd-fam img { transition: transform .9s cubic-bezier(.22,.7,.2,1); }
+.rd-fam:hover img, .rd-fam[aria-pressed="true"] img { transform: scale(1.06); }
+.rd-fam:focus-visible { outline: 3px solid #6D5BD0 !important; outline-offset: 3px; }
+.rd-fams { scrollbar-width: none; }
+.rd-fams::-webkit-scrollbar { display: none; }
+@media (prefers-reduced-motion: reduce) { .rd-diagimg img, .rd-fam img { transition: none; transform: none !important; } }

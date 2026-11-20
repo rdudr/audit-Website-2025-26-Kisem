@@ -1,7 +1,8 @@
 // Impact (recommended against achieved, where each audit stands) and Year by year.
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 import { FYS, STATUSES, type Row, type Status } from '../../data';
 import { I } from './design';
+import { PaintH2 } from './KTop';
 import { SC, cr, indN, lakh, pctS, sumK, totals } from './kutil';
 
 export function KImpact({ rows, onStatus }: { rows: Row[]; onStatus: (s: Status) => void }) {
@@ -29,42 +30,42 @@ export function KImpact({ rows, onStatus }: { rows: Row[]; onStatus: (s: Status)
       <div className="wrap" style={{ display: 'flex', flexDirection: 'column', gap: 36 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14, maxWidth: 760 }}>
           <span className="eyebrow">Impact</span>
-          <h2 className="h2">Recommended, and actually achieved</h2>
-          <p className="lede">Every audit recommends energy conservation measures (ECMs). About 3 months after the report a separate team verifies what the plant implemented, and about 6 months after it we do a post assessment.</p>
+          <PaintH2 text="Recommended, and *actually *achieved" />
+          <p className="lede kin" style={dly(3)}>Every audit recommends energy conservation measures (ECMs). About 3 months after the report a separate team verifies what the plant implemented, and about 6 months after it we do a post assessment.</p>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))', gap: 14 }}>
-          {pairs.map(k => (
-            <article key={k.label} className="tile press" style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 18 }}>
+          {pairs.map((k, i) => (
+            <article key={k.label} className="tile press kin" style={{ ...dly(i), padding: 24, display: 'flex', flexDirection: 'column', gap: 18 }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, fontWeight: 600, color: 'var(--sub)' }}><span style={{ width: 34, height: 34, borderRadius: 11, background: '#0B0A14', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={k.d} /></svg></span>{k.label}</span>
-              <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}><span className="n" style={{ fontSize: 38, fontWeight: 700, letterSpacing: '-.04em', lineHeight: 1, color: 'var(--ok)' }}>{k.big}</span><span style={{ fontSize: 13, color: 'var(--sub)' }}>{k.bigLabel}</span></span>
+              <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}><span className="n kcount" style={{ fontSize: 38, fontWeight: 700, letterSpacing: '-.04em', lineHeight: 1, color: 'var(--ok)' }}>{k.big}</span><span style={{ fontSize: 13, color: 'var(--sub)' }}>{k.bigLabel}</span></span>
               <span style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <span aria-hidden="true" style={{ position: 'relative', height: 10, borderRadius: 999, background: '#DCD8EA', overflow: 'hidden' }}><span style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: k.w, borderRadius: 999, background: 'linear-gradient(90deg, #0B7A45, #34C77B)' }} /></span>
+                <span aria-hidden="true" style={{ position: 'relative', height: 10, borderRadius: 999, background: '#DCD8EA', overflow: 'hidden' }}><span className="kgrow" style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: k.w, borderRadius: 999, background: 'linear-gradient(90deg, #0B7A45, #34C77B)' }} /></span>
                 <span className="n" style={{ display: 'flex', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap', fontSize: 13, color: 'var(--sub)' }}><span>Recommended <strong style={{ color: 'var(--ink)' }}>{k.rec}</strong></span><span>Achieved <strong style={{ color: 'var(--ok)' }}>{k.imp}</strong></span></span>
               </span>
             </article>
           ))}
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
-          {baseline.map(b => (
-            <div key={b.label} style={{ padding: '22px 20px 22px 0', display: 'flex', flexDirection: 'column', gap: 4 }}><span style={{ fontSize: 13, color: 'var(--sub)' }}>{b.label}</span><span className="n" style={{ fontSize: 28, fontWeight: 700, letterSpacing: '-.03em' }}>{b.v}</span><span style={{ fontSize: 13, color: 'var(--mute)' }}>{b.sub}</span></div>
+          {baseline.map((b, i) => (
+            <div key={b.label} className="kin" style={{ ...dly(i), padding: '22px 20px 22px 0', display: 'flex', flexDirection: 'column', gap: 4 }}><span style={{ fontSize: 13, color: 'var(--sub)' }}>{b.label}</span><span className="n kcount" style={{ fontSize: 28, fontWeight: 700, letterSpacing: '-.03em' }}>{b.v}</span><span style={{ fontSize: 13, color: 'var(--mute)' }}>{b.sub}</span></div>
           ))}
         </div>
-        <div className="card" style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 18 }}>
+        <div className="card kin" style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 18 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: 8 }}><h3 style={{ margin: 0, fontSize: 20, fontWeight: 700, letterSpacing: '-.02em' }}>Where each audit stands</h3><span className="n" style={{ fontSize: 14, color: 'var(--sub)' }}>{R.length} audits</span></div>
-          <div role="img" aria-label={statusBar.map(s => s.n + ' ' + s.label).join(', ')} style={{ display: 'flex', height: 16, borderRadius: 999, overflow: 'hidden', gap: 2 }}>
+          <div role="img" className="kwipe" aria-label={statusBar.map(s => s.n + ' ' + s.label).join(', ')} style={{ display: 'flex', height: 16, borderRadius: 999, overflow: 'hidden', gap: 2 }}>
             {statusBar.filter(s => s.n).map(s => <span key={s.label} title={`${s.label}: ${s.n}`} style={{ flex: s.n, background: s.c }} />)}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: 12 }}>
             {statusBar.map(s => (
               <button key={s.label} type="button" onClick={() => onStatus(s.label)} className="press" style={{ textAlign: 'left', border: '1px solid var(--line)', background: '#FFFFFF', borderRadius: 16, padding: '12px 14px', font: 'inherit', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span style={{ width: 10, height: 10, borderRadius: '50%', background: s.c, flexShrink: 0 }} /><span className="n" style={{ fontSize: 22, fontWeight: 700 }}>{s.n}</span><span style={{ fontSize: 13, color: 'var(--sub)', lineHeight: 1.3 }}>{s.label}</span>
+                <span style={{ width: 10, height: 10, borderRadius: '50%', background: s.c, flexShrink: 0 }} /><span className="n kcount" style={{ fontSize: 22, fontWeight: 700 }}>{s.n}</span><span style={{ fontSize: 13, color: 'var(--sub)', lineHeight: 1.3 }}>{s.label}</span>
               </button>
             ))}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))', gap: 12 }}>
             {checks.map(c => (
               <div key={c.label} className="tile" style={{ padding: '18px 20px', display: 'flex', gap: 16, alignItems: 'center' }}>
-                <svg width="58" height="58" viewBox="0 0 36 36" aria-hidden="true" style={{ flexShrink: 0 }}><circle cx="18" cy="18" r="15" fill="none" stroke="#DCD8EA" strokeWidth="4" /><circle cx="18" cy="18" r="15" fill="none" stroke={c.col} strokeWidth="4" strokeLinecap="round" strokeDasharray={(R.length ? (100 * c.n / R.length) * 0.942 : 0).toFixed(1) + ' 100'} transform="rotate(-90 18 18)" /></svg>
+                <svg width="58" height="58" viewBox="0 0 36 36" aria-hidden="true" style={{ flexShrink: 0 }}><circle cx="18" cy="18" r="15" fill="none" stroke="#DCD8EA" strokeWidth="4" /><circle className="kring" cx="18" cy="18" r="15" fill="none" stroke={c.col} strokeWidth="4" strokeLinecap="round" strokeDasharray={(R.length ? (100 * c.n / R.length) * 0.942 : 0).toFixed(1) + ' 100'} transform="rotate(-90 18 18)" /></svg>
                 <span style={{ display: 'flex', flexDirection: 'column', gap: 3 }}><span className="n" style={{ fontSize: 15, fontWeight: 700 }}>{c.n} of {R.length} audits · {c.label}</span><span style={{ fontSize: 13, color: 'var(--sub)', lineHeight: 1.45 }}>{c.sub}</span></span>
               </div>
             ))}
@@ -76,6 +77,7 @@ export function KImpact({ rows, onStatus }: { rows: Row[]; onStatus: (s: Status)
 }
 
 type Metric = 'ecm' | 'save' | 'co2' | 'impl';
+const dly = (d: number) => ({ '--d': d }) as CSSProperties;
 const fyL = (fy: string) => 'FY ' + fy.replace('-', '–');
 
 export function KJourney({ rows }: { rows: Row[] }) {
@@ -97,27 +99,27 @@ export function KJourney({ rows }: { rows: Row[] }) {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 20, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14, maxWidth: 640 }}>
             <span className="eyebrow">Year by year</span>
-            <h2 className="h2">Five years of impact</h2>
-            <p className="lede">From {first?.n ?? 0} pilot audits in {fyL(first?.fy ?? FYS[0])} to {R.length} detailed audits today.</p>
+            <PaintH2 text="Five years of *impact" />
+            <p className="lede kin" style={dly(3)}>From {first?.n ?? 0} pilot audits in {fyL(first?.fy ?? FYS[0])} to {R.length} detailed audits today.</p>
           </div>
           <div className="seg" role="group" aria-label="Measure" style={{ overflowX: 'auto', maxWidth: '100%' }}>
             {([['ecm', 'Audits & ECMs'], ['save', 'Energy savings'], ['co2', 'CO₂ reduction'], ['impl', 'Implementation']] as [Metric, string][]).map(([k, l]) => <button key={k} type="button" onClick={() => setMetric(k)} aria-pressed={metric === k}>{l}</button>)}
           </div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(170px, 100%), 1fr))', gap: 12 }}>
-          {Y.map(y => (
-            <div key={y.fy} className="tile" style={{ padding: 18, display: 'flex', flexDirection: 'column', gap: 6 }}><span style={{ fontSize: 13, fontWeight: 600, color: '#6D5BD0' }}>{fyL(y.fy)}</span><span className="n" style={{ fontSize: 30, fontWeight: 700, letterSpacing: '-.03em' }}>{y.n} <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--sub)' }}>audits</span></span><span className="n" style={{ fontSize: 13, color: 'var(--sub)' }}>{y.rn} ECMs · {cr(y.ri)} identified</span></div>
+          {Y.map((y, i) => (
+            <div key={y.fy} className="tile kin" style={{ ...dly(i), padding: 18, display: 'flex', flexDirection: 'column', gap: 6 }}><span style={{ fontSize: 13, fontWeight: 600, color: '#6D5BD0' }}>{fyL(y.fy)}</span><span className="n" style={{ fontSize: 30, fontWeight: 700, letterSpacing: '-.03em' }}>{y.n} <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--sub)' }}>audits</span></span><span className="n" style={{ fontSize: 13, color: 'var(--sub)' }}>{y.rn} ECMs · {cr(y.ri)} identified</span></div>
           ))}
         </div>
-        <figure className="card" style={{ margin: 0, padding: '24px 24px 18px', display: 'flex', flexDirection: 'column', gap: 18 }}>
+        <figure className="card kin" style={{ margin: 0, padding: '24px 24px 18px', display: 'flex', flexDirection: 'column', gap: 18 }}>
           <figcaption style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}><span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}><span style={{ fontSize: 17, fontWeight: 700 }}>{m[0]}</span><span style={{ fontSize: 13, color: 'var(--sub)' }}>{m[1]}</span></span>
             <span style={{ display: 'flex', gap: 16, fontSize: 13, color: 'var(--sub)' }}><span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><span style={{ width: 12, height: 12, borderRadius: 4, background: '#C9C2EC' }} />{m[2]}</span><span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><span style={{ width: 12, height: 12, borderRadius: 4, background: '#2B2644' }} />{m[3]}</span></span>
           </figcaption>
           <div className="kbars" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, minmax(0, 1fr))', gap: 14, alignItems: 'end', height: 280, borderBottom: '1px solid var(--line)', padding: '0 6px' }}>
-            {Y.map(y => (
-              <div key={y.fy} style={{ height: '100%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: 6 }}>
-                <span style={{ width: '34%', maxWidth: 46, height: ((100 * m[4](y)) / mx).toFixed(1) + '%', background: '#C9C2EC', borderRadius: '10px 10px 4px 4px', position: 'relative' }}><span className="n kbarv" style={{ position: 'absolute', bottom: '100%', left: '50%', transform: 'translateX(-50%)', paddingBottom: 6, fontSize: 12, fontWeight: 600, color: 'var(--sub)', whiteSpace: 'nowrap' }}>{m[6](m[4](y))}</span></span>
-                <span style={{ width: '34%', maxWidth: 46, height: Math.max(1.5, (100 * m[5](y)) / mx).toFixed(1) + '%', background: '#2B2644', borderRadius: '10px 10px 4px 4px', position: 'relative' }}><span className="n kbarv" style={{ position: 'absolute', bottom: '100%', left: '50%', transform: 'translateX(-50%)', paddingBottom: 6, fontSize: 12, fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap' }}>{m[6](m[5](y))}</span></span>
+            {Y.map((y, i) => (
+              <div key={y.fy} style={{ '--i': i, height: '100%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: 6 } as CSSProperties}>
+                <span className="krise" style={{ width: '34%', maxWidth: 46, height: ((100 * m[4](y)) / mx).toFixed(1) + '%', background: '#C9C2EC', borderRadius: '10px 10px 4px 4px', position: 'relative' }}><span className="n kbarv" style={{ position: 'absolute', bottom: '100%', left: '50%', transform: 'translateX(-50%)', paddingBottom: 6, fontSize: 12, fontWeight: 600, color: 'var(--sub)', whiteSpace: 'nowrap' }}>{m[6](m[4](y))}</span></span>
+                <span className="krise" style={{ width: '34%', maxWidth: 46, height: Math.max(1.5, (100 * m[5](y)) / mx).toFixed(1) + '%', background: '#2B2644', borderRadius: '10px 10px 4px 4px', position: 'relative' }}><span className="n kbarv" style={{ position: 'absolute', bottom: '100%', left: '50%', transform: 'translateX(-50%)', paddingBottom: 6, fontSize: 12, fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap' }}>{m[6](m[5](y))}</span></span>
               </div>
             ))}
           </div>

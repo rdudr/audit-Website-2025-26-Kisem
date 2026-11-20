@@ -1,11 +1,11 @@
 // Top of the redesigned page: the white pill navigation (with the team bar when signed in), the
-// hero with the implementation scorecard, the partner strip, the scroll statement with its glow,
-// and the dark split with Laal Minar. Motion follows the design export and switches off for
+// hero with the implementation scorecard, the partner strip, and the landing motion used by the
+// sections below it. Motion follows the design export and switches off for
 // prefers-reduced-motion.
 import { Fragment, useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react';
 import type { Row } from '../../data';
 import { APPLY_URL } from '../content';
-import { H2, PARTNERS, STATS, STMT } from './design';
+import { PARTNERS, STATS } from './design';
 import { COUNTS, DOT_PATH, cr, indN, pctS, totals } from './kutil';
 
 const NAV: [string, string][] = [['Impact', '#impact'], ['Years', '#journey'], ['Audits', '#audits'], ['Map', '#map'], ['Sectors', '#sectors'], ['Scope', '#scope'], ['Team', '#team'], ['Contact', '#contact']];
@@ -219,17 +219,8 @@ function Letters({ lines }: { lines: string[] }) {
 }
 const plain = (L: string[]) => L.join(' ').replace(/\*/g, '');
 
-// The glow and the reveal, ported from the design export's component.
-const GLOW = { core: [181, 164, 255], rim: [236, 230, 255], out: [255, 255, 255] };
-const KEYS: Record<string, number[]> = { q: [0, 0.03, 0.08, 0.18, 0.4, 0.66, 0.87, 1.15, 1.43, 1.8], tip: [0.3, 0.45, 0.65, 0.8, 0.95, 1.05, 1.05, 1.1, 1.3, 2.4], half: [0.34, 0.38, 0.38, 0.38, 0.38, 0.46, 0.66, 0.9, 1.6, 3.0], soft: [0.22, 0.26, 0.22, 0.22, 0.19, 0.16, 0.13, 0.1, 0.1, 0.1] };
+// Letter reveal colours, ported from the design export.
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
-const sstep = (v: number) => { v = clamp01(v); return v * v * (3 - 2 * v); };
-const interp = (key: string, q: number) => {
-  const Q = KEYS.q, V = KEYS[key];
-  if (q <= Q[0]) return V[0];
-  for (let i = 1; i < Q.length; i++) if (q <= Q[i]) { const t = (q - Q[i - 1]) / (Q[i] - Q[i - 1]); return V[i - 1] + (V[i] - V[i - 1]) * t; }
-  return V[V.length - 1];
-};
 const hex = (h: string) => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
 const mix = (a: number[], b: number[], t: number) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
 function paintChars(chars: NodeListOf<HTMLElement>, p: number, spread: number, fin: string, acc: string, ghost: string, hlc: string) {
@@ -245,118 +236,70 @@ function paintChars(chars: NodeListOf<HTMLElement>, p: number, spread: number, f
   }
 }
 
-function useStoryMotion() {
+/** A heading whose letters sharpen in, purple to ink, as it scrolls into view. Words written
+ *  with a leading * end in the accent colour. */
+export function PaintH2({ text, className = 'h2' }: { text: string; className?: string }) {
+  return <h2 className={className + ' krv'} data-paint="" aria-label={plain([text])}><Letters lines={[text]} /></h2>;
+}
+
+// Counts the first number in a text up from zero, keeping its decimals and grouping. It writes
+// to React's own text node and stops if React changes it meanwhile.
+function countUp(el: HTMLElement) {
+  const node = el.firstChild;
+  if (!node || node.nodeType !== 3 || el.childNodes.length !== 1) return;
+  const full = node.nodeValue || '';
+  const m = full.match(/\d[\d,]*(\.\d+)?/);
+  if (!m) return;
+  const target = parseFloat(m[0].replace(/,/g, ''));
+  if (!target) return;
+  const dec = m[1] ? m[1].length - 1 : 0, group = m[0].includes(',');
+  const fmt = (v: number) => group ? v.toLocaleString('en-IN', { minimumFractionDigits: dec, maximumFractionDigits: dec }) : v.toFixed(dec);
+  const pre = full.slice(0, m.index), post = full.slice((m.index || 0) + m[0].length);
+  const t0 = performance.now(), dur = 1400;
+  let last = '';
+  const step = (now: number) => {
+    if (last && node.nodeValue !== last) return;
+    const u = clamp01((now - t0) / dur), e = 1 - Math.pow(1 - u, 3);
+    last = u >= 1 ? full : pre + fmt(target * e) + post;
+    node.nodeValue = last;
+    if (u < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+/** Landing motion for the page: on the first scroll the nav turns to glass, the Apply button
+ *  opens and the links shift to make room; headings
+ *  marked data-paint reveal letter by letter with the scroll, and blocks marked .kin rise in
+ *  (staggered by --d) and start their bars, rings and counters. Off for reduced motion. */
+export function useLanding() {
   useEffect(() => {
     const still = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-    const cur = { tip: -0.3, half: 0.3, soft: 0.1 } as Record<string, number>;
-    let tgt = { tip: 0.3, half: 0.34, soft: 0.22 } as Record<string, number>;
-    const t0 = performance.now();
-    const $ = (id: string) => document.getElementById(id);
-    let raf = 0, q = 0;
-    const update = () => {
-      const vh = window.innerHeight || 800, sec = $('kstate'), spl = $('ksplit'), nav = $('knav');
-      if (!sec || !spl) return;
-      const qs = -sec.getBoundingClientRect().top / vh;
-      const qq = Math.max(0, (qs + 0.8) * 0.75);
-      tgt = { tip: interp('tip', qq), half: interp('half', qq), soft: interp('soft', qq) };
-      const p = still ? 1 : clamp01((qs - 0.1) / 1.5), rise = clamp01((qs + 0.2) / 0.6);
-      const stmt = $('kstmt');
-      if (stmt) { stmt.style.transform = 'translateY(' + (0.205 * (1 - rise) * (1 - rise) * vh).toFixed(1) + 'px)'; paintChars(stmt.querySelectorAll('.ch'), p, 0.16, '#16132A', '#6D5BD0', '#FFFFFF', '#5B3FD6'); }
-      const tag = $('kstateTag'); if (tag) tag.setAttribute('data-on', qs > -0.4 ? '1' : '0');
-      if (nav) nav.setAttribute('data-on', p > 0.4 || qs > 3 ? '1' : '0');
-      const top = spl.getBoundingClientRect().top / vh, p2 = still ? 1 : clamp01((0.8 - top) / 0.65);
-      const h2 = $('kh2'); if (h2) paintChars(h2.querySelectorAll('.ch'), p2, 0.35, '#FFFFFF', '#C4B8FF', '#5E567E', '#C4B8FF');
-      const row = $('krow'); if (row) row.setAttribute('data-on', p2 > 0.92 ? '1' : '0');
-      const img = $('kship'); if (img) img.style.transform = 'scale(' + (1.08 - 0.08 * clamp01(1 - top)).toFixed(4) + ')';
+    const ins = Array.from(document.querySelectorAll<HTMLElement>('.k .kin'));
+    const show = (el: HTMLElement) => {
+      if (el.getAttribute('data-on') === '1') return;
+      el.setAttribute('data-on', '1');
+      if (!still) el.querySelectorAll<HTMLElement>('.kcount').forEach(countUp);
     };
-    const draw = (now: number) => {
-      const cv = $('kglow') as HTMLCanvasElement | null;
-      const box = cv?.getBoundingClientRect();
-      if (cv && box && box.bottom > -50 && box.top < (window.innerHeight || 800) + 50) {
-        const intro = clamp01((now - t0 - 250) / 1050);
-        for (const k of ['tip', 'half', 'soft']) cur[k] += (tgt[k] - cur[k]) * (intro < 1 ? sstep(intro) * 0.5 + 0.05 : 0.12);
-        let tip = cur.tip, half = cur.half; const soft = cur.soft;
-        if (!still) { tip += Math.sin(now * 0.00033 + 1.3) * 0.02; half += Math.sin(now * 0.0005) * 0.015; }
-        const W = 96, H = 60, asp = cv.clientWidth / Math.max(1, cv.clientHeight), ctx = cv.getContext('2d');
-        if (ctx) {
-          const img = ctx.createImageData(W, H), d = img.data;
-          const P: number[][] = []; const tp = Math.max(tip, 0.001);
-          for (let k = 0; k < 48; k++) { const yy = -0.3 + ((tp + 0.3) * k) / 47; P.push([half * asp * Math.pow(Math.max(0, 1 - yy / tp), 0.72), yy]); }
-          for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) {
-            const px = Math.abs((i + 0.5) / W - 0.5) * asp, py = (j + 0.5) / H;
-            let best = 1e9;
-            for (let k = 0; k < 47; k++) {
-              const ax = P[k][0], ay = P[k][1], vx = P[k + 1][0] - ax, vy = P[k + 1][1] - ay;
-              const l = vx * vx + vy * vy || 1e-9;
-              let t = ((px - ax) * vx + (py - ay) * vy) / l; t = t < 0 ? 0 : t > 1 ? 1 : t;
-              const dx = px - ax - vx * t, dy = py - ay - vy * t, dd = dx * dx + dy * dy;
-              if (dd < best) best = dd;
-            }
-            let sd = Math.sqrt(best);
-            const inside = py < tp && px < half * asp * Math.pow(Math.max(0, 1 - py / tp), 0.72);
-            if (inside) sd = -sd;
-            sd -= 0.25;
-            const g = 1 - sstep((sd + soft) / (2 * soft));
-            const c = g < 0.38 ? mix(GLOW.out, GLOW.rim, sstep(g / 0.38)) : mix(GLOW.rim, GLOW.core, sstep((g - 0.38) / 0.62));
-            const o = (j * W + i) * 4; d[o] = c[0]; d[o + 1] = c[1]; d[o + 2] = c[2]; d[o + 3] = 255;
-          }
-          ctx.putImageData(img, 0, 0);
-        }
-      }
-      raf = requestAnimationFrame(draw);
+    let io: IntersectionObserver | null = null;
+    if (still || typeof IntersectionObserver === 'undefined') ins.forEach(show);
+    else {
+      io = new IntersectionObserver(es => { for (const e of es) if (e.isIntersecting) { show(e.target as HTMLElement); io?.unobserve(e.target); } }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+      ins.forEach(el => io!.observe(el));
+    }
+    let q = 0;
+    const update = () => {
+      const vh = window.innerHeight || 800;
+      const nav = document.getElementById('knav');
+      if (nav) nav.setAttribute('data-on', (window.scrollY || document.documentElement.scrollTop) > 24 ? '1' : '0');
+      document.querySelectorAll<HTMLElement>('[data-paint]').forEach(h => {
+        const top = h.getBoundingClientRect().top / vh;
+        paintChars(h.querySelectorAll('.ch'), still ? 1 : clamp01((0.92 - top) / 0.4), 0.35, '#16132A', '#6D5BD0', '#CFC8EC', '#5B3FD6');
+      });
     };
     const onScroll = () => { if (q) return; q = requestAnimationFrame(() => { q = 0; update(); }); };
     window.addEventListener('scroll', onScroll, true);
     window.addEventListener('resize', onScroll);
     update();
-    raf = requestAnimationFrame(draw);
-    return () => { window.removeEventListener('scroll', onScroll, true); window.removeEventListener('resize', onScroll); cancelAnimationFrame(raf); cancelAnimationFrame(q); };
+    return () => { window.removeEventListener('scroll', onScroll, true); window.removeEventListener('resize', onScroll); cancelAnimationFrame(q); io?.disconnect(); };
   }, []);
-}
-
-export function KStory({ rows }: { rows: Row[] }) {
-  useStoryMotion();
-  const T = totals(rows);
-  // Each figure from the live audit rows, so it follows the master sheet.
-  const split: [string, string][] = [
-    [String(rows.length), 'detailed energy audits'],
-    [String(COUNTS.walkthrough), 'walkthrough audits'],
-    [pctS(T.in, T.rn), 'of recommended measures implemented'],
-    [cr(T.ii), 'verified savings a year'],
-  ];
-  return (
-    <>
-      <section id="kstate" aria-label="What KISEM does" style={{ position: 'relative', height: '300vh', background: '#FFFFFF' }}>
-        <div className="kpin" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
-          <canvas id="kglow" width={96} height={60} aria-hidden="true" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block' }} />
-          <div style={{ position: 'absolute', left: 0, right: 0, top: 0, paddingTop: '18vh', display: 'flex', justifyContent: 'center', pointerEvents: 'none', textAlign: 'center' }}>
-            <span id="kstateTag" className="kfade" style={{ fontSize: 13, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: '#4C3FB0', padding: '0 20px' }}>Kotak IIT Madras Save Energy Mission · IIT Gandhinagar</span>
-          </div>
-          <p id="kstmt" className="krv" aria-label={plain(STMT)} style={{ position: 'absolute', top: '38vh', left: 0, right: 0, margin: '0 auto', padding: '0 20px', textAlign: 'center', fontSize: 'clamp(22px, 2.55vw, 40px)', lineHeight: 1.18, fontWeight: 500, letterSpacing: '-.03em', willChange: 'transform' }}>
-            <Letters lines={STMT} />
-          </p>
-        </div>
-      </section>
-      <section id="ksplit" className="ksplit" aria-label="How we work">
-        <div className="kl">
-          <span aria-hidden="true" style={{ position: 'absolute', top: 0, bottom: 0, left: 'var(--gut)', width: 1, background: 'rgba(255,255,255,.12)' }} />
-          <span aria-hidden="true" style={{ position: 'absolute', top: 0, bottom: 0, left: 'calc(var(--gut) + 6.2vw)', width: 1, background: 'rgba(255,255,255,.05)' }} />
-          <h2 id="kh2" className="krv" aria-label={plain(H2)} style={{ margin: 0, padding: '21vh 0 0 calc(var(--gut) + 6.2vw)', fontSize: 'clamp(32px, 3.4vw, 54px)', lineHeight: 1.08, fontWeight: 500, letterSpacing: '-.035em', position: 'relative' }}>
-            <Letters lines={H2} />
-          </h2>
-          <div id="krow" className="krow">
-            <h3 style={{ margin: 0, fontSize: 'clamp(17px, 1.4vw, 21px)', fontWeight: 500 }}>Our approach</h3>
-            <p style={{ margin: 0, fontSize: 'clamp(14px, 1.1vw, 16px)', lineHeight: 1.45, color: 'rgba(255,255,255,.55)', maxWidth: '22em' }}><strong style={{ color: '#FFFFFF', fontWeight: 600 }}>Measure, quantify, verify.</strong> Calibrated instruments log seventeen energy systems under normal production. Each conservation measure is costed with its annual saving, investment and payback, and an independent follow-up about three months later confirms what the plant has implemented.</p>
-            <div style={{ gridColumn: '1 / -1', display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '20px 28px', paddingTop: '2vh', maxWidth: 520 }}>
-              {split.map(([v, k]) => <span key={k} style={{ display: 'flex', flexDirection: 'column' }}><span className="n" style={{ fontSize: 'clamp(26px, 2.4vw, 36px)', fontWeight: 600, letterSpacing: '-.03em', color: '#FFFFFF' }}>{v}</span><span style={{ fontSize: 13, lineHeight: 1.35, color: 'rgba(255,255,255,.6)' }}>{k}</span></span>)}
-            </div>
-          </div>
-        </div>
-        <div className="kr">
-          <img id="kship" src="/campus/lal-minar.jpg" alt="Laal Minar at IIT Gandhinagar at dusk" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transformOrigin: '50% 60%', transform: 'scale(1.08)' }} />
-          <span style={{ position: 'absolute', left: 18, bottom: 18, height: 30, padding: '0 12px', borderRadius: 999, background: 'rgba(26,21,51,.55)', backdropFilter: 'blur(10px)', color: '#FFFFFF', fontSize: 12, fontWeight: 600, display: 'inline-flex', alignItems: 'center' }}>Laal Minar · IIT Gandhinagar</span>
-        </div>
-      </section>
-    </>
-  );
 }

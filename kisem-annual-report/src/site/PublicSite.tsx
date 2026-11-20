@@ -10,7 +10,7 @@ import { PATHS } from './icons';
 import { AddCompany, AuditDrawer, ChangeLog, SignIn } from './Overlays';
 import { useMasterExcel } from './useMasterExcel';
 import type { Status } from '../data';
-import { KHero, KNav, KPartners, KStory } from './k/KTop';
+import { KHero, KNav, KPartners, useLanding } from './k/KTop';
 import { KImpact, KJourney } from './k/KNumbers';
 import { KAudits } from './k/KAudits';
 import { KMap, KSectors } from './k/KMap';
@@ -22,6 +22,7 @@ import { KBreak } from './k/KBreak';
 import './redesign.css';
 import { KApply, KFooter, KTeam } from './k/KPeople';
 import { goTo } from './k/kutil';
+import { CONSOLE_URL } from '../lib/console';
 import './k/k.css';
 
 export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }: { state: SiteState; loginOpen: boolean; setLoginOpen: (v: boolean) => void; signingIn: boolean }) {
@@ -37,6 +38,7 @@ export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }
   const signLabel = signingIn ? 'Signing in…' : signed ? 'Sign out' : 'Team sign in';
 
   const pickSector = (s: string) => setFilters({ ...NO_FILTERS, sort: filters.sort, sector: s });
+  useLanding();
   const pickStatus = (s: Status) => { setFilters({ ...NO_FILTERS, sort: filters.sort, status: s }); goTo('audits'); };
 
   const btn = { height: 36, padding: '0 12px', borderRadius: 999, fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6, textDecoration: 'none', font: 'inherit' } as const;
@@ -46,6 +48,7 @@ export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
           <span style={{ fontSize: 13, fontWeight: 600, flex: '1 1 200px', display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: '#4ADE80', flexShrink: 0 }} />Team view · signed in as {session!.name}</span>
           <a href="#/companies" style={{ ...btn, background: '#FFFFFF', color: '#0B0A14', border: 0 }}>Companies</a>
+          <a href={CONSOLE_URL} target="_blank" rel="noopener" style={{ ...btn, background: '#FFFFFF', color: '#0B0A14', border: 0 }}>FOX Console</a>
           <button type="button" onClick={() => setShowAdd(true)} style={{ ...btn, background: '#FFFFFF', color: '#0B0A14', border: 0 }}>Add company</button>
           <button type="button" onClick={() => setShowLog(true)} style={{ ...btn, background: 'transparent', color: '#FFFFFF', border: '1px solid rgba(255,255,255,.3)' }}>Change log · {state.changes.length}</button>
           <button type="button" onClick={excel.download} disabled={excel.busy} style={{ ...btn, background: 'transparent', color: '#FFFFFF', border: '1px solid rgba(255,255,255,.3)' }}><Icon d={PATHS.download} size={14} />Master Excel</button>
@@ -65,7 +68,6 @@ export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }
         <main>
           <KHero rows={rows} />
           <KPartners />
-          <KStory rows={rows} />
           <KBreak n="01" label="The numbers" color="#6D5BD0" />
           <KImpact rows={rows} onStatus={pickStatus} />
           <KJourney rows={rows} />
@@ -80,7 +82,7 @@ export default function PublicSite({ state, loginOpen, setLoginOpen, signingIn }
           <KField />
           <KBreak n="05" label="The people" color="#15803D" />
           <KTeam />
-          <KApply />
+          <KApply session={session} />
         </main>
         <KFooter session={session} />
       </div>

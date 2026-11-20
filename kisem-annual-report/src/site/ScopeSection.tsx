@@ -116,10 +116,6 @@ export default function ScopeSection({ rows }: { rows: Row[] }) {
     pillWrap: (D || T ? 'wrap' : 'nowrap') as 'wrap' | 'nowrap', famCols: D ? 'repeat(6, minmax(0, 1fr))' : T ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)',
     ctaPad: D ? '28px 32px' : '22px 20px',
   };
-  const pills: { k: 'all' | Fam; label: string; count: number; dot: string; d: string }[] = [
-    { k: 'all', label: 'All areas', count: AREAS.length, dot: '#2B2644', d: I.scan },
-    ...KEYS.map(k => ({ k, label: FAM[k].label, count: AREAS.filter(a => a.fam === k).length, dot: FAM[k].color, d: FAM[k].d })),
-  ];
   const chip = (c: string, label: string) => (
     <span style={{ height: 32, padding: '0 12px', borderRadius: 999, background: '#FFFFFF', border: '1px solid #E1DEEA', fontSize: 13, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: c }} />{label}</span>
   );
@@ -165,12 +161,12 @@ export default function ScopeSection({ rows }: { rows: Row[] }) {
           <div style={{ display: 'grid', gridTemplateColumns: L.diagCols, gap: 14 }}>
             {DIAG.map(d => (
               <article key={d.n} className="rd-lift" style={{ border: '1px solid #E7E5EE', borderRadius: 18, overflow: 'hidden', background: '#FFFFFF', display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-                <div style={{ height: 132, background: '#FFFFFF', borderBottom: '1px solid #F0EFF4', position: 'relative' }}>
-                  <img src={d.img} alt={d.alt} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 10, boxSizing: 'border-box', display: 'block' }} />
+                <div className="rd-diagimg" style={{ aspectRatio: '4 / 3', background: 'radial-gradient(120% 90% at 50% 40%, #FFFFFF 55%, #F6F5FA 100%)', borderBottom: '1px solid #F0EFF4', position: 'relative', overflow: 'hidden' }}>
+                  <img src={d.img} alt={d.alt} loading="lazy" decoding="async" width={800} height={600} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', padding: '6px 4px 2px', boxSizing: 'border-box', display: 'block', mixBlendMode: 'multiply' }} />
                   <span style={{ position: 'absolute', top: 10, left: 10, height: 24, padding: '0 8px', borderRadius: 7, background: d.color, color: '#FFFFFF', fontSize: 12, fontWeight: 700, display: 'inline-flex', alignItems: 'center' }}>{d.n}</span>
                 </div>
-                <div style={{ padding: '14px 16px 16px', display: 'flex', flexDirection: 'column', gap: 4 }}>
-                  <b style={{ fontSize: 15 }}>{d.name}</b>
+                <div style={{ padding: '14px 16px 16px', display: 'flex', flexDirection: 'column', gap: 4, borderTop: `3px solid ${d.color}` }}>
+                  <b style={{ fontSize: 16 }}>{d.name}</b>
                   <span style={{ fontSize: 13, lineHeight: 1.45, color: '#55526A' }}>{d.what}</span>
                 </div>
               </article>
@@ -227,21 +223,33 @@ export default function ScopeSection({ rows }: { rows: Row[] }) {
             plant tour stops that cover it, and a stop button plays that stop in the tour above */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {h3('The 17 areas, by kind of system', 'Pick a family; tap a stop to see it on the tour')}
-          <div role="group" aria-label="Filter by kind of system" style={{ display: 'grid', gridTemplateColumns: D ? 'repeat(6, minmax(0, 1fr))' : T ? 'repeat(3, minmax(0, 1fr))' : 'repeat(2, minmax(0, 1fr))', gap: 10 }}>
-            {pills.map(p => {
-              const on = active === p.k, fam = p.k === 'all' ? null : FAM[p.k];
+          <div role="group" aria-label="Filter by kind of system" className="rd-fams" style={{ display: 'grid', gridTemplateColumns: D ? 'repeat(5, minmax(0, 1fr))' : T ? 'repeat(5, minmax(200px, 1fr))' : 'repeat(5, 78%)', gap: D ? 14 : 12, overflowX: D ? 'visible' : 'auto', scrollSnapType: 'x mandatory', paddingBottom: D ? 0 : 6, margin: D ? 0 : '0 -16px', paddingLeft: D ? 0 : 16, paddingRight: D ? 0 : 16, scrollPaddingLeft: 16 }}>
+            {KEYS.map(k => {
+              const fam = FAM[k], on = active === k, dim = active !== 'all' && !on;
+              const list = AREAS.filter(a => a.fam === k);
               return (
-                <button key={p.k} type="button" aria-pressed={on} onClick={() => setActive(on && p.k !== 'all' ? 'all' : p.k)}
-                  style={{ position: 'relative', height: D ? 116 : 100, borderRadius: 18, overflow: 'hidden', padding: 0, cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left', background: p.k === 'all' ? 'linear-gradient(145deg, #2B2644, #0F0D1A)' : '#1E1A33', border: `2px solid ${on ? p.dot : 'transparent'}`, boxShadow: on ? `0 16px 32px -18px ${p.dot}` : 'none', outlineOffset: 2 }}>
-                  {fam && <img src={fam.photo} alt="" loading="lazy" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: on || active === 'all' ? 1 : 0.5, transition: 'opacity .3s ease' }} />}
-                  <span aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(15,13,26,.05) 0%, rgba(15,13,26,.88) 100%)' }} />
-                  <span style={{ position: 'absolute', top: 10, left: 10, width: 28, height: 28, borderRadius: 9, background: p.dot, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Svg d={p.d} size={15} /></span>
-                  <span style={{ position: 'absolute', left: 12, right: 12, bottom: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 8, color: '#FFFFFF' }}>
-                    <b style={{ fontSize: 14, fontWeight: 700, lineHeight: 1.2 }}>{p.label}</b><span style={{ fontSize: 24, fontWeight: 700, lineHeight: 1 }}>{p.count}</span>
+                <button key={k} type="button" aria-pressed={on} onClick={() => setActive(on ? 'all' : k)} className="rd-fam"
+                  style={{ position: 'relative', height: D ? 320 : T ? 280 : 260, borderRadius: 22, overflow: 'hidden', padding: 0, cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left', background: '#1E1A33', border: 0, scrollSnapAlign: 'start', outline: on ? `3px solid ${fam.color}` : 'none', outlineOffset: 3, boxShadow: on ? `0 22px 44px -22px ${fam.color}` : '0 14px 30px -24px rgba(15,13,26,.6)', opacity: dim ? 0.55 : 1, transition: 'opacity .35s ease, box-shadow .35s ease' }}>
+                  <img src={fam.photo} alt="" loading="lazy" decoding="async" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  <span aria-hidden="true" style={{ position: 'absolute', inset: 0, background: `linear-gradient(180deg, rgba(15,13,26,.15) 0%, rgba(15,13,26,.1) 30%, rgba(15,13,26,.92) 78%), linear-gradient(0deg, ${fam.color}55, transparent 60%)` }} />
+                  <span style={{ position: 'absolute', top: 14, left: 14, right: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ width: 38, height: 38, borderRadius: 12, background: fam.color, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 16px -6px rgba(0,0,0,.5)' }}><Svg d={fam.d} size={19} /></span>
+                    <span style={{ height: 30, padding: '0 11px', borderRadius: 999, background: 'rgba(15,13,26,.55)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', color: '#FFFFFF', fontSize: 12.5, fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 6 }}>{on && <Svg d="M5 12l5 5L20 7" size={13} w={3} />}{list.length} areas</span>
+                  </span>
+                  <span style={{ position: 'absolute', left: 16, right: 16, bottom: 16, display: 'flex', flexDirection: 'column', gap: 6, color: '#FFFFFF' }}>
+                    <b style={{ fontSize: D ? 19 : 18, fontWeight: 700, lineHeight: 1.15, letterSpacing: '-0.015em' }}>{fam.label}</b>
+                    <span style={{ fontSize: 13, lineHeight: 1.4, color: '#E4E1EE' }}>{fam.blurb}</span>
+                    <span style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 4 }}>
+                      {list.map(a => <span key={a.n} style={{ height: 22, padding: '0 8px', borderRadius: 999, background: 'rgba(255,255,255,.16)', border: '1px solid rgba(255,255,255,.22)', fontSize: 11, fontWeight: 600, display: 'inline-flex', alignItems: 'center', whiteSpace: 'nowrap' }}>{a.name}</span>)}
+                    </span>
                   </span>
                 </button>
               );
             })}
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            <button type="button" aria-pressed={active === 'all'} onClick={() => setActive('all')} style={{ height: 36, padding: '0 14px', borderRadius: 999, border: `1px solid ${active === 'all' ? '#2B2644' : '#D4D2DE'}`, background: active === 'all' ? '#2B2644' : '#FFFFFF', color: active === 'all' ? '#FFFFFF' : '#2B2644', fontFamily: 'inherit', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>All {AREAS.length} areas</button>
+            <span style={{ fontSize: 13, color: '#6B6880' }}>{active === 'all' ? 'Showing every area. Pick a family above to narrow the list.' : `Showing ${AREAS.filter(a => a.fam === active).length} ${FAM[active].label.toLowerCase()} areas.`}</span>
           </div>
           {active !== 'all' && (
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '10px 20px', padding: '14px 16px', borderRadius: 16, background: FAM[active].tint, border: `1px solid ${FAM[active].color}33` }}>
