@@ -191,7 +191,7 @@ export function KFooter({ session }: { session: Session | null }) {
               </span>
               <span>KISEM · IIT GANDHINAGAR</span>
             </a>
-            <p style={{ margin: 0, fontSize: 15, lineHeight: 1.55, color: '#3A3A3A' }}>Energy audits for MSMEs in Gujarat, Rajasthan and Daman, funded under Kotak Mahindra Bank's CSR programme.</p>
+            <p style={{ margin: 0, fontSize: 15, lineHeight: 1.55, color: '#3A3A3A' }}>Energy audits by IIT Gandhinagar, funded under Kotak Mahindra Bank's CSR programme.</p>
             <p style={{ margin: 0, fontSize: 13, color: '#3A3A3A' }}>Questions about an audit: <a href={CONTACT[1][2]} style={{ color: '#2B2644' }}>{CONTACT[1][1]}</a></p>
           </div>
           <div style={{ flex: '2 1 420px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(150px, 100%), 1fr))', gap: '28px 32px' }}>
